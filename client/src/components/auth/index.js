@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 
+import PropTypes from 'prop-types';
+
 import './style.css';
 
-class Login extends Component {
+class Auth extends Component {
   constructor(props) {
 		super(props);
 		this.state = {
@@ -16,8 +18,9 @@ class Login extends Component {
   // }
 
   render() {
-    // const {
-    // } = this.props;
+    const {
+      handleChange
+    } = this.props;
 
     // const {
     // } = this.state;
@@ -31,18 +34,22 @@ class Login extends Component {
             <label className="login__label">
                 <span className="login__label-value">Email</span>
               <input
+                onChange={handleChange}
                 placeholder="Enter email"
                 className="login__input"
                 type="email"
+                name="email"
               >
               </input>
             </label>
             <label className="login__label">
               <span className="login__label-value">Password</span>
               <input
+                onChange={handleChange}
                 placeholder="Enter password"
                 className="login__input"
                 type="password"
+                name="password"
               >
               </input>
             </label>
@@ -70,4 +77,8 @@ class Login extends Component {
   }
 }
 
-export default Login;
+Auth.propType = {
+  handleChange: PropTypes.func,
+}
+
+export default Auth;
