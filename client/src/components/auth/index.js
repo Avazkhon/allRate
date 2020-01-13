@@ -19,7 +19,8 @@ class Auth extends Component {
 
   render() {
     const {
-      handleChange
+      handleChange,
+      handleAuth,
     } = this.props;
 
     // const {
@@ -59,6 +60,7 @@ class Auth extends Component {
               className="login__btn"
               type="button"
               value="Log in"
+              onClick={handleAuth}
             />
             <input
               className="login__btn"
@@ -79,6 +81,7 @@ class Auth extends Component {
 
 Auth.propType = {
   handleChange: PropTypes.func,
+  handleAuth: PropTypes.func,
 }
 
 export default Auth;

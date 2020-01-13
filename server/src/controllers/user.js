@@ -105,11 +105,6 @@ exports.deleteOne = (req, res) => {
 
 exports.auth = (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password) {
-    res.status = 400;
-    return res.send('Заполните данные!');
-  }
-
   if (req.session.user) {
     res.status = 200;
     req.session.user = null;

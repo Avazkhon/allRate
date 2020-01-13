@@ -11,3 +11,10 @@ exports.userSchema = new Schema(
   },
   { collection: 'Users' }
 );
+
+exports.tokenSchema = new Schema(
+  {
+    token: { type: String },
+  },
+  { collection: 'Token' }
+);

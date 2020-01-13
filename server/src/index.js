@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const db = require('./db');
 
 const userControllers = require('./controllers/user');
+const tokenControllers = require('./controllers/token');
 const passwords = require('../password');
 
 const app = express();
@@ -26,9 +27,17 @@ app.use(session({
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
 }));
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.get('/', (req, res) => {
   res.send('Hello! welcome to the "All rate"!');
 })
+
+app.post('/token', tokenControllers.postAddOne);
 
 app.post('/auth', userControllers.auth); // один роут для входа и выхода
 

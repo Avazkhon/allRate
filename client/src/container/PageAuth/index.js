@@ -10,7 +10,7 @@ class PageAuth extends React.Component {
     this.state = {
       data: {
         email: '',
-        password: '',
+        password: ''
       }
     }
   }
@@ -29,11 +29,28 @@ class PageAuth extends React.Component {
     })
   }
 
+  handleAuth = () => {
+    const {
+      data,
+    } = this.state;
+    fetch('http://localhost:8080/auth', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(data),
+    })
+    // .then((action) => {
+    //   console.log(action);
+    // })
+  }
+
   render() {
     return (
       <div className="page-auth">
         <div className="page-auth__connect">
           <Auth
+            handleAuth={this.handleAuth}
             handleChange={this.handleChange}
           />
         </div>
