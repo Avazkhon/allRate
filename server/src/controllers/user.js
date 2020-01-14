@@ -104,6 +104,7 @@ exports.deleteOne = (req, res) => {
 }
 
 exports.auth = (req, res) => {
+  // console.log('req.session', req.session);
   const { email, password } = req.body;
   if (req.session.user) {
     res.status = 200;
@@ -121,7 +122,8 @@ exports.auth = (req, res) => {
     if (result
       && result.email === email
       && result.password === password
-    ) {
+    )
+    {
       res.status = 201;
       req.session.user = { email, password, isAdmin: result.isAdmin, id: result._id };
       return res.send('Пользователь успешно авторизован!');
