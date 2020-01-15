@@ -104,7 +104,6 @@ exports.deleteOne = (req, res) => {
 }
 
 exports.auth = (req, res) => {
-  // console.log('req.session', req.session);
   const { email, password } = req.body;
   if (req.session.user) {
     res.status = 200;
