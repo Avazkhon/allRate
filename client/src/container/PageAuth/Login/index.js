@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 
-import PropTypes from 'prop-types';
-
 import './style.css';
 
-class Auth extends Component {
+class Login extends Component {
   constructor(props) {
 		super(props);
 		this.state = {
@@ -18,11 +16,8 @@ class Auth extends Component {
   // }
 
   render() {
-    const {
-      handleChange,
-      handleAuth,
-      handleCheckEmailExists,
-    } = this.props;
+    // const {
+    // } = this.props;
 
     // const {
     // } = this.state;
@@ -36,22 +31,18 @@ class Auth extends Component {
             <label className="login__label">
                 <span className="login__label-value">Email</span>
               <input
-                onChange={handleChange}
                 placeholder="Enter email"
                 className="login__input"
                 type="email"
-                name="email"
               >
               </input>
             </label>
             <label className="login__label">
               <span className="login__label-value">Password</span>
               <input
-                onChange={handleChange}
                 placeholder="Enter password"
                 className="login__input"
                 type="password"
-                name="password"
               >
               </input>
             </label>
@@ -61,18 +52,16 @@ class Auth extends Component {
               className="login__btn"
               type="button"
               value="Log in"
-              onClick={handleAuth}
             />
             <input
               className="login__btn"
               type="button"
               value="Registration"
-              onClick={handleCheckEmailExists}
             />
             <input
-              className="login__btn"
-              type="button"
-              value="Forgot password?"
+            className="login__btn"
+            type="button"
+            value="Forgot password?"
             />
           </div>
         </form>
@@ -81,10 +70,4 @@ class Auth extends Component {
   }
 }
 
-Auth.propType = {
-  handleChange: PropTypes.func,
-  handleAuth: PropTypes.func,
-  handleCheckEmailExists: PropTypes.func,
-}
-
-export default Auth;
+export default Login;

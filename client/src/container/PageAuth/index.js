@@ -1,6 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import {connect } from 'react-redux';
 
-import Auth from '../../components/auth'
+import Auth from '../../components/auth';
+
+import {
+  authRegistration
+} from '../../actions'
 
 import './style.css';
 
@@ -28,6 +34,9 @@ class PageAuth extends React.Component {
       }
     })
   }
+  handleCheckEmailExists = () => {
+    this.props.authRegistration().then(action => console.log('action', action));
+  }
 
   handleAuth = () => {
     const {
@@ -41,7 +50,7 @@ class PageAuth extends React.Component {
       credentials: "include",
       body: JSON.stringify(data),
     }).then((action) => {
-      console.log(action);
+      // console.log(action);
     })
   }
 
@@ -52,6 +61,7 @@ class PageAuth extends React.Component {
           <Auth
             handleAuth={this.handleAuth}
             handleChange={this.handleChange}
+            handleCheckEmailExists={this.handleCheckEmailExists}
           />
         </div>
       </div>
@@ -59,4 +69,14 @@ class PageAuth extends React.Component {
   }
 }
 
-export default PageAuth;
+PageAuth.propType = {
+  authRegistration: PropTypes.func
+}
+
+function mapStateToProps(state) {
+  return {};
+}
+
+export default connect(mapStateToProps, {
+  authRegistration,
+})(PageAuth);

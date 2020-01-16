@@ -1,0 +1,28 @@
+.login_form {
+  margin: 5px;
+}
+
+.login__label {
+  display: block;
+}
+.login__label-value {
+  margin-top: 5px;
+  display: block;
+}
+
+.login__input {
+  width: 100%;
+  padding-left: 10px;
+  height: 30px;
+  border: 0.5px solid;
+}
+
+.login__btn-group {
+  margin-top: 50px;
+}
+
+.login__btn {
+  min-width: 100px;
+  border-radius: 5px;
+  cursor: pointer;
+}

@@ -1,0 +1,3 @@
+export {
+  authRegistration
+} from './auth'
