@@ -107,13 +107,13 @@ exports.auth = (req, res) => {
   const { email, password } = req.body;
   if (req.session.user) {
     req.session.user = null;
-    return res.status(200).end('Пользователь успешно вышел из системы!')
+    return res.status(200).send('Пользователь успешно вышел из системы!')
   }
 
   userModels.getOneByUserEmail(email, (err, result) => {
     if (err) {
       console.log(err);
-      return res.status(500).end(err);
+      return res.status(500).send(err);
     }
 
     if (result
@@ -122,8 +122,8 @@ exports.auth = (req, res) => {
     )
     {
       req.session.user = { email, password, isAdmin: result.isAdmin, id: result._id };
-      return res.status(201).end('Пользователь успешно авторизован!');
+      return res.status(201).send('Пользователь успешно авторизован!');
     }
-    return res.status(401).end('Не правельный email или пароль!');
+    return res.status(401).send('Не правельный email или пароль!');
   });
 }
