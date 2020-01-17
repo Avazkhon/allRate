@@ -3,15 +3,12 @@ import {
   AUTH_LOGIN,
 } from '../constants'
 
-export function authRegistration(email) {
+export function authRegistration() {
   return dispatch => dispatch({
     type: AUTH_REGISTRATION,
     meta: {
       method: 'POST',
-      endpoint: 'auth-registration/',
-      // data: {
-      //   email,
-      // }
+      endpoint: 'user',
     }
   });
 }

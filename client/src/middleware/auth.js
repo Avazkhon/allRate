@@ -3,26 +3,28 @@ import {
   AUTH_LOGIN,
 } from '../constants'
 
+import {
+  callApi,
+  successCallback,
+  failCallback,
+} from './utils';
+
 const auth = store => next => action => {
-  next(action);
   const {
-    meta: {
-      method,
-      endpoint,
-      query,
-    },
+    type,
+    meta,
     data,
   } = action;
 
-  const url = `http://localhost:8080/${endpoint ? endpoint : ''}/${query ? query : ''}`
-
-  return fetch(url, {
-    method,
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8'
-    },
-    credentials: "include",
-    body: JSON.stringify(data),
-  })
+  if (
+    type !== AUTH_LOGIN &&
+    type !== AUTH_REGISTRATION
+  ) {
+    return next(action);
+  }
+  next(action);
+  return callApi({...meta, data})
+  .then(successCallback, failCallback);
 }
+
 export default auth;
