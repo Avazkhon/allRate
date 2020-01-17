@@ -1,5 +1,6 @@
 import {
   AUTH_REGISTRATION,
+  AUTH_LOGIN,
 } from '../constants'
 
 export function authRegistration(email) {
@@ -12,5 +13,16 @@ export function authRegistration(email) {
       //   email,
       // }
     }
+  });
+}
+
+export function authoLogin (data) {
+  return dispathc => dispathc({
+    type: AUTH_LOGIN,
+    meta: {
+      method: 'POST',
+      endpoint: 'auth',
+    },
+    data,
   });
 }

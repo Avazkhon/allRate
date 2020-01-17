@@ -1,1 +1,2 @@
 export const AUTH_REGISTRATION = 'AUTH_REGISTRATION';
+export const AUTH_LOGIN = 'AUTH_LOGIN';

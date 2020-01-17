@@ -5,7 +5,8 @@ import {connect } from 'react-redux';
 import Auth from '../../components/auth';
 
 import {
-  authRegistration
+  authRegistration,
+  authoLogin,
 } from '../../actions'
 
 import './style.css';
@@ -42,16 +43,9 @@ class PageAuth extends React.Component {
     const {
       data,
     } = this.state;
-    fetch('http://localhost:8080/auth', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-      },
-      credentials: "include",
-      body: JSON.stringify(data),
-    }).then((action) => {
-      // console.log(action);
-    })
+    this.props.authoLogin(data).then(action => {
+      console.log('action', action);
+    });
   }
 
   render() {
@@ -79,4 +73,5 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   authRegistration,
+  authoLogin,
 })(PageAuth);

@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 
 import rootReducer from '../reducers';
 import customMiddleware from '../middleware';
-console.log(customMiddleware);
+
 const initialState = {};
 const middleware = [thunk, ...customMiddleware];
 
