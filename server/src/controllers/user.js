@@ -106,16 +106,14 @@ exports.deleteOne = (req, res) => {
 exports.auth = (req, res) => {
   const { email, password } = req.body;
   if (req.session.user) {
-    res.status = 200;
     req.session.user = null;
-    return res.send('Пользователь успешно вышел из системы!')
+    return res.status(200).end('Пользователь успешно вышел из системы!')
   }
 
   userModels.getOneByUserEmail(email, (err, result) => {
     if (err) {
       console.log(err);
-      res.status(500);
-      return res.send(err);
+      return res.status(500).end(err);
     }
 
     if (result
@@ -123,11 +121,9 @@ exports.auth = (req, res) => {
       && result.password === password
     )
     {
-      res.status = 201;
       req.session.user = { email, password, isAdmin: result.isAdmin, id: result._id };
-      return res.send('Пользователь успешно авторизован!');
+      return res.status(201).end('Пользователь успешно авторизован!');
     }
-    res.status = 401;
-    return res.send('Не правельный email или пароль!');
+    return res.status(401).end('Не правельный email или пароль!');
   });
 }
