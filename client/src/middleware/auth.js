@@ -22,9 +22,18 @@ const auth = store => next => action => {
   ) {
     return next(action);
   }
-  next(action);
+  next({...action, status: 'SEND'})
+
   return callApi({...meta, data})
-  .then(successCallback, failCallback);
+  .then(successCallback, failCallback)
+  .then(response => {
+    next({...action, status: response.status, response});
+    return response;
+  })
+  .catch((err) => {
+    next({...action, status: response.status, response, err});
+    return { ...response, err};
+  });
 }
 
 export default auth;

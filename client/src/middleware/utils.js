@@ -17,13 +17,13 @@ async function callApi (paramsCall) {
   })
 }
 
-function successCallback (data) {
+function successCallback (response) {
   const {
     status,
     statusText,
     body,
-  } = data;
-  if ( (200 > status < 299) && statusText === 'OK') {
+  } = response;
+  if (status > 200 && status < 299) {
     return {
       status: 'SUCCESS',
       data: body ? body : {}
