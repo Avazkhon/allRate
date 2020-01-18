@@ -9,6 +9,7 @@ import CreateNewUser from '../../components/createNewUser';
 import {
   authRegistration,
   authoLogin,
+  createNewUser,
 } from '../../actions'
 
 import './style.css';
@@ -39,8 +40,8 @@ class PageAuth extends React.Component {
     })
   }
 
-  handleCreateNewUser = () => {
-    this.setState({ isCreateNewUser: true })
+  handleCreateNewUser = (boolean) => {
+    this.setState(prevState => ({ isCreateNewUser: !prevState.isCreateNewUser }));
   }
 
   handleCheckEmailExists = () => {
@@ -59,6 +60,7 @@ class PageAuth extends React.Component {
   render() {
     const {
       auth,
+      createNewUser,
     } = this.props;
 
     const {
@@ -87,7 +89,10 @@ class PageAuth extends React.Component {
 
         {
           isCreateNewUser &&
-          <CreateNewUser />
+          <CreateNewUser
+            createNewUser={createNewUser}
+            handleCreateNewUser={this.handleCreateNewUser}
+          />
         }
         </div>
       </div>
@@ -97,6 +102,8 @@ class PageAuth extends React.Component {
 
 PageAuth.propType = {
   authRegistration: PropTypes.func,
+  createNewUser: PropTypes.func,
+  authoLogin: PropTypes.func,
   auth: PropTypes.shape({}),
 }
 
@@ -112,4 +119,5 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   authRegistration,
   authoLogin,
+  createNewUser,
 })(PageAuth);
