@@ -36,7 +36,7 @@ function successCallback (response) {
     body,
   } = response;
   if (status >= 200 && status <= 299) {
-    checkDataUserToLocalStorage(body);
+    setDataUserToLocalStorage(body);
     return {
       status: 'SUCCESS',
       data: body ? body : {}
@@ -56,7 +56,7 @@ function failCallback () {
   }
 };
 
-function checkDataUserToLocalStorage (data) {
+function setDataUserToLocalStorage (data) {
   if (isBrowser()) {
     localStorage.setItem('userData', JSON.stringify(data));
   }
