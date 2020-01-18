@@ -14,15 +14,8 @@ exports.getUser = (req, res) => {
 }
 
 exports.postAddOne = (req, res) => {
-  const { email, userName, password, isAdmin } = req.body;
-  const user = { email, userName, password, isAdmin: false };
-
-  if (req.session.user && req.session.user.isAdmin) {
-    user.isAdmin = isAdmin || false;
-  }
-
   userModels.postAddOne(
-    user,
+    req.body,
     (err, result) => {
       if (err) {
         console.log(err);
@@ -30,8 +23,12 @@ exports.postAddOne = (req, res) => {
         return res.send(err);
       }
 
+      const data = {
+        message: 'Пользователь успешно зарегистрирован!!',
+      };
+
       res.status = 201;
-      res.send('Пользователь успешно зарегистрирован!')
+      res.json(data);
     }
   );
 }
