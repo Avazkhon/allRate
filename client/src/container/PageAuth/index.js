@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect } from 'react-redux';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 
 import Auth from '../../components/auth';
 
@@ -49,8 +50,19 @@ class PageAuth extends React.Component {
   }
 
   render() {
+    const {
+      auth,
+    } = this.props;
+    let isRedirectHome;
+    if (auth && auth.data && auth.data.userId) {
+      isRedirectHome = true;
+    }
+
     return (
       <div className="page-auth">
+      {
+        isRedirectHome && <Redirect push to="/" />
+      }
         <div className="page-auth__connect">
           <Auth
             handleAuth={this.handleAuth}
@@ -64,11 +76,17 @@ class PageAuth extends React.Component {
 }
 
 PageAuth.propType = {
-  authRegistration: PropTypes.func
+  authRegistration: PropTypes.func,
+  auth: PropTypes.shape({}),
 }
 
 function mapStateToProps(state) {
-  return {};
+  const {
+    auth,
+  } = state;
+  return {
+    auth,
+  };
 }
 
 export default connect(mapStateToProps, {

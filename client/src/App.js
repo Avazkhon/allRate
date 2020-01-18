@@ -13,8 +13,8 @@ import './App.css';
 const App = () => (
   <Provider store={store}>
     <Switch>
-    <Route exact path="/" component={Home} />
-    <Route path="/auth" component={PageAuth} />
+      <Route exact path="/" component={Home} />
+      <Route path="/auth" component={PageAuth} />
     </Switch>
   </Provider>
 );
