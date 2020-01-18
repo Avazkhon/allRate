@@ -79,7 +79,7 @@ class CreateNewUser extends Component {
           ...prevState.data,
           age: {
             ...prevState.data.age,
-            day
+            day: day.value
           }
         }
       }
@@ -93,7 +93,7 @@ class CreateNewUser extends Component {
           ...prevState.data,
           age: {
             ...prevState.data.age,
-            month
+            month: month.value
           }
         }
       }
@@ -107,7 +107,7 @@ class CreateNewUser extends Component {
           ...prevState.data,
           age: {
             ...prevState.data.age,
-            year
+            year: year.value
           }
         }
       }
@@ -118,13 +118,18 @@ class CreateNewUser extends Component {
     const {
       data,
     } = this.state;
+    data.dateCreate = new Date;
     const {
       createNewUser,
       handleCreateNewUser,
     } = this.props;
     createNewUser(data)
     .then((action) => {
-      handleCreateNewUser();
+      if (action.status === 'SUCCESS') {
+        handleCreateNewUser();
+      } else {
+        alert(action.message)
+      }
     });
   }
 
@@ -211,7 +216,7 @@ class CreateNewUser extends Component {
                 <span className="login__label-value">День</span>
                   <Select
                     placeholder="Выбрать"
-                    value={day}
+                    value={{ ...optionsDay.find(option => option.value === day) }}
                     onChange={this.handleChangeDay}
                     options={optionsDay}
                   />
@@ -220,7 +225,7 @@ class CreateNewUser extends Component {
                 <span className="login__label-value">Месяц</span>
                 <Select
                   placeholder="Выбрать"
-                  value={month}
+                  value={{ ...optionsMonth.find(option => option.value === month) }}
                   onChange={this.handleChangeMonth}
                   options={optionsMonth}
                 />
@@ -229,7 +234,7 @@ class CreateNewUser extends Component {
                 <span className="login__label-value">Год</span>
                 <Select
                   placeholder="Выбрать"
-                  value={year}
+                  value={{ ...optionsYear.find(option => option.value === year) }}
                   onChange={this.handleChangeYear}
                   options={optionsYear}
                 />
