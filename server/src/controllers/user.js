@@ -121,8 +121,14 @@ exports.auth = (req, res) => {
       && result.password === password
     )
     {
+      const data = {
+        message: 'Пользователь успешно авторизован!',
+        userId: result._id,
+        userName: result.userName,
+        isAdmin: result.isAdmin,
+      };
       req.session.user = { email, password, isAdmin: result.isAdmin, id: result._id };
-      return res.status(201).send('Пользователь успешно авторизован!');
+      return res.status(200).json(data);
     }
     return res.status(401).send('Не правельный email или пароль!');
   });
