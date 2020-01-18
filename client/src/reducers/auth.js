@@ -3,9 +3,13 @@ import {
   AUTH_LOGIN,
 } from '../constants'
 
+import {
+  getDataUserFromLocalStoragr,
+} from '../utils';
+
 const initState = {
   isFetching: false,
-  data: null,
+  data: getDataUserFromLocalStoragr(),
   error: null,
 };
 
