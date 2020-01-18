@@ -15,15 +15,24 @@ async function callApi (paramsCall) {
     credentials: "include",
     body: JSON.stringify(data),
   })
+  .then(res => {
+    const {
+      status,
+      statusText,
+      ok
+    } = res;
+    return res.json().then(body => ({ body , status, statusText, ok }));
+  })
 }
 
 function successCallback (response) {
   const {
     status,
     statusText,
+    ok,
     body,
   } = response;
-  if (status > 200 && status < 299) {
+  if (status >= 200 && status <= 299) {
     return {
       status: 'SUCCESS',
       data: body ? body : {}

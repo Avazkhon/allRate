@@ -16,10 +16,13 @@ const auth = store => next => action => {
     data,
   } = action;
 
-  if (
-    type !== AUTH_LOGIN &&
-    type !== AUTH_REGISTRATION
-  ) {
+  // if (
+  //   type !== AUTH_LOGIN &&
+  //   type !== AUTH_REGISTRATION
+  // ) {
+  //   return next(action);
+  // }
+  if (!meta.method) {
     return next(action);
   }
   next({...action, status: 'SEND'})
@@ -31,8 +34,8 @@ const auth = store => next => action => {
     return response;
   })
   .catch((err) => {
-    next({...action, status: response.status, response, err});
-    return { ...response, err};
+    next({...action, status: 'FAIL', err});
+    return err;
   });
 }
 

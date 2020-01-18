@@ -4,11 +4,9 @@ import {
 } from '../constants'
 
 const initState = {
-  auth: {
-    isFetching: false,
-    data: null,
-    error: null,
-  },
+  isFetching: false,
+  data: null,
+  error: null,
 };
 
 export default function auth(state = initState, action) {
@@ -23,31 +21,25 @@ export default function auth(state = initState, action) {
     if (action.status === 'SEND') {
       return {
         ...state,
-        auth: {
-          ...state.auth,
-          isFetching: true,
-        }
+        isFetching: true,
       }
     }
     if (action.status === 'SUCCESS') {
       return {
         ...state,
-        auth: {
-          ...state.auth,
-          data: action.data,
-          isFetching: false,
-        }
+        data: {
+          ...state.data,
+          ...action.response.data,
+        },
+        isFetching: false,
       }
     }
 
     if (action.status === 'FAIL') {
       return {
         ...state,
-        auth: {
-          ...state.auth,
-          isFetching: false,
-          error: action.message,
-        }
+        isFetching: false,
+        error: action.message,
       }
     }
   }
