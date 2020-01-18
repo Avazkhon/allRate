@@ -30,3 +30,11 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+.login__age {
+  display: grid;
+  grid-template-columns: 4fr 4fr 4fr
+}
+.login__age > label {
+  width: 105px;
+}
