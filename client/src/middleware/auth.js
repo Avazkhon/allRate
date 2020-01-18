@@ -22,7 +22,7 @@ const auth = store => next => action => {
   // ) {
   //   return next(action);
   // }
-  if (!meta.method) {
+  if (!meta || meta && !meta.method) {
     return next(action);
   }
   next({...action, status: 'SEND'})
