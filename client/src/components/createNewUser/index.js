@@ -45,6 +45,7 @@ class CreateNewUser extends Component {
         email: '',
         password: '',
         userName: '',
+        phone: '',
         age: {
           month: '',
           day: '',
@@ -130,6 +131,7 @@ class CreateNewUser extends Component {
         email,
         password,
         userName,
+        phone,
       }
 
     } = this.state;
@@ -142,7 +144,7 @@ class CreateNewUser extends Component {
           <div className="login_title" >Регистрация</div>
           <div>
             <label className="login__label">
-                <span className="login__label-value">Электронная почта</span>
+              <span className="login__label-value">Электронная почта</span>
               <input
                 value={email}
                 onChange={this.handleChange}
@@ -153,6 +155,20 @@ class CreateNewUser extends Component {
               >
               </input>
             </label>
+
+            <label className="login__label">
+                <span className="login__label-value">Моб.телефон</span>
+              <input
+                value={phone}
+                onChange={this.handleChange}
+                placeholder="Ввидите мобильный телефон"
+                className="login__input"
+                type="text"
+                name="phone"
+              >
+              </input>
+            </label>
+
             <label className="login__label">
               <span className="login__label-value">Пароль</span>
               <input
@@ -165,6 +181,7 @@ class CreateNewUser extends Component {
               >
               </input>
             </label>
+
             <label className="login__label">
               <span className="login__label-value">Имя</span>
               <input
@@ -177,34 +194,35 @@ class CreateNewUser extends Component {
               >
               </input>
             </label>
+
             <div className="login__age">
-            <label className="login__label">
-              <span className="login__label-value">День</span>
+              <label className="login__label">
+                <span className="login__label-value">День</span>
+                  <Select
+                    placeholder="Выбрать"
+                    value={day}
+                    onChange={this.handleChangeDay}
+                    options={optionsDay}
+                  />
+              </label>
+              <label className="login__label">
+                <span className="login__label-value">Месяц</span>
                 <Select
                   placeholder="Выбрать"
-                  value={day}
-                  onChange={this.handleChangeDay}
-                  options={optionsDay}
+                  value={month}
+                  onChange={this.handleChangeMonth}
+                  options={optionsMonth}
                 />
-            </label>
-            <label className="login__label">
-              <span className="login__label-value">Месяц</span>
-              <Select
-                placeholder="Выбрать"
-                value={month}
-                onChange={this.handleChangeMonth}
-                options={optionsMonth}
-              />
-            </label>
-            <label className="login__label">
-              <span className="login__label-value">Год</span>
-              <Select
-                placeholder="Выбрать"
-                value={year}
-                onChange={this.handleChangeYear}
-                options={optionsYear}
-              />
-            </label>
+              </label>
+              <label className="login__label">
+                <span className="login__label-value">Год</span>
+                <Select
+                  placeholder="Выбрать"
+                  value={year}
+                  onChange={this.handleChangeYear}
+                  options={optionsYear}
+                />
+              </label>
             </div>
           </div>
           <div className="login__btn-group">

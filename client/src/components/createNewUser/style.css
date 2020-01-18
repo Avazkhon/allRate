@@ -8,6 +8,7 @@
 
 .login__label {
   display: block;
+  margin-top: 15px;
 }
 .login__label-value {
   margin-top: 5px;
