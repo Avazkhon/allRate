@@ -1,3 +1,6 @@
+import {
+  isBrowser,
+} from '../utils';
 async function callApi (paramsCall) {
   const {
     method,
@@ -23,7 +26,7 @@ async function callApi (paramsCall) {
     } = res;
     return res.json().then(body => ({ body , status, statusText, ok }));
   })
-}
+};
 
 function successCallback (response) {
   const {
@@ -33,6 +36,7 @@ function successCallback (response) {
     body,
   } = response;
   if (status >= 200 && status <= 299) {
+    checkDataUserToLocalStorage(body);
     return {
       status: 'SUCCESS',
       data: body ? body : {}
@@ -43,12 +47,18 @@ function successCallback (response) {
     status: 'FAIL',
     message: 'some kind of mistake happened!'
   }
-}
+};
 
 function failCallback () {
   return {
     status: 'FAIL',
     message: 'some kind of mistake happened!'
+  }
+};
+
+function checkDataUserToLocalStorage (data) {
+  if (isBrowser()) {
+    localStorage.setItem('userData', JSON.stringify(data));
   }
 }
 
