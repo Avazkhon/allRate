@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 
 import Auth from '../../components/auth';
+import CreateNewUser from '../../components/createNewUser';
 
 import {
   authRegistration,
@@ -19,7 +20,8 @@ class PageAuth extends React.Component {
       data: {
         email: '',
         password: ''
-      }
+      },
+      isCreateNewUser: false,
     }
   }
 
@@ -36,6 +38,11 @@ class PageAuth extends React.Component {
       }
     })
   }
+
+  handleCreateNewUser = () => {
+    this.setState({ isCreateNewUser: true })
+  }
+
   handleCheckEmailExists = () => {
     this.props.authRegistration().then(action => console.log('action', action));
   }
@@ -53,6 +60,11 @@ class PageAuth extends React.Component {
     const {
       auth,
     } = this.props;
+
+    const {
+      isCreateNewUser,
+    } = this.state;
+
     let isRedirectHome;
     if (auth && auth.data && auth.data.userId) {
       isRedirectHome = true;
@@ -64,11 +76,19 @@ class PageAuth extends React.Component {
         isRedirectHome && <Redirect push to="/" />
       }
         <div className="page-auth__connect">
+        {
+          !isCreateNewUser &&
           <Auth
             handleAuth={this.handleAuth}
             handleChange={this.handleChange}
-            handleCheckEmailExists={this.handleCheckEmailExists}
+            handleCreateNewUser={this.handleCreateNewUser}
           />
+        }
+
+        {
+          isCreateNewUser &&
+          <CreateNewUser />
+        }
         </div>
       </div>
     );

@@ -21,7 +21,7 @@ class Auth extends Component {
     const {
       handleChange,
       handleAuth,
-      handleCheckEmailExists,
+      handleCreateNewUser,
     } = this.props;
 
     // const {
@@ -32,6 +32,7 @@ class Auth extends Component {
         className="login"
       >
         <form className="login_form">
+          <div className="login_title" >Авторизация</div>
           <div>
             <label className="login__label">
                 <span className="login__label-value">Email</span>
@@ -66,8 +67,8 @@ class Auth extends Component {
             <input
               className="login__btn"
               type="button"
-              value="Registration"
-              onClick={handleCheckEmailExists}
+              value="Регистрация"
+              onClick={handleCreateNewUser}
             />
             <input
               className="login__btn"
@@ -84,7 +85,7 @@ class Auth extends Component {
 Auth.propType = {
   handleChange: PropTypes.func,
   handleAuth: PropTypes.func,
-  handleCheckEmailExists: PropTypes.func,
+  handleCreateNewUser: PropTypes.func,
 }
 
 export default Auth;
