@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 
 import rootReducer from '../reducers';
 import customMiddleware from '../middleware';
+import { isBrowser } from '../utils';
 
 const initialState = {};
 const middleware = [thunk, ...customMiddleware];
@@ -12,7 +13,8 @@ const store = createStore(
   initialState,
   compose(
     applyMiddleware(...middleware),
-   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+   isBrowser() ? window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+   : compose
   )
 );
 
