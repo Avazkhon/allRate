@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import './style.css';
 import Auth from '../../components/auth';
 
+import { isBrowser } from '../../utils';
+
 import {
   authoLogin,
 } from '../../actions';
@@ -15,12 +17,12 @@ const navBar = [
   { id: 1, name: 'Главная', url: '/'},
   { id: 3, name: 'Моя стриница', url: '/me'},
   { id: 4, name: 'Помощь', url: '/help'},
-  { id: 5, name: 'Логин', url: '/auth'},
 ]
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
+    this.headerAauth = React.createRef();
 
     this.state = {
       data: {
@@ -31,6 +33,41 @@ class Header extends React.Component {
       isAuth: false,
     }
   }
+
+  componentDidMount() {
+   if (isBrowser()) {
+    document.addEventListener('mousedown', this.leaveByClick, false);
+   }
+ }
+
+ componentWillUnmount() {
+  const { isMobileVersion, indexMenu } = this.props;
+  if (isBrowser()) {
+    document.removeEventListener('mousedown', this.leaveByClick);
+  }
+}
+
+  leaveByClick = (event) => {
+    const navBlock = this.headerAauth;
+    const searchPanel = document.getElementsByClassName('header__auth')[0];
+    const path = event.path || (event.composedPath && event.composedPath());
+
+    if (path
+      && path.includes
+      && !path.includes(navBlock)
+      && (!searchPanel
+        || !path.includes(searchPanel)
+        || event.target.classList.contains('header__auth')
+      )
+    ) {
+      if (this.state.isAuth) {
+        this.setState({
+          isAuth: false
+        });
+      }
+    }
+  };
+
 
   handleChange = (e) => {
     const name = e.target.name;
@@ -88,7 +125,7 @@ class Header extends React.Component {
             )
           })}
         </ul>
-        <div className="header__auth">
+        <div className="header__auth" ref={this.headerAauth}>
           <div className="header_container">
             <input
               className="header__auth-btn"
