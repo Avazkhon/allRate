@@ -32,7 +32,6 @@ export default function auth(state = initState, action) {
       return {
         ...state,
         data: {
-          ...state.data,
           ...action.response.data,
         },
         isFetching: false,

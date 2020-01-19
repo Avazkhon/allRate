@@ -22,10 +22,11 @@
 }
 
 .login__btn-group {
-  margin-top: 50px;
+  margin-top: 10px;
 }
 
 .login__btn {
+  margin-top: 5px;
   min-width: 100px;
   border-radius: 5px;
   cursor: pointer;

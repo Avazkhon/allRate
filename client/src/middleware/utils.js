@@ -40,7 +40,7 @@ function successCallback (response) {
     type
   } = response;
   if (status >= 200 && status <= 299) {
-    if (type === AUTH_LOGIN) {
+    if (type === AUTH_LOGIN && body && body.userId) {
       changeDataUserToLocalStorage(body);
     }
     return {
@@ -65,7 +65,6 @@ function failCallback () {
 function changeDataUserToLocalStorage (data) {
   if (isBrowser()) {
     const dataUser = localStorage.getItem('userData');
-    console.log(dataUser);
     if (dataUser) {
       localStorage.removeItem('userData');
     } else {
