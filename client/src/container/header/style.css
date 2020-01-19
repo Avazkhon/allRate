@@ -1,5 +1,6 @@
 .header {
-  max-width: 800px;
+  display: grid;
+  grid-template-columns: 10fr 2fr
 }
 
 .header__navbar {
@@ -14,4 +15,23 @@
 
 .header__item a {
   color: black;
+}
+
+.header__auth-btn {
+  min-width: 100px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.header__auth {
+  width: 200px;
+  position: relative;
+}
+
+.header_container {
+  position: absolute;
+}
+
+.header__auth {
+  margin-top: 15px;
 }

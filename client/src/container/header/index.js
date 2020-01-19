@@ -5,6 +5,11 @@ import { Redirect } from 'react-router';
 import { Link } from "react-router-dom";
 
 import './style.css';
+import Auth from '../../components/auth';
+
+import {
+  authoLogin,
+} from '../../actions';
 
 const navBar = [
   { id: 1, name: 'Главная', url: '/'},
@@ -16,23 +21,81 @@ const navBar = [
 class Header extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      data: {
+        email: '',
+        password: ''
+      },
+      isCreateNewUser: false,
+      isAuth: false,
+    }
   }
 
+  handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({
+      data: {
+        ...this.state.data,
+        [name]: value
+      }
+    })
+  }
+
+  handleAuth = () => {
+    this.setState((prevState) => ({ isAuth: !prevState.isAuth }))
+  }
+
+  handleSubmitAuth = () => {
+    const {
+      data,
+    } = this.state;
+    this.props.authoLogin(data).then(action => {
+      console.log('action', action);
+    });
+  }
+
+  relactionForCreateNewUser = () => {
+    return <Redirect to='/auth' />
+  }
 
   render() {
+    const {
+      isAuth,
+    } = this.state;
     return (
       <div className="header">
         <ul className="header__navbar">
           {navBar.map((itm) => {
             return (
               <li key={itm.id} className="header__item">
-                <Link to={itm.url} style={{ 'text-decoration': 'none' }}>
+                <Link to={itm.url} style={{ 'textDecoration': 'none' }}>
                   <span>{itm.name}</span>
                 </Link>
               </li>
             )
           })}
         </ul>
+        <div className="header__auth">
+          <div className="header_container">
+            <input
+              className="header__auth-btn"
+              type="button"
+              value="Войти"
+              onClick={this.handleAuth}
+            />
+            {
+              isAuth &&
+              <Auth
+                isHeder
+                handleChange={this.handleChange}
+                handleAuth={this.handleSubmitAuth}
+                handleCreateNewUser={this.relactionForCreateNewUser}
+              />
+            }
+          </div>
+        </div>
       </div>
     );
   }
@@ -51,4 +114,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
+  authoLogin,
 })(Header);

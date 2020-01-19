@@ -22,6 +22,7 @@ class Auth extends Component {
       handleChange,
       handleAuth,
       handleCreateNewUser,
+      isHeder,
     } = this.props;
 
     // const {
@@ -70,11 +71,14 @@ class Auth extends Component {
               value="Регистрация"
               onClick={handleCreateNewUser}
             />
-            <input
-              className="login__btn"
-              type="button"
-              value="Forgot password?"
-            />
+            {
+              !isHeder &&
+              <input
+                className="login__btn"
+                type="button"
+                value="Forgot password?"
+              />
+            }
           </div>
         </form>
       </div>
@@ -86,6 +90,7 @@ Auth.propType = {
   handleChange: PropTypes.func,
   handleAuth: PropTypes.func,
   handleCreateNewUser: PropTypes.func,
+  isHeder: PropTypes.bool,
 }
 
 export default Auth;
