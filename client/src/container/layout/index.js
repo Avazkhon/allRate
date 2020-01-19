@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Header from '../header';
+import Footer from '../footer';
 
 import './style.css';
 
@@ -14,10 +15,15 @@ class Layout extends React.Component {
   render() {
     return (
       <React.StrictMode>
-        <div className="layout">
+        <div className="layout-header">
           <Header/>
         </div>
-        {this.props.children}
+        <div className='content'>
+          {this.props.children}
+        </div>
+        <div className="layout-footer">
+          <Footer />
+        </div>
       </React.StrictMode>
     );
   }

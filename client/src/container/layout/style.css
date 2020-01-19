@@ -1,4 +1,20 @@
-.layout {
-  width: 100%;
-  height: 100px;
+html,
+body {
+	height: 100%;
+}
+#root {
+	position: relative;
+	min-height: 100%;
+}
+
+.content {
+	padding-bottom: 90px;
+}
+
+.layout-footer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 80px;
 }
