@@ -1,4 +1,7 @@
 import {
+  AUTH_LOGIN,
+} from '../constants';
+import {
   isBrowser,
 } from '../utils';
 async function callApi (paramsCall) {
@@ -34,9 +37,12 @@ function successCallback (response) {
     statusText,
     ok,
     body,
+    type
   } = response;
   if (status >= 200 && status <= 299) {
-    setDataUserToLocalStorage(body);
+    if (type === AUTH_LOGIN) {
+      changeDataUserToLocalStorage(body);
+    }
     return {
       status: 'SUCCESS',
       data: body ? body : {}
@@ -56,9 +62,15 @@ function failCallback () {
   }
 };
 
-function setDataUserToLocalStorage (data) {
+function changeDataUserToLocalStorage (data) {
   if (isBrowser()) {
-    localStorage.setItem('userData', JSON.stringify(data));
+    const dataUser = localStorage.getItem('userData');
+    console.log(dataUser);
+    if (dataUser) {
+      localStorage.removeItem('userData');
+    } else {
+      localStorage.setItem('userData', JSON.stringify(data));
+    }
   }
 }
 

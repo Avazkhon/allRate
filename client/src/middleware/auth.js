@@ -28,7 +28,10 @@ const auth = store => next => action => {
   next({...action, status: 'SEND'})
 
   return callApi({...meta, data})
-  .then(successCallback, failCallback)
+  .then(
+    (response) => successCallback({...response, ...action }),
+    () => ailCallback({...response, ...action })
+  )
   .then(response => {
     next({...action, status: response.status, response});
     return response;
