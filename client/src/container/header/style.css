@@ -1,0 +1,17 @@
+.header {
+  max-width: 800px;
+}
+
+.header__navbar {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.header__item:hover {
+  opacity: .6;
+}
+
+.header__item a {
+  color: black;
+}

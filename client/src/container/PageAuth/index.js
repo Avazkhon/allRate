@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 
+import Layout from '../layout';
+
 import Auth from '../../components/auth';
 import CreateNewUser from '../../components/createNewUser';
 
@@ -73,29 +75,31 @@ class PageAuth extends React.Component {
     }
 
     return (
-      <div className="page-auth">
-      {
-        isRedirectHome && <Redirect push to="/" />
-      }
-        <div className="page-auth__connect">
+      <Layout>
+        <div className="page-auth">
         {
-          !isCreateNewUser &&
-          <Auth
-            handleAuth={this.handleAuth}
-            handleChange={this.handleChange}
-            handleCreateNewUser={this.handleCreateNewUser}
-          />
+          isRedirectHome && <Redirect push to="/" />
         }
+          <div className="page-auth__connect">
+          {
+            !isCreateNewUser &&
+            <Auth
+              handleAuth={this.handleAuth}
+              handleChange={this.handleChange}
+              handleCreateNewUser={this.handleCreateNewUser}
+            />
+          }
 
-        {
-          isCreateNewUser &&
-          <CreateNewUser
-            createNewUser={createNewUser}
-            handleCreateNewUser={this.handleCreateNewUser}
-          />
-        }
+          {
+            isCreateNewUser &&
+            <CreateNewUser
+              createNewUser={createNewUser}
+              handleCreateNewUser={this.handleCreateNewUser}
+            />
+          }
+          </div>
         </div>
-      </div>
+      </Layout>
     );
   }
 }
