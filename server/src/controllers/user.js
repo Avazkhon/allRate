@@ -104,7 +104,8 @@ exports.auth = (req, res) => {
   const { email, password } = req.body;
   if (req.session.user) {
     req.session.user = null;
-    return res.status(200).send('Пользователь успешно вышел из системы!')
+    const data = { message: 'Пользователь успешно вышел из системы!' };
+    return res.status(200).json(data);
   }
 
   userModels.getOneByUserEmail(email, (err, result) => {
