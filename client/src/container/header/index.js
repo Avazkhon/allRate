@@ -52,7 +52,11 @@ class Header extends React.Component {
       data,
     } = this.state;
     this.props.authoLogin(data).then(action => {
-      console.log('action', action);
+      if (action.status === 'SUCCESS') {
+        this.handleAuth()
+      } else {
+        alert(action.message)
+      }
     });
   }
 
@@ -62,8 +66,15 @@ class Header extends React.Component {
 
   render() {
     const {
+      auth,
+    } = this.props;
+
+    const {
       isAuth,
     } = this.state;
+
+    const isLogin = auth.data && auth.data.userId;
+
     return (
       <div className="header">
         <ul className="header__navbar">
@@ -82,8 +93,8 @@ class Header extends React.Component {
             <input
               className="header__auth-btn"
               type="button"
-              value="Войти"
-              onClick={this.handleAuth}
+              value={isLogin ? 'Выйти' : 'Зайти'}
+              onClick={ isLogin ? this.handleSubmitAuth : this.handleAuth}
             />
             {
               isAuth &&

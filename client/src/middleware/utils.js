@@ -65,7 +65,6 @@ function failCallback () {
 function changeDataUserToLocalStorage (data) {
   if (isBrowser()) {
     const dataUser = localStorage.getItem('userData');
-    console.log(dataUser);
     if (dataUser) {
       localStorage.removeItem('userData');
     } else {
