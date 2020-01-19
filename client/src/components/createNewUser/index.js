@@ -134,8 +134,9 @@ class CreateNewUser extends Component {
   }
 
   render() {
-    // const {
-    // } = this.props;
+    const {
+      handleReturnLogin,
+    } = this.props;
 
     const {
       data: {
@@ -248,6 +249,12 @@ class CreateNewUser extends Component {
               value="Зарегистрирлваться"
               onClick={this.handleSubmitCreateNewUser}
             />
+            <input
+              className="login__btn"
+              type="button"
+              value="Войти"
+              onClick={handleReturnLogin}
+            />
           </div>
         </form>
       </div>
@@ -258,7 +265,7 @@ class CreateNewUser extends Component {
 CreateNewUser.propType = {
   createNewUser: PropTypes.func,
   handleCreateNewUser: PropTypes.func,
-  // handleAuth: PropTypes.func,
+  handleReturnLogin: PropTypes.func,
 }
 
 export default CreateNewUser;

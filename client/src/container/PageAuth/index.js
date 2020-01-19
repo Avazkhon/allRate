@@ -93,6 +93,7 @@ class PageAuth extends React.Component {
           {
             isCreateNewUser &&
             <CreateNewUser
+              handleReturnLogin={this.handleCreateNewUser}
               createNewUser={createNewUser}
               handleCreateNewUser={this.handleCreateNewUser}
             />

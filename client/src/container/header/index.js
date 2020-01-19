@@ -130,7 +130,7 @@ class Header extends React.Component {
             <input
               className="header__auth-btn"
               type="button"
-              value={isLogin ? 'Выйти' : 'Зайти'}
+              value={isLogin ? 'Выйти' : 'Войти'}
               onClick={ isLogin ? this.handleSubmitAuth : this.handleAuth}
             />
             {

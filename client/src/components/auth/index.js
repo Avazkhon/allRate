@@ -62,7 +62,7 @@ class Auth extends Component {
             <input
               className="login__btn"
               type="button"
-              value="Log in"
+              value="Войти"
               onClick={handleAuth}
             />
             <input
