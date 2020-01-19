@@ -14,15 +14,8 @@ exports.getUser = (req, res) => {
 }
 
 exports.postAddOne = (req, res) => {
-  const { email, userName, password, isAdmin } = req.body;
-  const user = { email, userName, password, isAdmin: false };
-
-  if (req.session.user && req.session.user.isAdmin) {
-    user.isAdmin = isAdmin || false;
-  }
-
   userModels.postAddOne(
-    user,
+    req.body,
     (err, result) => {
       if (err) {
         console.log(err);
@@ -30,8 +23,12 @@ exports.postAddOne = (req, res) => {
         return res.send(err);
       }
 
+      const data = {
+        message: 'Пользователь успешно зарегистрирован!!',
+      };
+
       res.status = 201;
-      res.send('Пользователь успешно зарегистрирован!')
+      res.json(data);
     }
   );
 }
@@ -105,33 +102,32 @@ exports.deleteOne = (req, res) => {
 
 exports.auth = (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password) {
-    res.status = 400;
-    return res.send('Заполните данные!');
-  }
-
   if (req.session.user) {
-    res.status = 200;
     req.session.user = null;
-    return res.send('Пользователь успешно вышел из системы!')
+    const data = { message: 'Пользователь успешно вышел из системы!' };
+    return res.status(200).json(data);
   }
 
   userModels.getOneByUserEmail(email, (err, result) => {
     if (err) {
       console.log(err);
-      res.status(500);
-      return res.send(err);
+      return res.status(500).send(err);
     }
 
     if (result
       && result.email === email
       && result.password === password
-    ) {
-      res.status = 201;
+    )
+    {
+      const data = {
+        message: 'Пользователь успешно авторизован!',
+        userId: result._id,
+        userName: result.userName,
+        isAdmin: result.isAdmin,
+      };
       req.session.user = { email, password, isAdmin: result.isAdmin, id: result._id };
-      return res.send('Пользователь успешно авторизован!');
+      return res.status(200).json(data);
     }
-    res.status = 401;
-    return res.send('Не правельный email или пароль!');
+    return res.status(401).send('Не правельный email или пароль!');
   });
 }
