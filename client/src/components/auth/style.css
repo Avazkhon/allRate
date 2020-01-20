@@ -31,3 +31,13 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+.login_link-auth a {
+  color: black;
+  text-direction: none;
+}
+
+.login_link-auth:hover {
+  opacity: .6;
+  cursor: pointer;
+}
