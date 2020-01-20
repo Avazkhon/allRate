@@ -1,6 +1,7 @@
 .header {
   display: grid;
-  grid-template-columns: 10fr 2fr
+  grid-template-columns: 10fr 2fr;
+  border-bottom: .5px solid #dcdcdc;
 }
 
 .header__navbar {

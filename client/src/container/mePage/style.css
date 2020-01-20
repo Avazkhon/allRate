@@ -1,3 +1,6 @@
+.me-page {
+  margin-top: 20px;
+}
 .me-page__container {
   width: 800px;
   margin: auto;
@@ -15,8 +18,10 @@
 
 .sitebar{
   grid-area: sitebar;
+  border: .5px solid #dcdcdc;
 }
 
 .content-user {
   grid-area: content;
+  border: .5px solid #dcdcdc;
 }
