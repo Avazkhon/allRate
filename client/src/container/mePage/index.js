@@ -6,7 +6,7 @@ import Layout from '../layout';
 
 import './style.css';
 
-class Home extends React.Component {
+class Mepage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -15,15 +15,25 @@ class Home extends React.Component {
   render() {
     return (
       <Layout>
-        <div className="page-Home">
-          Home
+        <div className="me-page">
+          <div className='me-page__container'>
+            <div className="profile-user">
+              profile-user
+            </div>
+            <div className="sitebar">
+              sitebar
+            </div>
+            <div className="content-user">
+              content-user
+            </div>
+          </div>
         </div>
       </Layout>
     );
   }
 }
 
-Home.propType = {
+Mepage.propType = {
   // authRegistration: PropTypes.func,
   // createNewUser: PropTypes.func,
   // authoLogin: PropTypes.func,
@@ -40,4 +50,4 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-})(Home);
+})(Mepage);
