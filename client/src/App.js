@@ -6,8 +6,8 @@ import { Provider } from 'react-redux'
 import store from './store/index';
 
 import PageAuth from './container/PageAuth';
+import Home from './container/home';
 
-import Home from './Home';
 import './App.css';
 
 const App = () => (
