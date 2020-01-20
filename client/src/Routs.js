@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 import { Switch } from 'react-router-dom';
 
 import PageAuth from './container/PageAuth';
-import Home from './container/home';
+import Home from './container/homePage';
 
 const Routs = () => (
   <Switch>
