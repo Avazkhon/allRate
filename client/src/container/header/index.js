@@ -97,10 +97,6 @@ class Header extends React.Component {
     });
   }
 
-  relactionForCreateNewUser = () => {
-    return <Redirect to='/auth' />
-  }
-
   render() {
     const {
       auth,
@@ -139,7 +135,6 @@ class Header extends React.Component {
                 isHeder
                 handleChange={this.handleChange}
                 handleAuth={this.handleSubmitAuth}
-                handleCreateNewUser={this.relactionForCreateNewUser}
               />
             }
           </div>

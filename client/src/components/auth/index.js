@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 
@@ -65,12 +66,23 @@ class Auth extends Component {
               value="Войти"
               onClick={handleAuth}
             />
-            <input
-              className="login__btn"
-              type="button"
-              value="Регистрация"
-              onClick={handleCreateNewUser}
-            />
+            {
+              !handleCreateNewUser &&
+              <div className='login_link-auth'>
+                <Link to='/auth'>
+                  <span>Регистрация</span>
+                </Link>
+              </div>
+            }
+            {
+              handleCreateNewUser &&
+              <input
+                className="login__btn"
+                type="button"
+                value="Регистрация"
+                onClick={handleCreateNewUser}
+              />
+            }
             {
               !isHeder &&
               <input
