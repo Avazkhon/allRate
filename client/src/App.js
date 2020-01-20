@@ -5,17 +5,11 @@ import { Provider } from 'react-redux'
 
 import store from './store/index';
 
-import PageAuth from './container/PageAuth';
-import Home from './container/home';
-
-import './App.css';
+import Routs from './Routs';
 
 const App = () => (
   <Provider store={store}>
-    <Switch>
-      <Route exact path="/" component={Home} />
-      <Route path="/auth" component={PageAuth} />
-    </Switch>
+    <Routs />
   </Provider>
 );
 
