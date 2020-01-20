@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 
 import Layout from '../layout';
 
+import ProfileUser from '../../components/profileUser';
+
 import './style.css';
 
-class Mepage extends React.Component {
+class MePage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -17,9 +19,7 @@ class Mepage extends React.Component {
       <Layout>
         <div className="me-page">
           <div className='me-page__container'>
-            <div className="profile-user">
-              profile-user
-            </div>
+            <ProfileUser />
             <div className="sitebar">
               sitebar
             </div>
@@ -33,7 +33,7 @@ class Mepage extends React.Component {
   }
 }
 
-Mepage.propType = {
+MePage.propType = {
   // authRegistration: PropTypes.func,
   // createNewUser: PropTypes.func,
   // authoLogin: PropTypes.func,
@@ -50,4 +50,4 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-})(Mepage);
+})(MePage);
