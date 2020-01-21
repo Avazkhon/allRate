@@ -4,10 +4,21 @@ import { connect } from 'react-redux';
 
 import './style.css';
 
+import {
+  getUserById,
+} from '../../actions'
+
 class ProfileUser extends React.Component {
   constructor(props) {
     super(props);
 
+  }
+
+  componentDidMount() {
+    const { getUserById, auth, auth: { data } } = this.props;
+    if (data && data.userId) {
+      getUserById(data.userId);
+    }
   }
 
   render() {
@@ -26,6 +37,13 @@ class ProfileUser extends React.Component {
             </div>
           </div>
           <div className="profile-user__content">
+            <div>
+              <ul>
+                <li>
+                  profile-user__content li
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -34,7 +52,7 @@ class ProfileUser extends React.Component {
 }
 
 ProfileUser.propType = {
-  // authRegistration: PropTypes.func,
+  getUserById: PropTypes.func,
   // createNewUser: PropTypes.func,
   // authoLogin: PropTypes.func,
   // auth: PropTypes.shape({}),
@@ -50,4 +68,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
+  getUserById,
 })(ProfileUser);

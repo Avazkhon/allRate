@@ -2,6 +2,7 @@ import {
   AUTH_REGISTRATION,
   AUTH_LOGIN,
   CREATE_NEW_USER,
+  GET_USER_BY_ID,
 } from '../constants'
 
 export function authRegistration() {
@@ -33,5 +34,16 @@ export function createNewUser (data) {
       endpoint: 'user',
     },
     data,
+  });
+}
+
+export function getUserById (userId) {
+  return dispathc => dispathc({
+    type: GET_USER_BY_ID,
+    meta: {
+      method: 'GET',
+      endpoint: 'user',
+      queryParams: '?id=' + userId,
+    },
   });
 }

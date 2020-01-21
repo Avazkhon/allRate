@@ -8,11 +8,11 @@ async function callApi (paramsCall) {
   const {
     method,
     endpoint,
-    query,
+    queryParams,
     data,
   } = paramsCall;
 
-  const url = `http://localhost:8080/${endpoint ? endpoint : ''}/${query ? query : ''}`
+  const url = `http://localhost:8080/${endpoint ? endpoint : ''}/${queryParams ? queryParams : ''}`
   return fetch(url, {
     method,
     headers: {

@@ -1,3 +1,4 @@
 export const AUTH_REGISTRATION = 'AUTH_REGISTRATION';
 export const AUTH_LOGIN = 'AUTH_LOGIN';
 export const CREATE_NEW_USER = 'CREATE_NEW_USER';
+export const GET_USER_BY_ID = 'GET_USER_BY_ID';
