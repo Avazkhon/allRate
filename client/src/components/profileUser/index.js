@@ -21,7 +21,24 @@ class ProfileUser extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nexState) {
+    const { getUserById, auth, auth: { data }, userData } = nexState;
+    if (userData && !userData.data && data && data.userId) {
+      getUserById(data.userId);
+    }
+
+  }
+
   render() {
+    const {
+      userData: { data },
+    } = this.props;
+    const userProps = [
+      { name: data.email },
+      { name: data.userName },
+      { name: data.phone },
+    ];
+
     return (
       <div className="profile-user">
         <div className="profile-user__container">
@@ -39,9 +56,15 @@ class ProfileUser extends React.Component {
           <div className="profile-user__content">
             <div>
               <ul>
-                <li>
-                  profile-user__content li
-                </li>
+                {
+                  userProps.map((itm) => {
+                    return (
+                      <li key={itm.name}>
+                        {itm.name}
+                      </li>
+                    )
+                  })
+                }
               </ul>
             </div>
           </div>
@@ -61,9 +84,11 @@ ProfileUser.propType = {
 function mapStateToProps(state) {
   const {
     auth,
+    userData
   } = state;
   return {
     auth,
+    userData,
   };
 }
 
