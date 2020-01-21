@@ -15,7 +15,7 @@ exports.all = (callBack) => {
 }
 
 exports.getOneById = (id, callBack) => {
-  User.find({_id: id}, callBack);
+  User.findOne({_id: id}, callBack);
 }
 
 exports.getOneByUserName = (userName, callBack) => {

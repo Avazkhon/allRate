@@ -8,7 +8,7 @@ const handlier = (err, result, res) => {
     res.status = 404
     return res.send('User не найден!');
   }
-  res.status = 200
+  res.status = 200;
   res.send(result);
 }
 
