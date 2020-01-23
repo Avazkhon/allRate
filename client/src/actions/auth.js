@@ -1,8 +1,13 @@
+import { CALL_API } from '../middleware/api';
 import {
   AUTH_REGISTRATION,
   AUTH_LOGIN,
   CREATE_NEW_USER,
   GET_USER_BY_ID,
+
+  REQUEST_GET_USER_BY_ID,
+  SUCCESS_GET_USER_BY_ID,
+  FAIL_GET_USER_BY_ID,
 } from '../constants'
 
 export function authRegistration() {
@@ -37,13 +42,12 @@ export function createNewUser (data) {
   });
 }
 
-export function getUserById (userId) {
-  return dispathc => dispathc({
-    type: GET_USER_BY_ID,
-    meta: {
+export function getUserById(url) {
+  return (dispatch, getState) => dispatch({
+    [CALL_API]: {
+      types: [REQUEST_GET_USER_BY_ID, SUCCESS_GET_USER_BY_ID, FAIL_GET_USER_BY_ID],
       method: 'GET',
-      endpoint: 'user',
-      queryParams: '?id=' + userId,
-    },
+      endpoint: url
+    }
   });
 }

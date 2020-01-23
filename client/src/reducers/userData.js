@@ -1,5 +1,7 @@
 import {
-  GET_USER_BY_ID,
+  REQUEST_GET_USER_BY_ID,
+  SUCCESS_GET_USER_BY_ID,
+  FAIL_GET_USER_BY_ID,
 } from '../constants'
 
 import {
@@ -8,36 +10,30 @@ import {
 
 const initState = {
   isFetching: false,
-  data: getDataUserFromLocalStoragr(),
+  data: null,
   error: null,
 };
 
+
+
 export default function userData(state = initState, action) {
-
-  if (action.type === GET_USER_BY_ID) {
-    if (action.status === 'SEND') {
-      return {
-        ...state,
-        isFetching: true,
-      }
-    }
-    if (action.status === 'SUCCESS') {
-      return {
-        ...state,
-        data: {
-          ...action.response.data,
-        },
-        isFetching: false,
-      }
-    }
-
-    if (action.status === 'FAIL') {
-      return {
-        ...state,
-        isFetching: false,
-        error: action.message,
-      }
-    }
-  }
+ if (action.type === REQUEST_GET_USER_BY_ID) {
+   return {
+     ...state,
+     isFetching: true,
+   }
+ }
+ if (action.type === SUCCESS_GET_USER_BY_ID) {
+   return {
+     isFetching: false,
+     data: action.response,
+   }
+ }
+ if (action.type === FAIL_GET_USER_BY_ID) {
+   return {
+    isFetching: false,
+    error: response.error,
+   }
+ }
   return state;
 }

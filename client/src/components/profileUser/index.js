@@ -17,27 +17,36 @@ class ProfileUser extends React.Component {
   componentDidMount() {
     const { getUserById, auth, auth: { data } } = this.props;
     if (data && data.userId) {
-      getUserById(data.userId);
+      getUserById('user/?id='+data.userId)
     }
   }
 
   componentWillReceiveProps(nexState) {
     const { getUserById, auth, auth: { data }, userData } = nexState;
-    if (userData && !userData.data && data && data.userId) {
-      getUserById(data.userId);
-    }
+      if (data && data.userId && !userData.data) {
+        getUserById('user/?id='+data.userId);
+      }
+  }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { getUserById, auth, auth: { data }, userData } = prevProps;
+    if (data && this.props.auth.data &&  data.userId !== this.props.auth.data.userId) {
+      getUserById('user/?id='+data.userId);
+    }
   }
 
   render() {
     const {
       userData: { data },
     } = this.props;
-    const userProps = [
-      { name: data.email },
-      { name: data.userName },
-      { name: data.phone },
-    ];
+    let userProps = [];
+    if (data && data._id) {
+      userProps = [
+        { name: data.email },
+        { name: data.userName },
+        { name: data.phone },
+      ];
+    }
 
     return (
       <div className="profile-user">
