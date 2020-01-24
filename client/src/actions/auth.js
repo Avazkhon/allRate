@@ -11,6 +11,10 @@ import {
   REGISTRATION_USER_REQUEST,
   REGISTRATION_USER_SUCCESS,
   REGISTRATION_USER_FAIL,
+
+  REQUEST_LOGIN_AUT,
+  SUCCESS_LOGIN_AUT,
+  FAIL_LOGIN_AUT,
 } from '../constants'
 
 export function authRegistration() {
@@ -34,15 +38,27 @@ export function authoLogin (data) {
   });
 }
 
+
+export function authoLogAut (data) {
+  return dispathc => dispathc({
+    [CALL_API]: {
+      types: [REQUEST_LOGIN_AUT, SUCCESS_LOGIN_AUT, FAIL_LOGIN_AUT],
+      method: 'POST',
+      endpoint: 'auth',
+      data: null,
+    }
+  });
+}
+
 export function createNewUser (data) {
-  // return dispathc => dispathc({
-  //   type: CREATE_NEW_USER,
-  //   meta: {
-  //     method: 'POST',
-  //     endpoint: 'user',
-  //   },
-  //   data,
-  // });
+  return dispathc => dispathc({
+    type: CREATE_NEW_USER,
+    meta: {
+      method: 'POST',
+      endpoint: 'user',
+    },
+    data,
+  });
 }
 
 export function getUserById(url) {

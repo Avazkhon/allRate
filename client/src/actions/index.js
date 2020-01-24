@@ -3,4 +3,5 @@ export {
   authoLogin,
   createNewUser,
   getUserById,
+  authoLogAut,
 } from './auth'

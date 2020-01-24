@@ -15,29 +15,40 @@ class ProfileUser extends React.Component {
   }
 
   componentDidMount() {
-    const { getUserById, auth, auth: { data } } = this.props;
-    if (data && data.userId) {
-      getUserById('user/?id='+data.userId)
+    const { getUserById, auth: { auth } } = this.props;
+    if (auth && auth.userId) {
+      getUserById('user/?id='+auth.userId)
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { getUserById, auth, auth: { data }, userData } = prevProps;
-    if (data && this.props.auth.data &&  data.userId !== this.props.auth.data.userId) {
-      getUserById('user/?id='+data.userId);
+    const { getUserById, auth: { auth } } = prevProps;
+    console.log(this.props.auth.auth);
+    if (
+      (auth && this.props.auth.auth
+      && this.props.auth.auth.userId
+      && auth.userId !== this.props.auth.auth.userId)
+      || ( !auth && this.props.auth.auth.userId)
+    ) {
+      getUserById('user/?id='+this.props.auth.auth.userId);
     }
   }
 
   render() {
     const {
-      userData: { data },
+      auth: { userData },
     } = this.props;
     let userProps = [];
-    if (data && data._id) {
+    if (userData && userData._id) {
+      const {
+        email,
+        userName,
+        phone,
+      } = userData;
       userProps = [
-        { name: data.email },
-        { name: data.userName },
-        { name: data.phone },
+        { name: email },
+        { name: userName },
+        { name: phone },
       ];
     }
 
@@ -86,11 +97,9 @@ ProfileUser.propType = {
 function mapStateToProps(state) {
   const {
     auth,
-    userData
   } = state;
   return {
     auth,
-    userData,
   };
 }
 

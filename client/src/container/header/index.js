@@ -11,6 +11,7 @@ import { isBrowser } from '../../utils';
 
 import {
   authoLogin,
+  authoLogAut,
 } from '../../actions';
 
 const navBar = [
@@ -88,14 +89,17 @@ class Header extends React.Component {
     const {
       data,
     } = this.state;
-    this.props.authoLogin(data)
-    // .then(action => {
-    //   if (action.status === 'SUCCESS') {
-    //     this.handleAuth()
-    //   } else {
-    //     alert(action.message)
-    //   }
-    // });
+    const {
+      auth,
+      authoLogAut,
+      authoLogin,
+    } = this.props;
+    if (auth.auth && auth.auth.userId) {
+      authoLogAut(data);
+    } else {
+      this.setState((prevState) => ({ isAuth: !prevState.isAuth }));
+      authoLogin(data);
+    }
   }
 
   render() {
@@ -107,7 +111,7 @@ class Header extends React.Component {
       isAuth,
     } = this.state;
 
-    const isLogin = auth.data && auth.data.userId;
+    const isLogin = auth.auth && auth.auth.userId;
 
     return (
       <div className="header">
@@ -159,4 +163,5 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   authoLogin,
+  authoLogAut,
 })(Header);
