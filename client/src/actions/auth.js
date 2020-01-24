@@ -15,6 +15,10 @@ import {
   REQUEST_LOGIN_AUT,
   SUCCESS_LOGIN_AUT,
   FAIL_LOGIN_AUT,
+
+  CREATE_NEW_USER_REQUEST,
+  CREATE_NEW_USER_SUCCESS,
+  CREATE_NEW_USER_FAIL,
 } from '../constants'
 
 export function authRegistration() {
@@ -52,12 +56,12 @@ export function authoLogAut (data) {
 
 export function createNewUser (data) {
   return dispathc => dispathc({
-    type: CREATE_NEW_USER,
-    meta: {
+    [CALL_API]: {
+      types: [CREATE_NEW_USER_REQUEST, CREATE_NEW_USER_SUCCESS, CREATE_NEW_USER_FAIL],
       method: 'POST',
       endpoint: 'user',
-    },
-    data,
+      data,
+    }
   });
 }
 

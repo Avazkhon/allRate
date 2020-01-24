@@ -30,7 +30,6 @@ class Header extends React.Component {
         email: '',
         password: ''
       },
-      isCreateNewUser: false,
       isAuth: false,
     }
   }

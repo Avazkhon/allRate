@@ -42,7 +42,7 @@ class PageAuth extends React.Component {
     })
   }
 
-  handleCreateNewUser = (boolean) => {
+  handleCreateNewUser = () => {
     this.setState(prevState => ({ isCreateNewUser: !prevState.isCreateNewUser }));
   }
 
@@ -54,9 +54,7 @@ class PageAuth extends React.Component {
     const {
       data,
     } = this.state;
-    this.props.authoLogin(data).then(action => {
-      console.log('action', action);
-    });
+    this.props.authoLogin(data)
   }
 
   render() {
@@ -70,7 +68,7 @@ class PageAuth extends React.Component {
     } = this.state;
 
     let isRedirectHome;
-    if (auth && auth.data && auth.data.userId) {
+    if (auth && auth.auth && auth.auth.userId) {
       isRedirectHome = true;
     }
 
@@ -78,7 +76,7 @@ class PageAuth extends React.Component {
       <Layout>
         <div className="page-auth">
         {
-          isRedirectHome && <Redirect push to="/" />
+          isRedirectHome && <Redirect push to="/me" />
         }
           <div className="page-auth__connect">
           {
