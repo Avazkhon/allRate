@@ -23,7 +23,6 @@ class ProfileUser extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { getUserById, auth: { auth } } = prevProps;
-    console.log(this.props.auth.auth);
     if (
       (auth && this.props.auth.auth
       && this.props.auth.auth.userId

@@ -44,7 +44,7 @@ export function authoLogAut (data) {
     [CALL_API]: {
       types: [REQUEST_LOGIN_AUT, SUCCESS_LOGIN_AUT, FAIL_LOGIN_AUT],
       method: 'POST',
-      endpoint: 'auth',
+      endpoint: 'auth/?aut=true',
       data: null,
     }
   });
