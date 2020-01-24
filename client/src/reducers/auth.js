@@ -1,6 +1,7 @@
 import {
-  AUTH_REGISTRATION,
-  AUTH_LOGIN,
+  REQUEST_LOGIN,
+  SUCCESS_LOGIN,
+  FAIL_LOGIN,
 } from '../constants'
 
 import {
@@ -14,37 +15,25 @@ const initState = {
 };
 
 export default function auth(state = initState, action) {
-  if (action.type === AUTH_REGISTRATION) {
+
+  if (action.type === REQUEST_LOGIN) {
     return {
       ...state,
-      action
+      isFetching: true,
+    }
+  }
+  if (action.type === SUCCESS_LOGIN) {
+    return {
+      isFetching: false,
+      data: action.response,
+    }
+  }
+  if (action.type === FAIL_LOGIN) {
+    return {
+     isFetching: false,
+     error: action.error,
     }
   }
 
-  if (action.type === AUTH_LOGIN) {
-    if (action.status === 'SEND') {
-      return {
-        ...state,
-        isFetching: true,
-      }
-    }
-    if (action.status === 'SUCCESS') {
-      return {
-        ...state,
-        data: {
-          ...action.response.data,
-        },
-        isFetching: false,
-      }
-    }
-
-    if (action.status === 'FAIL') {
-      return {
-        ...state,
-        isFetching: false,
-        error: action.message,
-      }
-    }
-  }
   return state;
 }

@@ -124,13 +124,13 @@ class CreateNewUser extends Component {
       handleCreateNewUser,
     } = this.props;
     createNewUser(data)
-    .then((action) => {
-      if (action.status === 'SUCCESS') {
-        handleCreateNewUser();
-      } else {
-        alert(action.message)
-      }
-    });
+    // .then((action) => {
+    //   if (action.status === 'SUCCESS') {
+    //     handleCreateNewUser();
+    //   } else {
+    //     alert(action.message)
+    //   }
+    // });
   }
 
   render() {

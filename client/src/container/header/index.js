@@ -88,13 +88,14 @@ class Header extends React.Component {
     const {
       data,
     } = this.state;
-    this.props.authoLogin(data).then(action => {
-      if (action.status === 'SUCCESS') {
-        this.handleAuth()
-      } else {
-        alert(action.message)
-      }
-    });
+    this.props.authoLogin(data)
+    // .then(action => {
+    //   if (action.status === 'SUCCESS') {
+    //     this.handleAuth()
+    //   } else {
+    //     alert(action.message)
+    //   }
+    // });
   }
 
   render() {

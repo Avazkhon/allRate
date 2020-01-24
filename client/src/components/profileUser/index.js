@@ -21,13 +21,6 @@ class ProfileUser extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nexState) {
-    const { getUserById, auth, auth: { data }, userData } = nexState;
-      if (data && data.userId && !userData.data) {
-        getUserById('user/?id='+data.userId);
-      }
-  }
-
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { getUserById, auth, auth: { data }, userData } = prevProps;
     if (data && this.props.auth.data &&  data.userId !== this.props.auth.data.userId) {
