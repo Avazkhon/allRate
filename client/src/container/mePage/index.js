@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 
 import Layout from '../layout';
 
+import ProfileUser from '../../components/profileUser';
+
 import './style.css';
 
-class Home extends React.Component {
+class MePage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -15,15 +17,23 @@ class Home extends React.Component {
   render() {
     return (
       <Layout>
-        <div className="page-auth">
-          Home
+        <div className="me-page">
+          <div className='me-page__container'>
+            <ProfileUser />
+            <div className="sitebar">
+              sitebar
+            </div>
+            <div className="content-user">
+              content-user
+            </div>
+          </div>
         </div>
       </Layout>
     );
   }
 }
 
-Home.propType = {
+MePage.propType = {
   // authRegistration: PropTypes.func,
   // createNewUser: PropTypes.func,
   // authoLogin: PropTypes.func,
@@ -40,4 +50,4 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-})(Home);
+})(MePage);

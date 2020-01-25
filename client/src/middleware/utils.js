@@ -1,5 +1,5 @@
 import {
-  AUTH_LOGIN,
+  // AUTH_LOGIN,
 } from '../constants';
 import {
   isBrowser,
@@ -8,11 +8,11 @@ async function callApi (paramsCall) {
   const {
     method,
     endpoint,
-    query,
+    queryParams,
     data,
   } = paramsCall;
 
-  const url = `http://localhost:8080/${endpoint ? endpoint : ''}/${query ? query : ''}`
+  const url = `http://localhost:8080/${endpoint ? endpoint : ''}/${queryParams ? queryParams : ''}`
   return fetch(url, {
     method,
     headers: {
@@ -40,9 +40,9 @@ function successCallback (response) {
     type
   } = response;
   if (status >= 200 && status <= 299) {
-    if (type === AUTH_LOGIN && body && body.userId) {
-      changeDataUserToLocalStorage(body);
-    }
+    // if (type === AUTH_LOGIN && body && body.userId) {
+    //   changeDataUserToLocalStorage(body);
+    // }
     return {
       status: 'SUCCESS',
       data: body ? body : {}

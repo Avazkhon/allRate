@@ -101,12 +101,13 @@ exports.deleteOne = (req, res) => {
 }
 
 exports.auth = (req, res) => {
-  const { email, password } = req.body;
-  if (req.session.user) {
+  const { aut } = req.query;
+  if (aut) {
     req.session.user = null;
     const data = { message: 'Пользователь успешно вышел из системы!' };
     return res.status(200).json(data);
   }
+  const { email, password } = req.body;
 
   userModels.getOneByUserEmail(email, (err, result) => {
     if (err) {

@@ -14,14 +14,8 @@ exports.userSchema = new Schema(
       month: { type: String, required: true },
       year: { type: String, required: true }
     },
-    allRate: [{ idNote: mongoose.ObjectId }]
+    allRate: [{ idNote: mongoose.ObjectId }],
+    description: String
   },
   { collection: 'Users' }
-);
-
-exports.tokenSchema = new Schema(
-  {
-    token: { type: String },
-  },
-  { collection: 'Token' }
 );

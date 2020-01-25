@@ -1,0 +1,27 @@
+.me-page {
+  margin-top: 20px;
+}
+.me-page__container {
+  width: 800px;
+  margin: auto;
+  display: grid;
+  grid-template-areas: "profile profile"
+                       "sitebar content"
+                       "sitebar content";
+  grid-template-rows: 200px 100%;
+  grid-template-columns: 4fr 8fr;
+}
+
+.profile-user {
+  grid-area: profile;
+}
+
+.sitebar{
+  grid-area: sitebar;
+  border: .5px solid #dcdcdc;
+}
+
+.content-user {
+  grid-area: content;
+  border: .5px solid #dcdcdc;
+}
