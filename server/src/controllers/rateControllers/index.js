@@ -57,7 +57,7 @@ exports.getOneByAuthot = (req, res) => {
     });
   }
   catch(e) {
-    return res.status(500).json({ message: 'Все плохо]!', err});
+    return res.status(500).json({ message: 'Все плохо!', err});
   }
 }
 
@@ -73,6 +73,24 @@ exports.updateOne = (req, res) => {
     });
   }
   catch(e) {
-    return res.status(500).json({ message: 'Все плохо]!', err});
+    return res.status(500).json({ message: 'Все плохо!', err});
+  }
+}
+
+exports.deleteOne = (req, res) => {
+  const { id } = req.query;
+  try {
+    rateModels.deleteOne(id, (err, result) => {
+      if (err) {
+        return res.status(500).json({ message: 'Все плохо!', err});
+      }
+      if (result.deletedCount) {
+        return res.status(200).json({ message: 'Ставка успешна удалина!'});
+      }
+      res.status(400).json({ message: 'Нет ставок с таким id!'});
+    });
+  }
+  catch(e) {
+    return res.status(500).json({ message: 'Все плохо!', err});
   }
 }
