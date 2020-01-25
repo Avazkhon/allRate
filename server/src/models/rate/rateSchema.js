@@ -11,7 +11,7 @@ exports.rateSchema = new Schema(
       name: { type: String, required: true, min: 3, max: 50 },
       description: { type: String, required: true, min: 10, max: 200 },
       leval: { type: Number, default: 1 },
-      startingRatio: { type: Number, min: 0.1, max: 100}
+      startingRatio: { type: Number, min: 0.1, max: 100},
       bidForItem: [{
         userId: mongoose.ObjectId,
         meny: { type: Number, required: true, min: 50, max: 500 },

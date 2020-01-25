@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const rateSchema = require('./rateSchema');
 
-const Rate = mongoose.model('Users', rateSchema.rateSchema);
+const Rate = mongoose.model('Rate', rateSchema.rateSchema);
 
 exports.postAddOne = async (data, callBack) => {
   const note = new Rate(data);

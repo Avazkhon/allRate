@@ -7,6 +7,8 @@ const cookieParser = require('cookie-parser');
 
 const db = require('./db');
 
+
+const rateControllers = require('./controllers/rateControllers');
 const userControllers = require('./controllers/user');
 const passwords = require('../password');
 
@@ -45,6 +47,10 @@ app.route('/user')
   .post(userControllers.postAddOne)
   .put(userControllers.updateOne)
   .delete(userControllers.deleteOne);
+
+
+app.route('/rate')
+.post(rateControllers.postAddOne);
 
 db.connect((err) => {
   if (err) {
