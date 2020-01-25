@@ -22,10 +22,6 @@ exports.getOneByAuthot = (author, callBack) => {
   Rate.find({ author }, callBack);
 }
 
-exports.getOneByTitle = (title, callBack) => {
-  Rate.find({ title }, callBack);
-}
-
 exports.updateOne = (id, data, callBack) => {
   Rate.findByIdAndUpdate({_id: id}, data, callBack);
 }

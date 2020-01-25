@@ -60,3 +60,19 @@ exports.getOneByAuthot = (req, res) => {
     return res.status(500).json({ message: 'Все плохо]!', err});
   }
 }
+
+exports.updateOne = (req, res) => {
+  const { id } = req.query;
+  const { body } = req;
+  try {
+    rateModels.updateOne(id, body, (err, result) => {
+      if (err) {
+        return res.status(500).json({ message: 'Все плохо!', err});
+      }
+      res.status(200).json(result);
+    });
+  }
+  catch(e) {
+    return res.status(500).json({ message: 'Все плохо]!', err});
+  }
+}
