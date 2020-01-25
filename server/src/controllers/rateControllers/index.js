@@ -30,3 +30,18 @@ exports.getAll = (req, res) => {
   }
 
 }
+
+exports.getOneById = (req, res) => {
+  const { id } = req.query;
+  try {
+    rateModels.getOneById(id, (err, result) => {
+      if (err) {
+        return res.status(500).json({ message: 'Все плохо]!', err});
+      }
+      res.status(200).json(result);
+    });
+  }
+  catch(e) {
+    return res.status(500).json({ message: 'Все плохо]!', err});
+  }
+}
