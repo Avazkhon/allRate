@@ -6,7 +6,7 @@ exports.rateSchema = new Schema(
     title: { type: String, required: true, min: 3, max: 50 },
     description: { type: String, required: true, min: 10, max: 500 },
     time: { type: Date, required: true },
-    authot: mongoose.ObjectId,
+    author: mongoose.ObjectId,
     rate: [{
       name: { type: String, required: true, min: 3, max: 50 },
       description: { type: String, required: true, min: 10, max: 200 },

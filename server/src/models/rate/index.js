@@ -18,8 +18,8 @@ exports.getOneById = (id, callBack) => {
   Rate.findOne({_id: id}, callBack);
 }
 
-exports.getOneByAuthot = (authot, callBack) => {
-  Rate.find({ authot }, callBack);
+exports.getOneByAuthot = (author, callBack) => {
+  Rate.find({ author }, callBack);
 }
 
 exports.getOneByTitle = (title, callBack) => {

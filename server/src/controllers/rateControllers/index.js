@@ -12,7 +12,7 @@ exports.postAddOne = (req, res) => {
       }
     )
   } else {
-    res.status(400).json({ message: 'Все плохо]!'});
+    res.status(400).json({ message: 'Все плохо!'});
   }
 }
 
@@ -20,13 +20,13 @@ exports.getAll = (req, res) => {
   try {
     rateModels.all((err, result) => {
       if (err) {
-        return res.status(500).json({ message: 'Все плохо]!', err});
+        return res.status(500).json({ message: 'Все плохо!', err});
       }
       res.status(200).json(result);
     })
   }
   catch (err) {
-    return res.status(500).json({ message: 'Все плохо]!', err});
+    return res.status(500).json({ message: 'Все плохо!', err});
   }
 
 }
@@ -36,7 +36,22 @@ exports.getOneById = (req, res) => {
   try {
     rateModels.getOneById(id, (err, result) => {
       if (err) {
-        return res.status(500).json({ message: 'Все плохо]!', err});
+        return res.status(500).json({ message: 'Все плохо!', err});
+      }
+      res.status(200).json(result);
+    });
+  }
+  catch(e) {
+    return res.status(500).json({ message: 'Все плохо!', err});
+  }
+}
+
+exports.getOneByAuthot = (req, res) => {
+  const { author } = req.query;
+  try {
+    rateModels.getOneByAuthot(author, (err, result) => {
+      if (err) {
+        return res.status(500).json({ message: 'Все плохо!', err});
       }
       res.status(200).json(result);
     });
