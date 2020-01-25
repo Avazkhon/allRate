@@ -5,9 +5,9 @@ const rateSchema = require('./rateSchema');
 
 const Rate = mongoose.model('Users', rateSchema.rateSchema);
 
-exports.postAddOne = (data, callBack) => {
+exports.postAddOne = async (data, callBack) => {
   const note = new Rate(data);
-  note.save(callBack);
+  await note.save(callBack);
 }
 
 exports.all = (callBack) => {
