@@ -50,6 +50,7 @@ app.route('/user')
 
 
 app.route('/rate')
+.get(rateControllers.getAll)
 .post(rateControllers.postAddOne);
 
 db.connect((err) => {
