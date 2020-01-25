@@ -50,7 +50,7 @@ app.route('/user')
 
 
 app.route('/rate')
-.get(rateControllers.getOneByAuthot)
+.get(rateControllers.getRate)
 .post(rateControllers.postAddOne)
 .put(rateControllers.updateOne)
 .delete(rateControllers.deleteOne);
