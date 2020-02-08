@@ -12,8 +12,15 @@
 }
 
 .create-rate_content {
-  width: 400px;
+  width: 263px;
   margin: 20px auto;
+}
+
+.creat-pain-props {
+  width: 263px;
+  margin: 20px auto 0;
+  padding-bottom: 20px;
+  border-bottom: 1px solid black;
 }
 
 .create-rate_input {
@@ -54,6 +61,6 @@
 }
 
 .create-rate_add-rate-title {
-  width: 240px;
+  width: 225px;
   float: left;
 }

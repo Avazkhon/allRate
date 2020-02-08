@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import './createNewRate.css';
 import CreateRateItems from './CreateRateItems';
+import CreateMainProps from './CreateMainProps';
 
 // const optionsSade = [
 //   {
@@ -105,25 +106,12 @@ class CreateNewRate extends Component {
       >
         <form className="create-rate_form">
           <div className="create-rate_title" >Создание ставки</div>
-
+          <CreateMainProps
+            titl={title}
+            description={description}
+            handleChange={this.handleChange}
+          />
           <div className="create-rate_content">
-              <input
-                value={title}
-                onChange={this.handleChange}
-                placeholder="Ввидите заголовок"
-                className="create-rate_input"
-                type="text"
-                name="title"
-              >
-              </input>
-              <textarea
-                value={description}
-                onChange={this.handleChange}
-                placeholder="Ввидите описание"
-                className="create-rate_textarea"
-                name="description"
-              >
-              </textarea>
               <div>
 
                 <CreateRateItems
