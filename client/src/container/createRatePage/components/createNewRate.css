@@ -1,0 +1,59 @@
+.create-rate {
+  height: 100%;
+}
+
+.create-rate_form {
+  min-width: 800px;
+}
+
+.create-rate_title {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.create-rate_content {
+  width: 400px;
+  margin: 20px auto;
+}
+
+.create-rate_input {
+  margin-top: 10px;
+  width: 250px;
+  padding-left: 10px;
+  height: 30px;
+  border: 0.5px solid;
+}
+
+.create-rate_select{
+  margin-top: 10px;
+  width: 250px;
+}
+
+.create-rate_textarea {
+  margin-top: 10px;
+  width: 250px;
+  padding-left: 10px;
+  padding-top: 10px;
+  height: 30px;
+  border: 0.5px solid;
+}
+
+.create-rate_item {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* .create-rate_item {
+} */
+
+.create-rate_add-rate-item {
+  /* margin-top: 10px; */
+  /* width: 50px; */
+  /* height: 30px; */
+}
+
+.create-rate_add-rate-title {
+  width: 240px;
+  float: left;
+}

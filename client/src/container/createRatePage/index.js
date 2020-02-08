@@ -5,6 +5,8 @@ import { Redirect } from 'react-router';
 
 import Layout from '../layout';
 
+import CreateNewRate from './components/CreateNewRate';
+
 // import {
 //   authRegistration,
 //   authoLogin,
@@ -28,7 +30,7 @@ class CreateRatePAge extends React.Component {
     return (
       <Layout>
         <div className="create-rate">
-          CreateRatePAge
+          <CreateNewRate />
         </div>
       </Layout>
     );
