@@ -20,6 +20,12 @@ import CreateMainProps from './CreateMainProps';
 //   }
 // ];
 
+const partyInit = (id) => ({
+  id,
+  participator: '',
+  description: '',
+});
+
 class CreateNewRate extends Component {
   constructor(props) {
 		super(props);
@@ -27,21 +33,12 @@ class CreateNewRate extends Component {
       data: {
         title: '',
         description: '',
-        rates: [
+        party: [
           {
             id: 1,
-            reasonForBid: 'victory',
-            label: 'На попебеду',
-            side: '',
+            participator: '',
             description: '',
           },
-          {
-            id: 2,
-            reasonForBid: 'losing',
-            label: 'На проигрешь',
-            side: '',
-            description: '',
-          }
         ],
       }
 		}
@@ -71,11 +68,11 @@ class CreateNewRate extends Component {
     const value = e.target.value;
     const {
       data: {
-        rates
+        party
       },
       data,
     } = this.state;
-    const newsRates = rates.map((rate) => {
+    const newsparty = party.map((rate) => {
       if (rate.id === Number(id)) {
         rate[name] = value;
         rate.label = label;
@@ -86,7 +83,20 @@ class CreateNewRate extends Component {
     this.setState({
       data: {
         ...data,
-        rates: newsRates,
+        party: newsparty,
+      }
+    })
+  }
+
+  handleAddParty = () => {
+    const { data } = this.state;
+    this.setState({
+      data: {
+        ...data,
+        party: [
+          ...data.party,
+          partyInit(data.party.length + 1)
+        ]
       }
     })
   }
@@ -96,7 +106,7 @@ class CreateNewRate extends Component {
       data: {
         title,
         description,
-        rates,
+        party,
       }
     } = this.state
 
@@ -115,7 +125,7 @@ class CreateNewRate extends Component {
               <div>
 
                 <CreateRateItems
-                  rates={rates}
+                  party={party}
                   handleChangeRate={this.handleChangeRate}
                 />
 
@@ -125,6 +135,7 @@ class CreateNewRate extends Component {
                   title="Добавить ставку"
                   className="create-rate_add-rate-item"
                   type="button"
+                  onClick={this.handleAddParty}
                   value="+"
                 >
                 </input>

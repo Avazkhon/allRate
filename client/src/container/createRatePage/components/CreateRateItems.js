@@ -2,30 +2,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const  CreateRateItems = ({
-  rates,
+  party,
   handleChangeRate,
 }) => (
   <div>
     <ul className="create-rate_item">
-      {rates.map((rate) => (
-          <li key={rate.id}className="create-rate_items">
+      {party.map((itm) => (
+          <li key={itm.id}className="create-rate_items">
           <input
-            value={rate.side}
+            value={itm.participator}
             onChange={handleChangeRate}
             placeholder="Ввидите сторону участника"
             className="create-rate_input"
             type="text"
-            name="side"
-            data-id={rate.id}
+            name="participator"
+            data-id={itm.id}
           >
           </input>
           <textarea
-            value={rate.description}
+            value={itm.description}
             onChange={handleChangeRate}
             placeholder="Ввидите описание"
             className="create-rate_textarea"
             name="description"
-            data-id={rate.id}
+            data-id={itm.id}
           >
           </textarea>
           </li>
@@ -34,7 +34,7 @@ const  CreateRateItems = ({
   </div>
 )
 CreateRateItems.propType = {
-  rates: PropTypes.shape({}),
+  party: PropTypes.shape({}),
   handleChangeRate: PropTypes.func,
 }
 
