@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router'
 
 import './createNewRate.css';
 import CreateRateItems from './CreateRateItems';
@@ -25,7 +26,8 @@ class CreateNewRate extends Component {
             description: '',
           },
         ],
-      }
+      },
+      isRedirectToMe: false,
 		}
 	}
 
@@ -90,9 +92,14 @@ class CreateNewRate extends Component {
     const { data } = this.state;
     const { creteNewRate } = this.props;
     if (typeof creteNewRate === "function") {
-      creteNewRate(data)
+      creteNewRate(data).then((action) => {
+        if (action.response && action.response.result) {
+          this.setState({ isRedirectToMe: true })
+        } else {
+          console.log(action.error);
+        }
+      })
     }
-    // console.log(data);
   }
 
   render() {
@@ -101,8 +108,12 @@ class CreateNewRate extends Component {
         title,
         description,
         party,
-      }
+      },
+      isRedirectToMe,
     } = this.state
+    if (isRedirectToMe) {
+      return <Redirect to="/me" />
+    }
 
     return(
       <div

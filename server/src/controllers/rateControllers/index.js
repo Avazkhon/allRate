@@ -28,7 +28,7 @@ exports.postAddOne = (req, res) => {
         if (err) {
           return res.status(500).json(err);
         }
-        res.status(201).json({ message: 'Все хорошо!', rateId: result._id});
+        res.status(201).json({ message: 'Все хорошо!', result});
       }
     )
   } else {
