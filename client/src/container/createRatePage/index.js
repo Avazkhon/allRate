@@ -7,30 +7,33 @@ import Layout from '../layout';
 
 import CreateNewRate from './components/CreateNewRate';
 
-// import {
-//   authRegistration,
-//   authoLogin,
-//   createNewUser,
-// } from '../../actions'
+import {
+  creteNewRate,
+} from '../../actions'
 
 import './style.css';
 
 class CreateRatePAge extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    }
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //   }
+  // }
 
   // componentDidMount() {
   // }
 
 
   render() {
+    const {
+      creteNewRate,
+    } = this.props;
     return (
       <Layout>
         <div className="create-rate">
-          <CreateNewRate />
+          <CreateNewRate
+            creteNewRate={creteNewRate}
+          />
         </div>
       </Layout>
     );
@@ -38,6 +41,7 @@ class CreateRatePAge extends React.Component {
 }
 
 CreateRatePAge.propType = {
+  creteNewRate: PropTypes.func,
 }
 
 function mapStateToProps(state) {
@@ -50,4 +54,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
+  creteNewRate,
 })(CreateRatePAge);

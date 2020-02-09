@@ -5,21 +5,6 @@ import './createNewRate.css';
 import CreateRateItems from './CreateRateItems';
 import CreateMainProps from './CreateMainProps';
 
-// const optionsSade = [
-//   {
-//     value: 'victory',
-//     label: 'На попебеду'
-//   },
-//   {
-//     value: 'losing',
-//     label: 'На проигрешь'
-//   },
-//   {
-//     value: 'niemand',
-//     label: 'На ничью'
-//   }
-// ];
-
 const partyInit = (id) => ({
   id,
   participator: '',
@@ -103,7 +88,11 @@ class CreateNewRate extends Component {
 
   handleSubmit = () => {
     const { data } = this.state;
-    console.log(data);
+    const { creteNewRate } = this.props;
+    if (typeof creteNewRate === "function") {
+      creteNewRate(data)
+    }
+    // console.log(data);
   }
 
   render() {
@@ -163,6 +152,7 @@ class CreateNewRate extends Component {
 }
 
 CreateNewRate.propType = {
+  creteNewRate: PropTypes.func,
 }
 
 export default CreateNewRate;

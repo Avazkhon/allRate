@@ -4,4 +4,8 @@ export {
   createNewUser,
   getUserById,
   authoLogAut,
-} from './auth'
+} from './auth';
+
+export {
+  creteNewRate,
+} from './createRate';
