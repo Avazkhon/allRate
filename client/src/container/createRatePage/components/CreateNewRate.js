@@ -101,6 +101,11 @@ class CreateNewRate extends Component {
     })
   }
 
+  handleSubmit = () => {
+    const { data } = this.state;
+    console.log(data);
+  }
+
   render() {
     const {
       data: {
@@ -115,31 +120,41 @@ class CreateNewRate extends Component {
         className="create-rate"
       >
         <form className="create-rate_form">
-          <div className="create-rate_title" >Создание ставки</div>
-          <CreateMainProps
-            titl={title}
-            description={description}
-            handleChange={this.handleChange}
-          />
-          <div className="create-rate_content">
-              <div>
+          <div className="create-rate_wrapper">
+            <div className="create-rate_title" >Создание ставки</div>
+            <CreateMainProps
+              titl={title}
+              description={description}
+              handleChange={this.handleChange}
+            />
+            <div className="create-rate_content">
+                <div>
 
-                <CreateRateItems
-                  party={party}
-                  handleChangeRate={this.handleChangeRate}
-                />
+                  <CreateRateItems
+                    party={party}
+                    handleChangeRate={this.handleChangeRate}
+                  />
 
-                <div className="create-rate_add-rate-title">Добавить ставку</div>
-                <input
-                  onChange={this.handleChange}
-                  title="Добавить ставку"
-                  className="create-rate_add-rate-item"
-                  type="button"
-                  onClick={this.handleAddParty}
-                  value="+"
-                >
-                </input>
-              </div>
+                  <div className="create-rate_add-rate-title">Добавить ставку</div>
+                  <input
+                    onChange={this.handleChange}
+                    title="Добавить ставку"
+                    className="create-rate_add-rate-item"
+                    type="button"
+                    onClick={this.handleAddParty}
+                    value="+"
+                  >
+                  </input>
+                </div>
+            </div>
+            <div className="create-rate_btn-group">
+              <input
+                className="create-rate_btn"
+                type="button"
+                value="Создать"
+                onClick={this.handleSubmit}
+              />
+            </div>
           </div>
         </form>
       </div>

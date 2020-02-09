@@ -2,6 +2,11 @@
   height: 100%;
 }
 
+.create-rate_wrapper {
+  margin: 0 auto;
+  width: 263px;
+}
+
 .create-rate_form {
   min-width: 800px;
 }
@@ -12,12 +17,10 @@
 }
 
 .create-rate_content {
-  width: 263px;
   margin: 20px auto;
 }
 
 .creat-pain-props {
-  width: 263px;
   margin: 20px auto 0;
   padding-bottom: 20px;
   border-bottom: 1px solid black;
@@ -63,4 +66,14 @@
 .create-rate_add-rate-title {
   width: 225px;
   float: left;
+}
+
+.create-rate_btn-group {
+  width: 250px;
+}
+
+.create-rate_btn {
+  min-width: 100px;
+  border-radius: 5px;
+  cursor: pointer;
 }
