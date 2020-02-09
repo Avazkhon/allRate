@@ -6,7 +6,7 @@ import {
 } from '../constants';
 
 export function creteNewRate (data) {
-  const fullDtat = { ...data, localTime: new Date()}
+  const fullDtat = { ...data, localTime: new Date() }
   return dispatch => dispatch({
     [CALL_API]: {
       types: [  CREATE_NEW_RATE_REQUEST, CREATE_NEW_RATE_SUCCESS, CREATE_NEW_RATE_FAIL],

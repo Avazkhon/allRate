@@ -14,8 +14,15 @@ exports.getRate = (req, res) => {
 }
 
 exports.postAddOne = (req, res) => {
-  const { body } = req;
+  const { user } = req.session;
+  if (!user) {
+    return res.status(401).json({ message: 'Пользователь не авторизован!'});
+  };
+  let { body } = req;
+  const { userData } = req;
+
   if (body) {
+    body = { ...body, author: user.id,}
     rateModels.postAddOne(body,
       (err, result) => {
         if (err) {
