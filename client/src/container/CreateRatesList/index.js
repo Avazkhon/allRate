@@ -22,8 +22,24 @@ class MePage extends React.Component {
   }
 
   render() {
+    const { rate: { ratesData } } = this.props;
+    console.log(ratesData);
     return (
       <Layout>
+        <div>
+          <div>Список вами созданных ставок</div>
+          <ul>
+            {
+              ratesData && ratesData.map((rate) => (
+                <li key={rate._id}>
+                  <div>{rate.title}</div>
+                  <div>{rate.descriptions}</div>
+                  <div>{rate.localTime}</div>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
       </Layout>
     );
   }
