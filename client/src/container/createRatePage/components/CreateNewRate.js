@@ -26,6 +26,8 @@ class CreateNewRate extends Component {
             description: '',
           },
         ],
+        dateStart: new Date(),
+        dateFinish: new Date(),
       },
       isRedirectToMe: false,
 		}
@@ -88,6 +90,15 @@ class CreateNewRate extends Component {
     })
   }
 
+  handleChangeDateStart = (res) => {
+    this.setState((prevState) => ({
+      data: {
+        ...prevState.data,
+        dateStart: res,
+      }
+    }))
+  }
+
   handleSubmit = () => {
     const { data } = this.state;
     const { creteNewRate } = this.props;
@@ -108,9 +119,11 @@ class CreateNewRate extends Component {
         title,
         description,
         party,
+        dateStart
       },
       isRedirectToMe,
     } = this.state
+
     if (isRedirectToMe) {
       return <Redirect to="/me" />
     }
@@ -126,6 +139,8 @@ class CreateNewRate extends Component {
               titl={title}
               description={description}
               handleChange={this.handleChange}
+              dateStart={dateStart}
+              handleChangeDateStart={this.handleChangeDateStart}
             />
             <div className="create-rate_content">
                 <div>

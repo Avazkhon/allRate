@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import CreateFlatpickr from '../../../components/CreateFlatpickr';
+
 const  CreateMainProps = ({
   title,
   description,
-  handleChange
+  handleChange,
+  dateStart,
+  handleChangeDateStart
 }) => (
   <div className="creat-pain-props">
     <input
@@ -24,6 +28,11 @@ const  CreateMainProps = ({
       name="description"
     >
     </textarea>
+
+    <CreateFlatpickr
+      date={dateStart}
+      onChange={handleChangeDateStart}
+    />
   </div>
 )
 CreateMainProps.propType = {
