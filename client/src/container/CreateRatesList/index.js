@@ -39,9 +39,26 @@ class CreateRatesList extends React.Component {
                       <span>{rate.title}</span>
                     </div>
                     <div className="create-rates-item__content">
-                      <span className="create-rates-item_content-title">Описание</span>
-                      <div className="create-rates-item_content_content">
-                        <span className="create-rates-item_content_text">{rate.description}</span>
+                      <div>
+                        <span className="create-rates-item_content-title">Описание</span>
+                        <div className="create-rates-item_content_content">
+                          <span className="create-rates-item_content_text">{rate.description}</span>
+                        </div>
+                      </div>
+                      <div className="party">
+                        <div className="party_title"><span>Список сторон</span></div>
+                        <ul className="party__list">
+                          {
+                            rate.party && rate.party.map((itm) => (
+                              <li
+                                key={itm._id}
+                                className="party_itm"
+                              >
+                                {itm.participator}
+                              </li>
+                            ))
+                          }
+                        </ul>
                       </div>
                     </div>
                     <div className="create-rates-item_footer">

@@ -1,3 +1,6 @@
+ul li {
+  list-style-type: none;
+}
 .create-rates-list {
   width: 100%;
 }
@@ -24,7 +27,6 @@
 }
 
 .create-rates-item_rate {
-  list-style-type: none;
   border: 1px solid black;
   margin-top: 10px;
   padding: 5px;
@@ -40,7 +42,21 @@
   padding-left: 5px;
 }
 
-.create-rates-item_footer{
+.create-rates-item_footer {
+  padding-top: 5px;
   border-top: 0.5px solid;
   font-size: 12px;
+}
+
+.party {
+
+}
+
+.party__list {
+  margin-left: 5px;
+  border-top: 0.5px solid #b6becc;
+}
+
+.party-list_itm {
+
 }
