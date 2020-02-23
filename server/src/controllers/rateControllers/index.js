@@ -2,8 +2,8 @@ const rateModels = require('../../models/rate');
 const getRate = require('./getRate').getRate
 
 exports.getRate = (req, res) => {
-  const { id, userName, all } = req.query;
-  const params = (id && {id}) || (userName && {userName}) || (all === 'true' && {all});
+  const { id, userId, all } = req.query;
+  const params = (id && {id}) || (userId && {userId}) || (all === 'true' && {all});
   try {
     return getRate(params, res);
   }

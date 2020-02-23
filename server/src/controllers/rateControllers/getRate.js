@@ -15,8 +15,8 @@ const handlier = (err, result, res) => {
 exports.getRate = (params, res) => {
   if (params.id) {
     rateModels.getOneById(params.id, (err, result) => handlier(err, result, res))
-  } else if (params.author) {
-    rateModels.getOneByAuthot(params.author, (err, result) => handlier(err, result, res))
+  } else if (params.userId) {
+    rateModels.getOneByAuthot(params.userId, (err, result) => handlier(err, result, res))
   } else {
     rateModels.all((err, result) => handlier(err, result, res))
   }

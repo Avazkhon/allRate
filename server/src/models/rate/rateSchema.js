@@ -11,7 +11,7 @@ exports.rateSchema = new Schema(
     dateStart: { type: Date, required: true },
     dateFinish: { type: Date, required: true },
     reasonsForBetting: [{
-      title: { type: String, required: true, min: 3, max: 50, unique: true },
+      title: { type: String, required: true, min: 3, max: 50 },
       id: { type: String, required: true },
       statusFictory: { type: Boolean, default: false }
     }],
