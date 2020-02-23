@@ -15,24 +15,28 @@ class ProfileUser extends React.Component {
   }
 
   componentDidMount() {
-    const { getUserById, auth } = this.props;
-    if (auth& auth.auth && auth && auth.userId) {
+    const { getUserById } = this.props;
+    let { auth } = this.props;
+    auth = auth && auth.auth || null;
+    if (auth && auth.userId) {
       getUserById('user/?id='+auth.userId)
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { getUserById, auth } = prevProps;
+    const { getUserById } = prevProps;
+    let { auth } = prevProps;
+    let { auth: userId } = this.props;
+
+    userId = userId && userId.auth && userId.auth.userId
+    auth = auth && auth.auth || null;
     if (
-      (
-        auth && auth.auth
-        && auth && this.props.auth.auth
-        && this.props.auth.auth.userId
-        && auth.userId !== this.props.auth.auth.userId
-      )
-      || ( !auth && this.props.auth.auth.userId)
+      (auth && userId
+      && userId
+      && auth.userId !== userId)
+      || (!auth && userId)
     ) {
-      getUserById('user/?id='+this.props.auth.auth.userId);
+      getUserById('user/?id='+userId);
     }
   }
 
