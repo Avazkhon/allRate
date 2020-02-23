@@ -99,6 +99,15 @@ class CreateNewRate extends Component {
     }))
   }
 
+  handleChangeDateFinish = (res) => {
+    this.setState((prevState) => ({
+      data: {
+        ...prevState.data,
+        dateFinish: res,
+      }
+    }))
+  }
+
   handleSubmit = () => {
     const { data } = this.state;
     const { creteNewRate } = this.props;
@@ -119,7 +128,8 @@ class CreateNewRate extends Component {
         title,
         description,
         party,
-        dateStart
+        dateStart,
+        dateFinish,
       },
       isRedirectToMe,
     } = this.state
@@ -141,6 +151,8 @@ class CreateNewRate extends Component {
               handleChange={this.handleChange}
               dateStart={dateStart}
               handleChangeDateStart={this.handleChangeDateStart}
+              dateFinish={dateFinish}
+              handleChangeDateFinish={this.handleChangeDateFinish}
             />
             <div className="create-rate_content">
                 <div>

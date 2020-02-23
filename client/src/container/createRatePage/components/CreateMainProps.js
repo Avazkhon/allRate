@@ -8,7 +8,9 @@ const  CreateMainProps = ({
   description,
   handleChange,
   dateStart,
-  handleChangeDateStart
+  handleChangeDateStart,
+  dateFinish,
+  handleChangeDateFinish,
 }) => (
   <div className="creat-pain-props">
     <input
@@ -29,16 +31,31 @@ const  CreateMainProps = ({
     >
     </textarea>
 
-    <CreateFlatpickr
-      date={dateStart}
-      onChange={handleChangeDateStart}
-    />
+    <div>
+      <div>Начало ставок</div>
+      <CreateFlatpickr
+        date={dateStart}
+        onChange={handleChangeDateStart}
+      />
+    </div>
+
+    <div>
+      <div>Конец ставок</div>
+      <CreateFlatpickr
+        date={dateFinish}
+        onChange={handleChangeDateFinish}
+      />
+    </div>
   </div>
 )
 CreateMainProps.propType = {
   title: PropTypes.string,
   description: PropTypes.string,
+  dateStart: PropTypes.string,
+  dateFinish: PropTypes.string,
   handleChange: PropTypes.func,
+  handleChangeDateStart: PropTypes.func,
+  handleChangeDateFinish: PropTypes.func,
 }
 
 export default CreateMainProps;
