@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
 
 import './style.css';
 import Layout from '../layout';
@@ -35,36 +36,38 @@ class CreateRatesList extends React.Component {
                     key={rate._id}
                     className="create-rates-item_rate"
                   >
-                    <div className="create-rates-item_header">
-                      <span>{rate.title}</span>
-                    </div>
-                    <div className="create-rates-item__content">
-                      <div>
-                        <span className="create-rates-item_content-title">Описание</span>
-                        <div className="create-rates-item_content_content">
-                          <span className="create-rates-item_content_text">{rate.description}</span>
+                    <Link to={`card-rate?id=${rate._id}`}>
+                      <div className="create-rates-item_header">
+                        <span>{rate.title}</span>
+                      </div>
+                      <div className="create-rates-item__content">
+                        <div>
+                          <span className="create-rates-item_content-title">Описание</span>
+                          <div className="create-rates-item_content_content">
+                            <span className="create-rates-item_content_text">{rate.description}</span>
+                          </div>
+                        </div>
+                        <div className="party">
+                          <div className="party_title"><span>Список сторон</span></div>
+                          <ul className="party__list">
+                            {
+                              rate.party && rate.party.map((itm) => (
+                                <li
+                                  key={itm._id}
+                                  className="party__list_itm"
+                                >
+                                  {itm.participator}
+                                </li>
+                              ))
+                            }
+                          </ul>
                         </div>
                       </div>
-                      <div className="party">
-                        <div className="party_title"><span>Список сторон</span></div>
-                        <ul className="party__list">
-                          {
-                            rate.party && rate.party.map((itm) => (
-                              <li
-                                key={itm._id}
-                                className="party__list_itm"
-                              >
-                                {itm.participator}
-                              </li>
-                            ))
-                          }
-                        </ul>
+                      <div className="create-rates-item_footer">
+                        <span>Дата создание</span>
+                        <div><span>{rate.localTime}</span></div>
                       </div>
-                    </div>
-                    <div className="create-rates-item_footer">
-                      <span>Дата создание</span>
-                      <div><span>{rate.localTime}</span></div>
-                    </div>
+                    </Link>
                   </li>
                 ))
               }
