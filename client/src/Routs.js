@@ -15,7 +15,7 @@ const Routs = () => (
     <Route path="/me" component={MePage} />
     <Route path="/create-rate" component={createRatePage} />
     <Route path="/create-rates-list" component={CreateRatesList} />
-    <Route path="/card-rate" component={CardRate} />
+    <Route path="/card-rate/:id" component={CardRate} />
   </Switch>
 );
 

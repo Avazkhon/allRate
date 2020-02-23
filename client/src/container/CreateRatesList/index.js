@@ -36,7 +36,7 @@ class CreateRatesList extends React.Component {
                     key={rate._id}
                     className="create-rates-item_rate"
                   >
-                    <Link to={`card-rate?id=${rate._id}`}>
+                    <Link to={`card-rate/${rate._id}`}>
                       <div className="create-rates-item_header">
                         <span>{rate.title}</span>
                       </div>

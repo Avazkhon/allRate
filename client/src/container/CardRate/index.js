@@ -10,6 +10,11 @@ class CardRate extends Component {
     super(props);
   }
 
+  componentDidMount () {
+    const { id } = this.props.match.params;
+    console.log(id);
+  }
+
   render() {
     return (
       <Layout>
