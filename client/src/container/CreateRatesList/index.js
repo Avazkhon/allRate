@@ -52,7 +52,7 @@ class CreateRatesList extends React.Component {
                             rate.party && rate.party.map((itm) => (
                               <li
                                 key={itm._id}
-                                className="party_itm"
+                                className="party__list_itm"
                               >
                                 {itm.participator}
                               </li>

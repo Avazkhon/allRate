@@ -53,10 +53,9 @@ ul li {
 }
 
 .party__list {
-  margin-left: 5px;
-  border-top: 0.5px solid #b6becc;
 }
 
-.party-list_itm {
-
+.party__list_itm {
+  margin-left: 5px;
+  border-top: 0.5px solid #b6becc;
 }
