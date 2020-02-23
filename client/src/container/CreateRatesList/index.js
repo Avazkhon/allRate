@@ -10,7 +10,7 @@ import {
 } from '../../actions';
 
 
-class MePage extends React.Component {
+class CreateRatesList extends React.Component {
   constructor(props) {
     super(props);
 
@@ -23,29 +23,43 @@ class MePage extends React.Component {
 
   render() {
     const { rate: { ratesData } } = this.props;
-    console.log(ratesData);
     return (
       <Layout>
-        <div>
-          <div>Список вами созданных ставок</div>
-          <ul>
-            {
-              ratesData && ratesData.map((rate) => (
-                <li key={rate._id}>
-                  <div>{rate.title}</div>
-                  <div>{rate.descriptions}</div>
-                  <div>{rate.localTime}</div>
-                </li>
-              ))
-            }
-          </ul>
+        <div className="create-rates-list">
+          <div className="create-rates-list__container">
+            <div className="create-rates-list_title">Список вами созданных ставок</div>
+            <ul className="create-rates-list_rates">
+              {
+                ratesData && ratesData.map((rate) => (
+                  <li
+                    key={rate._id}
+                    className="create-rates-item_rate"
+                  >
+                    <div className="create-rates-item_header">
+                      <span>{rate.title}</span>
+                    </div>
+                    <div className="create-rates-item__content">
+                      <span className="create-rates-item_content-title">Описание</span>
+                      <div className="create-rates-item_content_content">
+                        <span className="create-rates-item_content_text">{rate.description}</span>
+                      </div>
+                    </div>
+                    <div className="create-rates-item_footer">
+                      <span>Дата создание</span>
+                      <div><span>{rate.localTime}</span></div>
+                    </div>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
         </div>
       </Layout>
     );
   }
 }
 
-MePage.propType = {
+CreateRatesList.propType = {
   // authRegistration: PropTypes.func,
 }
 
@@ -62,4 +76,4 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   getRates,
-})(MePage);
+})(CreateRatesList);
