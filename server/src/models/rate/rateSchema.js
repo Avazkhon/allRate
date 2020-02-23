@@ -8,6 +8,8 @@ exports.rateSchema = new Schema(
     serverTime: { type: Date, default: new Date() },
     localTime: { type: Date, required: true },
     author: { type: mongoose.ObjectId, required: true },
+    dateStart: { type: Date, required: true },
+    dateFinish: { type: Date, required: true },
     reasonsForBetting: [{
       title: { type: String, required: true, min: 3, max: 50, unique: true },
       id: { type: String, required: true },
