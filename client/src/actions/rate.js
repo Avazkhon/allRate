@@ -3,6 +3,10 @@ import {
   CREATE_NEW_RATE_REQUEST,
   CREATE_NEW_RATE_SUCCESS,
   CREATE_NEW_RATE_FAIL,
+
+  GET_RATES_REQUEST,
+  GET_RATES_SUCCESS,
+  GET_RATES_FAIL,
 } from '../constants';
 
 export function creteNewRate (data) {
@@ -13,6 +17,16 @@ export function creteNewRate (data) {
       method: "POST",
       endpoint: "rate",
       data: fullDtat,
+    }
+  })
+}
+
+export function getRates (userId) {
+  return dispatch => dispatch({
+    [CALL_API]: {
+      types: [GET_RATES_REQUEST, GET_RATES_SUCCESS, GET_RATES_FAIL],
+      method: "GET",
+      endpoint: `rate?userId=${userId}`,
     }
   })
 }

@@ -6,6 +6,7 @@ import Home from './container/homePage';
 import PageAuth from './container/PageAuth';
 import MePage from './container/mePage';
 import createRatePage from './container/createRatePage';
+import CreateRatesList from './container/CreateRatesList';
 
 const Routs = () => (
   <Switch>
@@ -13,6 +14,7 @@ const Routs = () => (
     <Route path="/auth" component={PageAuth} />
     <Route path="/me" component={MePage} />
     <Route path="/create-rate" component={createRatePage} />
+    <Route path="/create-rates-list" component={CreateRatesList} />
   </Switch>
 );
 

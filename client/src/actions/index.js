@@ -8,4 +8,5 @@ export {
 
 export {
   creteNewRate,
-} from './createRate';
+  getRates,
+} from './rate';
