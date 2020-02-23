@@ -21,6 +21,19 @@
   border: .5px solid #dcdcdc;
 }
 
+.sitebar-links {
+  margin-left: 5px;
+}
+
+.sitebar-link {
+  margin: 5px 0 0 5px;
+  cursor: pointer;
+}
+
+.sitebar-link:hover {
+  opacity: 0.6;
+}
+
 .content-user {
   grid-area: content;
   border: .5px solid #dcdcdc;

@@ -22,11 +22,10 @@ class MePage extends React.Component {
           <div className='me-page__container'>
             <ProfileUser />
             <div className="sitebar">
-            <aside>
-              sitebar
-              <p><Link to='/create-rate'><span>Создать ставку</span></Link></p>
-              <p><Link to='/create-rates-list'><span>Созданные ставки</span></Link></p>
-            </aside>
+              <aside className="sitebar-links">
+                <p className="sitebar-link"><Link to='/create-rate'><span>Создать ставку</span></Link></p>
+                <p className="sitebar-link"><Link to='/create-rates-list'><span>Созданные ставки</span></Link></p>
+              </aside>
             </div>
             <div className="content-user">
               content-user
