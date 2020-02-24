@@ -1,0 +1,16 @@
+.party__list {
+  border: 1px solid;
+}
+
+.party_content {
+  margin-top: 5px;
+}
+
+.party_itm {
+  border-top: 1px solid;
+  margin: 5px 0 0 5px;
+}
+
+.party_description {
+  width: 300px;
+}

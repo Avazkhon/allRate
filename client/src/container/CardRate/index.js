@@ -60,6 +60,29 @@ class CardRate extends Component {
     }));
   }
 
+  changeStateParty = (party, event) => {
+    const name = event.currentTarget.name;
+    const value = event.currentTarget.value;
+    const { id } = event.currentTarget.dataset;
+    return party && party.map((itm) => {
+      if (itm._id === id) {
+        itm[name] = value;
+      }
+      return itm;
+    })
+  }
+
+  onChangeParticipator = (event) => {
+    const { rate } = this.state;
+    let newRate = {
+      ...rate,
+      party: this.changeStateParty(rate.party, event)
+    };
+    this.setState({
+      rate: newRate
+    });
+  }
+
   handleIsEditTitle = () => {
     this.setState((prevState) => ({
       isEditTitle: !prevState.isEditTitle,
@@ -112,6 +135,7 @@ class CardRate extends Component {
                 rate.party &&
                 <Party
                   party={rate.party}
+                  onChangeParticipator={this.onChangeParticipator}
                 />
               }
               <div className="card-rate__footer">
