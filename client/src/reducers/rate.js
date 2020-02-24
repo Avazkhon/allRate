@@ -6,6 +6,10 @@ import {
   GET_RATES_REQUEST,
   GET_RATES_SUCCESS,
   GET_RATES_FAIL,
+
+  GET_RATE_BY_ID_REQUEST,
+  GET_RATE_BY_ID_SUCCESS,
+  GET_RATE_BY_ID_FAIL,
 } from '../constants'
 
 const initState = {
@@ -13,6 +17,7 @@ const initState = {
   rateData: null,
   error: null,
   ratesData: null,
+  selectRate: null,
 };
 
 export default function rate(state = initState, action) {
@@ -40,6 +45,7 @@ export default function rate(state = initState, action) {
     }
   }
 
+
   if (action.type === GET_RATES_REQUEST) {
     return {
       ...state,
@@ -59,6 +65,30 @@ export default function rate(state = initState, action) {
       ...state,
       ratesData: null,
       isFetching: false,
+      error: action.error,
+    }
+  }
+
+
+  if (action.type === GET_RATE_BY_ID_REQUEST) {
+    return {
+      ...state,
+      isFetching: true,
+    }
+  }
+  if (action.type === GET_RATE_BY_ID_SUCCESS) {
+    return {
+      ...state,
+      isFetching: false,
+      selectRate: action.response,
+      error: null
+    }
+  }
+  if (action.type === GET_RATE_BY_ID_FAIL) {
+    return {
+      ...state,
+      isFetching: false,
+      selectRate: null,
       error: action.error,
     }
   }
