@@ -147,7 +147,11 @@ class RateForm extends Component {
   }
 
   handleChangeSubmit = () => {
-    console.log(this.state.data);
+    const { data } = this.state;
+    const { putRateByID } = this.props;
+    if (typeof putRateByID === "function") {
+      putRateByID(data)
+    }
   }
 
   render() {
@@ -237,6 +241,7 @@ class RateForm extends Component {
 
 RateForm.propType = {
   creteNewRate: PropTypes.func,
+  putRateByID: PropTypes.func,
   getRateByID: PropTypes.func,
   rateId: PropTypes.string,
   titleFrom: PropTypes.string,

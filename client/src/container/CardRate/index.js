@@ -9,6 +9,7 @@ import RateForm from '../../components/RateForm';
 
 import {
   getRateByID,
+  putRateByID,
 } from '../../actions';
 
 
@@ -25,12 +26,14 @@ class CardRate extends React.Component {
   render() {
     const {
       getRateByID,
+      putRateByID,
     } = this.props;
     return (
       <Layout>
         <div className="create-rate">
           <RateForm
             getRateByID={getRateByID}
+            putRateByID={putRateByID}
             rateId={this.props.match.params.id}
             titleFrom="Карточка ставки"
           />
@@ -55,4 +58,5 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   getRateByID,
+  putRateByID,
 })(CardRate);

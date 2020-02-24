@@ -11,6 +11,10 @@ import {
   GET_RATE_BY_ID_REQUEST,
   GET_RATE_BY_ID_SUCCESS,
   GET_RATE_BY_ID_FAIL,
+
+  PUT_RATES_REQUEST,
+  PUT_RATES_SUCCESS,
+  PUT_RATES_FAIL,
 } from '../constants';
 
 export function creteNewRate (data) {
@@ -42,6 +46,17 @@ export function getRateByID (rateId) {
       types: [GET_RATE_BY_ID_REQUEST, GET_RATE_BY_ID_SUCCESS, GET_RATE_BY_ID_FAIL],
       method: "GET",
       endpoint: `rate?id=${rateId}`,
+    }
+  })
+}
+
+export function putRateByID (data) {
+  return dispatch => dispatch({
+    [CALL_API]: {
+      types: [PUT_RATES_REQUEST, PUT_RATES_SUCCESS, PUT_RATES_FAIL],
+      method: "PUT",
+      endpoint: `rate?id=${data._id}`,
+      data
     }
   })
 }

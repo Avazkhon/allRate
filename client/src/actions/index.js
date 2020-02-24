@@ -10,4 +10,5 @@ export {
   creteNewRate,
   getRates,
   getRateByID,
+  putRateByID,
 } from './rate';

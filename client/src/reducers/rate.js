@@ -10,6 +10,10 @@ import {
   GET_RATE_BY_ID_REQUEST,
   GET_RATE_BY_ID_SUCCESS,
   GET_RATE_BY_ID_FAIL,
+
+  PUT_RATES_REQUEST,
+  PUT_RATES_SUCCESS,
+  PUT_RATES_FAIL,
 } from '../constants'
 
 const initState = {
@@ -85,6 +89,29 @@ export default function rate(state = initState, action) {
     }
   }
   if (action.type === GET_RATE_BY_ID_FAIL) {
+    return {
+      ...state,
+      isFetching: false,
+      selectRate: null,
+      error: action.error,
+    }
+  }
+
+  if (action.type === PUT_RATES_REQUEST) {
+    return {
+      ...state,
+      isFetching: true,
+    }
+  }
+  if (action.type === PUT_RATES_SUCCESS) {
+    return {
+      ...state,
+      isFetching: false,
+      selectRate: action.response,
+      error: null
+    }
+  }
+  if (action.type === PUT_RATES_FAIL) {
     return {
       ...state,
       isFetching: false,
