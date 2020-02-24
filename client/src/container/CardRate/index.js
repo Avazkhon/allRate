@@ -20,7 +20,7 @@ class CardRate extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rate: null,
+      data: null,
       // isEditTitle: false,
       isEdit: false,
     }
@@ -45,7 +45,7 @@ class CardRate extends Component {
     isFunction(getRateByID)
     && getRateByID(id).then((res) => {
       if (res.response) {
-        this.setState({ rate: res.response });
+        this.setState({ data: res.response });
       }
     });
   }
@@ -53,7 +53,7 @@ class CardRate extends Component {
   resetState = () => {
     const { rate } = this.props;
     this.setState({
-      rate
+      data: rate
     });
     this.handleIsEdit();
   }
@@ -62,8 +62,8 @@ class CardRate extends Component {
     const name = event.currentTarget.name;
     const value = event.currentTarget.value;
     this.setState((prevState) => ({
-      rate: {
-        ...prevState.rate,
+      data: {
+        ...prevState.data,
         [name]: value
       },
     }));
@@ -82,17 +82,14 @@ class CardRate extends Component {
   }
 
   onChangeParticipator = (event) => {
-    const { rate } = this.state;
-    const name = event.currentTarget.name;
-    const value = event.currentTarget.value;
-    const { id } = event.currentTarget.dataset;
+    const { data } = this.state;
     // NOTE: props меняеться во время изменения state
-    console.log(111, this.changeStateParty(rate.party, event));
-    console.log(222, this.props.rate);
+    console.log(333, this.props.rate);
+    console.log(111, this.changeStateParty(data.party, event));
     this.setState({
-      rate: {
-        ...rate,
-        party: this.changeStateParty(rate.party, event)
+      data: {
+        ...data,
+        party: this.changeStateParty(data.party, event)
       }
     });
   }
@@ -111,7 +108,7 @@ class CardRate extends Component {
 
   render() {
     const {
-      rate,
+      data,
       // isEditTitle
       isEdit,
     } = this.state;
@@ -120,17 +117,17 @@ class CardRate extends Component {
       <Layout>
         <div className="card-rate">
           {
-            rate &&
+            data &&
             <form className="card-rate__form">
               <div className="card-rate__header">
                 {
                   // !isEditTitle &&
-                  <span onDoubleClick={this.handleIsEditTitle}>{rate.title}</span>
+                  <span onDoubleClick={this.handleIsEditTitle}>{data.title}</span>
                 }
                 {
                   // isEditTitle &&
                   // <input
-                  //   value={rate.title}
+                  //   value={data.title}
                   //   onChange={this.onChangeRate}
                   //   className="card-rate__title"
                   //   type="text"
@@ -147,29 +144,29 @@ class CardRate extends Component {
                     cols="500"
                     name="description"
                     className="card-rate__description"
-                    value={rate.description}
+                    value={data.description}
                     onChange={this.onChangeRate}
                   >
                   </textarea>
                 </div>
 
                 {
-                  rate.party &&
+                  data.party &&
                   <Party
-                    party={rate.party}
+                    party={data.party}
                     onChangeParticipator={this.onChangeParticipator}
                   />
                 }
 
                 <div className="card-rate__dates">
                   <div className="card-rate_date">
-                    <span>{`Дата создание: ${rate.localTime}`}</span>
+                    <span>{`Дата создание: ${data.localTime}`}</span>
                   </div>
                   <div className="card-rate_date">
-                    <span>{`Дата началы: ${rate.dateStart}`}</span>
+                    <span>{`Дата началы: ${data.dateStart}`}</span>
                   </div>
                   <div className="card-rate_date">
-                    <span>{`Дата оканичание: ${rate.dateFinish}`}</span>
+                    <span>{`Дата оканичание: ${data.dateFinish}`}</span>
                   </div>
                 </div>
 
