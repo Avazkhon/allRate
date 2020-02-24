@@ -7,6 +7,10 @@ import {
   GET_RATES_REQUEST,
   GET_RATES_SUCCESS,
   GET_RATES_FAIL,
+
+  GET_RATE_BY_ID_REQUEST,
+  GET_RATE_BY_ID_SUCCESS,
+  GET_RATE_BY_ID_FAIL,
 } from '../constants';
 
 export function creteNewRate (data) {
@@ -21,12 +25,23 @@ export function creteNewRate (data) {
   })
 }
 
+
 export function getRates (userId) {
   return dispatch => dispatch({
     [CALL_API]: {
       types: [GET_RATES_REQUEST, GET_RATES_SUCCESS, GET_RATES_FAIL],
       method: "GET",
       endpoint: `rate?userId=${userId}`,
+    }
+  })
+}
+
+export function getRateByID (rateId) {
+  return dispatch => dispatch({
+    [CALL_API]: {
+      types: [GET_RATE_BY_ID_REQUEST, GET_RATE_BY_ID_SUCCESS, GET_RATE_BY_ID_FAIL],
+      method: "GET",
+      endpoint: `rate?id=${rateId}`,
     }
   })
 }

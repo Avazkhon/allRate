@@ -9,4 +9,5 @@ export {
 export {
   creteNewRate,
   getRates,
+  getRateByID,
 } from './rate';

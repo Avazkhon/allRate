@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import './style.css';
 
 import Layout from '../layout';
+
+import {
+  getRateByID,
+} from '../../actions'
+
+import {
+  isFunction,
+} from '../../utils';
 
 class CardRate extends Component {
   constructor(props) {
@@ -11,8 +20,9 @@ class CardRate extends Component {
   }
 
   componentDidMount () {
+    const { getRateByID } = this.props;
     const { id } = this.props.match.params;
-    console.log(id);
+    isFunction(getRateByID) && getRateByID(id);
   }
 
   render() {
@@ -27,7 +37,15 @@ class CardRate extends Component {
 }
 
 CardRate.propType = {
-  // authRegistration: PropTypes.func,
+  getRateByID: PropTypes.func,
 }
 
-export default CardRate;
+const mapStateToprops = ({
+
+}) => ({
+
+})
+
+export default connect(mapStateToprops, {
+  getRateByID,
+})(CardRate);
