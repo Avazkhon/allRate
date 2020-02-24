@@ -26,10 +26,55 @@ class CardRate extends Component {
   }
 
   render() {
+    const { rate } = this.props;
     return (
       <Layout>
         <div>
-          CardRate
+          {
+            rate &&
+            <div>
+              <div>
+                <span>Название</span>
+                <div>
+                  <span>{rate.title}</span>
+                </div>
+              </div>
+              <div>
+                <span>Описание</span>
+                <div>
+                  <span>{rate.description}</span>
+                </div>
+              </div>
+              <div>
+                <ul>
+                  {
+                    rate.party && rate.party.map((itm) => (
+                      <li key={itm._id}>
+                        <div>Участник: {itm.participator}</div>
+                        <div>
+                          Описание
+                          <div>
+                            <p>{itm.description}</p>
+                          </div>
+                        </div>
+                      </li>
+                    ))
+                  }
+                </ul>
+              </div>
+              <div>
+                <div>
+                  <span>{`Дата создание: ${rate.localTime}`}</span>
+                </div>
+                <div>
+                  <span>{`Дата началы: ${rate.dateStart}`}</span>
+                </div>
+                <div>
+                  <span>{`Дата оканичание: ${rate.dateFinish}`}</span>
+                </div>
+              </div>
+            </div>
+          }
         </div>
       </Layout>
     );
@@ -41,9 +86,9 @@ CardRate.propType = {
 }
 
 const mapStateToprops = ({
-
+  rate
 }) => ({
-
+  rate: rate.selectRate,
 })
 
 export default connect(mapStateToprops, {
