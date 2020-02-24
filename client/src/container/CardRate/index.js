@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import './style.css';
 
+import Party from './components/Party';
+
 import Layout from '../layout';
 
 import {
@@ -45,23 +47,12 @@ class CardRate extends Component {
                   <span>{rate.description}</span>
                 </div>
               </div>
-              <div>
-                <ul>
-                  {
-                    rate.party && rate.party.map((itm) => (
-                      <li key={itm._id}>
-                        <div>Участник: {itm.participator}</div>
-                        <div>
-                          Описание
-                          <div>
-                            <p>{itm.description}</p>
-                          </div>
-                        </div>
-                      </li>
-                    ))
-                  }
-                </ul>
-              </div>
+              {
+                rate.party &&
+                <Party
+                  party={rate.party}
+                />
+              }
               <div>
                 <div>
                   <span>{`Дата создание: ${rate.localTime}`}</span>
@@ -83,6 +74,7 @@ class CardRate extends Component {
 
 CardRate.propType = {
   getRateByID: PropTypes.func,
+  rate: PropTypes.shape({}),
 }
 
 const mapStateToprops = ({
