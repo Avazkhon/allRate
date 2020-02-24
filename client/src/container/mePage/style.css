@@ -2,7 +2,7 @@
   margin-top: 20px;
 }
 .me-page__container {
-  width: 800px;
+  max-width: 1240px;
   margin: auto;
   display: grid;
   grid-template-areas: "profile profile"
@@ -19,6 +19,19 @@
 .sitebar{
   grid-area: sitebar;
   border: .5px solid #dcdcdc;
+}
+
+.sitebar-links {
+  margin-left: 5px;
+}
+
+.sitebar-link {
+  margin: 5px 0 0 5px;
+  cursor: pointer;
+}
+
+.sitebar-link:hover {
+  opacity: 0.6;
 }
 
 .content-user {

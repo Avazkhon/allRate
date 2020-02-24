@@ -4,4 +4,11 @@ export {
   createNewUser,
   getUserById,
   authoLogAut,
-} from './auth'
+} from './auth';
+
+export {
+  creteNewRate,
+  getRates,
+  getRateByID,
+  putRateByID,
+} from './rate';
