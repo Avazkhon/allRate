@@ -37,11 +37,11 @@ exports.postAddOne = (req, res) => {
 }
 
 
-exports.updateOne = (req, res) => {
+exports.findByIdAndUpdate = (req, res) => {
   const { id } = req.query;
   const { body } = req;
   try {
-    rateModels.updateOne(id, body, (err, result) => {
+    rateModels.findByIdAndUpdate(id, body, (err, result) => {
       if (err) {
         return res.status(500).json({ message: 'Все плохо!', err});
       }

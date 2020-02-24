@@ -22,8 +22,8 @@ exports.getOneByAuthot = (userId, callBack) => {
   Rate.find({ author: userId}, callBack);
 }
 
-exports.updateOne = (id, data, callBack) => {
-  Rate.findByIdAndUpdate({_id: id}, data, callBack);
+exports.findByIdAndUpdate = (id, data, callBack) => {
+  Rate.findByIdAndUpdate({_id: id}, data, { new: true },callBack);
 }
 
 exports.deleteOne = (id, callBack) => {

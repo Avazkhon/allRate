@@ -52,7 +52,7 @@ app.route('/user')
 app.route('/rate')
 .get(rateControllers.getRate)
 .post(rateControllers.postAddOne)
-.put(rateControllers.updateOne)
+.put(rateControllers.findByIdAndUpdate)
 .delete(rateControllers.deleteOne);
 
 db.connect((err) => {
