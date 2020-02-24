@@ -41,7 +41,7 @@ class RateForm extends Component {
   // }
 
   componentDidMount () {
-    const { getRateByID, rateId} = this.props;
+    const { rateId } = this.props;
     this.changeState(rateId);
   }
 
@@ -132,7 +132,7 @@ class RateForm extends Component {
     }))
   }
 
-  handleSubmit = () => {
+  handleCreateSubmit = () => {
     const { data } = this.state;
     const { creteNewRate } = this.props;
     if (typeof creteNewRate === "function") {
@@ -146,6 +146,10 @@ class RateForm extends Component {
     }
   }
 
+  handleChangeSubmit = () => {
+    console.log(this.state.data);
+  }
+
   render() {
     const {
       data: {
@@ -157,6 +161,11 @@ class RateForm extends Component {
       },
       isRedirectToMe,
     } = this.state
+
+    const {
+      creteNewRate,
+      getRateByID,
+    } = this.props;
 
     if (isRedirectToMe) {
       return <Redirect to="/me" />
@@ -199,12 +208,24 @@ class RateForm extends Component {
                 </div>
             </div>
             <div className="create-rate_btn-group">
-              <input
-                className="create-rate_btn"
-                type="button"
-                value="Создать"
-                onClick={this.handleSubmit}
-              />
+              {
+                creteNewRate &&
+                <input
+                  className="create-rate_btn"
+                  type="button"
+                  value="Создать"
+                  onClick={this.handleCreateSubmit}
+                />
+              }
+              {
+                getRateByID &&
+                <input
+                  className="create-rate_btn"
+                  type="button"
+                  value="Изменить"
+                  onClick={this.handleChangeSubmit}
+                />
+              }
             </div>
           </div>
         </form>
@@ -215,6 +236,8 @@ class RateForm extends Component {
 
 RateForm.propType = {
   creteNewRate: PropTypes.func,
+  getRateByID: PropTypes.func,
+  rateId: PropTypes.string,
 }
 
 export default RateForm;
