@@ -139,13 +139,13 @@ class CardRate extends Component {
                 />
               }
               <div className="card-rate__footer">
-                <div>
+                <div className="card-rate_date">
                   <span>{`Дата создание: ${rate.localTime}`}</span>
                 </div>
-                <div>
+                <div className="card-rate_date">
                   <span>{`Дата началы: ${rate.dateStart}`}</span>
                 </div>
-                <div>
+                <div className="card-rate_date">
                   <span>{`Дата оканичание: ${rate.dateFinish}`}</span>
                 </div>
               </div>

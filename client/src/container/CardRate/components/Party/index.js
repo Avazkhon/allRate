@@ -8,13 +8,17 @@ const Party = ({
   onChangeParticipator
 }) => (
   <div className="party">
-    <div>Участник:</div>
+    <div className="party__header" >
+      <span className="party_title">Участник:</span>
+    </div>
     <ul className="party__list">
       {
         party.map((itm) => (
           <li key={itm._id} className="party_itm">
-            <div>{itm.participator}</div>
-            <div className="party_content">
+            <div>
+              <span>{itm.participator}</span>
+            </div>
+            <div className="party__content">
               <textarea
                 onChange={onChangeParticipator}
                 name="description"
