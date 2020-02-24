@@ -32,6 +32,7 @@ class CardRate extends React.Component {
           <RateForm
             getRateByID={getRateByID}
             rateId={this.props.match.params.id}
+            titleFrom="Карточка ставки"
           />
         </div>
       </Layout>

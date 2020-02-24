@@ -165,6 +165,7 @@ class RateForm extends Component {
     const {
       creteNewRate,
       getRateByID,
+      titleFrom,
     } = this.props;
 
     if (isRedirectToMe) {
@@ -177,7 +178,7 @@ class RateForm extends Component {
       >
         <form className="create-rate_form">
           <div className="create-rate_wrapper">
-            <div className="create-rate_title" >Создание ставки</div>
+            <div className="create-rate_title" >{titleFrom}</div>
             <MainProps
               title={title}
               description={description}
@@ -238,6 +239,7 @@ RateForm.propType = {
   creteNewRate: PropTypes.func,
   getRateByID: PropTypes.func,
   rateId: PropTypes.string,
+  titleFrom: PropTypes.string,
 }
 
 export default RateForm;

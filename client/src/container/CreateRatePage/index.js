@@ -5,7 +5,7 @@ import { Redirect } from 'react-router';
 
 import Layout from '../layout';
 
-import CreateNewRate from './components/CreateNewRate';
+import RateForm from '../../components/RateForm';
 
 import {
   creteNewRate,
@@ -31,7 +31,8 @@ class CreateRatePAge extends React.Component {
     return (
       <Layout>
         <div className="create-rate">
-          <CreateNewRate
+          <RateForm
+            titleFrom="Создание меню"
             creteNewRate={creteNewRate}
           />
         </div>
