@@ -10,7 +10,7 @@ import Layout from '../layout';
 
 import {
   getRateByID,
-} from '../../actions'
+} from '../../actions';
 
 import {
   isFunction,
@@ -21,7 +21,8 @@ class CardRate extends Component {
     super(props);
     this.state = {
       rate: null,
-      isEditTitle: false,
+      // isEditTitle: false,
+      isEdit: false,
     }
   }
 
@@ -49,6 +50,14 @@ class CardRate extends Component {
     });
   }
 
+  resetState = () => {
+    const { rate } = this.props;
+    this.setState({
+      rate
+    });
+    this.handleIsEdit();
+  }
+
   onChangeRate = (event) => {
     const name = event.currentTarget.name;
     const value = event.currentTarget.value;
@@ -74,26 +83,39 @@ class CardRate extends Component {
 
   onChangeParticipator = (event) => {
     const { rate } = this.state;
-    let newRate = {
-      ...rate,
-      party: this.changeStateParty(rate.party, event)
-    };
+    const name = event.currentTarget.name;
+    const value = event.currentTarget.value;
+    const { id } = event.currentTarget.dataset;
+    // NOTE: props меняеться во время изменения state
+    console.log(111, this.changeStateParty(rate.party, event));
+    console.log(222, this.props.rate);
     this.setState({
-      rate: newRate
+      rate: {
+        ...rate,
+        party: this.changeStateParty(rate.party, event)
+      }
     });
   }
 
   handleIsEditTitle = () => {
     this.setState((prevState) => ({
       isEditTitle: !prevState.isEditTitle,
-    }))
+    }));
+  }
+
+  handleIsEdit = () => {
+    this.setState((prevState) => ({
+      isEdit: !prevState.isEdit,
+    }));
   }
 
   render() {
     const {
       rate,
       // isEditTitle
+      isEdit,
     } = this.state;
+
     return (
       <Layout>
         <div className="card-rate">
@@ -130,24 +152,45 @@ class CardRate extends Component {
                   >
                   </textarea>
                 </div>
+
+                {
+                  rate.party &&
+                  <Party
+                    party={rate.party}
+                    onChangeParticipator={this.onChangeParticipator}
+                  />
+                }
+
+                <div className="card-rate__dates">
+                  <div className="card-rate_date">
+                    <span>{`Дата создание: ${rate.localTime}`}</span>
+                  </div>
+                  <div className="card-rate_date">
+                    <span>{`Дата началы: ${rate.dateStart}`}</span>
+                  </div>
+                  <div className="card-rate_date">
+                    <span>{`Дата оканичание: ${rate.dateFinish}`}</span>
+                  </div>
+                </div>
+
               </div>
-              {
-                rate.party &&
-                <Party
-                  party={rate.party}
-                  onChangeParticipator={this.onChangeParticipator}
-                />
-              }
               <div className="card-rate__footer">
-                <div className="card-rate_date">
-                  <span>{`Дата создание: ${rate.localTime}`}</span>
-                </div>
-                <div className="card-rate_date">
-                  <span>{`Дата началы: ${rate.dateStart}`}</span>
-                </div>
-                <div className="card-rate_date">
-                  <span>{`Дата оканичание: ${rate.dateFinish}`}</span>
-                </div>
+                {
+                  !isEdit &&
+                  <input
+                    type="button"
+                    value='Изменить'
+                    onClick={this.handleIsEdit}
+                  />
+                }
+                {
+                  isEdit &&
+                  <input
+                    type="button"
+                    value='отмена'
+                    onClick={this.resetState}
+                  />
+                }
               </div>
             </form>
           }
