@@ -25,6 +25,7 @@ class MePage extends React.Component {
               <aside className="sitebar-links">
                 <p className="sitebar-link"><Link to='/create-rate'><span>Создать ставку</span></Link></p>
                 <p className="sitebar-link"><Link to='/create-rates-list'><span>Созданные ставки</span></Link></p>
+                <p className="sitebar-link"><Link to='/rate-list'><span>Список ставок</span></Link></p>
               </aside>
             </div>
             <div className="content-user">

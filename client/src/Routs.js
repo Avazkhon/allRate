@@ -7,6 +7,7 @@ import MePage from './container/mePage';
 import CreateRatePage from './container/CreateRatePage';
 import CreateRatesList from './container/CreateRatesList';
 import CardRate from './container/CardRate';
+import RateList from './container/RateList';
 
 const Routs = () => (
   <Switch>
@@ -16,6 +17,7 @@ const Routs = () => (
     <Route path="/create-rate" component={CreateRatePage} />
     <Route path="/create-rates-list" component={CreateRatesList} />
     <Route path="/card-rate/:id" component={CardRate} />
+    <Route path="/rate-list" component={RateList} />
   </Switch>
 );
 
