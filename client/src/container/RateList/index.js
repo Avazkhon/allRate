@@ -5,6 +5,10 @@ import { connect } from 'react-redux';
 
 import Layout from '../layout';
 
+import {
+  getCommonRates,
+} from '../../actions';
+
 import './style.css';
 
 class RateList extends React.Component {
@@ -13,11 +17,35 @@ class RateList extends React.Component {
 
   }
 
+  componentDidMount() {
+    const { getCommonRates } = this.props;
+    if (typeof getCommonRates === 'function') {
+      getCommonRates();
+    }
+  }
+
   render() {
+    const {
+      rateList,
+    } = this.props;
     return (
       <Layout>
         <div className="rate-list">
-          RateList
+          <div>
+            <ul>
+              {
+                rateList.data && rateList.data.map((rate) => {
+                  return (
+                    <li key={rate._id}>
+                      <div>
+                        <span>{rate.title}</span>
+                      </div>
+                    </li>
+                  );
+                })
+              }
+            </ul>
+          </div>
         </div>
       </Layout>
     );
@@ -25,17 +53,21 @@ class RateList extends React.Component {
 }
 
 RateList.propType = {
-  // authRegistration: PropTypes.func,
+  getCommonRates: PropTypes.func,
+  rateList: PropTypes.shape({})
 }
 
 function mapStateToProps(state) {
   const {
     auth,
+    commonRate,
   } = state;
   return {
     auth,
+    rateList: commonRate,
   };
 }
 
 export default connect(mapStateToProps, {
+  getCommonRates,
 })(RateList);
