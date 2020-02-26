@@ -10,23 +10,27 @@ exports.rateSchema = new Schema(
     author: { type: mongoose.ObjectId, required: true },
     dateStart: { type: Date, required: true },
     dateFinish: { type: Date, required: true },
-    reasonsForBetting: [{
-      title: { type: String, required: true, min: 3, max: 50 },
-      id: { type: String, required: true },
-      statusFictory: { type: Boolean, default: false }
-    }],
+    reasonsForBetting: [
+      {
+        title: { type: String, required: true, min: 3, max: 50 },
+        id: { type: String, required: true },
+        statusFictory: { type: Boolean, default: false },
+        bidForItem: [
+          {
+            userId: { type: mongoose.ObjectId, required: true },
+            meny: { type: Number, required: true, min: 50, max: 500 },
+            serverTime: { type: Date, default: new Date() },
+            localTime: { type: Date, required: true },
+            reasonForBid: { type: String, required: true },
+            startingRatio: { type: Number, min: -0.01, max: 0.9},
+          }
+        ],
+      }
+    ],
     party: [{
       participator: { type: String, required: true, min: 3, max: 50 },
       description: { type: String, required: true, min: 10, max: 200 },
       leval: { type: Number, default: 1 },
-      startingRatio: { type: Number, min: -0.01, max: 0.9},
-      bidForItem: [{
-        userId: { type: mongoose.ObjectId, required: true },
-        meny: { type: Number, required: true, min: 50, max: 500 },
-        serverTime: { type: Date, default: new Date() },
-        localTime: { type: Date, required: true },
-        reasonForBid: { type: String, required: true },
-      }],
     }],
     description: String,
   },
