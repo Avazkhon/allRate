@@ -15,7 +15,7 @@ class PartyList extends React.Component {
       party,
     } = this.props;
     return (
-      <div className="rate-item_party">
+      <div className="party-items">
         <div><span>Список участников</span></div>
         <div>
           <ul>
@@ -24,14 +24,14 @@ class PartyList extends React.Component {
                 return (
                   <li
                     key={itm._id}
-                    className="item-party"
+                    className="party-items_item"
                   >
-                    <div className="item-party_header">
-                      <span>{rate.title}</span>
+                    <div className="party-items_item-header">
+                      <span>{itm.participator}</span>
                     </div>
-                    <div className="item-party_description">
-                      <div className="item-party_description-text">
-                        <p>{rate.description}</p>
+                    <div className="party-items_item-description">
+                      <div className="party-items_item-description-text">
+                        <p>{itm.description}</p>
                       </div>
                     </div>
                   </li>
