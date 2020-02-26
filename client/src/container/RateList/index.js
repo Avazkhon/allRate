@@ -11,6 +11,8 @@ import {
 
 import './style.css';
 
+import PartyList from './components/PartyList';
+
 class RateList extends React.Component {
   constructor(props) {
     super(props);
@@ -53,32 +55,11 @@ class RateList extends React.Component {
                             <p>{rate.description}</p>
                           </div>
                         </div>
-                        <div className="rate-item_party">
-                          <div><span>Список участников</span></div>
-                          <div>
-                            <ul>
-                              {
-                                rate.party.map((itm) => {
-                                  return (
-                                    <li
-                                      key={itm._id}
-                                      className="item-party"
-                                    >
-                                      <div className="item-party_header">
-                                        <span>{rate.title}</span>
-                                      </div>
-                                      <div className="item-party_description">
-                                        <div className="item-party_description-text">
-                                          <p>{rate.description}</p>
-                                        </div>
-                                      </div>
-                                    </li>
-                                  )
-                                })
-                              }
-                            </ul>
-                          </div>
-                        </div>
+
+                        <PartyList
+                          party={rate.party}
+                        />
+
                         <div className="rate-item_rates">
                           <div><span>Список ставок</span></div>
                           <p>rates</p>
