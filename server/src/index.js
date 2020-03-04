@@ -25,7 +25,10 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: { maxAge: 60 * 60 * 24 },
-  store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 60 * 60 * 24
+  }),
 }));
 
 app.use((req, res, next) => {
@@ -60,6 +63,6 @@ db.connect((err) => {
     return console.log(err);
   }
   app.listen(8080, () => {
-    console.log('app my note starting!');
+    console.log('server all rate starting!');
   });
 });
