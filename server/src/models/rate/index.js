@@ -2,6 +2,9 @@ const ObjectID = require('mongodb').ObjectID;
 const mongoose = require('mongoose');
 
 const rateSchema = require('./rateSchema');
+const checkConnect = require('./checkConnect');
+checkConnect.getAll();
+
 
 const Rate = mongoose.model('Rate', rateSchema.rateSchema);
 
@@ -11,7 +14,8 @@ exports.postAddOne = async (data, callBack) => {
 }
 
 exports.all = (callBack) => {
-  Rate.find({}, callBack);
+  Rate.find({}, callBack)
+  .skip(0).limit(40);
 }
 
 exports.getOneById = (id, callBack) => {

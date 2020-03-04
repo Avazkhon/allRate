@@ -126,7 +126,7 @@ exports.auth = (req, res) => {
         userName: result.userName,
         isAdmin: result.isAdmin,
       };
-      req.session.user = { email, password, isAdmin: result.isAdmin, id: result._id };
+      req.session.user = { isAdmin: result.isAdmin, id: result._id };
       return res.status(200).json(data);
     }
     return res.status(401).send('Не правельный email или пароль!');
