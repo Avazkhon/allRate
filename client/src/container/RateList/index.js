@@ -20,9 +20,9 @@ class RateList extends React.Component {
   }
 
   static async getInitialProps({ req, res, match, history, location, ...ctx }) {
-  const {store} = ctx;
-  await store.dispatch(getCommonRates());
-}
+    const {store} = ctx;
+    await store.dispatch(getCommonRates());
+  }
 
   componentDidMount() {
     const { getCommonRates } = this.props;

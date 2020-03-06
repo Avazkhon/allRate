@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import injectSheet from 'react-jss';
 
-import './style.css';
+import style from './style';
 
 class PartyList extends React.Component {
   // constructor(props) {
@@ -13,9 +14,10 @@ class PartyList extends React.Component {
   render() {
     const {
       party,
+      classes,
     } = this.props;
     return (
-      <div className="party-items">
+      <div className={classes['party-items']}>
         <div><span>Список участников</span></div>
         <div>
           <ul>
@@ -24,13 +26,13 @@ class PartyList extends React.Component {
                 return (
                   <li
                     key={itm._id}
-                    className="party-items_item"
+                    className={classes['party-items_item']}
                   >
-                    <div className="party-items_item-header">
+                    <div className={classes['party-items_item-header']}>
                       <span>{itm.participator}</span>
                     </div>
-                    <div className="party-items_item-description">
-                      <div className="party-items_item-description-text">
+                    <div className={classes['party-items_item-description']}>
+                      <div className={classes['party-items_item-description-text']}>
                         <p>{itm.description}</p>
                       </div>
                     </div>
@@ -46,7 +48,12 @@ class PartyList extends React.Component {
 }
 
 PartyList.propType = {
-  party: PropTypes.shape({})
+  party: PropTypes.shape({}),
+  classes: PropTypes.shape({
+    _id: PropTypes.string,
+    participator: PropTypes.string,
+    description: PropTypes.string,
+  })
 }
 
-export default PartyList;
+export default injectSheet(style)(PartyList);
