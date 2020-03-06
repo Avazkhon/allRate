@@ -8,7 +8,7 @@ export default [
     exact: true,
     component: asyncComponent({
       loader: () => import('./container/Home'),
-      Placeholder: () => <div>...LOADING HOMEPAGE...</div>,
+      Placeholder: () => <div>...LOADING...</div>,
     }),
   },
   {
@@ -16,23 +16,23 @@ export default [
     exact: true,
     component: asyncComponent({
       loader: () => import('./container/CreateRatesList'),
-      Placeholder: () => <div>...LOADING FAVORITES...</div>,
+      Placeholder: () => <div>...LOADING...</div>,
     }),
   },
+  // {
+  //   path: '/create-rate',
+  //   exact: true,
+  //   component: asyncComponent({
+  //     loader: () => import('./container/CreateRatePage'),
+  //     Placeholder: () => <div>...LOADING FAVORITES...</div>,
+  //   }),
+  // },
   {
-    path: '/create-rate',
-    exact: true,
-    component: asyncComponent({
-      loader: () => import('./container/CreateRatePage'),
-      Placeholder: () => <div>...LOADING FAVORITES...</div>,
-    }),
-  },
-  {
-    path: '/rate-list',
+    path: '/rate-list/',
     exact: true,
     component: asyncComponent({
       loader: () => import('./container/RateList'),
-      Placeholder: () => <div>...LOADING FAVORITES...</div>,
+      Placeholder: () => <div>...LOADING...</div>,
     }),
   },
   {
@@ -40,15 +40,15 @@ export default [
     exact: true,
     component: asyncComponent({
       loader: () => import('./container/MePage'),
-      Placeholder: () => <div>...LOADING FAVORITES...</div>,
+      Placeholder: () => <div>...LOADING...</div>,
     }),
   },
   {
-    path: '/rate/:imdbID/',
+    path: '/card-rate/:id/',
     exact: true,
     component: asyncComponent({
       loader: () => import('./container/CardRate'),
-      Placeholder: () => <div>...LOADING CARD FILM...</div>,
+      Placeholder: () => <div>...LOADING...</div>,
     }),
   },
   {
@@ -56,7 +56,7 @@ export default [
     exact: true,
     component: asyncComponent({
       loader: () => import('./container/PageAuth'),
-      Placeholder: () => <div>...LOADING CARD FILM...</div>,
+      Placeholder: () => <div>...LOADING...</div>,
     }),
   },
   // {

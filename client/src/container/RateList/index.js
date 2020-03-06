@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
 import injectSheet from 'react-jss';
 
 import Layout from '../layout';
@@ -51,31 +52,33 @@ class RateList extends React.Component {
                       key={rate._id}
                       className={classes['rate-item']}
                     >
-                      <div className={classes['rate-item_header']}>
-                        <span>{rate.title}</span>
-                      </div>
-                      <div className={classes['rate-item_content']}>
-                        <div className={classes['rate-item_description']}>
-                          <div><span>Описание</span></div>
-                          <div className={classes['rate-item_description-text']}>
-                            <p>{rate.description}</p>
+                      <Link to={`card-rate/${rate._id}`}>
+                        <div className={classes['rate-item_header']}>
+                          <span>{rate.title}</span>
+                        </div>
+                        <div className={classes['rate-item_content']}>
+                          <div className={classes['rate-item_description']}>
+                            <div><span>Описание</span></div>
+                            <div className={classes['rate-item_description-text']}>
+                              <p>{rate.description}</p>
+                            </div>
+                          </div>
+
+                          <PartyList
+                            party={rate.party}
+                          />
+
+                          <div className={classes['rate-item_rates']}>
+                            <div><span>Список ставок</span></div>
+                            <p>rates</p>
                           </div>
                         </div>
-
-                        <PartyList
-                          party={rate.party}
-                        />
-
-                        <div className={classes['rate-item_rates']}>
-                          <div><span>Список ставок</span></div>
-                          <p>rates</p>
+                        <div className={classes['rate-item_footer']}>
+                          <span className={classes['rate-item_date']}>{rate.serverTime}</span>
+                          <span className={classes['rate-item_date']}>{rate.dateStart}</span>
+                          <span className={classes['rate-item_date']}>{rate.dateFinish}</span>
                         </div>
-                      </div>
-                      <div className={classes['rate-item_footer']}>
-                        <span className={classes['rate-item_date']}>{rate.serverTime}</span>
-                        <span className={classes['rate-item_date']}>{rate.dateStart}</span>
-                        <span className={classes['rate-item_date']}>{rate.dateFinish}</span>
-                      </div>
+                      </Link>
                     </li>
                   );
                 })
