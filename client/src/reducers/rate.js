@@ -1,20 +1,14 @@
 import {
-  CREATE_NEW_RATE_REQUEST,
-  CREATE_NEW_RATE_SUCCESS,
-  CREATE_NEW_RATE_FAIL,
-
-  GET_RATES_REQUEST,
-  GET_RATES_SUCCESS,
-  GET_RATES_FAIL,
-
-  GET_RATE_BY_ID_REQUEST,
-  GET_RATE_BY_ID_SUCCESS,
-  GET_RATE_BY_ID_FAIL,
-
-  PUT_RATE_REQUEST,
-  PUT_RATE_SUCCESS,
-  PUT_RATE_FAIL,
+  CREATE_NEW_RATE,
+  GET_RATES,
+  GET_RATE_BY_ID,
+  PUT_RATE,
 } from '../constants'
+
+import {
+  createReducer,
+  createRequestReducer,
+} from '../utils';
 
 const initState = {
   isFetching: false,
@@ -24,101 +18,84 @@ const initState = {
   selectRate: null,
 };
 
-export default function rate(state = initState, action) {
-
-  if (action.type === CREATE_NEW_RATE_REQUEST) {
-    return {
+export default createReducer(initState, {
+  [CREATE_NEW_RATE]: (_state, _action) =>
+  createRequestReducer(_state, _action, {
+    SEND: (state, action) => ({
       ...state,
       isFetching: true,
-    }
-  }
-  if (action.type === CREATE_NEW_RATE_SUCCESS) {
-    return {
+    }),
+    SUCCESS: (state, action) => ({
       ...state,
       error: null,
       isFetching: false,
       rateData: action.response,
-    }
-  }
-  if (action.type === CREATE_NEW_RATE_FAIL) {
-    return {
+    }),
+    FAIL: (state, action) => ({
       ...state,
       rateData: null,
       isFetching: false,
       error: action.error,
-    }
-  }
+    }),
+  }),
 
-
-  if (action.type === GET_RATES_REQUEST) {
-    return {
+  [GET_RATES]: (_state, _action) =>
+  createRequestReducer(_state, _action, {
+    SEND: (state, action) => ({
       ...state,
       isFetching: true,
-    }
-  }
-  if (action.type === GET_RATES_SUCCESS) {
-    return {
+    }),
+    SUCCESS: (state, action) => ({
       ...state,
       error: null,
       isFetching: false,
       ratesData: action.response,
-    }
-  }
-  if (action.type === GET_RATES_FAIL) {
-    return {
+    }),
+    FAIL: (state, action) => ({
       ...state,
       ratesData: null,
       isFetching: false,
       error: action.error,
-    }
-  }
+    }),
+  }),
 
-
-  if (action.type === GET_RATE_BY_ID_REQUEST) {
-    return {
+  [GET_RATE_BY_ID]: (_state, _action) =>
+  createRequestReducer(_state, _action, {
+    SEND: (state, action) => ({
       ...state,
       isFetching: true,
-    }
-  }
-  if (action.type === GET_RATE_BY_ID_SUCCESS) {
-    return {
+    }),
+    SUCCESS: (state, action) => ({
       ...state,
       isFetching: false,
       selectRate: action.response,
       error: null
-    }
-  }
-  if (action.type === GET_RATE_BY_ID_FAIL) {
-    return {
+    }),
+    FAIL: (state, action) => ({
       ...state,
       isFetching: false,
       selectRate: null,
       error: action.error,
-    }
-  }
+    }),
+  }),
 
-  if (action.type === PUT_RATE_REQUEST) {
-    return {
+  [PUT_RATE]: (_state, _action) =>
+  createRequestReducer(_state, _action, {
+    SEND: (state, action) => ({
       ...state,
       isFetching: true,
-    }
-  }
-  if (action.type === PUT_RATE_SUCCESS) {
-    return {
+    }),
+    SUCCESS: (state, action) => ({
       ...state,
       isFetching: false,
       selectRate: action.response,
       error: null
-    }
-  }
-  if (action.type === PUT_RATE_FAIL) {
-    return {
+    }),
+    FAIL: (state, action) => ({
       ...state,
       isFetching: false,
       selectRate: null,
       error: action.error,
-    }
-  }
-
-  return state;
-}
+    }),
+  }),
+})

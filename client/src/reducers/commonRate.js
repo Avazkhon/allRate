@@ -1,8 +1,11 @@
 import {
-  GET_COMMON_RATES_REQUEST,
-  GET_COMMON_RATES_SUCCESS,
-  GET_COMMON_RATES_FAIL,
-} from '../constants'
+  GET_COMMON_RATES,
+} from '../constants';
+
+import {
+  createReducer,
+  createRequestReducer,
+} from '../utils';
 
 const initState = {
   isFetching: false,
@@ -10,30 +13,24 @@ const initState = {
   error: null,
 };
 
-export default function rate(state = initState, action) {
-
-  if (action.type === GET_COMMON_RATES_REQUEST) {
-    return {
+export default createReducer(initState, {
+  [GET_COMMON_RATES]: (_state, _action) =>
+  createRequestReducer(_state, _action, {
+    SEND: (state, action) => ({
       ...state,
       isFetching: true,
-    }
-  }
-  if (action.type === GET_COMMON_RATES_SUCCESS) {
-    return {
+    }),
+    SUCCESS: (state, action) => ({
       ...state,
       error: null,
       isFetching: false,
       data: action.response,
-    }
-  }
-  if (action.type === GET_COMMON_RATES_FAIL) {
-    return {
+    }),
+    FAIL: (state, action) => ({
       ...state,
       data: null,
       isFetching: false,
       error: action.error,
-    }
-  }
-
-  return state;
-}
+    }),
+  }),
+})

@@ -1,21 +1,17 @@
 import {
-  REQUEST_LOGIN,
-  SUCCESS_LOGIN,
-  FAIL_LOGIN,
+  LOG_IN,
 
-  REQUEST_GET_USER_BY_ID,
-  SUCCESS_GET_USER_BY_ID,
-  FAIL_GET_USER_BY_ID,
+  GET_USER_BY_ID,
 
-  REQUEST_LOGIN_AUT,
-  SUCCESS_LOGIN_AUT,
-  FAIL_LOGIN_AUT,
+  LOG_AUT,
 } from '../constants'
 
 import {
   getDataUserFromLocalStoragr,
   deleteDataUserFromLocalStoragr,
   setDataUserFromLocalStoragr,
+  createReducer,
+  createRequestReducer,
 } from '../utils';
 
 const initState = {
@@ -25,74 +21,66 @@ const initState = {
   userData: null,
 };
 
-export default function auth(state = initState, action) {
-
-  if (action.type === REQUEST_LOGIN) {
-    return {
+export default createReducer(initState, {
+  [LOG_IN]: (_state, _action) =>
+  createRequestReducer(_state, _action, {
+    SEND: (state, action) => ({
       ...state,
       isFetching: true,
-    }
-  }
-  if (action.type === SUCCESS_LOGIN) {
-    setDataUserFromLocalStoragr(action.response);
-    return {
+    }),
+    SUCCESS: (state, action) => {
+      setDataUserFromLocalStoragr(action.response);
+      return {
+        ...state,
+        isFetching: false,
+        auth: action.response,
+      }
+    },
+    FAIL: (state, action) => ({
       ...state,
       isFetching: false,
-      auth: action.response,
-    }
-  }
-  if (action.type === FAIL_LOGIN) {
-    return {
-      ...state,
-     isFetching: false,
-     error: action.error,
-    }
-  }
+      error: action.error,
+    }),
+  }),
 
-  if (action.type === REQUEST_LOGIN_AUT) {
-    return {
+  [GET_USER_BY_ID]: (_state, _action) =>
+  createRequestReducer(_state, _action, {
+    SEND: (state, action) => ({
       ...state,
       isFetching: true,
-      auth: null,
-    }
-  }
-  if (action.type === SUCCESS_LOGIN_AUT) {
-    deleteDataUserFromLocalStoragr();
-    return {
-      ...state,
-      isFetching: false,
-      auth: null,
-    }
-  }
-  if (action.type === FAIL_LOGIN_AUT) {
-    return {
-      ...state,
-     isFetching: false,
-     error: action.error,
-    }
-  }
-
-  if (action.type === REQUEST_GET_USER_BY_ID) {
-    return {
-      ...state,
-      isFetching: true,
-    }
-  }
-  if (action.type === SUCCESS_GET_USER_BY_ID) {
-    return {
+    }),
+    SUCCESS: (state, action) => ({
       ...state,
       isFetching: false,
       userData: action.response,
-    }
-  }
-  if (action.type === FAIL_GET_USER_BY_ID) {
-    return {
+    }),
+    FAIL: (state, action) => ({
       ...state,
-     isFetching: false,
-     error: action.error,
-     userData: null,
-    }
-  }
+      isFetching: false,
+      error: action.error,
+      userData: null,
+    }),
+  }),
 
-  return state;
-}
+  [LOG_AUT]: (_state, _action) =>
+  createRequestReducer(_state, _action, {
+    SEND: (state, action) => ({
+      ...state,
+      isFetching: true,
+      auth: null,
+    }),
+    SUCCESS: (state, action) => {
+      deleteDataUserFromLocalStoragr();
+      return {
+        ...state,
+        isFetching: false,
+        auth: null,
+      };
+    },
+    FAIL: (state, action) => ({
+      ...state,
+      isFetching: false,
+      error: action.error,
+    }),
+  }),
+})
