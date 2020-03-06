@@ -9,7 +9,7 @@ import { render } from '@jaredpalmer/after';
 
 import configureStore from 'store/configureStore';
 
-import Layout from 'container/layout';
+import Layout from 'container/Layout';
 import routes from '../routes';
 import myDocument from './document';
 

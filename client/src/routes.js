@@ -7,7 +7,7 @@ export default [
     path: '/',
     exact: true,
     component: asyncComponent({
-      loader: () => import('./container/homePage'),
+      loader: () => import('./container/Home'),
       Placeholder: () => <div>...LOADING HOMEPAGE...</div>,
     }),
   },
@@ -39,7 +39,7 @@ export default [
     path: '/me',
     exact: true,
     component: asyncComponent({
-      loader: () => import('./container/mePage'),
+      loader: () => import('./container/MePage'),
       Placeholder: () => <div>...LOADING FAVORITES...</div>,
     }),
   },
