@@ -10,25 +10,28 @@ import ProfileUser from '../../components/profileUser';
 
 
 class MePage extends React.Component {
-  constructor(props) {
-    super(props);
-
-  }
+  // constructor(props) {
+  //   super(props);
+  //
+  // }
 
   render() {
+    const {
+      classes,
+    } = this.props;
     return (
       <Layout>
-        <div className="me-page">
-          <div className='me-page__container'>
+        <div className={classes['me-page']}>
+          <div className={classes['me-page__container']}>
             <ProfileUser />
-            <div className="sitebar">
-              <aside className="sitebar-links">
-                <p className="sitebar-link"><Link to='/create-rate'><span>Создать ставку</span></Link></p>
-                <p className="sitebar-link"><Link to='/create-rates-list'><span>Созданные ставки</span></Link></p>
-                <p className="sitebar-link"><Link to='/rate-list'><span>Список ставок</span></Link></p>
+            <div className={classes['sitebar']}>
+              <aside className={classes['sitebar-links']}>
+                <p className={classes['sitebar-link']}><Link to='/create-rate'><span>Создать ставку</span></Link></p>
+                <p className={classes['sitebar-link']}><Link to='/create-rates-list'><span>Созданные ставки</span></Link></p>
+                <p className={classes['sitebar-link']}><Link to='/rate-list'><span>Список ставок</span></Link></p>
               </aside>
             </div>
-            <div className="content-user">
+            <div className={classes['content-user']}>
               content-user
             </div>
           </div>
@@ -39,9 +42,7 @@ class MePage extends React.Component {
 }
 
 MePage.propType = {
-  // authRegistration: PropTypes.func,
-  // createNewUser: PropTypes.func,
-  // authoLogin: PropTypes.func,
+  classes: PropTypes.shape({}),
   // auth: PropTypes.shape({}),
 }
 

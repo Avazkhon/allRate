@@ -29,11 +29,11 @@ export default {
   'sitebar-link': {
     margin: '5px 0 0 5px',
     cursor: 'pointer',
+    '&:hover': {
+      opacity: '0.6',
+    }
   },
 
-  'sitebar-link:hover': {
-    opacity:' 0.6',
-  },
 
   'content-user': {
     'grid-area': 'content',
