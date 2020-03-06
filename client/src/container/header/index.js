@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import { Link } from "react-router-dom";
+import injectSheet from 'react-jss';
 
-import './style.css';
+import style from './style';
 import Auth from '../../components/auth';
 
 import { isBrowser } from '../../utils';
@@ -104,6 +105,7 @@ class Header extends React.Component {
   render() {
     const {
       auth,
+      classes,
     } = this.props;
 
     const {
@@ -113,11 +115,11 @@ class Header extends React.Component {
     const isLogin = auth.auth && auth.auth.userId;
 
     return (
-      <div className="header">
-        <ul className="header__navbar">
+      <div className={classes.header}>
+        <ul className={classes.header__navbar}>
           {navBar.map((itm) => {
             return (
-              <li key={itm.id} className="header__item">
+              <li key={itm.id} className={classes.header__item}>
                 <Link to={itm.url} style={{ 'textDecoration': 'none' }}>
                   <span>{itm.name}</span>
                 </Link>
@@ -125,10 +127,10 @@ class Header extends React.Component {
             )
           })}
         </ul>
-        <div className="header__auth" ref={this.headerAauth}>
-          <div className="header_container">
+        <div className={classes.header__auth} ref={this.headerAauth}>
+          <div className={classes.header_container}>
             <input
-              className="header__auth-btn"
+              className={classes['header__auth-btn']}
               type="button"
               value={isLogin ? 'Выйти' : 'Войти'}
               onClick={ isLogin ? this.handleSubmitAuth : this.handleAuth}
@@ -160,7 +162,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
+export default injectSheet(style)(connect(mapStateToProps, {
   authoLogin,
   authoLogAut,
-})(Header);
+})(Header));

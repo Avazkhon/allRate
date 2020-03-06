@@ -6,7 +6,6 @@ import Header from '../header';
 import Footer from '../footer';
 
 import './style.css';
-import './reset.css';
 
 class Layout extends React.Component {
   constructor(props) {
