@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
+import injectSheet from 'react-jss';
 
+import style from './style';
 import Layout from '../layout';
-
 import ProfileUser from '../../components/profileUser';
 
-import './style.css';
 
 class MePage extends React.Component {
   constructor(props) {
@@ -54,5 +54,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
-})(MePage);
+export default injectSheet(style)(
+  connect(mapStateToProps, {
+  })(MePage)
+);

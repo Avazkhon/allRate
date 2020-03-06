@@ -1,13 +1,24 @@
 import React from 'react';
 import { AfterRoot, AfterData } from '@jaredpalmer/after';
-// import styles from '';
+
+import {
+  JssProvider,
+  SheetsRegistry,
+} from 'react-jss';
+
 const CustomDocumentHOC = (store) => {
   class CustomDocument extends React.Component {
     static async getInitialProps({ assets, data, renderPage }) {
+      const sheets = new SheetsRegistry()
       const page = await renderPage(App => props =>
-        <App {...props} />
+        <JssProvider
+          registry={sheets}
+          id={process.env.RAZZLE_APP_MINIMIZE_CLASSES && {minify: true}}
+        >
+          <App {...props} />
+        </JssProvider>
       );
-      const css = "styles".toString();
+      const css = sheets.toString();
       return { assets, data, ...page, css };
     }
 
