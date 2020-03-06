@@ -46,28 +46,23 @@ function callApi(endpoint, method, data, queryParams, options) {
     .then((response) => {
       const { status, ok, headers } = response;
 
-      try {
-        return response.json()
-        .then((json) => {
-          if (!ok) {
-            throw { json, status };
-          } else {
-            return { json, status, headers };
-          }
-        })
-        .catch((error) => {
-          if (!ok) {
-            throw error;
-          } else {
-            return { status };
-          }
-        });
+      return response.json()
+      .then((json) => {
+        if (!ok) {
+          throw { json, status };
+        } else {
+          return { json, status, headers };
+        }
+      })
+      .catch((error) => {
+        console.log('e', error);
+        if (!ok) {
+          throw error;
+        } else {
+          return { status };
+        }
+      });
 
-      } catch (e) {
-        console.log('e', e);
-      } finally {
-
-      }
     })
     .catch((error) => {
       catchPromise(`requestFail ${fullUrl}`)(error);
