@@ -12,21 +12,13 @@ export default [
     }),
   },
   {
-    path: '/create-rates-list',
+    path: '/create-rate',
     exact: true,
     component: asyncComponent({
-      loader: () => import('./container/CreateRatesList'),
-      Placeholder: () => <div>...LOADING...</div>,
+      loader: () => import('./container/CreateRatePage'),
+      Placeholder: () => <div>...LOADING FAVORITES...</div>,
     }),
   },
-  // {
-  //   path: '/create-rate',
-  //   exact: true,
-  //   component: asyncComponent({
-  //     loader: () => import('./container/CreateRatePage'),
-  //     Placeholder: () => <div>...LOADING FAVORITES...</div>,
-  //   }),
-  // },
   {
     path: '/rate-list/',
     exact: true,
@@ -59,11 +51,11 @@ export default [
       Placeholder: () => <div>...LOADING...</div>,
     }),
   },
-  // {
-  //   path: '*',
-  //   component: asyncComponent({
-  //     loader: () => import('./container/Notfound'),
-  //     Placeholder: () => <div>...DONT PAGE</div>,
-  //   }),
-  // },
+  {
+    path: '*',
+    component: asyncComponent({
+      loader: () => import('./container/NotFound'),
+      Placeholder: () => <div>...DONT PAGE</div>,
+    }),
+  },
 ];

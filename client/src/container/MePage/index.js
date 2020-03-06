@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import injectSheet from 'react-jss';
 
 import style from './style';
-import Layout from '../layout';
+import Layout from '../Layout';
 import ProfileUser from '../../components/profileUser';
 
 
