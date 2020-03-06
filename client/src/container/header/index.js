@@ -49,16 +49,16 @@ class Header extends React.Component {
 }
 
   leaveByClick = (event) => {
+    const { classes } = this.props;
     const navBlock = this.headerAauth;
-    const searchPanel = document.getElementsByClassName('header__auth')[0];
+    const searchPanel = document.getElementsByClassName(classes.header__auth)[0];
     const path = event.path || (event.composedPath && event.composedPath());
-
     if (path
       && path.includes
       && !path.includes(navBlock)
       && (!searchPanel
         || !path.includes(searchPanel)
-        || event.target.classList.contains('header__auth')
+        || event.target.classList.contains(classes.header__auth)
       )
     ) {
       if (this.state.isAuth) {
@@ -126,25 +126,28 @@ class Header extends React.Component {
               </li>
             )
           })}
+
+          <li className={classes.header__item}>
+            <div className={classes.header__auth} ref={this.headerAauth}>
+              <div className={classes.header_container}>
+                <input
+                  className={classes['header__auth-btn']}
+                  type="button"
+                  value={isLogin ? 'Выйти' : 'Войти'}
+                  onClick={ isLogin ? this.handleSubmitAuth : this.handleAuth}
+                />
+                {
+                  isAuth &&
+                  <Auth
+                    isHeder
+                    handleChange={this.handleChange}
+                    handleAuth={this.handleSubmitAuth}
+                  />
+                }
+              </div>
+            </div>
+          </li>
         </ul>
-        <div className={classes.header__auth} ref={this.headerAauth}>
-          <div className={classes.header_container}>
-            <input
-              className={classes['header__auth-btn']}
-              type="button"
-              value={isLogin ? 'Выйти' : 'Войти'}
-              onClick={ isLogin ? this.handleSubmitAuth : this.handleAuth}
-            />
-            {
-              isAuth &&
-              <Auth
-                isHeder
-                handleChange={this.handleChange}
-                handleAuth={this.handleSubmitAuth}
-              />
-            }
-          </div>
-        </div>
       </div>
     );
   }

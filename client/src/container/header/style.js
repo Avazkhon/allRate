@@ -32,9 +32,10 @@ export default {
 
   'header_container': {
     position: 'absolute',
+    'background-color': 'white',
+    'z-index': 1,
   },
 
-  'header__auth': {
-    'margin-top': '15px',
-  },
+  // 'header__auth': {
+  // },
 }
