@@ -99,36 +99,3 @@ exports.deleteOne = (req, res) => {
     res.send('Пользователь успешно удален!')
   })
 }
-
-exports.auth = (req, res) => {
-  const { aut } = req.query;
-  if (aut) {
-    req.session.user = null;
-    const data = { message: 'Пользователь успешно вышел из системы!' };
-    return res.status(200).json(data);
-  }
-  const { email, password } = req.body;
-
-  userModels.getOneByUserEmail(email, (err, result) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).send(err);
-    }
-
-    if (result
-      && result.email === email
-      && result.password === password
-    )
-    {
-      const data = {
-        message: 'Пользователь успешно авторизован!',
-        userId: result._id,
-        userName: result.userName,
-        isAdmin: result.isAdmin,
-      };
-      req.session.user = { isAdmin: result.isAdmin, id: result._id };
-      return res.status(200).json(data);
-    }
-    return res.status(401).send('Не правельный email или пароль!');
-  });
-}

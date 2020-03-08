@@ -15,12 +15,13 @@ exports.authIn = (req, res) => {
     )
     {
       const data = {
-        message: 'Пользователь успешно авторизован!',
         userId: result._id,
         userName: result.userName,
         isAdmin: result.isAdmin,
       };
-      req.session.user = { isAdmin: result.isAdmin, id: result._id };
+      console.log(111, req.session.user);
+      req.session.user = data;
+      console.log(222, req.session.user);
       return res.status(200).json(data);
     }
     return res.status(401).send('Не правельный email или пароль!');
@@ -28,6 +29,7 @@ exports.authIn = (req, res) => {
 }
 
 exports.authAut = (req, res) => {
+  console.log(333, req.session.user);
   req.session.user = null;
   return res.status(200)
     .json({
