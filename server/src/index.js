@@ -10,6 +10,7 @@ const db = require('./db');
 
 const rateControllers = require('./controllers/rateControllers');
 const userControllers = require('./controllers/user');
+const authControllers = require('./controllers/auth');
 const passwords = require('../password');
 
 const app = express();
@@ -43,7 +44,9 @@ app.get('/', (req, res) => {
   res.send('Hello! welcome to the "All rate"!');
 })
 
-app.post('/auth', userControllers.auth); // один роут для входа и выхода
+app.route('/auth')
+  .get(authControllers.authAut)
+  .post(authControllers.authIn);
 
 app.route('/user')
   .get(userControllers.getUser) // обрабатывает запросы по userName, id и all
