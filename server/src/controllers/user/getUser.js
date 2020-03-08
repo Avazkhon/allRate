@@ -1,4 +1,4 @@
-const userModels = require('../models/user');
+const userModels = require('../../models/user');
 const handlier = (err, result, res) => {
   if (err) {
     console.log(err);
