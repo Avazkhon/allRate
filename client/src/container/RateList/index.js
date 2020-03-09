@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import injectSheet from 'react-jss';
+import queryString from 'query-string';
 
 import Layout from '../Layout';
 
@@ -22,16 +23,21 @@ class RateList extends React.Component {
 
   static async getInitialProps({ req, res, match, history, location, ...ctx }) {
     const {store} = ctx;
-    console.log(store);
     if (store && store.dispatch) {
-      await store.dispatch(getCommonRates());
+      const { userId } = req.query;
+      if (userId) {
+        await store.dispatch(getCommonRates(userId));
+      } else {
+        await store.dispatch(getCommonRates());
+      }
     }
   }
 
   componentDidMount() {
-    const { getCommonRates } = this.props;
+    const { getCommonRates, location } = this.props;
     if (typeof getCommonRates === 'function') {
-      getCommonRates();
+      const { userId } = queryString.parse(location.search);
+      getCommonRates(userId || '');
     }
   }
 

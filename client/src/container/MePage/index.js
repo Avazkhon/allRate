@@ -18,7 +18,9 @@ class MePage extends React.Component {
   render() {
     const {
       classes,
+      auth,
     } = this.props;
+    const userId = auth.auth && auth.auth.userId;
     return (
       <Layout>
         <div className={classes['me-page']}>
@@ -27,7 +29,7 @@ class MePage extends React.Component {
             <div className={classes['sitebar']}>
               <aside className={classes['sitebar-links']}>
                 <p className={classes['sitebar-link']}><Link to='/create-rate'><span>Создать ставку</span></Link></p>
-                <p className={classes['sitebar-link']}><Link to='/rate-list?sort=me'><span>Созданные ставки</span></Link></p>
+                <p className={classes['sitebar-link']}><Link to={`/rate-list?userId=${userId}`}><span>Созданные ставки</span></Link></p>
                 <p className={classes['sitebar-link']}><Link to='/rate-list?sort=all'><span>Список ставок</span></Link></p>
               </aside>
             </div>
@@ -43,7 +45,7 @@ class MePage extends React.Component {
 
 MePage.propType = {
   classes: PropTypes.shape({}),
-  // auth: PropTypes.shape({}),
+  auth: PropTypes.shape({}),
 }
 
 function mapStateToProps(state) {
