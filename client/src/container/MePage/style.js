@@ -6,11 +6,11 @@ export default {
     'max-width': '1240px',
     margin: 'auto',
     display: 'grid',
-    'grid-template-areas': `"profile profile"
+    'grid-template-areas': `"sitebar profile"
                          "sitebar content"
                          "sitebar content"`,
     'grid-template-rows': '200px 100%',
-    'grid-template-columns': '4fr 8fr',
+    'grid-template-columns': '2fr 10fr',
   },
 
   'profile-user': {

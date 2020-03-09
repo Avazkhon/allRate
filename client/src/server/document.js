@@ -40,7 +40,7 @@ const CustomDocumentHOC = (store) => {
           <head>
             <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
             <meta charSet="utf-8" />
-            <title>British patterns</title>
+            <title>All Rate</title>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             {helmet.title.toComponent()}
             {helmet.meta.toComponent()}
