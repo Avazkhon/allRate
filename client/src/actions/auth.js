@@ -28,13 +28,12 @@ export function authoLogin (data) {
 }
 
 
-export function authoLogAut (data) {
+export function authoLogAut () {
   return dispathc => dispathc({
     type: LOG_AUT,
     meta: {
-      method: 'POST',
-      endpoint: 'auth/?aut=true',
-      data: null,
+      method: 'GET',
+      endpoint: 'auth',
     }
   });
 }
@@ -52,7 +51,7 @@ export function createNewUser (data) {
 
 export function getUserById(url) {
   return (dispatch, getState) => dispatch({
-    types: GET_USER_BY_ID,
+    type: GET_USER_BY_ID,
     meta: {
       method: 'GET',
       endpoint: url

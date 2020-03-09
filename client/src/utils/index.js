@@ -1,13 +1,13 @@
 export const isBrowser = () => typeof window != 'undefined';
-export const getDataUserFromLocalStoragr = () => {
+export const getDataUserFromLocalStorag = () => {
   return isBrowser() && JSON.parse(localStorage.getItem('userData'));
 }
 
-export const deleteDataUserFromLocalStoragr = () => {
+export const deleteDataUserFromLocalStorag = () => {
   return isBrowser() && localStorage.removeItem('userData');
 }
 
-export const setDataUserFromLocalStoragr = (data) => {
+export const setDataUserFromLocalStorag = (data) => {
   return isBrowser() && localStorage.setItem('userData', JSON.stringify(data));
 }
 

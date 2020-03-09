@@ -7,19 +7,19 @@ import {
 } from '../constants'
 
 import {
-  getDataUserFromLocalStoragr,
-  deleteDataUserFromLocalStoragr,
-  setDataUserFromLocalStoragr,
+  deleteDataUserFromLocalStorag,
+  setDataUserFromLocalStorag,
   createReducer,
   createRequestReducer,
 } from '../utils';
 
 const initState = {
   isFetching: false,
-  auth: getDataUserFromLocalStoragr(),
+  auth: null,
   error: null,
   userData: null,
 };
+
 
 export default createReducer(initState, {
   [LOG_IN]: (_state, _action) =>
@@ -29,7 +29,7 @@ export default createReducer(initState, {
       isFetching: true,
     }),
     SUCCESS: (state, action) => {
-      setDataUserFromLocalStoragr(action.response);
+      setDataUserFromLocalStorag(action.response);
       return {
         ...state,
         isFetching: false,
@@ -53,6 +53,10 @@ export default createReducer(initState, {
       ...state,
       isFetching: false,
       userData: action.response,
+      auth: {
+        userId: action.response._id,
+        userName: action.response.userName,
+      },
     }),
     FAIL: (state, action) => ({
       ...state,
@@ -70,7 +74,7 @@ export default createReducer(initState, {
       auth: null,
     }),
     SUCCESS: (state, action) => {
-      deleteDataUserFromLocalStoragr();
+      deleteDataUserFromLocalStorag();
       return {
         ...state,
         isFetching: false,

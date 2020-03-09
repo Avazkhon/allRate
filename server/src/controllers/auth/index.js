@@ -19,9 +19,7 @@ exports.authIn = (req, res) => {
         userName: result.userName,
         isAdmin: result.isAdmin,
       };
-      console.log(111, req.session.user);
       req.session.user = data;
-      console.log(222, req.session.user);
       return res.status(200).json(data);
     }
     return res.status(401).send('Не правельный email или пароль!');
@@ -29,7 +27,6 @@ exports.authIn = (req, res) => {
 }
 
 exports.authAut = (req, res) => {
-  console.log(333, req.session.user);
   req.session.user = null;
   return res.status(200)
     .json({

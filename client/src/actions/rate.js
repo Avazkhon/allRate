@@ -12,7 +12,7 @@ export function creteNewRate (data) {
   const fullDtat = { ...data, localTime: new Date() }
   return dispatch => dispatch({
     type: CREATE_NEW_RATE,
-    meat: {
+    meta: {
       method: "POST",
       endpoint: "rate",
       data: fullDtat,
@@ -43,8 +43,8 @@ export function getRateByID (rateId) {
 
 export function putRateByID (data) {
   return dispatch => dispatch({
-    [CALL_API]: {
-      types: [PUT_RATE_REQUEST, PUT_RATE_SUCCESS, PUT_RATE_FAIL],
+    type: PUT_RATE,
+    meta: {
       method: "PUT",
       endpoint: `rate?id=${data._id}`,
       data

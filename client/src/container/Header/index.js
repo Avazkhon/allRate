@@ -13,7 +13,12 @@ import { isBrowser } from '../../utils';
 import {
   authoLogin,
   authoLogAut,
-} from '../../actions';
+  getUserById,
+} from 'actions';
+
+import {
+  getDataUserFromLocalStorag,
+} from 'utils';
 
 const navBar = [
   { id: 1, name: 'Главная', url: '/'},
@@ -36,6 +41,13 @@ class Header extends React.Component {
   }
 
   componentDidMount() {
+    const {
+      getUserById,
+    } = this.props;
+    const user = getDataUserFromLocalStorag();
+    if (user && user.userId) {
+      getUserById('user/?id=' + user.userId);
+    }
    if (isBrowser()) {
     document.addEventListener('mousedown', this.leaveByClick, false);
    }
@@ -154,6 +166,7 @@ class Header extends React.Component {
 }
 
 Header.propType = {
+  authoLogin: PropTypes.func,
 }
 
 function mapStateToProps(state) {
@@ -168,4 +181,5 @@ function mapStateToProps(state) {
 export default injectSheet(style)(connect(mapStateToProps, {
   authoLogin,
   authoLogAut,
+  getUserById,
 })(Header));

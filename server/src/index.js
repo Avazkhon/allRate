@@ -25,10 +25,10 @@ app.use(session({
   secret: passwords.secret,
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 60 * 60 * 24 },
+  cookie: { maxAge: 1000 * 60 * 60 * 24 },
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
-    ttl: 60 * 60 * 24
+    ttl: 1000 * 60 * 60 * 24
   }),
 }));
 

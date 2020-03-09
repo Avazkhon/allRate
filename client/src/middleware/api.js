@@ -8,10 +8,11 @@ function callApi(endpoint, method, data, queryParams, options) {
   let fullUrl = options.apiRoot + endpoint;
   const requestOptions = {
     method,
-    credentials: 'same-origin',
+    // credentials: 'same-origin',
     headers: Object.assign({}, options.headers, {
       Accept: 'application/json'
-    })
+    }),
+    credentials: 'include',
   };
 
   if (options.csrfToken) {
@@ -78,7 +79,7 @@ function uploadFiles(endpoint, files, field, options) {
   const fullUrl = options.apiRoot + endpoint;
   const requestOptions = {
     method: 'POST',
-    credentials: 'same-origin',
+    credentials: 'include',
     headers: {
       'X-CSRFToken': options.csrfToken
     }
@@ -172,23 +173,23 @@ export default function createApiMiddleware(req) {
       return next(action);
     }
 
-    if (
-      action.IS_MOCKED_REQUEST === true &&
-      action.MOCKED_RESPONSE
-    ) {
-
-      console.log('THIS IS_MOCKED_REQUEST', action.IS_MOCKED_REQUEST);
-
-      next(actionWith(action, 'SEND'));
-      return cancelablePromiseWithDelay(500, action.MOCKED_RESPONSE).promise
-        .then(() =>{
-          console.log('mocked response');
-          return next(actionWith(action, 'SUCCESS', {
-            response: action.MOCKED_RESPONSE,
-            statusCode: 200,
-          }))
-        });
-    }
+    // if (
+    //   action.IS_MOCKED_REQUEST === true &&
+    //   action.MOCKED_RESPONSE
+    // ) {
+    //
+    //   console.log('THIS IS_MOCKED_REQUEST', action.IS_MOCKED_REQUEST);
+    //
+    //   next(actionWith(action, 'SEND'));
+    //   return cancelablePromiseWithDelay(500, action.MOCKED_RESPONSE).promise
+    //     .then(() =>{
+    //       console.log('mocked response');
+    //       return next(actionWith(action, 'SUCCESS', {
+    //         response: action.MOCKED_RESPONSE,
+    //         statusCode: 200,
+    //       }))
+    //     });
+    // }
 
     action = {
       ...action,
