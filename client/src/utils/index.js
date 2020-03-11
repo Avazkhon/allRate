@@ -1,13 +1,13 @@
 export const isBrowser = () => typeof window != 'undefined';
-export const getDataUserFromLocalStoragr = () => {
+export const getDataUserFromLocalStorag = () => {
   return isBrowser() && JSON.parse(localStorage.getItem('userData'));
 }
 
-export const deleteDataUserFromLocalStoragr = () => {
+export const deleteDataUserFromLocalStorag = () => {
   return isBrowser() && localStorage.removeItem('userData');
 }
 
-export const setDataUserFromLocalStoragr = (data) => {
+export const setDataUserFromLocalStorag = (data) => {
   return isBrowser() && localStorage.setItem('userData', JSON.stringify(data));
 }
 
@@ -23,3 +23,18 @@ export const changeDataUserToLocalStorage = (data)  => {
 }
 
 export const isFunction = (fn) => (typeof fn === 'function');
+
+export function createReducer(initialState, reducerMap) {
+  return (state, action) => {
+    if (!state) state = initialState;
+
+    const reducer = reducerMap[action.type];
+
+    return reducer ? reducer({ ...state}, action) : state;
+  };
+};
+
+export function createRequestReducer(state, action, reducerMap) {
+  const reducer = reducerMap[action.status];
+  return reducer ? reducer(state, action) : state;
+};

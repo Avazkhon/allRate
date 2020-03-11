@@ -22,7 +22,7 @@ exports.postAddOne = (req, res) => {
   const { userData } = req;
 
   if (body) {
-    body = { ...body, author: user.id,}
+    body = { ...body, author: user.userId,}
     rateModels.postAddOne(body,
       (err, result) => {
         if (err) {

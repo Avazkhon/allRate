@@ -1,30 +1,15 @@
-import { CALL_API } from '../middleware/api';
 import {
-  REQUEST_GET_USER_BY_ID,
-  SUCCESS_GET_USER_BY_ID,
-  FAIL_GET_USER_BY_ID,
-
-  REQUEST_LOGIN,
-  SUCCESS_LOGIN,
-  FAIL_LOGIN,
-
-  REGISTRATION_USER_REQUEST,
-  REGISTRATION_USER_SUCCESS,
-  REGISTRATION_USER_FAIL,
-
-  REQUEST_LOGIN_AUT,
-  SUCCESS_LOGIN_AUT,
-  FAIL_LOGIN_AUT,
-
-  CREATE_NEW_USER_REQUEST,
-  CREATE_NEW_USER_SUCCESS,
-  CREATE_NEW_USER_FAIL,
+  GET_USER_BY_ID,
+  LOG_IN,
+  REGISTRATION_USER,
+  LOG_AUT,
+  CREATE_NEW_USER,
 } from '../constants'
 
 export function authRegistration() {
   return dispatch => dispatch({
-    [CALL_API]: {
-      types: [REGISTRATION_USER_REQUEST, REGISTRATION_USER_SUCCESS, REGISTRATION_USER_FAIL],
+    type: REGISTRATION_USER,
+    meta: {
       method: 'POST',
       endpoint: 'user',
     }
@@ -33,8 +18,8 @@ export function authRegistration() {
 
 export function authoLogin (data) {
   return dispathc => dispathc({
-    [CALL_API]: {
-      types: [REQUEST_LOGIN, SUCCESS_LOGIN, FAIL_LOGIN],
+    type: LOG_IN,
+    meta: {
       method: 'POST',
       endpoint: 'auth',
       data
@@ -43,21 +28,20 @@ export function authoLogin (data) {
 }
 
 
-export function authoLogAut (data) {
+export function authoLogAut () {
   return dispathc => dispathc({
-    [CALL_API]: {
-      types: [REQUEST_LOGIN_AUT, SUCCESS_LOGIN_AUT, FAIL_LOGIN_AUT],
-      method: 'POST',
-      endpoint: 'auth/?aut=true',
-      data: null,
+    type: LOG_AUT,
+    meta: {
+      method: 'GET',
+      endpoint: 'auth',
     }
   });
 }
 
 export function createNewUser (data) {
   return dispathc => dispathc({
-    [CALL_API]: {
-      types: [CREATE_NEW_USER_REQUEST, CREATE_NEW_USER_SUCCESS, CREATE_NEW_USER_FAIL],
+    type: CREATE_NEW_USER,
+    meta: {
       method: 'POST',
       endpoint: 'user',
       data,
@@ -67,8 +51,8 @@ export function createNewUser (data) {
 
 export function getUserById(url) {
   return (dispatch, getState) => dispatch({
-    [CALL_API]: {
-      types: [REQUEST_GET_USER_BY_ID, SUCCESS_GET_USER_BY_ID, FAIL_GET_USER_BY_ID],
+    type: GET_USER_BY_ID,
+    meta: {
       method: 'GET',
       endpoint: url
     }

@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import injectSheet from 'react-jss';
 
-import './style.css';
+import style from './style';
 
 import {
   getUserById,
@@ -43,6 +44,7 @@ class ProfileUser extends React.Component {
   render() {
     const {
       auth: { userData },
+      classes
     } = this.props;
     let userProps = [];
     if (userData && userData._id) {
@@ -59,20 +61,20 @@ class ProfileUser extends React.Component {
     }
 
     return (
-      <div className="profile-user">
-        <div className="profile-user__container">
-          <div className='avatar'>
+      <div className={classes['profile-user']}>
+        <div className={classes['profile-user__container']}>
+          <div className={classes.avatar}>
             <img src="#" alt="Avatar" />
           </div>
-          <div className="profile-user_edit">
-            <div className='profile-user-edit'>
+          <div className={classes['profile-user_edit']}>
+            <div className={classes['profile-user-edit']}>
               <input
                 type="button"
                 value="Редактировать"
               />
             </div>
           </div>
-          <div className="profile-user__content">
+          <div className={classes['profile-user__content']}>
             <div>
               <ul>
                 {
@@ -95,9 +97,8 @@ class ProfileUser extends React.Component {
 
 ProfileUser.propType = {
   getUserById: PropTypes.func,
-  // createNewUser: PropTypes.func,
-  // authoLogin: PropTypes.func,
-  // auth: PropTypes.shape({}),
+  auth: PropTypes.shape({}),
+  classes: PropTypes.shape({}),
 }
 
 function mapStateToProps(state) {
@@ -109,6 +110,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
-  getUserById,
-})(ProfileUser);
+export default injectSheet(style)(
+  connect(mapStateToProps, {
+    getUserById,
+  })(ProfileUser)
+);

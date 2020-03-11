@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 
-import Layout from '../layout';
+import Layout from '../Layout';
 
 import Auth from '../../components/auth';
 import CreateNewUser from '../../components/createNewUser';

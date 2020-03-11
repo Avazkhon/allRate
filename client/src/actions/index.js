@@ -12,3 +12,7 @@ export {
   getRateByID,
   putRateByID,
 } from './rate';
+
+export {
+  getCommonRates,
+} from './commonRate';

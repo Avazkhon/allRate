@@ -23,7 +23,8 @@ exports.getOneById = (id, callBack) => {
 }
 
 exports.getOneByAuthot = (userId, callBack) => {
-  Rate.find({ author: userId}, callBack);
+  Rate.find({ author: userId}, callBack)
+  .skip(0).limit(40);
 }
 
 exports.findByIdAndUpdate = (id, data, callBack) => {
