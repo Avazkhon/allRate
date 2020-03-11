@@ -44,8 +44,12 @@ class RateList extends React.Component {
   render() {
     const {
       rateList,
-      classes
+      classes,
+      location,
     } = this.props;
+
+    const { sort } = queryString.parse(location.search);
+
     return (
       <Layout>
         <div className={classes['rate-list']}>
@@ -61,7 +65,7 @@ class RateList extends React.Component {
                       key={rate._id}
                       className={classes['rate-item']}
                     >
-                      <Link to={`card-rate/${rate._id}`}>
+                      <Link to={sort ? `make-rate?rateId=${rate._id}` : `card-rate/${rate._id}`}>
                         <div className={classes['rate-item_header']}>
                           <span>{rate.title}</span>
                         </div>

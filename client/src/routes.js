@@ -52,6 +52,14 @@ export default [
     }),
   },
   {
+    path: '/make-rate',
+    exact: true,
+    component: asyncComponent({
+      loader: () => import('./container/MakeRate'),
+      Placeholder: () => <div>...LOADING...</div>,
+    }),
+  },
+  {
     path: '*',
     component: asyncComponent({
       loader: () => import('./container/NotFound'),
