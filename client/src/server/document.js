@@ -7,6 +7,7 @@ import {
 } from 'react-jss';
 
 import reset from './reset.css';
+import initStyle from './style.css';
 
 const CustomDocumentHOC = (store) => {
   class CustomDocument extends React.Component {
@@ -45,9 +46,11 @@ const CustomDocumentHOC = (store) => {
             {helmet.title.toComponent()}
             {helmet.meta.toComponent()}
             {helmet.link.toComponent()}
-            {assets.client.css && (
-              <link rel="stylesheet" href={assets.client.css} />
-            )}
+            {
+              // assets.client.css && (
+              //   <link rel="stylesheet" href={assets.client.css} />
+              // )
+            }
 
             {process.env.NODE_ENV === 'production' ? (
               <span
@@ -70,7 +73,7 @@ const CustomDocumentHOC = (store) => {
           {
             // NOTE: 'эти стили нужны что бы не было разнии типа не мерцала'
           }
-          <style dangerouslySetInnerHTML={ { __html: reset} } />
+          <style dangerouslySetInnerHTML={ { __html: initStyle} } />
 
           <style id="server-side-styles">
             {css}

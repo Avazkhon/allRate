@@ -28,13 +28,15 @@ class MakeRate extends Component {
 
   render() {
     const {
-      rate
+      rate,
+      auth,
     } = this.props;
 
     return (
       <Layout>
         <MakeRateComponent
           rate={rate.selectRate}
+          auth={auth}
         />
       </Layout>
     );

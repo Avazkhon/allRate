@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import injectSheet from 'react-jss';
 
+import Layout from 'container/Layout';
+import ProfileUser from 'components/profileUser';
+import SiteBar from 'components/SiteBar';
+
 import style from './style';
-import Layout from '../Layout';
-import ProfileUser from '../../components/profileUser';
 
 
 class MePage extends React.Component {
@@ -26,13 +28,9 @@ class MePage extends React.Component {
         <div className={classes['me-page']}>
           <div className={classes['me-page__container']}>
             <ProfileUser />
-            <div className={classes['sitebar']}>
-              <aside className={classes['sitebar-links']}>
-                <p className={classes['sitebar-link']}><Link to='/create-rate'><span>Создать ставку</span></Link></p>
-                <p className={classes['sitebar-link']}><Link to={`/rate-list?userId=${userId}`}><span>Созданные ставки</span></Link></p>
-                <p className={classes['sitebar-link']}><Link to='/rate-list?sort=all'><span>Список ставок</span></Link></p>
-              </aside>
-            </div>
+            <SiteBar
+              userId={userId}
+            />
             <div className={classes['content-user']}>
               content-user
             </div>

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
-import classNames from 'classnames';
 import queryString from 'query-string';
 
+import SiteBar from 'components/SiteBar';
 
 import style from './style';
 
@@ -16,15 +16,24 @@ class MakeRateComponent extends Component {
   render() {
     const {
       classes,
-      rate
+      rate,
+      auth,
     } = this.props;
-
 
     return (
       <div
-        className={classNames(classes['make-rate'])}
+        className={classes['make-rate']}
       >
-        make-rate rateId: {rate && rate._id}
+        <div
+          className={classes['make-rate__container']}
+        >
+          <SiteBar
+            userId={auth.userId}
+          />
+          <content className={classes['content']}>
+            make-rate rateId: {rate && rate._id}
+          </content>
+        </div>
       </div>
     );
   }
