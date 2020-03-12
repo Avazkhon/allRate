@@ -13,7 +13,8 @@ exports.rateSchema = new Schema(
     reasonsForBetting: [
       {
         title: { type: String, required: true, min: 3, max: 50 },
-        id: { type: String, required: true },
+        idParty: { type: String, required: true },
+        idRFB: { type: String, required: true },
         statusFictory: { type: Boolean, default: false },
         bidForItem: [
           {
@@ -28,6 +29,7 @@ exports.rateSchema = new Schema(
       }
     ],
     party: [{
+      id: { type: String, required: true },
       participator: { type: String, required: true, min: 3, max: 50 },
       description: { type: String, required: true, min: 10, max: 200 },
       leval: { type: Number, default: 1 },
