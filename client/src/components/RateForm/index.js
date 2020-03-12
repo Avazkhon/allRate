@@ -11,6 +11,7 @@ import {
 
 import Party from './Party';
 import MainProps from './MainProps';
+import ReasonsForBetting from './ReasonsForBetting';
 
 import {
   isFunction,
@@ -35,6 +36,27 @@ class RateForm extends Component {
             participator: '',
             description: '',
           },
+          {
+            id: 2,
+            participator: '',
+            description: '',
+          },
+        ],
+        reasonsForBetting: [
+          {
+            title: '',
+            idParty: 1,
+            idRFB: 1,
+            statusFictory: false,
+            bidForItem: [],
+          },
+          {
+            title: '',
+            idParty: 2,
+            idRFB: 2,
+            statusFictory: false,
+            bidForItem: [],
+          }
         ],
         dateStart: new Date(),
         dateFinish: new Date(),
@@ -138,6 +160,23 @@ class RateForm extends Component {
     }))
   }
 
+  // RFB = reasonsForBetting
+  handleChangeRFB = (e) => {
+    const { value } = e.currentTarget
+    const { idrfb } = e.currentTarget.dataset
+    this.setState((prevState) => ({
+      data: {
+        ...prevState.data,
+        reasonsForBetting: prevState.data.reasonsForBetting.map((RFB) => {
+          if (+RFB.idRFB === +idrfb) {
+            RFB.title = value;
+          };
+          return RFB
+        })
+      }
+    }))
+  }
+
   handleCreateSubmit = () => {
     const { data } = this.state;
     const { creteNewRate } = this.props;
@@ -168,6 +207,7 @@ class RateForm extends Component {
         party,
         dateStart,
         dateFinish,
+        reasonsForBetting,
       },
       isRedirectToMe,
     } = this.state
@@ -212,6 +252,12 @@ class RateForm extends Component {
                   </Button>
                 </Col>
               </Row>
+
+              <ReasonsForBetting
+                party={party}
+                reasonsForBetting={reasonsForBetting}
+                handleChangeRFB={this.handleChangeRFB}
+              />
 
               {
                 creteNewRate &&
