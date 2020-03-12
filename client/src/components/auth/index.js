@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
 import PropTypes from 'prop-types';
+import injectSheet from 'react-jss';
 
-import './style.css';
+import {
+  Form,
+  Button,
+  Row,
+  Col,
+} from 'react-bootstrap';
+
+import style from './style';
 
 class Auth extends Component {
   constructor(props) {
@@ -24,85 +31,83 @@ class Auth extends Component {
       handleAuth,
       handleCreateNewUser,
       isHeder,
+      classes,
     } = this.props;
 
     // const {
     // } = this.state;
 
     return(
-      <div
-        className="login"
-      >
-        <form className="login_form">
-          <div className="login_title" >Авторизация</div>
-          <div>
-            <label className="login__label">
-                <span className="login__label-value">Email</span>
-              <input
+      <Form className={classes.auth} >
+        <Row>
+          <Col xs="12">
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Э-почта</Form.Label>
+              <Form.Control
+                  onChange={handleChange}
+                  placeholder="Ввидите электонную почту"
+                  type="email"
+                  name="email"
+                />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Пароль</Form.Label>
+              <Form.Control
                 onChange={handleChange}
-                placeholder="Enter email"
-                className="login__input"
-                type="email"
-                name="email"
-              >
-              </input>
-            </label>
-            <label className="login__label">
-              <span className="login__label-value">Password</span>
-              <input
-                onChange={handleChange}
-                placeholder="Enter password"
-                className="login__input"
+                placeholder="Ввидите пароль"
                 type="password"
                 name="password"
-              >
-              </input>
-            </label>
-          </div>
-          <div className="login__btn-group">
-            <input
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="12" sm="4">
+            <Button
+              variant="primary"
               className="login__btn"
-              type="button"
-              value="Войти"
               onClick={handleAuth}
-            />
-            {
-              !handleCreateNewUser &&
-              <div className='login_link-auth'>
-                <Link to='/auth'>
-                  <span>Регистрация</span>
-                </Link>
-              </div>
-            }
-            {
-              handleCreateNewUser &&
-              <input
-                className="login__btn"
-                type="button"
-                value="Регистрация"
-                onClick={handleCreateNewUser}
-              />
-            }
-            {
-              !isHeder &&
-              <input
-                className="login__btn"
-                type="button"
-                value="Forgot password?"
-              />
-            }
-          </div>
-        </form>
-      </div>
+            >
+              Войти
+            </Button>
+          </Col>
+          {
+            !handleCreateNewUser &&
+            <Col xs="12" sm="12">
+              <Link to='/auth'>
+                <span>Регистрация</span>
+              </Link>
+            </Col>
+          }
+          {
+            handleCreateNewUser &&
+            <Col xs="12" sm="4">
+              <Button onClick={handleCreateNewUser} >Регистрация </Button>
+            </Col>
+          }
+
+          {
+            !isHeder &&
+            <Col xs="12" sm="4">
+              <Button>Забыли пароль?</Button>
+            </Col>
+          }
+        </Row>
+      </Form>
     )
   }
-}
+};
 
 Auth.propType = {
   handleChange: PropTypes.func,
   handleAuth: PropTypes.func,
   handleCreateNewUser: PropTypes.func,
   isHeder: PropTypes.bool,
+  classes: PropTypes.shape({})
 }
 
-export default Auth;
+export default injectSheet(style)(Auth);

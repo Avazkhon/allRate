@@ -146,7 +146,7 @@ class Header extends React.Component {
               )
             })}
           </Nav>
-          <Nav>
+          <Nav className={classes.header__auth} ref={this.headerAauth}>
             <Button
               variant="primary"
               onClick={ isLogin ? this.handleSubmitAuth : this.handleAuth}
