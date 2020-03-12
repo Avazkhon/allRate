@@ -67,19 +67,16 @@ const CustomDocumentHOC = (store) => {
               />
             )}
           </head>
+          <style id="server-side-styles">
+          {css}
+          </style>
+          <style dangerouslySetInnerHTML={ { __html: initStyle} } />
+          <style dangerouslySetInnerHTML={ { __html: bootstrap} } />
+
           <body {...bodyAttrs}>
             <AfterRoot />
             <AfterData data={data} />
           </body>
-          {
-            // NOTE: 'эти стили нужны что бы не было разнии типа не мерцала'
-          }
-          <style dangerouslySetInnerHTML={ { __html: initStyle} } />
-          <style dangerouslySetInnerHTML={ { __html: bootstrap} } />
-
-          <style id="server-side-styles">
-            {css}
-          </style>
 
           <script
             // __PRELOADED_STATE__

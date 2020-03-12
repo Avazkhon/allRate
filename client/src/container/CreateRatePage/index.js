@@ -3,15 +3,20 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 
-import Layout from '../Layout';
-
-import RateForm from '../../components/RateForm';
+import {
+  Row,
+  Col,
+  Container,
+} from 'react-bootstrap';
 
 import {
   creteNewRate,
-} from '../../actions'
+} from 'actions'
 
-import './style.css';
+import RateForm from 'components/RateForm';
+import SiteBar from 'components/SiteBar';
+
+import Layout from '../Layout';
 
 class CreateRatePAge extends React.Component {
   // constructor(props) {
@@ -27,15 +32,26 @@ class CreateRatePAge extends React.Component {
   render() {
     const {
       creteNewRate,
+      auth,
     } = this.props;
+    const { userId } = auth.auth ? auth.auth : {};
     return (
       <Layout>
-        <div className="create-rate">
-          <RateForm
-            titleFrom="Создание меню"
-            creteNewRate={creteNewRate}
-          />
-        </div>
+        <Container>
+          <Row>
+            <Col xs="12" sm="3">
+              <SiteBar
+                userId={userId}
+              />
+            </Col>
+            <Col xs="12" sm="9">
+              <RateForm
+                titleFrom="Создание меню"
+                creteNewRate={creteNewRate}
+              />
+            </Col>
+          </Row>
+        </Container>
       </Layout>
     );
   }
@@ -43,6 +59,7 @@ class CreateRatePAge extends React.Component {
 
 CreateRatePAge.propType = {
   creteNewRate: PropTypes.func,
+  auth: PropTypes.shape({})
 }
 
 function mapStateToProps(state) {

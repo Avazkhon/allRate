@@ -4,7 +4,7 @@ import {
   Row,
   Col,
   Form,
-} from 'react-bootstrap'
+} from 'react-bootstrap';
 
 import CreateFlatpickr from '../CreateFlatpickr';
 
@@ -51,8 +51,6 @@ const MainProps = ({
           />
         </div>
       </Col>
-    </Row>
-    <Row>
       <Col>
         <div>Конец ставок</div>
         <CreateFlatpickr

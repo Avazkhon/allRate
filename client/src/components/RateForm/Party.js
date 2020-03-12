@@ -6,7 +6,7 @@ import {
   Col,
   Form,
   ListGroup,
-} from 'react-bootstrap'
+} from 'react-bootstrap';
 
 const Party = ({
   party,

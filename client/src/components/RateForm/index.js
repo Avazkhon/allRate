@@ -2,13 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router'
 
-import './style.css';
+import {
+  Row,
+  Col,
+  Form,
+  Button,
+} from 'react-bootstrap';
+
 import Party from './Party';
 import MainProps from './MainProps';
 
 import {
   isFunction,
-} from '../../utils';
+} from 'utils';
 
 const partyInit = (id) => ({
   id,
@@ -177,67 +183,63 @@ class RateForm extends Component {
     }
 
     return(
-      <div
-        className="create-rate"
-      >
-        <form className="create-rate_form">
-          <div className="create-rate_wrapper">
-            <div className="create-rate_title" >{titleFrom}</div>
-            <MainProps
-              title={title}
-              description={description}
-              handleChange={this.handleChange}
-              dateStart={dateStart}
-              handleChangeDateStart={this.handleChangeDateStart}
-              dateFinish={dateFinish}
-              handleChangeDateFinish={this.handleChangeDateFinish}
-            />
-            <div className="create-rate_content">
-                <div>
+      <>
+        <Row className="justify-content-md-center">
+          <Col xs="12" sm="8" m="6">
+            <Form>
+              <MainProps
+                title={title}
+                description={description}
+                handleChange={this.handleChange}
+                dateStart={dateStart}
+                handleChangeDateStart={this.handleChangeDateStart}
+                dateFinish={dateFinish}
+                handleChangeDateFinish={this.handleChangeDateFinish}
+              />
 
-                  <Party
-                    party={party}
-                    handleChangeRate={this.handleChangeRate}
-                  />
-
-                  <div className="create-rate_add-rate-title">Добавить ставку</div>
-                  <input
+              <Party
+                party={party}
+                handleChangeRate={this.handleChangeRate}
+              />
+              <Row>
+                <Col md={{ span: 2, offset: 10 }}>
+                  <Button
                     onChange={this.handleChange}
                     title="Добавить ставку"
-                    className="create-rate_add-rate-item"
-                    type="button"
                     onClick={this.handleAddParty}
-                    value="+"
                   >
-                  </input>
-                </div>
-            </div>
-            <div className="create-rate_btn-group">
+                    +
+                  </Button>
+                </Col>
+              </Row>
+
               {
                 creteNewRate &&
-                <input
-                  className="create-rate_btn"
-                  type="button"
-                  value="Создать"
-                  onClick={this.handleCreateSubmit}
-                />
+                <Row>
+                  <Col>
+                  <Button onClick={this.handleCreateSubmit} >
+                    Создать
+                  </Button>
+                  </Col>
+                </Row>
               }
               {
                 getRateByID &&
-                <input
-                  className="create-rate_btn"
-                  type="button"
-                  value="Изменить"
-                  onClick={this.handleChangeSubmit}
-                />
+                <Row>
+                  <Col>
+                  <Button onClick={this.handleChangeSubmit}>
+                    Изменить
+                  </Button>
+                  </Col>
+                </Row>
               }
-            </div>
-          </div>
-        </form>
-      </div>
+            </Form>
+          </Col>
+        </Row>
+      </>
     )
   }
-}
+};
 
 RateForm.propType = {
   creteNewRate: PropTypes.func,
