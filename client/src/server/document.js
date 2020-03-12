@@ -8,6 +8,7 @@ import {
 
 import reset from './reset.css';
 import initStyle from './style.css';
+import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
 
 const CustomDocumentHOC = (store) => {
   class CustomDocument extends React.Component {
@@ -74,6 +75,7 @@ const CustomDocumentHOC = (store) => {
             // NOTE: 'эти стили нужны что бы не было разнии типа не мерцала'
           }
           <style dangerouslySetInnerHTML={ { __html: initStyle} } />
+          <style dangerouslySetInnerHTML={ { __html: bootstrap} } />
 
           <style id="server-side-styles">
             {css}
