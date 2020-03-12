@@ -12,6 +12,7 @@ const ReasonsForBetting = ({
   party,
   reasonsForBetting,
   handleChangeRFB,
+  handleChangeIdpartInRFB,
 }) => (
   <>
     <Row>
@@ -20,12 +21,35 @@ const ReasonsForBetting = ({
           {
             reasonsForBetting.map(({title, idParty, idRFB}) => (
               <ListGroup.Item key={idRFB}>
-                <Form.Control
-                  value={title}
-                  data-idrfb={idRFB}
-                  onChange={handleChangeRFB}
-                >
-                </Form.Control>
+                <Row>
+                  <Col xs="12" sm="8">
+                    <Form.Control
+                      value={title}
+                      data-idrfb={idRFB}
+                      onChange={handleChangeRFB}
+                    >
+                    </Form.Control>
+                  </Col>
+                  <Col xs="12" sm="4">
+                    <Form.Control
+                      as="select"
+                      value={idParty}
+                      onChange={handleChangeIdpartInRFB}
+                      data-id={idRFB}
+                    >
+                      {
+                        party.map(({ id, participator }) => (
+                          <option
+                            key={id}
+                            value={id}
+                          >
+                            {participator}
+                          </option>
+                        ))
+                      }
+                    </Form.Control>
+                  </Col>
+                </Row>
               </ListGroup.Item>
             ))
           }
@@ -33,11 +57,13 @@ const ReasonsForBetting = ({
       </Col>
     </Row>
   </>
-)
+);
+
 ReasonsForBetting.propType = {
   party: PropTypes.shape({}),
   reasonsForBetting: PropTypes.shape({}),
   handleChangeRFB: PropTypes.func,
+  handleChangeIdpartInRFB: PropTypes.func,
 }
 
 export default ReasonsForBetting;

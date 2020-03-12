@@ -44,16 +44,16 @@ class RateForm extends Component {
         ],
         reasonsForBetting: [
           {
-            title: '',
-            idParty: 1,
-            idRFB: 1,
+            title: 'Победа',
+            idParty: '1',
+            idRFB: '1',
             statusFictory: false,
             bidForItem: [],
           },
           {
-            title: '',
-            idParty: 2,
-            idRFB: 2,
+            title: 'Победа',
+            idParty: '2',
+            idRFB: '2',
             statusFictory: false,
             bidForItem: [],
           }
@@ -177,6 +177,22 @@ class RateForm extends Component {
     }))
   }
 
+  handleChangeIdpartInRFB = (e) => {
+    const { value } = e.currentTarget;
+    const { id } = e.target.dataset;
+    this.setState((prevState) => ({
+      data: {
+        ...prevState.data,
+        reasonsForBetting: prevState.data.reasonsForBetting.map((RFB) => {
+          if (+RFB.idRFB === +id) {
+            RFB.idParty = value;
+          };
+          return RFB
+        })
+      }
+    }))
+  }
+
   handleCreateSubmit = () => {
     const { data } = this.state;
     const { creteNewRate } = this.props;
@@ -257,6 +273,7 @@ class RateForm extends Component {
                 party={party}
                 reasonsForBetting={reasonsForBetting}
                 handleChangeRFB={this.handleChangeRFB}
+                handleChangeIdpartInRFB={this.handleChangeIdpartInRFB}
               />
 
               {
