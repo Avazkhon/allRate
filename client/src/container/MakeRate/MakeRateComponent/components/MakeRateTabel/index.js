@@ -10,7 +10,6 @@ import {
   Table,
 } from 'react-bootstrap';
 
-
 import style from './style';
 
 class MakeRateTabel extends Component {
@@ -37,6 +36,7 @@ class MakeRateTabel extends Component {
       // classes,
       reasonsForBetting,
       party,
+      handleModal,
     } = this.props;
 
     return (
@@ -54,7 +54,11 @@ class MakeRateTabel extends Component {
             reasonsForBetting && reasonsForBetting.map(({ title, coefficient, idRFB, idParty }, idx) => {
               const { participator } = this.getPart(idParty);
               return (
-                <tr key={idRFB}>
+                <tr
+                  key={idRFB}
+                  data-idfrb={idRFB}
+                  onClick={handleModal}
+                >
                   <td>{idx}</td>
                   <td>{participator}</td>
                   <td>{title}</td>
@@ -72,6 +76,7 @@ class MakeRateTabel extends Component {
 MakeRateTabel.propType = {
   reasonsForBetting: PropTypes.arrayOf({}),
   party: PropTypes.arrayOf({}),
+  handleModal: PropTypes.func,
   // classes: PropTypes.shape({}),
 }
 
