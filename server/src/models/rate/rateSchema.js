@@ -16,6 +16,7 @@ exports.rateSchema = new Schema(
         idParty: { type: String, required: true },
         idRFB: { type: String, required: true },
         statusFictory: { type: Boolean, default: false },
+        coefficient: { type: Number, default: 1.9, min: 1},
         bidForItem: [
           {
             userId: { type: mongoose.ObjectId, required: true },
@@ -23,7 +24,7 @@ exports.rateSchema = new Schema(
             serverTime: { type: Date, default: new Date() },
             localTime: { type: Date, required: true },
             reasonForBid: { type: String, required: true },
-            startingRatio: { type: Number, min: -0.01, max: 0.9},
+            makeCoefficient: { type: Number, default: 1.9, min: 1},
           }
         ],
       }
