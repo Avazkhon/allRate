@@ -37,6 +37,7 @@ const ReasonsForBetting = ({
                       onChange={handleChangeIdpartInRFB}
                       data-id={idRFB}
                     >
+                      <option value="all">общее</option>
                       {
                         party.map(({ id, participator }) => (
                           <option

@@ -23,6 +23,14 @@ const partyInit = (id) => ({
   description: '',
 });
 
+const reasonsForBettingInit = (idRFB) => ({
+  title: '',
+  idParty: '',
+  idRFB,
+  statusFictory: false,
+  bidForItem: [],
+})
+
 class RateForm extends Component {
   constructor(props) {
 		super(props);
@@ -142,6 +150,21 @@ class RateForm extends Component {
     })
   }
 
+  handleAddRFB = () => {
+    const { data } = this.state;
+    this.setState({
+      data: {
+        ...data,
+        reasonsForBetting: [
+          ...data.reasonsForBetting,
+          // преобразование в строку нужно для того чтобы
+          // корректно устанавливать value для select
+          reasonsForBettingInit(String(data.reasonsForBetting.length + 1))
+        ],
+      },
+    });
+  }
+
   handleChangeDateStart = (res) => {
     this.setState((prevState) => ({
       data: {
@@ -258,10 +281,9 @@ class RateForm extends Component {
                 handleChangeRate={this.handleChangeRate}
               />
               <Row>
-                <Col md={{ span: 2, offset: 10 }}>
+                <Col xs={{ span: 2, offset: 10 }} md={{ span: 2, offset: 10 }}>
                   <Button
-                    onChange={this.handleChange}
-                    title="Добавить ставку"
+                    title="Добавить участника"
                     onClick={this.handleAddParty}
                   >
                     +
@@ -275,6 +297,17 @@ class RateForm extends Component {
                 handleChangeRFB={this.handleChangeRFB}
                 handleChangeIdpartInRFB={this.handleChangeIdpartInRFB}
               />
+
+              <Row>
+                <Col xs={{ span: 2, offset: 10 }} md={{ span: 2, offset: 10 }}>
+                  <Button
+                    title="Добавить условия победы"
+                    onClick={this.handleAddRFB}
+                  >
+                    +
+                  </Button>
+                </Col>
+              </Row>
 
               {
                 creteNewRate &&
