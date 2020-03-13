@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const url = 'https://sun9-39.userapi.com/c852216/v852216813/1239e2/VZL0QayR6E4.jpg?ava=1';
+
 exports.rateSchema = new Schema(
   {
     title: { type: String, required: true, min: 3, max: 50 },
@@ -15,8 +17,9 @@ exports.rateSchema = new Schema(
         title: { type: String, required: true, min: 3, max: 50 },
         idParty: { type: String, required: true },
         idRFB: { type: String, required: true },
-        statusFictory: { type: Boolean, default: false },
+        relevant: { type: Boolean, default: true },
         coefficient: { type: Number, default: 1.9, min: 1},
+        img: { type: String, default: url},
         bidForItem: [
           {
             userId: { type: mongoose.ObjectId, required: true },
