@@ -6,5 +6,6 @@ export default {
     'margin-left': '-100px',
     padding:' 10px',
     'background-color': '#343a40!important',
+    'z-index': 10
   }
 };

@@ -13,6 +13,8 @@ import {
 
 import SiteBar from 'components/SiteBar';
 
+import MakeRateTabel from './components/MakeRateTabel';
+
 import style from './style';
 
 const url = 'https://sun9-39.userapi.com/c852216/v852216813/1239e2/VZL0QayR6E4.jpg?ava=1';
@@ -44,7 +46,7 @@ class MakeRateComponent extends Component {
             <content className={classes['content']}>
               make-rate rateId: {rate && rate._id}
             </content>
-            
+
             {
               rate &&
               <Row>
@@ -64,30 +66,11 @@ class MakeRateComponent extends Component {
               </Row>
             }
 
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Участник</th>
-                  <th>Условие</th>
-                  <th>Коэффициент</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-              </tbody>
-            </Table>
+            <MakeRateTabel
+              reasonsForBetting={rate && rate.reasonsForBetting}
+              party={rate && rate.party}
+            />
+
           </Col>
         </Row>
       </Container>
