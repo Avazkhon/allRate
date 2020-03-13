@@ -47,11 +47,12 @@ class MakeRateTabel extends Component {
             <th>Участник</th>
             <th>Условие</th>
             <th>Коэффициент</th>
+            <th>Количество игроков</th>
           </tr>
         </thead>
         <tbody>
           {
-            reasonsForBetting && reasonsForBetting.map(({ title, coefficient, idRFB, idParty }, idx) => {
+            reasonsForBetting && reasonsForBetting.map(({ bidForItem, title, coefficient, idRFB, idParty }, idx) => {
               const { participator } = this.getPart(idParty);
               return (
                 <tr
@@ -63,6 +64,7 @@ class MakeRateTabel extends Component {
                   <td>{participator}</td>
                   <td>{title}</td>
                   <td>{coefficient}</td>
+                  <td>{bidForItem.length}</td>
                 </tr>
               )
             })

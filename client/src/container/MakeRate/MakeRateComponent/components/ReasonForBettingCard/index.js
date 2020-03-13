@@ -5,6 +5,8 @@ import {
   Button,
   InputGroup,
   FormControl,
+  Row,
+  Col
 } from 'react-bootstrap';
 
 const ReasonForBettingCard = ({
@@ -14,13 +16,29 @@ const ReasonForBettingCard = ({
   summMany,
   handleChangeMany,
 }) => (
-  <Card style={{ width: '18rem' }}>
-    <Card.Img variant="top" src={participant.url} />
+  <Card>
+    <Row className="justify-content-md-center">
+      <Col xs="12" md="9">
+        <Card.Img
+          variant="top"
+          src={reasonForBetting.img}
+          style={{ width: '14rem' }}
+        />
+      </Col>
+    </Row>
     <Card.Body>
-      <Card.Title>{reasonForBetting.title}</Card.Title>
+      <Card.Title>{`Условия: ${reasonForBetting.title}`}</Card.Title>
       <Card.Title>{`Участник: ${participant.participator}`}</Card.Title>
-      <Card.Title>{`Описаание: ${participant.description}`}</Card.Title>
+      <Card.Title>{`Описание: ${participant.description}`}</Card.Title>
       <Card.Text>{`Коэффициент ${reasonForBetting.coefficient}`}</Card.Text>
+      <Card.Text>
+        {
+          `Количество участников ${
+            reasonForBetting.bidForItem
+            && reasonForBetting.bidForItem.length
+          }`
+        }
+      </Card.Text>
       <Card.Text>Актуален: {reasonForBetting.relevant ? ' да' : ' нет' }</Card.Text>
       <InputGroup>
         <FormControl

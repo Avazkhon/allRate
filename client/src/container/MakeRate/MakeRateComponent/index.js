@@ -128,7 +128,7 @@ class MakeRateComponent extends Component {
                 <Row>
                   {
                     rate.party.map(({participator, description, _id}) => (
-                      <Col key={_id} sm="12" sm="6" md="4">
+                      <Col key={_id} sm="12" md="4">
                         <Card style={{ width: '12rem' }}>
                           <Card.Img variant="top" src={url} />
                           <Card.Body>
