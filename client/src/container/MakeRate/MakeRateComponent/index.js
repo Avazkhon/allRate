@@ -27,7 +27,8 @@ class MakeRateComponent extends Component {
     this.state = {
       isShowModal: false,
       reasonForBetting: {},
-      participant: {}
+      participant: {},
+      summMany: 0,
     }
   }
 
@@ -54,11 +55,37 @@ class MakeRateComponent extends Component {
     }))
   }
 
+  handleChangeMany = (e) => {
+    const { value } = e.target;
+    this.setState({summMany: value})
+  }
+
+  submitRFB = () => {
+    const { putRateByID, auth, rate } = this.props;
+    if (typeof putRateByID === 'function') {
+      const { userId } = auth.auth;
+      const { summMany, reasonForBetting, participant } = this.state;
+
+      const bidForItem = {
+        userId,
+        meny: summMany,
+        localTime: new Date(),
+        makeCoefficient: reasonForBetting.coefficient,
+      };
+      rate.reasonsForBetting.find(
+        (FRB) => FRB.idParty === participant.id
+      ).bidForItem.push(bidForItem);
+
+      putRateByID(rate);
+    }
+  }
+
   render() {
     const {
       isShowModal,
       reasonForBetting,
-      participant
+      participant,
+      summMany,
     } = this.state;
 
     const {
@@ -78,6 +105,9 @@ class MakeRateComponent extends Component {
           <ReasonForBettingCard
             reasonForBetting={reasonForBetting}
             participant={participant}
+            submitRFB={this.submitRFB}
+            summMany={summMany}
+            handleChangeMany={this.handleChangeMany}
           />
         </CommonModal>
 
@@ -129,6 +159,7 @@ class MakeRateComponent extends Component {
 MakeRateComponent.propType = {
   rate: PropTypes.shape({}),
   classes: PropTypes.shape({}),
+  putRateByID: PropTypes.func,
 }
 
 export default injectSheet({...style})(MakeRateComponent);

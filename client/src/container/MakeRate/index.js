@@ -5,7 +5,7 @@ import queryString from 'query-string';
 
 import {
   getRateByID,
-  // putRateByID,
+  putRateByID,
 } from 'actions';
 
 import Layout from '../Layout';
@@ -30,6 +30,7 @@ class MakeRate extends Component {
     const {
       rate,
       auth,
+      putRateByID,
     } = this.props;
 
     return (
@@ -37,6 +38,7 @@ class MakeRate extends Component {
         <MakeRateComponent
           rate={rate.selectRate}
           auth={auth}
+          putRateByID={putRateByID}
         />
       </Layout>
     );
@@ -47,6 +49,7 @@ MakeRate.propType = {
   auth: PropTypes.shape({}),
   rate: PropTypes.shape({}),
   getRateByID: PropTypes.finc,
+  putRateByID: PropTypes.finc,
 }
 
 function mapStateToProps(state) {
@@ -62,5 +65,5 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   getRateByID,
-  // putRateByID,
+  putRateByID,
 })(MakeRate);
