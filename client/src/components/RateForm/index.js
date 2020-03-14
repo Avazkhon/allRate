@@ -122,7 +122,7 @@ class RateForm extends Component {
       data,
     } = this.state;
     const newsparty = party.map((rate) => {
-      if (rate.id === Number(id)) {
+      if (Number(rate.id) === Number(id)) {
         rate[name] = value;
         rate.label = label;
       }
