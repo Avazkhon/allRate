@@ -44,9 +44,10 @@ class MakeRateComponent extends Component {
     const reasonForBetting = reasonsForBetting.find(
       (itm) => itm.idRFB === idfrb
     );
-    const participant = party.find(
-      (itm) => itm.id === reasonForBetting.idParty
-    );
+    const participant = reasonForBetting.idParty === 'all'
+      ? { participator: 'all' } : party.find(
+        (itm) => itm.id === reasonForBetting.idParty
+      );
 
     this.setState((prevState) => ({
       isShowModal: !prevState.isShowModal,
