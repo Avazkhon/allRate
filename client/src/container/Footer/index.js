@@ -1,6 +1,7 @@
 import React from 'react';
+import injectSheet from 'react-jss';
 
-import './style.css';
+import style from'./style';
 
 class Footer extends React.Component {
   constructor(props) {
@@ -8,14 +9,17 @@ class Footer extends React.Component {
   }
 
   render() {
+    const {
+      classes,
+    } = this.props;
     return (
-      <div className="footer">
-        <div className="footer-content">
+      <footer className="footer">
+        <div className={classes['footer-content']}>
           Footer
         </div>
-      </div>
+      </footer>
     );
   }
 }
 
-export default Footer
+export default injectSheet(style)(Footer);

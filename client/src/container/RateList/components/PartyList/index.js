@@ -2,6 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 
+import {
+  ListGroup,
+  ListGroupItem,
+} from 'react-bootstrap';
+
 import style from './style';
 
 class PartyList extends React.Component {
@@ -17,32 +22,15 @@ class PartyList extends React.Component {
       classes,
     } = this.props;
     return (
-      <div className={classes['party-items']}>
-        <div><span>Список участников</span></div>
-        <div>
-          <ul>
-            {
-              party.map((itm) => {
-                return (
-                  <li
-                    key={itm._id}
-                    className={classes['party-items_item']}
-                  >
-                    <div className={classes['party-items_item-header']}>
-                      <span>{itm.participator}</span>
-                    </div>
-                    <div className={classes['party-items_item-description']}>
-                      <div className={classes['party-items_item-description-text']}>
-                        <p>{itm.description}</p>
-                      </div>
-                    </div>
-                  </li>
-                )
-              })
-            }
-          </ul>
-        </div>
-      </div>
+      <ListGroup className="list-group-flush">
+        {
+          party.map((itm) => {
+            return (
+              <ListGroupItem key={itm._id} variant="dark">{itm.participator}</ListGroupItem>
+            )
+          })
+        }
+      </ListGroup>
     );
   }
 }
@@ -52,7 +40,6 @@ PartyList.propType = {
   classes: PropTypes.shape({
     _id: PropTypes.string,
     participator: PropTypes.string,
-    description: PropTypes.string,
   })
 }
 

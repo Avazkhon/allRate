@@ -1,0 +1,12 @@
+.drawer-modal {
+  outline: none;
+  background: white;
+  font-size: 1.6rem;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  z-index: 15;
+
+  /* will-change: transform;
+  transform: translate3d(0, 0, 0); */
+}

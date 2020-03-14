@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import Header from '../Header';
 import Footer from '../Footer';
 
-import './style.css';
-
 class Layout extends React.Component {
   constructor(props) {
     super(props);

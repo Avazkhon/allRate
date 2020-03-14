@@ -7,6 +7,8 @@ import {
 } from 'react-jss';
 
 import reset from './reset.css';
+import initStyle from './style.css';
+import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
 
 const CustomDocumentHOC = (store) => {
   class CustomDocument extends React.Component {
@@ -45,9 +47,11 @@ const CustomDocumentHOC = (store) => {
             {helmet.title.toComponent()}
             {helmet.meta.toComponent()}
             {helmet.link.toComponent()}
-            {assets.client.css && (
-              <link rel="stylesheet" href={assets.client.css} />
-            )}
+            {
+              // assets.client.css && (
+              //   <link rel="stylesheet" href={assets.client.css} />
+              // )
+            }
 
             {process.env.NODE_ENV === 'production' ? (
               <span
@@ -63,18 +67,16 @@ const CustomDocumentHOC = (store) => {
               />
             )}
           </head>
+          <style id="server-side-styles">
+          {css}
+          </style>
+          <style dangerouslySetInnerHTML={ { __html: initStyle} } />
+          <style dangerouslySetInnerHTML={ { __html: bootstrap} } />
+
           <body {...bodyAttrs}>
             <AfterRoot />
             <AfterData data={data} />
           </body>
-          {
-            // NOTE: 'эти стили нужны что бы не было разнии типа не мерцала'
-          }
-          <style dangerouslySetInnerHTML={ { __html: reset} } />
-
-          <style id="server-side-styles">
-            {css}
-          </style>
 
           <script
             // __PRELOADED_STATE__

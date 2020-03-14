@@ -2,19 +2,34 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router'
 
-import './style.css';
+import {
+  Row,
+  Col,
+  Form,
+  Button,
+} from 'react-bootstrap';
+
 import Party from './Party';
 import MainProps from './MainProps';
+import ReasonsForBetting from './ReasonsForBetting';
 
 import {
   isFunction,
-} from '../../utils';
+} from 'utils';
 
 const partyInit = (id) => ({
   id,
   participator: '',
   description: '',
 });
+
+const reasonsForBettingInit = (idRFB) => ({
+  title: '',
+  idParty: '',
+  idRFB,
+  statusFictory: false,
+  bidForItem: [],
+})
 
 class RateForm extends Component {
   constructor(props) {
@@ -29,6 +44,27 @@ class RateForm extends Component {
             participator: '',
             description: '',
           },
+          {
+            id: 2,
+            participator: '',
+            description: '',
+          },
+        ],
+        reasonsForBetting: [
+          {
+            title: 'Победа',
+            idParty: '1',
+            idRFB: '1',
+            statusFictory: false,
+            bidForItem: [],
+          },
+          {
+            title: 'Победа',
+            idParty: '2',
+            idRFB: '2',
+            statusFictory: false,
+            bidForItem: [],
+          }
         ],
         dateStart: new Date(),
         dateFinish: new Date(),
@@ -86,7 +122,7 @@ class RateForm extends Component {
       data,
     } = this.state;
     const newsparty = party.map((rate) => {
-      if (rate.id === Number(id)) {
+      if (Number(rate.id) === Number(id)) {
         rate[name] = value;
         rate.label = label;
       }
@@ -114,6 +150,21 @@ class RateForm extends Component {
     })
   }
 
+  handleAddRFB = () => {
+    const { data } = this.state;
+    this.setState({
+      data: {
+        ...data,
+        reasonsForBetting: [
+          ...data.reasonsForBetting,
+          // преобразование в строку нужно для того чтобы
+          // корректно устанавливать value для select
+          reasonsForBettingInit(String(data.reasonsForBetting.length + 1))
+        ],
+      },
+    });
+  }
+
   handleChangeDateStart = (res) => {
     this.setState((prevState) => ({
       data: {
@@ -128,6 +179,39 @@ class RateForm extends Component {
       data: {
         ...prevState.data,
         dateFinish: res,
+      }
+    }))
+  }
+
+  // RFB = reasonsForBetting
+  handleChangeRFB = (e) => {
+    const { value } = e.currentTarget
+    const { idrfb } = e.currentTarget.dataset
+    this.setState((prevState) => ({
+      data: {
+        ...prevState.data,
+        reasonsForBetting: prevState.data.reasonsForBetting.map((RFB) => {
+          if (+RFB.idRFB === +idrfb) {
+            RFB.title = value;
+          };
+          return RFB
+        })
+      }
+    }))
+  }
+
+  handleChangeIdpartInRFB = (e) => {
+    const { value } = e.currentTarget;
+    const { id } = e.target.dataset;
+    this.setState((prevState) => ({
+      data: {
+        ...prevState.data,
+        reasonsForBetting: prevState.data.reasonsForBetting.map((RFB) => {
+          if (+RFB.idRFB === +id) {
+            RFB.idParty = value;
+          };
+          return RFB
+        })
       }
     }))
   }
@@ -162,6 +246,7 @@ class RateForm extends Component {
         party,
         dateStart,
         dateFinish,
+        reasonsForBetting,
       },
       isRedirectToMe,
     } = this.state
@@ -177,67 +262,80 @@ class RateForm extends Component {
     }
 
     return(
-      <div
-        className="create-rate"
-      >
-        <form className="create-rate_form">
-          <div className="create-rate_wrapper">
-            <div className="create-rate_title" >{titleFrom}</div>
-            <MainProps
-              title={title}
-              description={description}
-              handleChange={this.handleChange}
-              dateStart={dateStart}
-              handleChangeDateStart={this.handleChangeDateStart}
-              dateFinish={dateFinish}
-              handleChangeDateFinish={this.handleChangeDateFinish}
-            />
-            <div className="create-rate_content">
-                <div>
+      <>
+        <Row className="justify-content-md-center">
+          <Col xs="12" sm="8" m="6">
+            <Form>
+              <MainProps
+                title={title}
+                description={description}
+                handleChange={this.handleChange}
+                dateStart={dateStart}
+                handleChangeDateStart={this.handleChangeDateStart}
+                dateFinish={dateFinish}
+                handleChangeDateFinish={this.handleChangeDateFinish}
+              />
 
-                  <Party
-                    party={party}
-                    handleChangeRate={this.handleChangeRate}
-                  />
-
-                  <div className="create-rate_add-rate-title">Добавить ставку</div>
-                  <input
-                    onChange={this.handleChange}
-                    title="Добавить ставку"
-                    className="create-rate_add-rate-item"
-                    type="button"
+              <Party
+                party={party}
+                handleChangeRate={this.handleChangeRate}
+              />
+              <Row>
+                <Col xs={{ span: 2, offset: 10 }} md={{ span: 2, offset: 10 }}>
+                  <Button
+                    title="Добавить участника"
                     onClick={this.handleAddParty}
-                    value="+"
                   >
-                  </input>
-                </div>
-            </div>
-            <div className="create-rate_btn-group">
+                    +
+                  </Button>
+                </Col>
+              </Row>
+
+              <ReasonsForBetting
+                party={party}
+                reasonsForBetting={reasonsForBetting}
+                handleChangeRFB={this.handleChangeRFB}
+                handleChangeIdpartInRFB={this.handleChangeIdpartInRFB}
+              />
+
+              <Row>
+                <Col xs={{ span: 2, offset: 10 }} md={{ span: 2, offset: 10 }}>
+                  <Button
+                    title="Добавить условия победы"
+                    onClick={this.handleAddRFB}
+                  >
+                    +
+                  </Button>
+                </Col>
+              </Row>
+
               {
                 creteNewRate &&
-                <input
-                  className="create-rate_btn"
-                  type="button"
-                  value="Создать"
-                  onClick={this.handleCreateSubmit}
-                />
+                <Row>
+                  <Col>
+                  <Button onClick={this.handleCreateSubmit} >
+                    Создать
+                  </Button>
+                  </Col>
+                </Row>
               }
               {
                 getRateByID &&
-                <input
-                  className="create-rate_btn"
-                  type="button"
-                  value="Изменить"
-                  onClick={this.handleChangeSubmit}
-                />
+                <Row>
+                  <Col>
+                  <Button onClick={this.handleChangeSubmit}>
+                    Изменить
+                  </Button>
+                  </Col>
+                </Row>
               }
-            </div>
-          </div>
-        </form>
-      </div>
+            </Form>
+          </Col>
+        </Row>
+      </>
     )
   }
-}
+};
 
 RateForm.propType = {
   creteNewRate: PropTypes.func,

@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const url = 'https://sun9-39.userapi.com/c852216/v852216813/1239e2/VZL0QayR6E4.jpg?ava=1';
+
 exports.rateSchema = new Schema(
   {
     title: { type: String, required: true, min: 3, max: 50 },
@@ -13,8 +15,11 @@ exports.rateSchema = new Schema(
     reasonsForBetting: [
       {
         title: { type: String, required: true, min: 3, max: 50 },
-        id: { type: String, required: true },
-        statusFictory: { type: Boolean, default: false },
+        idParty: { type: String, required: true },
+        idRFB: { type: String, required: true },
+        relevant: { type: Boolean, default: true },
+        coefficient: { type: Number, default: 1.9, min: 1},
+        img: { type: String, default: url},
         bidForItem: [
           {
             userId: { type: mongoose.ObjectId, required: true },
@@ -22,12 +27,13 @@ exports.rateSchema = new Schema(
             serverTime: { type: Date, default: new Date() },
             localTime: { type: Date, required: true },
             reasonForBid: { type: String, required: true },
-            startingRatio: { type: Number, min: -0.01, max: 0.9},
+            makeCoefficient: { type: Number, default: 1.9, min: 1},
           }
         ],
       }
     ],
     party: [{
+      id: { type: String, required: true },
       participator: { type: String, required: true, min: 3, max: 50 },
       description: { type: String, required: true, min: 10, max: 200 },
       leval: { type: Number, default: 1 },

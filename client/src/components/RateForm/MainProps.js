@@ -1,5 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  Row,
+  Col,
+  Form,
+} from 'react-bootstrap';
 
 import CreateFlatpickr from '../CreateFlatpickr';
 
@@ -12,42 +17,51 @@ const MainProps = ({
   dateFinish,
   handleChangeDateFinish,
 }) => (
-  <div className="creat-pain-props">
-    <input
-      value={title}
-      onChange={handleChange}
-      placeholder="Ввидите заголовок"
-      className="create-rate_input"
-      type="text"
-      name="title"
-    >
-    </input>
-    <textarea
-      value={description}
-      onChange={handleChange}
-      placeholder="Ввидите описание"
-      className="create-rate_textarea"
-      name="description"
-    >
-    </textarea>
+  <>
+    <Row>
+      <Col>
+        <Form.Control
+          value={title}
+          onChange={handleChange}
+          placeholder="Ввидите заголовок"
+          className="create-rate_input"
+          name="title"
+        />
+      </Col>
+    </Row>
+    <Row>
+      <Col>
+        <Form.Control
+          as="textarea"
+          value={description}
+          onChange={handleChange}
+          placeholder="Ввидите описание"
+          className="create-rate_textarea"
+          name="description"
+        />
+      </Col>
+    </Row>
+    <Row>
+      <Col>
+        <div>
+          <div>Начало ставок</div>
+          <CreateFlatpickr
+            date={dateStart}
+            onChange={handleChangeDateStart}
+          />
+        </div>
+      </Col>
+      <Col>
+        <div>Конец ставок</div>
+        <CreateFlatpickr
+          date={dateFinish}
+          onChange={handleChangeDateFinish}
+        />
+      </Col>
+    </Row>
+  </>
+);
 
-    <div>
-      <div>Начало ставок</div>
-      <CreateFlatpickr
-        date={dateStart}
-        onChange={handleChangeDateStart}
-      />
-    </div>
-
-    <div>
-      <div>Конец ставок</div>
-      <CreateFlatpickr
-        date={dateFinish}
-        onChange={handleChangeDateFinish}
-      />
-    </div>
-  </div>
-)
 MainProps.propType = {
   title: PropTypes.string,
   description: PropTypes.string,

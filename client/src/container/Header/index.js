@@ -5,6 +5,12 @@ import { Redirect } from 'react-router';
 import { Link } from "react-router-dom";
 import injectSheet from 'react-jss';
 
+import {
+  Navbar,
+  Nav,
+  Button,
+} from 'react-bootstrap';
+
 import style from './style';
 import Auth from '../../components/auth';
 
@@ -127,43 +133,40 @@ class Header extends React.Component {
     const isLogin = auth.auth && auth.auth.userId;
 
     return (
-      <div className={classes.header}>
-        <ul className={classes.header__navbar}>
-          {navBar.map((itm) => {
-            return (
-              <li key={itm.id} className={classes.header__item}>
-                <Link to={itm.url} style={{ 'textDecoration': 'none' }}>
+      <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
+        <Navbar.Brand href="/">All Rate</Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
+            {navBar.map((itm) => {
+              return (
+                <Nav.Link key={itm.id} href={itm.url}>
                   <span>{itm.name}</span>
-                </Link>
-              </li>
-            )
-          })}
-
-          <li className={classes.header__item}>
-            <div className={classes.header__auth} ref={this.headerAauth}>
-              <div className={classes.header_container}>
-                <input
-                  className={classes['header__auth-btn']}
-                  type="button"
-                  value={isLogin ? 'Выйти' : 'Войти'}
-                  onClick={ isLogin ? this.handleSubmitAuth : this.handleAuth}
-                />
-                {
-                  isAuth &&
-                  <Auth
-                    isHeder
-                    handleChange={this.handleChange}
-                    handleAuth={this.handleSubmitAuth}
-                  />
-                }
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
+                </Nav.Link>
+              )
+            })}
+          </Nav>
+          <Nav className={classes.header__auth} ref={this.headerAauth}>
+            <Button
+              variant="primary"
+              onClick={ isLogin ? this.handleSubmitAuth : this.handleAuth}
+            >
+              {isLogin ? 'Выйти' : 'Войти'}
+            </Button>
+            {
+              isAuth &&
+              <Auth
+                isHeder
+                handleChange={this.handleChange}
+                handleAuth={this.handleSubmitAuth}
+              />
+            }
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
     );
   }
-}
+};
 
 Header.propType = {
   authoLogin: PropTypes.func,

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@jaredpalmer/after": "^1.5.1",
+    "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
     "cookie": "^0.4.0",
     "cookie-parser": "^1.4.4",
@@ -20,7 +21,9 @@
     "query-string": "^6.11.1",
     "razzle": "3.0.0",
     "react": "^16.13.0",
+    "react-bootstrap": "^1.0.0-beta.17",
     "react-dom": "^16.13.0",
+    "react-drag-drawer": "^3.3.3",
     "react-flatpickr": "^3.10.0",
     "react-helmet": "^5.2.1",
     "react-jss": "^10.0.4",
