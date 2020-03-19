@@ -21,10 +21,13 @@ class MakeRateTabel extends Component {
   getPart = (idParty) => {
     const { party } = this.props;
     if (!idParty || !party) return;
+    if (idParty === 'all') {
+      return { participator: 'общее' };
+    };
 
     let part = null;
     party.forEach((item) => {
-      if (+item.id === +idParty) {
+      if (item.id === idParty) {
         part = item;
       }
     });

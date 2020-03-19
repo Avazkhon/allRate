@@ -29,11 +29,14 @@ const ReasonForBettingCard = ({
     <Card.Body>
       <Card.Title>{`Условия: ${reasonForBetting.title}`}</Card.Title>
       <Card.Title>{`Участник: ${participant.participator}`}</Card.Title>
-      <Card.Title>{`Описание: ${participant.description}`}</Card.Title>
-      <Card.Text>{`Коэффициент ${reasonForBetting.coefficient}`}</Card.Text>
+      {
+        participant.description &&
+        <Card.Title>{`Описание: ${participant.description}`}</Card.Title>
+      }
+      <Card.Text>{`Коэффициент: ${reasonForBetting.coefficient}`}</Card.Text>
       <Card.Text>
         {
-          `Количество участников ${
+          `Количество участников: ${
             reasonForBetting.bidForItem
             && reasonForBetting.bidForItem.length
           }`
