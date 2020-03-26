@@ -4,7 +4,9 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const cookieParser = require('cookie-parser');
+const WriteToLog = require('./utils/writeToLog');
 
+const writeToLog = new WriteToLog();
 const db = require('./db');
 
 
@@ -63,9 +65,10 @@ app.route('/api/rate')
 
 db.connect((err) => {
   if (err) {
-    return console.log(err);
+    writeToLog.write(err, 'data_base.err');
   }
   app.listen(8080, () => {
+    writeToLog.write('server all rate starting!', 'start_server.success');
     console.log('server all rate starting!');
   });
 });

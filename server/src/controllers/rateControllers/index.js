@@ -1,5 +1,8 @@
+const getRate = require('./getRate').getRate;
 const rateModels = require('../../models/rate');
-const getRate = require('./getRate').getRate
+const WriteToLog = require('../../utils/writeToLog');
+
+const writeToLog = new WriteToLog();
 
 exports.getRate = (req, res) => {
   const { id, userId, all } = req.query;
@@ -8,6 +11,7 @@ exports.getRate = (req, res) => {
     return getRate(params, res);
   }
   catch (err) {
+    writeToLog.write(err, 'request.err');
     return res.status(500).json({ message: 'Все плохо!', err});
   }
 
@@ -19,13 +23,13 @@ exports.postAddOne = (req, res) => {
     return res.status(401).json({ message: 'Пользователь не авторизован!'});
   };
   let { body } = req;
-  const { userData } = req;
 
   if (body) {
     body = { ...body, author: user.userId,}
     rateModels.postAddOne(body,
       (err, result) => {
         if (err) {
+          writeToLog.write(err, 'request.err');
           return res.status(500).json(err);
         }
         res.status(201).json({ message: 'Все хорошо!', result});
@@ -43,6 +47,7 @@ exports.findByIdAndUpdate = (req, res) => {
   try {
     rateModels.findByIdAndUpdate(id, body, (err, result) => {
       if (err) {
+        writeToLog.write(err, 'request.err');
         return res.status(500).json({ message: 'Все плохо!', err});
       }
       res.status(200).json(result);
@@ -58,6 +63,7 @@ exports.deleteOne = (req, res) => {
   try {
     rateModels.deleteOne(id, (err, result) => {
       if (err) {
+        writeToLog.write(err, 'request.err');
         return res.status(500).json({ message: 'Все плохо!', err});
       }
       if (result.deletedCount) {
@@ -66,7 +72,8 @@ exports.deleteOne = (req, res) => {
       res.status(400).json({ message: 'Нет ставок с таким id!'});
     });
   }
-  catch(e) {
+  catch(err) {
+    writeToLog.write(err, 'request.err');
     return res.status(500).json({ message: 'Все плохо!', err});
   }
 }

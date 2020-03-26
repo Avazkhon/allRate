@@ -1,7 +1,11 @@
 const userModels = require('../../models/user');
+const WriteToLog = require('../../utils/writeToLog');
+
+const writeToLog = new WriteToLog();
+
 const handlier = (err, result, res) => {
   if (err) {
-    console.log(err);
+    writeToLog.write(err, 'request.err');
     return res.sendStatus(500);
   }
   if (!result) {
