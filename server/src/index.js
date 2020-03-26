@@ -33,29 +33,29 @@ app.use(session({
 }));
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Origin", "http://127.250.250.250");
   res.header('Access-Control-Allow-Methods', ['POST', 'PUT', 'PATCH', 'DELETE']);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header("Access-Control-Allow-Credentials", true);
   next();
 });
 
-app.get('/', (req, res) => {
+app.get('/api/', (req, res) => {
   res.send('Hello! welcome to the "All rate"!');
 })
 
-app.route('/auth')
+app.route('/api/auth')
   .get(authControllers.authAut)
   .post(authControllers.authIn);
 
-app.route('/user')
+app.route('/api/user')
   .get(userControllers.getUser) // обрабатывает запросы по userName, id и all
   .post(userControllers.postAddOne)
   .put(userControllers.updateOne)
   .delete(userControllers.deleteOne);
 
 
-app.route('/rate')
+app.route('/api/rate')
 .get(rateControllers.getRate)
 .post(rateControllers.postAddOne)
 .put(rateControllers.findByIdAndUpdate)
