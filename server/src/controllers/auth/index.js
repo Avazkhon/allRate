@@ -1,11 +1,14 @@
 const userModels = require('../../models/user');
+const WriteToLog = require('../../utils/writeToLog');
+
+const writeToLog = new WriteToLog();
 
 exports.authIn = (req, res) => {
   const { email, password } = req.body;
 
   userModels.getOneByUserEmail(email, (err, result) => {
     if (err) {
-      console.log(err);
+      writeToLog.write(err, 'request.err');
       return res.status(500).send(err);
     }
 

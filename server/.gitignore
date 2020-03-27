@@ -5,6 +5,7 @@
 /password.js
 /.pnp
 .pnp.js
+var/log/*
 
 # testing
 /coverage

@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const rateSchema = require('./rateSchema');
 const Rate = mongoose.model('Rate', rateSchema.rateSchema);
+const WriteToLog = require('../../utils/writeToLog');
+
+const writeToLog = new WriteToLog();
 // это чтука нужна для того что бы связь с mongoose не падала
 let count = 0;
 
@@ -11,11 +14,10 @@ const get = (callBack) => {
 exports.getAll = () => {
   get((err, result) => {
     if (err) {
-      console.log('err', err);
+      writeToLog.write(err, 'request_db_for_check.err');
     }
     count++;
-    console.log('Успешный запрос №:', count);
-    console.log('Дата запроса', Date());
+    writeToLog.write(err, 'request_db_for_check.success');
     setTimeout(exports.getAll, 1000 * 60 * 60)
   })
 };

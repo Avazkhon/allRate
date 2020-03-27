@@ -1,5 +1,8 @@
 const userModels = require('../../models/user');
 const getUser = require('./getUser');
+const WriteToLog = require('../../utils/writeToLog');
+
+const writeToLog = new WriteToLog();
 
 exports.getUser = (req, res) => {
   const { id, userName, all } = req.query;
@@ -18,7 +21,7 @@ exports.postAddOne = (req, res) => {
     req.body,
     (err, result) => {
       if (err) {
-        console.log(err);
+        writeToLog.write(err, 'request.err');
         res.status(500);
         return res.send(err);
       }
@@ -55,7 +58,7 @@ exports.updateOne = (req, res) => {
   let promise = new Promise((resolve, reject) => {
     userModels.getOneById(id, (err, result) => {
       if (err) {
-        console.log(err);
+        writeToLog.write(err, 'request.err');
         res.status(500);
         return res.send(err);
       }
@@ -67,7 +70,7 @@ exports.updateOne = (req, res) => {
     if (result && result.length) {
       userModels.updateOne(id, user, (err, result) => {
         if (err) {
-          console.log(err);
+          writeToLog.write(err, 'request.err');
           res.status(500);
           return res.send(err);
         }
@@ -86,7 +89,7 @@ exports.deleteOne = (req, res) => {
 
   userModels.deleteOne(id, (err, result) => {
     if (err) {
-      console.log(err);
+      writeToLog.write(err, 'request.err');
       res.status(500);
       return res.send(err);
     }
