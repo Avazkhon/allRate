@@ -9,9 +9,17 @@ checkConnect.getAll();
 const Rate = mongoose.model('Rate', rateSchema.rateSchema);
 
 exports.postAddOne = async (data, callBack) => {
-  const note = new Rate(data);
-  await note.save(callBack);
+  const rate = new Rate(data);
+  await rate.save(callBack);
 }
+
+exports.getByProps = (props) => (
+  new Promise((resolve, reject) => {
+    Rate.find(props).then((result) => {
+      resolve(result);
+    })
+  })
+)
 
 exports.all = (callBack) => {
   Rate.find({}, callBack)

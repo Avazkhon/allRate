@@ -5,10 +5,9 @@ const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const cookieParser = require('cookie-parser');
 const WriteToLog = require('./utils/writeToLog');
+const InnerTask = require('./innerTask');
 
-const writeToLog = new WriteToLog();
 const db = require('./db');
-
 
 const rateControllers = require('./controllers/rateControllers');
 const userControllers = require('./controllers/user');
@@ -17,6 +16,8 @@ const passwords = require('../password');
 
 const app = express();
 const router = express.Router();
+const writeToLog = new WriteToLog();
+const innerTask = new InnerTask();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -68,6 +69,7 @@ db.connect((err) => {
     writeToLog.write(err, 'data_base.err');
   }
   app.listen(8080, () => {
+    innerTask.checkTask();
     writeToLog.write('server all rate starting!', 'start_server.success');
     console.log('server all rate starting!');
   });
