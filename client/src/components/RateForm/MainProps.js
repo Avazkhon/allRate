@@ -8,6 +8,18 @@ import {
 
 import CreateFlatpickr from '../CreateFlatpickr';
 
+const timeZone = (() => {
+  const array = [];
+  for (var i = 12; i > 0; i--) {
+    array.push(-i)
+  };
+
+  for (var i = 0; i < 15; i++) {
+    array.push(i)
+  };
+  return array;
+})();
+
 const MainProps = ({
   title,
   description,
@@ -16,6 +28,8 @@ const MainProps = ({
   handleChangeDateStart,
   dateFinish,
   handleChangeDateFinish,
+  differenceTime,
+  handleChangeDifferenceTime,
 }) => (
   <>
     <Row>
@@ -43,6 +57,16 @@ const MainProps = ({
     </Row>
     <Row>
       <Col>
+        <div>часовой пояс</div>
+        <select value={Number(differenceTime)} onChange={handleChangeDifferenceTime}>
+          {
+            timeZone.map((i) => (
+              <option key={i} value={i}>{i}</option>
+            ))
+          }
+        </select>
+      </Col>
+      <Col>
         <div>
           <div>Начало ставок</div>
           <CreateFlatpickr
@@ -65,11 +89,13 @@ const MainProps = ({
 MainProps.propType = {
   title: PropTypes.string,
   description: PropTypes.string,
+  differenceTime: PropTypes.number,
   dateStart: PropTypes.string,
   dateFinish: PropTypes.string,
   handleChange: PropTypes.func,
   handleChangeDateStart: PropTypes.func,
   handleChangeDateFinish: PropTypes.func,
+  handleChangeDifferenceTime: PropTypes.func,
 }
 
 export default MainProps;

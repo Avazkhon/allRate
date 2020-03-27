@@ -68,6 +68,7 @@ class RateForm extends Component {
         ],
         dateStart: new Date(),
         dateFinish: new Date(),
+        differenceTime: 0,
       },
       isRedirectToMe: false,
 		}
@@ -166,19 +167,33 @@ class RateForm extends Component {
   }
 
   handleChangeDateStart = (res) => {
+    const { differenceTime } = this.state.data;
+    const value = new Date(new Date(res[0]).setMilliseconds(differenceTime *60*60*1000));
     this.setState((prevState) => ({
       data: {
         ...prevState.data,
-        dateStart: res,
+        dateStart: value,
       }
     }))
   }
 
   handleChangeDateFinish = (res) => {
+    const { differenceTime } = this.state.data;
+    const value = new Date(new Date(res[0]).setMilliseconds(differenceTime *60*60*1000));
     this.setState((prevState) => ({
       data: {
         ...prevState.data,
-        dateFinish: res,
+        dateFinish: value,
+      }
+    }))
+  }
+
+  handleChangeDifferenceTime = (event) => {
+    const { value } = event.currentTarget;
+    this.setState((prevState) => ({
+      data: {
+        ...prevState.data,
+        differenceTime: value,
       }
     }))
   }
@@ -246,6 +261,7 @@ class RateForm extends Component {
         party,
         dateStart,
         dateFinish,
+        differenceTime,
         reasonsForBetting,
       },
       isRedirectToMe,
@@ -273,7 +289,9 @@ class RateForm extends Component {
                 dateStart={dateStart}
                 handleChangeDateStart={this.handleChangeDateStart}
                 dateFinish={dateFinish}
+                differenceTime={differenceTime}
                 handleChangeDateFinish={this.handleChangeDateFinish}
+                handleChangeDifferenceTime={this.handleChangeDifferenceTime}
               />
 
               <Party
