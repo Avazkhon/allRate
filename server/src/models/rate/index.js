@@ -13,9 +13,9 @@ exports.postAddOne = async (data, callBack) => {
   await rate.save(callBack);
 }
 
-exports.getByProps = (props) => (
+exports.getByProps = (props, params) => (
   new Promise((resolve, reject) => {
-    Rate.find(props).then((result) => {
+    Rate.find(props, params).then((result) => {
       resolve(result);
     })
   })

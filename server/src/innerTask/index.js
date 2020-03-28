@@ -1,34 +1,80 @@
 const rateModels = require('../models/rate');
+const WriteToLog = require('../utils/writeToLog');
+
+const writeToLog = new WriteToLog();
 class InnerTask {
   constructor() {
+    this.new = 'new';
+    this.active = 'active';
+    this.finish = 'finish';
+    this.paramsForIsNew = { // нам нужны только определеные ключи
+      _id: true,
+      statusLife: true
+    };
+    this.paramsForIsActive = { // в этот параметр будет добавлены новые ключи
+      _id: true,
+      statusLife: true
+    }
 
   }
 
-  async updateToActive(arr) {
+  async update(arr, status) {
     for (var rate of arr) {
-      rateModels.findByIdAndUpdate(rate._id, {statusLife: 'active'}, (err, result) => {
+      rateModels.findByIdAndUpdate(rate._id, { statusLife: status }, (err, result) => {
         if (err) {
-          console.log(err);
+          writeToLog.write(err, 'inner_task_update.err')
         }
-        console.log(result);
       });
     }
   }
 
   async checkIsNew () {
-    const localZone = new Date().getTimezoneOffset() / 60;
-    const zeroZone = new Date(new Date() + `${localZone}`);
-    const data = await (rateModels.getByProps(
-      { statusLife: 'new', dateStart: { $lte: new Date(new Date(zeroZone).setMinutes(1)) } }
-    ));
+    // в объектах указано в часовом поясе 0.
+    // поэтому ищем с этим соотвествием
+    const zeroZone = new Date(new Date() + '+00:00');
+    // находим обекты до указанного времени + минута для погрешности
+    const dateStart = { $lte: new Date(new Date(zeroZone).setMinutes(1)) };
+    const data = await (
+      rateModels.getByProps(
+        { statusLife: this.new , dateStart },
+        this.paramsForIsNew,
+      ).catch((err) => {
+        writeToLog.write(err, 'inner_task_check_new.err')
+      })
+    );
     if (!data.length) {
       return;
     }
-    await this.updateToActive(data);
+    await this.update(data, this.active);
   }
+
+  async checkIsActive () {
+    const zeroZone = new Date(new Date() + '+00:00');
+    const data = await (rateModels.getByProps(
+      {
+        statusLife: this.active,
+        dateFinish: { $lte: new Date(new Date(zeroZone).setMinutes(1)) }
+      },
+      this.paramsForIsActive,
+    )).catch((err) => {
+      writeToLog.write(err, 'inner_task_check_active.err')
+    });
+
+    if (!data.length) {
+      return;
+    }
+    await this.update(data, this.finish);
+  }
+
   async checkTask() {
-    await this.checkIsNew();
-    await setTimeout(() => {this.checkTask()}, 1000*60);
+    try {
+      await this.checkIsNew();
+      await this.checkIsActive();
+      await setTimeout(() => {this.checkTask()}, 1000*60);
+    } catch(err) {
+      writeToLog.write(err, 'inner_task_check_task.err')
+      await setTimeout(() => {this.checkTask()}, 1000*60);
+    }
   }
 
 }
