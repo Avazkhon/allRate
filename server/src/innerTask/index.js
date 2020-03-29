@@ -38,32 +38,38 @@ class InnerTask {
       rateModels.getByProps(
         { statusLife: this.new , dateStart },
         this.paramsForIsNew,
-      ).catch((err) => {
+      )
+      .then((data) => {
+        if (data && !data.length) {
+          return;
+        }
+        this.update(data, this.active);
+      })
+      .catch((err) => {
         writeToLog.write(err, 'inner_task_check_new.err')
       })
     );
-    if (!data.length) {
-      return;
-    }
-    await this.update(data, this.active);
   }
 
   async checkIsActive () {
-    const zeroZone = new Date(new Date() + '+00:00');
-    const data = await (rateModels.getByProps(
+    const zeroZone = await new Date(new Date() + '+00:00');
+    await (rateModels.getByProps(
       {
         statusLife: this.active,
         dateFinish: { $lte: new Date(new Date(zeroZone).setMinutes(1)) }
       },
       this.paramsForIsActive,
-    )).catch((err) => {
-      writeToLog.write(err, 'inner_task_check_active.err')
-    });
-
-    if (!data.length) {
-      return;
-    }
-    await this.update(data, this.finish);
+    )
+      .then((data) => {
+        if (data && !data.length) {
+          return;
+        }
+        this.update(data, this.finish);
+      })
+      .catch((err) => {
+        writeToLog.write(err, 'inner_task_check_active.err')
+      })
+    );
   }
 
   async checkTask() {
