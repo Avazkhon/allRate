@@ -53,10 +53,11 @@ class InnerTask {
 
   async checkIsActive () {
     const zeroZone = await new Date(new Date() + '+00:00');
+    const dateFinish = await { $lte: new Date(new Date(zeroZone).setMinutes(1)) };
     await (rateModels.getByProps(
       {
         statusLife: this.active,
-        dateFinish: { $lte: new Date(new Date(zeroZone).setMinutes(1)) }
+        dateFinish,
       },
       this.paramsForIsActive,
     )
