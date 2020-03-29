@@ -3,11 +3,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
 
-import style from './style';
+import {
+  Row,
+  Col,
+  Button,
+  ListGroup,
+  Image,
+  Card,
+} from 'react-bootstrap';
 
 import {
   getUserById,
-} from '../../actions'
+} from 'actions'
 
 class ProfileUser extends React.Component {
   constructor(props) {
@@ -61,44 +68,32 @@ class ProfileUser extends React.Component {
     }
 
     return (
-      <div className={classes['profile-user']}>
-        <div className={classes['profile-user__container']}>
-          <div className={classes.avatar}>
-            <img src="#" alt="Avatar" />
-          </div>
-          <div className={classes['profile-user_edit']}>
-            <div className={classes['profile-user-edit']}>
-              <input
-                type="button"
-                value="Редактировать"
-              />
-            </div>
-          </div>
-          <div className={classes['profile-user__content']}>
-            <div>
-              <ul>
-                {
-                  userProps.map((itm) => {
-                    return (
-                      <li key={itm.name}>
-                        {itm.name}
-                      </li>
-                    )
-                  })
-                }
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Card>
+        <Row>
+          <Col xs="12" sm="4" md="3">
+            <Image src="holder.js/171x180" thumbnail alt="Avatar" />
+            <Button>
+              Изменить фото
+            </Button>
+          </Col>
+          <Col xs="12" sm="8" md="9">
+            <ListGroup>
+              {
+                userProps.map((itm) => (
+                  <ListGroup.Item key={itm.name}>{itm.name}</ListGroup.Item>
+                ))
+              }
+            </ListGroup>
+          </Col>
+        </Row>
+      </Card>
     );
   }
-}
+};
 
 ProfileUser.propType = {
   getUserById: PropTypes.func,
   auth: PropTypes.shape({}),
-  classes: PropTypes.shape({}),
 }
 
 function mapStateToProps(state) {
@@ -110,8 +105,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default injectSheet(style)(
-  connect(mapStateToProps, {
-    getUserById,
-  })(ProfileUser)
-);
+export default connect(mapStateToProps, {
+  getUserById,
+})(ProfileUser);
