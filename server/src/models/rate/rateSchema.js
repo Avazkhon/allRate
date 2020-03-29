@@ -6,12 +6,14 @@ const url = 'https://sun9-39.userapi.com/c852216/v852216813/1239e2/VZL0QayR6E4.j
 exports.rateSchema = new Schema(
   {
     title: { type: String, required: true, min: 3, max: 50 },
+    author: { type: mongoose.ObjectId, required: true },
     description: { type: String, required: true, min: 10, max: 500 },
     serverTime: { type: Date, default: new Date() },
+    differenceTime: { type: Number, required: true },
     localTime: { type: Date, required: true },
-    author: { type: mongoose.ObjectId, required: true },
     dateStart: { type: Date, required: true },
     dateFinish: { type: Date, required: true },
+    statusLife: { type: String, default: 'new' },
     reasonsForBetting: [
       {
         title: { type: String, required: true, min: 3, max: 50 },
@@ -19,7 +21,7 @@ exports.rateSchema = new Schema(
         idRFB: { type: String, required: true },
         relevant: { type: Boolean, default: true },
         coefficient: { type: Number, default: 1.9, min: 1},
-        img: { type: String, default: url},
+        img: { type: String, default: url },
         bidForItem: [
           {
             userId: { type: mongoose.ObjectId, required: true },
