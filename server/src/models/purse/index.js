@@ -27,3 +27,15 @@ exports.getPurse = (props, params) => (
     })
   })
 );
+
+exports.findByIdAndUpdate = (id, data) => (
+  new Promise((resolve, reject) => {
+    Purse.findByIdAndUpdate({_id: id}, data, { new: true })
+    .then((result) => {
+      resolve(result);
+    })
+    .catch((err) => {
+      reject(err);
+    })
+  })
+);

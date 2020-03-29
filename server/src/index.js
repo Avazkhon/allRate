@@ -67,6 +67,9 @@ app.route('/api/rate')
 
 app.route('/api/purse')
   .get(purseControllers.getPurse)
+  // этот метод не должен быть доступным на production
+  // так как пользователь не должен иметь примой доступ к нему
+  .put(purseControllers.findByIdAndUpdate)
 
 db.connect((err) => {
   if (err) {

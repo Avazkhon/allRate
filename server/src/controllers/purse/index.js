@@ -21,3 +21,18 @@ exports.getPurse = (req, res) => {
     res.status(500).json(err);
   });
 }
+
+exports.findByIdAndUpdate = (req, res) => {
+  const { user } = req.session;
+  if (!user || user.userId) {
+    return res.status(401).json({ message: 'Пользователь не авторизован!' })
+  };
+  const { _id, amount } = req.body;
+  purse.findByIdAndUpdate(_id , { amount })
+  .then((data) => {
+    res.status(200).json(data)
+  })
+  .catch((err) => {
+    res.status(500).json(err)
+  })
+}
