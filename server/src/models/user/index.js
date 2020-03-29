@@ -1,5 +1,3 @@
-const ObjectID = require('mongodb').ObjectID;
-
 const mongoose = require('mongoose');
 const schema = require('./schema');
 

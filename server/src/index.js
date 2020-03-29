@@ -12,6 +12,7 @@ const db = require('./db');
 const rateControllers = require('./controllers/rateControllers');
 const userControllers = require('./controllers/user');
 const authControllers = require('./controllers/auth');
+const purseControllers = require('./controllers/purse');
 const passwords = require('../password');
 
 const app = express();
@@ -63,6 +64,9 @@ app.route('/api/rate')
 .post(rateControllers.postAddOne)
 .put(rateControllers.findByIdAndUpdate)
 .delete(rateControllers.deleteOne);
+
+app.route('/api/purse')
+  .get(purseControllers.getPurse)
 
 db.connect((err) => {
   if (err) {
