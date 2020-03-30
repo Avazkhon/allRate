@@ -60,6 +60,14 @@ export default [
     }),
   },
   {
+    path: '/purse',
+    exact: true,
+    component: asyncComponent({
+      loader: () => import('./container/Purse'),
+      Placeholder: () => <div>...LOADING...</div>,
+    }),
+  },
+  {
     path: '*',
     component: asyncComponent({
       loader: () => import('./container/NotFound'),

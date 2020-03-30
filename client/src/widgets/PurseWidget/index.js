@@ -32,15 +32,22 @@ class PurseWidget extends React.Component {
       purse: {
         purse,
       },
+      idPurse,
     } = this.props;
 
     return (
       <ListGroup>
         <ListGroup.Item>
-          <Link to="/purse">
-            кошелек: { purse && purse.amount } { purse && purse.currency === 'RUB' ? 'руб.' : ''}
-          </Link>
+          <Link to="/purse">кошелек: </Link>
+          { purse && purse.amount } { purse && purse.currency === 'RUB' ? 'руб.' : ''}
         </ListGroup.Item>
+        {
+          purse && idPurse &&
+          <ListGroup.Item>
+            <strong>id: </strong>
+            <span>{purse._id}</span>
+          </ListGroup.Item>
+        }
       </ListGroup>
     );
   }
@@ -48,6 +55,7 @@ class PurseWidget extends React.Component {
 
 PurseWidget.propType = {
   auth: PropTypes.shape({}),
+  idPurse: PropTypes.bool,
 };
 
 function mapStateToProps (state) {
