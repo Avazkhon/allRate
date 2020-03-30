@@ -18,7 +18,7 @@ exports.createPurse = (userId) => {
 
 exports.getPurse = (props, params) => (
   new Promise((resolve, reject) => {
-    Purse.find(props, params)
+    Purse.findOne(props, params)
     .then((result) => {
       resolve(result);
     })

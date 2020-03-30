@@ -1,10 +1,14 @@
 const purse = require('../../models/purse');
+const userModel = require('../../models/user');
 const WriteToLog = require('../../utils/writeToLog');
 
 const writeToLog = new WriteToLog();
 
 exports.createPurse = (userId) => {
   purse.createPurse(userId)
+  .then((purse) => {
+    userModel.updateOne(userId, { purseId: purse._id});
+  })
   .catch(err => writeToLog.write(err, 'create_purse.err'));
 }
 
