@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import injectSheet from 'react-jss';
+import { Link } from 'react-router-dom';
 
 import {
   Row,
@@ -14,7 +14,12 @@ import {
 
 import {
   getUserById,
-} from 'actions'
+} from 'actions';
+
+import PersonData from './PersonData';
+import PurseWidget from './PurseWidget';
+
+const srcImage = 'https://img.favpng.com/8/0/5/computer-icons-user-profile-avatar-png-favpng-6jJk1WU2YkTBLjFs4ZwueE8Ub.jpg'
 
 class ProfileUser extends React.Component {
   constructor(props) {
@@ -70,20 +75,19 @@ class ProfileUser extends React.Component {
     return (
       <Card>
         <Row>
-          <Col xs="12" sm="4" md="3">
-            <Image src="holder.js/171x180" thumbnail alt="Avatar" />
+          <Col xs="12" sm="6" md="2">
+            <Image src={srcImage} thumbnail alt="Avatar" />
             <Button>
               Изменить фото
             </Button>
           </Col>
-          <Col xs="12" sm="8" md="9">
-            <ListGroup>
-              {
-                userProps.map((itm) => (
-                  <ListGroup.Item key={itm.name}>{itm.name}</ListGroup.Item>
-                ))
-              }
-            </ListGroup>
+          <Col xs="12" sm="6" md="5">
+            <PurseWidget />
+          </Col>
+          <Col xs="12" sm="12" md="5">
+            <PersonData
+              userProps={userProps}
+            />
           </Col>
         </Row>
       </Card>
