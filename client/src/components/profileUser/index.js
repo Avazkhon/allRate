@@ -16,8 +16,8 @@ import {
   getUserById,
 } from 'actions';
 
+import PurseWidget from 'widgets/PurseWidget';
 import PersonData from './PersonData';
-import PurseWidget from './PurseWidget';
 
 const srcImage = 'https://img.favpng.com/8/0/5/computer-icons-user-profile-avatar-png-favpng-6jJk1WU2YkTBLjFs4ZwueE8Ub.jpg'
 
