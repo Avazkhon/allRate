@@ -15,7 +15,10 @@ exports.purseSchema = new Schema(
     userId: { type: ObjectID, required: true },
     currency: { type: String, default: 'RUB' },
     history: [ // история ставок
-      { type: ObjectID, required: true },
+      {
+        invoiceId: { type: ObjectID, required: true },
+        time: { type: Date, default: new Date() }
+      }
     ],
   },
   { collection: "Purse" }

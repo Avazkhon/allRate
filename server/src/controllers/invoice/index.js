@@ -1,5 +1,6 @@
 const uuidv4 = require('uuid').v4;
-const invoice = require('../../models/invoice');
+const invoiceModel = require('../../models/invoice');
+const purseModel = require('../../models/purse');
 const WriteToLog = require('../../utils/writeToLog');
 
 const writeToLog = new WriteToLog();
@@ -18,15 +19,29 @@ class InvoiceController {
     body.authorId = user.userId;
     body.invoiceId = uuidv4();
 
-    return invoice.create(body)
-    .then((invoice) => {
+    const invoice = await invoiceModel.create(body)
+    .catch((err) => {
+      res.status(500).json(err);
+      writeToLog.write(err, 'create_invoice.err');
+    });
+    const purse = await purseModel.getPurse(invoice.target)
+    .catch((err) => {
+      res.status(500).json(err);
+      writeToLog.write(err, 'get_purse.err');
+    });
+
+    const data = {
+      $push: { history: { invoiceId: invoice._id } },
+      amount: purse.amount + invoice.amount
+    }
+    purseModel.findByIdAndUpdate(purse._id, data)
+    .then((purse) => {
       res.status(201).json(invoice);
-      console.log('invoice', invoice);
     })
     .catch((err) => {
       res.status(500).json(err);
-      writeToLog.write(err, 'create_purse.err');
-    });
+      writeToLog.write(err, 'update_purse.err');
+    })
   }
 
   async getInvoice (req, res) {
@@ -35,7 +50,7 @@ class InvoiceController {
       return res.status(401).json({ message: 'Пользователь не авторизован!'});
     };
     const { id } = req.query;
-    invoice.get({ _id: id })
+    invoiceModel.get({ _id: id })
     .then((invoice) => {
       res.status(201).json(invoice);
     })
