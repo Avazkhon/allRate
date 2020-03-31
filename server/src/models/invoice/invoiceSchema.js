@@ -4,12 +4,12 @@ const ObjectID = require('mongodb').ObjectID;
 
 const Schema = mongoose.Schema;
 
-exports.purseSchema = new Schema(
+exports.invoiceSchema = new Schema(
   {
-    count: { // сумма
+    amount: { // сумма
       type: Number,
       required: true,
-      min: 0,
+      min: 10,
     },
     requisites: {
       src: { type: String, required: true }, // откуда
@@ -20,7 +20,7 @@ exports.purseSchema = new Schema(
     },
     createTime: { type: Date, default: new Date() },
     authorId: { type: ObjectID, required: true },
-    invoiceId: { type: Number, required: true },
+    invoiceId: { type: String, required: true },
   },
   { collection: 'Invoice' }
 );
