@@ -20,3 +20,7 @@ export {
 export {
   getPurse,
 } from './purse';
+
+export {
+  postInvoice,
+} from './invoice';

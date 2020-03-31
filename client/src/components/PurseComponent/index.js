@@ -11,11 +11,20 @@ import {
 } from 'react-bootstrap';
 
 import PurseWidget from 'widgets/PurseWidget';
+import ModalInvoice from './ModalInvoice';
 
 class PurseComponent extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isShowModalReplenishAccount: false,
+    }
+  }
 
+  handleShowModal = (e) => {
+    this.setState((prevState) => ({
+      isShowModalReplenishAccount: !prevState.isShowModalReplenishAccount
+    }))
   }
 
   render() {
@@ -24,12 +33,20 @@ class PurseComponent extends Component {
         auth,
       },
     } = this.props;
+
+    const {
+      isShowModalReplenishAccount,
+    } = this.state
     return (
       <Container>
         <Row>
           <Col xs="6" sm="3" md="3">
             <ButtonGroup vertical>
-              <Button>Пополнить счет</Button>
+              <Button
+                onClick={this.handleShowModal}
+              >
+                Пополнить счет
+              </Button>
               <Button>Вывести деньги</Button>
             </ButtonGroup>
           </Col>
@@ -39,6 +56,10 @@ class PurseComponent extends Component {
             />
           </Col>
         </Row>
+        <ModalInvoice
+          show={isShowModalReplenishAccount}
+          handleClose={this.handleShowModal}
+        />
       </Container>
     );
   }
