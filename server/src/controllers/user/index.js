@@ -26,8 +26,7 @@ exports.postAddOne = (req, res) => {
         res.status(500);
         return res.send(err);
       }
-
-      purseControllers.createPurse(result._id);
+      purseControllers.createPurse(result._id)
 
       const data = {
         message: 'Пользователь успешно зарегистрирован!!',

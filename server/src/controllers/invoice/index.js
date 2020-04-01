@@ -27,7 +27,7 @@ class InvoiceController {
 
   async changePurse (invoice, basisForPayment) {
     try {
-      const purse = await purseModel.getPurse(invoice.target)
+      const purse = await purseModel.getPurse({ _id: invoice.requisites.target })
       const data = {
         $push: { history: { invoiceId: invoice._id } },
         amount: this.createAmount(purse.amount, invoice.amount, basisForPayment),
