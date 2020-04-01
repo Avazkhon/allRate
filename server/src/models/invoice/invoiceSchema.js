@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 const ObjectID = require('mongodb').ObjectID;
 
@@ -15,9 +14,8 @@ exports.invoiceSchema = new Schema(
       src: { type: String, required: true }, // откуда
       target: { type: String, required: true }, // кому
     },
-    basisForPayment: { // основание платежа
-      action: { type: String, required: true },
-    },
+    // основание
+    basisForPayment: { type: String, required: true },
     createTime: { type: Date, default: new Date() },
     authorId: { type: ObjectID, required: true },
     invoiceId: { type: String, required: true },
