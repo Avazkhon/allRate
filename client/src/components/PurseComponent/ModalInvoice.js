@@ -14,6 +14,10 @@ import {
 
 import PurseWidget from 'widgets/PurseWidget';
 
+import {
+  basisForPayment,
+} from '../../constants';
+
 class ModalInvoice extends Component {
 
   constructor(props) {
@@ -24,9 +28,7 @@ class ModalInvoice extends Component {
         requisites: {
           src: "",
         },
-        basisForPayment: {
-          action: "account replenishment"
-        }
+        basisForPayment: basisForPayment.accountReplenishment
       }
     }
   }

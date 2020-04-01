@@ -13,3 +13,10 @@ export const GET_COMMON_RATES = 'GET_COMMON_RATES';
 export const GET_PURSE = 'GET_PURSE';
 
 export const POST_INVOICE = 'POST_INVOICE';
+
+export const basisForPayment = {
+  accountReplenishment: 'accountReplenishment',
+  withdrawal: 'withdrawal',
+  makeRate: 'makeRate',
+  win: 'win'
+};
