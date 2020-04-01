@@ -12,6 +12,7 @@ import {
 
 import PurseWidget from 'widgets/PurseWidget';
 import ModalInvoice from './ModalInvoice';
+import HistoryPurse from './HistoryPurse';
 
 import {
   basisForPayment,
@@ -43,6 +44,7 @@ class PurseComponent extends Component {
       auth: {
         auth,
       },
+      purse,
     } = this.props;
 
     const {
@@ -68,6 +70,11 @@ class PurseComponent extends Component {
             />
           </Col>
         </Row>
+        <Row>
+          <HistoryPurse
+            purse={purse}
+          />
+        </Row>
         <ModalInvoice
           title="Пополнения счета!"
           show={isShowModalReplenishAccount}
@@ -87,14 +94,17 @@ class PurseComponent extends Component {
 
 PurseComponent.propType = {
   auth: PropTypes.shape({}),
+  purse: PropTypes.shape({}),
 };
 
 function mapStateToProps(state) {
   const {
     auth,
+    purse,
   } = state;
   return {
     auth,
+    purse
   };
 }
 
