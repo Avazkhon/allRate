@@ -17,15 +17,10 @@ class InvoiceController {
   }
 
   createAmount (prevAmount, changeAmount, action) {
-    if (accountReplenishment === action) {
-      return prevAmount + changeAmount;
-    } else if (withdrawal === action) {
+    if (withdrawal === action || makeRate === action) {
       const amount = prevAmount - changeAmount
-      return amount ? amount : 0;
-    } else if (makeRate === action) {
-      const amount = prevAmount - changeAmount
-      return amount ? amount : 0;
-    } else { // win
+      return amount >= 0 ? amount : 0;
+    } else {
       return prevAmount + changeAmount;
     }
   }
