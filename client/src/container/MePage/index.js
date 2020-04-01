@@ -11,7 +11,7 @@ import {
 } from 'react-bootstrap';
 
 import Layout from 'container/Layout';
-import ProfileUser from 'components/profileUser';
+import ProfileUser from 'components/ProfileUser';
 import SiteBar from 'components/SiteBar';
 
 class MePage extends React.Component {

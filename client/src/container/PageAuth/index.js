@@ -5,8 +5,8 @@ import { Redirect } from 'react-router';
 
 import Layout from '../Layout';
 
-import Auth from '../../components/auth';
-import CreateNewUser from '../../components/createNewUser';
+import Auth from '../../components/Auth';
+import CreateNewUser from '../../components/CreateNewUser';
 
 import {
   authRegistration,
