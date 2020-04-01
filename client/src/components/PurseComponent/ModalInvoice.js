@@ -10,6 +10,7 @@ import {
 
 import {
   postInvoice,
+  getPurse,
 } from 'actions';
 
 import PurseWidget from 'widgets/PurseWidget';
@@ -56,7 +57,8 @@ class ModalInvoice extends Component {
       postInvoice,
       handleClose,
       auth,
-      basisForPayment
+      basisForPayment,
+      getPurse,
     } = this.props;
 
     if (auth.userData) {
@@ -66,6 +68,7 @@ class ModalInvoice extends Component {
       postInvoice(data).then((action) => {
         console.log(action);
         if (action.status === 'SUCCESS') {
+          getPurse()
           handleClose();
         }
       });
@@ -141,6 +144,7 @@ export default connect(
   mapStateToProps,
   {
     postInvoice,
+    getPurse,
   }
 )
 (ModalInvoice);
