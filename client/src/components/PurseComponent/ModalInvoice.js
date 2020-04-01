@@ -14,10 +14,6 @@ import {
 
 import PurseWidget from 'widgets/PurseWidget';
 
-import {
-  basisForPayment,
-} from '../../constants';
-
 class ModalInvoice extends Component {
 
   constructor(props) {
@@ -28,7 +24,6 @@ class ModalInvoice extends Component {
         requisites: {
           src: "",
         },
-        basisForPayment: basisForPayment.accountReplenishment
       }
     }
   }
@@ -57,10 +52,17 @@ class ModalInvoice extends Component {
   }
 
   handleSubmit = () => {
-    const { postInvoice, handleClose, auth } = this.props;
+    const {
+      postInvoice,
+      handleClose,
+      auth,
+      basisForPayment
+    } = this.props;
+
     if (auth.userData) {
       const { data } = this.state;
       data.requisites.target = auth.userData.purseId;
+      data.basisForPayment = basisForPayment;
       postInvoice(data).then((action) => {
         console.log(action);
         if (action.status === 'SUCCESS') {
@@ -74,6 +76,7 @@ class ModalInvoice extends Component {
     const {
       show,
       handleClose,
+      title,
     } = this.props;
     const {
       amount,
@@ -83,7 +86,7 @@ class ModalInvoice extends Component {
     return (
       <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Пополнения счета!</Modal.Title>
+        <Modal.Title>{ title }</Modal.Title>
       </Modal.Header>
       <Modal.Body>
       <Form.Group>
@@ -119,6 +122,8 @@ class ModalInvoice extends Component {
 
 ModalInvoice.propType = {
   show: PropTypes.bool.isRequired,
+  basisForPayment: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,
   auth: PropTypes.shape({}),
 };
