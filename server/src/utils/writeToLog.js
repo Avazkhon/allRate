@@ -15,7 +15,7 @@ function WriteToLog () {
 
     fs.appendFile(folder + fileName, `\n${new Date}: ${data}`, (err) => {
       if (err) {
-        this.write(err, 'error_write');
+        this.write(err, 'error_write.err');
       };
     });
   };
