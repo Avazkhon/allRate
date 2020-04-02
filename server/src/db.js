@@ -10,7 +10,7 @@ const options = {
   poolSize: 10, // Maintain up to 10 socket connection
 };
 
-const uri = `mongodb+srv://allrateadmin:${passwords.passwordMongoDB}@cluster0-rzc7k.mongodb.net/allRate?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${passwords.nameAndPasswordMongoDB}@cluster0-rzc7k.mongodb.net/allRate?retryWrites=true&w=majority`;
 mongoose.set('useFindAndModify', false);
 async function connect(done) {
   await mongoose.connect(uri, options)
