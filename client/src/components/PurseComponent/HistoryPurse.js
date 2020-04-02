@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import {
-  Table,
-} from 'react-bootstrap';
+import injectSheet from 'react-jss';
+import classnames from 'classnames';
 
 import {
   basisForPayment,
 } from '../../constants';
+
+import {
+  getMonth,
+} from '../../utils';
+
+import historyStyle from './historyStyle';
+
 const {
   accountReplenishment,
   withdrawal,
@@ -22,50 +27,60 @@ const keyBasisForPayment = {
   [win]: 'проигрыш',
 };
 
-function getMonth(index) {
-  const month = [
-    'Январь',
-    'Февраль',
-    'Март',
-    'Апрель',
-    'Май',
-    'Июнь',
-    'Июль',
-    'Август',
-    'Сентябрь',
-    'Ноябрь',
-    'Декабрь',
-  ];
-
-  return month.find((month, i) => i === index);
-}
-
-
 class HistoryPurse extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      sortBy: 'time',
+    }
+  }
+
+  handleSort = (e) => {
+    const { name } = e.currentTarget.dataset;
+    console.log(name);
+    this.setState({ sortBy: name })
+
   }
 
   render() {
     const {
       purse: {
         purse
-      }
+      },
+      classes,
     } = this.props;
+    const {
+      sortBy,
+    } = this.state;
+
+    const history = purse && purse.history.sort((a, b) => {
+      if (a[sortBy] > b[sortBy]) {
+        return -1;
+      };
+      if (a[sortBy] < b[sortBy]) {
+        return 1;
+      };
+      return 0;
+    });
+
     return (
-      <Table striped bordered hover>
-        <thead>
+      <>
+        <h3>Истоия операции</h3>
+        <table className={classes.table}>
           <tr>
-            <th>#</th>
-            <th>Сумма</th>
-            <th>Основание</th>
-            <th>Время</th>
-            <th>ID</th>
+          <th>#</th>
+            <th data-name="amount" onClick={this.handleSort} >
+              Сумма {sortBy === 'amount' ? <strong>*</strong> : ''}
+            </th>
+            <th data-name="basisForPayment" onClick={this.handleSort} >
+              Основание {sortBy === 'basisForPayment' ? <strong>*</strong> : ''}
+              </th>
+            <th data-name="time" onClick={this.handleSort} >
+              Время {sortBy === 'time' ? <strong>*</strong> : ''}
+            </th>
           </tr>
-        </thead>
-        <tbody>
           {
-            purse && purse.history.map((invoice, index) => {
+            history && history.map((invoice, index) => {
               const {
                 _id,
                 invoiceId,
@@ -74,26 +89,40 @@ class HistoryPurse extends Component {
                 basisForPayment
               } = invoice;
               const newDate = new Date(time);
-              const date = `${newDate.getDate()} ${getMonth(newDate.getMonth())}`;
+              const date = `
+                ${newDate.getDate()}
+                ${getMonth(newDate.getMonth())}
+                ${newDate.getHours()}:${newDate.getMinutes()}
+                `;
+
               return (
                 <tr key={_id}>
-                  <td>{index}</td>
-                  <td>{amount}</td>
-                  <td>{keyBasisForPayment[basisForPayment]}</td>
-                  <td>{date}</td>
-                  <td>{invoiceId}</td>
-                </tr>
+                  <td> {index} </td>
+                 <td className={classnames('', {
+                   [classes.plus]:
+                     basisForPayment === accountReplenishment
+                     || basisForPayment === makeRate,
+                   [classes.minus]: basisForPayment === withdrawal
+                     || basisForPayment === win,
+                  })}
+                  >
+                    {amount}
+                  </td>
+                 <td>{keyBasisForPayment[basisForPayment]}</td>
+                 <td>{date}</td>
+               </tr>
               );
             })
           }
-        </tbody>
-      </Table>
+        </table>
+      </>
     )
   }
 };
 
 HistoryPurse.proptype = {
-  purse: PropTypes.shape({})
+  purse: PropTypes.shape({}),
+  classes: PropTypes.shape({}),
 }
 
-export default HistoryPurse;
+export default injectSheet(historyStyle)(HistoryPurse)
