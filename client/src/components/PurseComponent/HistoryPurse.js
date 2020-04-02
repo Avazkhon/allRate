@@ -31,13 +31,12 @@ class HistoryPurse extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      sortBy: 'time',
+      sortBy: 'createTime',
     }
   }
 
   handleSort = (e) => {
     const { name } = e.currentTarget.dataset;
-    console.log(name);
     this.setState({ sortBy: name })
 
   }
@@ -75,8 +74,8 @@ class HistoryPurse extends Component {
             <th data-name="basisForPayment" onClick={this.handleSort} >
               Основание {sortBy === 'basisForPayment' ? <strong>*</strong> : ''}
               </th>
-            <th data-name="time" onClick={this.handleSort} >
-              Время {sortBy === 'time' ? <strong>*</strong> : ''}
+            <th data-name="createTime" onClick={this.handleSort} >
+              Время {sortBy === 'createTime' ? <strong>*</strong> : ''}
             </th>
           </tr>
           {
@@ -85,10 +84,10 @@ class HistoryPurse extends Component {
                 _id,
                 invoiceId,
                 amount,
-                time,
+                createTime,
                 basisForPayment
               } = invoice;
-              const newDate = new Date(time);
+              const newDate = new Date(createTime);
               const date = `
                 ${newDate.getDate()}
                 ${getMonth(newDate.getMonth())}

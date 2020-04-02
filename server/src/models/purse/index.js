@@ -3,9 +3,9 @@ const purseSchema = require('./purseSchema');
 
 const Purse = mongoose.model('Purse', purseSchema.purseSchema);
 
-exports.createPurse = (userId) => {
+exports.createPurse = (data) => {
   return new Promise((resolve, reject) => {
-    new Purse({ userId })
+    new Purse(data)
     .save()
     .then((result) => {
       resolve(result);

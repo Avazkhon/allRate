@@ -34,6 +34,7 @@ class InvoiceController {
             invoiceId: invoice._id,
             amount: invoice.amount,
             basisForPayment,
+            createTime: invoice.createTime
           }
         },
         amount: this.createAmount(purse.amount, invoice.amount, basisForPayment),

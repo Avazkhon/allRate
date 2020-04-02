@@ -4,10 +4,10 @@ const WriteToLog = require('../../utils/writeToLog');
 
 const writeToLog = new WriteToLog();
 
-exports.createPurse = async (userId) => {
-  return purse.createPurse(userId)
+exports.createPurse = async (data) => {
+  return purse.createPurse(data)
   .then((purse) => {
-    userModel.updateOne(userId, { purseId: purse._id }, (err, result) => {
+    userModel.updateOne(data.userId, { purseId: purse._id }, (err, result) => {
       if (err) {
         writeToLog.write(err, 'update_user.err')
       }

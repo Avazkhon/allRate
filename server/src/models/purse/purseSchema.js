@@ -17,7 +17,7 @@ exports.purseSchema = new Schema(
     history: [ // история ставок
       {
         invoiceId: { type: ObjectID, required: true },
-        time: { type: Date, default: new Date() },
+        createTime: { type: Date, required: true },
         amount: { type: Number, required: true, min: 10 },
         basisForPayment: { type: String, required: true },
       }

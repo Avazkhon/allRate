@@ -65,6 +65,7 @@ class ModalInvoice extends Component {
       const { data } = this.state;
       data.requisites.target = auth.userData.purseId;
       data.basisForPayment = basisForPayment;
+      data.createTime = new Date();
       postInvoice(data).then((action) => {
         if (action.status === 'SUCCESS') {
           getPurse()
