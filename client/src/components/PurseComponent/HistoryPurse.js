@@ -64,7 +64,7 @@ class HistoryPurse extends Component {
 
     return (
       <>
-        <h3>Истоия операции</h3>
+        <h3>История операции</h3>
         <table className={classes.table}>
           <tr>
           <th>#</th>
