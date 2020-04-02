@@ -41,6 +41,22 @@ class HistoryPurse extends Component {
 
   }
 
+  sortHistory = (purse) => {
+    const { sortBy } = this.state;
+    if (purse && purse.history) {
+      return purse.history.sort((a, b) => {
+        if (a[sortBy] > b[sortBy]) {
+          return -1;
+        };
+        if (a[sortBy] < b[sortBy]) {
+          return 1;
+        };
+        return 0;
+      });
+    }
+    return [];
+  }
+
   render() {
     const {
       purse: {
@@ -52,15 +68,7 @@ class HistoryPurse extends Component {
       sortBy,
     } = this.state;
 
-    const history = purse && purse.history.sort((a, b) => {
-      if (a[sortBy] > b[sortBy]) {
-        return -1;
-      };
-      if (a[sortBy] < b[sortBy]) {
-        return 1;
-      };
-      return 0;
-    });
+    const history = this.sortHistory(purse);
 
     return (
       <>
@@ -79,7 +87,7 @@ class HistoryPurse extends Component {
             </th>
           </tr>
           {
-            history && history.map((invoice, index) => {
+            history.map((invoice, index) => {
               const {
                 _id,
                 invoiceId,

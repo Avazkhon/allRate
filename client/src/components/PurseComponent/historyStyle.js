@@ -5,6 +5,10 @@ export default {
 
     '& th, td': {
       border: '1px solid black',
+    },
+
+    '& th': {
+      cursor: 'pointer',
     }
   },
 
