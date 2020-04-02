@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import {
   Row,
   Col,
   Button,
-  ListGroup,
   Image,
   Card,
 } from 'react-bootstrap';
@@ -32,7 +30,7 @@ class ProfileUser extends React.Component {
     let { auth } = this.props;
     auth = auth && auth.auth || null;
     if (auth && auth.userId) {
-      getUserById('user/?id='+auth.userId)
+      getUserById(auth.userId)
     }
   }
 
@@ -49,7 +47,7 @@ class ProfileUser extends React.Component {
       && auth.userId !== userId)
       || (!auth && userId)
     ) {
-      getUserById('user/?id='+userId);
+      getUserById(userId);
     }
   }
 
@@ -58,6 +56,7 @@ class ProfileUser extends React.Component {
       auth: { userData },
       classes
     } = this.props;
+
     let userProps = [];
     if (userData && userData._id) {
       const {
@@ -65,6 +64,7 @@ class ProfileUser extends React.Component {
         userName,
         phone,
       } = userData;
+
       userProps = [
         { name: email },
         { name: userName },

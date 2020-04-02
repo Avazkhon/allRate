@@ -49,12 +49,12 @@ export function createNewUser (data) {
   });
 }
 
-export function getUserById(url) {
+export function getUserById(userId) {
   return (dispatch, getState) => dispatch({
     type: GET_USER_BY_ID,
     meta: {
       method: 'GET',
-      endpoint: url
+      endpoint: 'user/?id='+userId,
     }
   });
 }
