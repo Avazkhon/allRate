@@ -1,5 +1,3 @@
-const ObjectID = require('mongodb').ObjectID;
-
 const mongoose = require('mongoose');
 const schema = require('./schema');
 
@@ -27,7 +25,7 @@ exports.getOneByUserEmail = (email, callBack) => {
 }
 
 exports.updateOne = (id, data, callBack) => {
-  User.findByIdAndUpdate({_id: id}, data, callBack);
+  User.findByIdAndUpdate({_id: id}, data, { new: true }, callBack);
 }
 
 exports.deleteOne = (id, callBack) => {

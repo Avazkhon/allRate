@@ -6,6 +6,7 @@ exports.userSchema = new Schema(
     userName: { type: String, required: true },
     password: { type: String, required: true },
     phone: { type: String, required: true },
+    purseId: { type: mongoose.ObjectId },
     email: { type: String, required: true, unique: true },
     isAdmin: { type: Boolean },
     dateCreate: { type: Date, required: true },

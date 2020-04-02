@@ -1,8 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from "react-router-dom";
-import injectSheet from 'react-jss';
 
 import {
   Container,
@@ -10,32 +8,34 @@ import {
   Col,
 } from 'react-bootstrap';
 
-import Layout from 'container/Layout';
-import ProfileUser from 'components/ProfileUser';
 import SiteBar from 'components/SiteBar';
+import PurseComponent from 'components/PurseComponent';
 
-class MePage extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //
-  // }
+import Layout from '../Layout';
+
+class Purse extends Component {
+  constructor(props) {
+    super(props);
+
+  }
 
   render() {
     const {
-      auth,
+      auth: {
+        auth,
+      },
     } = this.props;
-    const userId = auth.auth && auth.auth.userId;
     return (
       <Layout>
         <Container>
           <Row>
             <Col xs="12"  sm="4" md="3">
               <SiteBar
-                userId={userId}
+                userId={auth && auth.userId}
               />
             </Col>
             <Col xs="12" sm="8" md="9">
-              <ProfileUser />
+              <PurseComponent />
             </Col>
           </Row>
         </Container>
@@ -44,9 +44,9 @@ class MePage extends React.Component {
   }
 }
 
-MePage.propType = {
+Purse.propType = {
   auth: PropTypes.shape({}),
-}
+};
 
 function mapStateToProps(state) {
   const {
@@ -58,4 +58,4 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-})(MePage);
+})(Purse);

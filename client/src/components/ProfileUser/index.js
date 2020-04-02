@@ -1,13 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import injectSheet from 'react-jss';
 
-import style from './style';
+import {
+  Row,
+  Col,
+  Button,
+  Image,
+  Card,
+} from 'react-bootstrap';
 
 import {
   getUserById,
-} from '../../actions'
+} from 'actions';
+
+import PurseWidget from 'widgets/PurseWidget';
+import PersonData from './PersonData';
+
+const srcImage = 'https://img.favpng.com/8/0/5/computer-icons-user-profile-avatar-png-favpng-6jJk1WU2YkTBLjFs4ZwueE8Ub.jpg'
 
 class ProfileUser extends React.Component {
   constructor(props) {
@@ -20,7 +30,7 @@ class ProfileUser extends React.Component {
     let { auth } = this.props;
     auth = auth && auth.auth || null;
     if (auth && auth.userId) {
-      getUserById('user/?id='+auth.userId)
+      getUserById(auth.userId)
     }
   }
 
@@ -37,7 +47,7 @@ class ProfileUser extends React.Component {
       && auth.userId !== userId)
       || (!auth && userId)
     ) {
-      getUserById('user/?id='+userId);
+      getUserById(userId);
     }
   }
 
@@ -46,6 +56,7 @@ class ProfileUser extends React.Component {
       auth: { userData },
       classes
     } = this.props;
+
     let userProps = [];
     if (userData && userData._id) {
       const {
@@ -53,6 +64,7 @@ class ProfileUser extends React.Component {
         userName,
         phone,
       } = userData;
+
       userProps = [
         { name: email },
         { name: userName },
@@ -61,44 +73,31 @@ class ProfileUser extends React.Component {
     }
 
     return (
-      <div className={classes['profile-user']}>
-        <div className={classes['profile-user__container']}>
-          <div className={classes.avatar}>
-            <img src="#" alt="Avatar" />
-          </div>
-          <div className={classes['profile-user_edit']}>
-            <div className={classes['profile-user-edit']}>
-              <input
-                type="button"
-                value="Редактировать"
-              />
-            </div>
-          </div>
-          <div className={classes['profile-user__content']}>
-            <div>
-              <ul>
-                {
-                  userProps.map((itm) => {
-                    return (
-                      <li key={itm.name}>
-                        {itm.name}
-                      </li>
-                    )
-                  })
-                }
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Card>
+        <Row>
+          <Col xs="12" sm="6" md="2">
+            <Image src={srcImage} thumbnail alt="Avatar" />
+            <Button>
+              Изменить фото
+            </Button>
+          </Col>
+          <Col xs="12" sm="6" md="5">
+            <PurseWidget />
+          </Col>
+          <Col xs="12" sm="12" md="5">
+            <PersonData
+              userProps={userProps}
+            />
+          </Col>
+        </Row>
+      </Card>
     );
   }
-}
+};
 
 ProfileUser.propType = {
   getUserById: PropTypes.func,
   auth: PropTypes.shape({}),
-  classes: PropTypes.shape({}),
 }
 
 function mapStateToProps(state) {
@@ -110,8 +109,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default injectSheet(style)(
-  connect(mapStateToProps, {
-    getUserById,
-  })(ProfileUser)
-);
+export default connect(mapStateToProps, {
+  getUserById,
+})(ProfileUser);

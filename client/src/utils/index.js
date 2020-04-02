@@ -38,3 +38,21 @@ export function createRequestReducer(state, action, reducerMap) {
   const reducer = reducerMap[action.status];
   return reducer ? reducer(state, action) : state;
 };
+
+export function getMonth(index) {
+  const month = [
+    'Январь',
+    'Февраль',
+    'Март',
+    'Апрель',
+    'Май',
+    'Июнь',
+    'Июль',
+    'Август',
+    'Сентябрь',
+    'Ноябрь',
+    'Декабрь',
+  ];
+
+  return month.find((month, i) => i === index);
+}

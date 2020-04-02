@@ -1,6 +1,7 @@
 const userModels = require('../../models/user');
 const getUser = require('./getUser');
 const WriteToLog = require('../../utils/writeToLog');
+const purseControllers = require('../purse');
 
 const writeToLog = new WriteToLog();
 
@@ -25,6 +26,7 @@ exports.postAddOne = (req, res) => {
         res.status(500);
         return res.send(err);
       }
+      purseControllers.createPurse({ createTime: req.body.dateCreate, userId: result._id })
 
       const data = {
         message: 'Пользователь успешно зарегистрирован!!',

@@ -12,12 +12,15 @@ const db = require('./db');
 const rateControllers = require('./controllers/rateControllers');
 const userControllers = require('./controllers/user');
 const authControllers = require('./controllers/auth');
+const purseControllers = require('./controllers/purse');
+const InvoiceControllers = require('./controllers/invoice');
 const passwords = require('../password');
 
 const app = express();
 const router = express.Router();
 const writeToLog = new WriteToLog();
 const innerTask = new InnerTask();
+const invoiceControllers = new InvoiceControllers();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -63,6 +66,16 @@ app.route('/api/rate')
 .post(rateControllers.postAddOne)
 .put(rateControllers.findByIdAndUpdate)
 .delete(rateControllers.deleteOne);
+
+app.route('/api/purse')
+  .get(purseControllers.getPurse)
+  // этот метод не должен быть доступным на production
+  // так как пользователь не должен иметь примой доступ к нему
+  .put(purseControllers.findByIdAndUpdate);
+
+app.route('/api/invoice')
+  .get(invoiceControllers.getInvoice)
+  .post(invoiceControllers.createInvoice)
 
 db.connect((err) => {
   if (err) {

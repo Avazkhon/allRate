@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:12
 
 WORKDIR /usr/src/app
 VOLUME /usr/src/app/var/log

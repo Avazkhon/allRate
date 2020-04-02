@@ -12,7 +12,7 @@ import {
 } from 'react-bootstrap';
 
 import style from './style';
-import Auth from '../../components/auth';
+import Auth from '../../components/Auth';
 
 import { isBrowser } from '../../utils';
 
@@ -52,7 +52,7 @@ class Header extends React.Component {
     } = this.props;
     const user = getDataUserFromLocalStorag();
     if (user && user.userId) {
-      getUserById('user/?id=' + user.userId);
+      getUserById(user.userId);
     }
    if (isBrowser()) {
     document.addEventListener('mousedown', this.leaveByClick, false);

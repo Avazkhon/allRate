@@ -10,13 +10,17 @@ const options = {
   poolSize: 10, // Maintain up to 10 socket connection
 };
 
-const uri = `mongodb+srv://Avazkhon:${passwords.passwordMongoDB}@cluster0-sgdif.mongodb.net/allRate?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${passwords.nameAndPasswordMongoDB}@cluster0-rzc7k.mongodb.net/allRate?retryWrites=true&w=majority`;
 mongoose.set('useFindAndModify', false);
 async function connect(done) {
-  await mongoose.connect(uri, options).then(() => {
+  await mongoose.connect(uri, options)
+  .then((asd) => {
       var db = mongoose.connection;
       db.on('error', console.error.bind(console, 'connection error:'));
       done();
+  })
+  .catch((e) => {
+    console.log(e);
   });
 }
 
