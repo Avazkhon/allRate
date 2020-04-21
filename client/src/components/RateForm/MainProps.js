@@ -4,6 +4,7 @@ import {
   Row,
   Col,
   Form,
+  Button,
 } from 'react-bootstrap';
 
 import CreateFlatpickr from '../CreateFlatpickr';
@@ -27,9 +28,11 @@ const MainProps = ({
   dateStart,
   handleChangeDateStart,
   dateFinish,
-  handleChangeDateFinish,
+  dateAlert,
+  handleChangeDateFinisOrAlert,
   differenceTime,
   handleChangeDifferenceTime,
+  handleDeleteDateFinisOrAlert,
 }) => (
   <>
     <Row>
@@ -57,16 +60,6 @@ const MainProps = ({
     </Row>
     <Row>
       <Col>
-        <div>часовой пояс</div>
-        <select value={Number(differenceTime)} onChange={handleChangeDifferenceTime}>
-          {
-            timeZone.map((i) => (
-              <option key={i} value={i}>{i}</option>
-            ))
-          }
-        </select>
-      </Col>
-      <Col>
         <div>
           <div>Начало ставок</div>
           <CreateFlatpickr
@@ -76,11 +69,27 @@ const MainProps = ({
         </div>
       </Col>
       <Col>
-        <div>Конец ставок</div>
+        <div>
+          { dateAlert && 'предупредить о завершений' }
+          { dateFinish && 'Конец ставок'  }
+        </div>
         <CreateFlatpickr
-          date={dateFinish}
-          onChange={handleChangeDateFinish}
+          date={dateFinish || dateAlert}
+          onChange={handleChangeDateFinisOrAlert}
         />
+        <Button onClick={handleDeleteDateFinisOrAlert}>
+          { dateFinish ? 'Установить время предупреждения' : 'Установить время завершения' }
+        </Button>
+      </Col>
+      <Col>
+        <div>часовой пояс</div>
+        <select value={Number(differenceTime)} onChange={handleChangeDifferenceTime}>
+          {
+            timeZone.map((i) => (
+              <option key={i} value={i}>{i}</option>
+            ))
+          }
+        </select>
       </Col>
     </Row>
   </>
@@ -92,9 +101,11 @@ MainProps.propType = {
   differenceTime: PropTypes.number,
   dateStart: PropTypes.string,
   dateFinish: PropTypes.string,
+  dateAlert: PropTypes.string,
   handleChange: PropTypes.func,
   handleChangeDateStart: PropTypes.func,
-  handleChangeDateFinish: PropTypes.func,
+  handleChangeDateFinisOrAlert: PropTypes.func,
+  handleDeleteDateFinisOrAlert: PropTypes.func,
   handleChangeDifferenceTime: PropTypes.func,
 }
 

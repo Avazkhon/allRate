@@ -9,27 +9,12 @@ import {
   Button,
 } from 'react-bootstrap';
 
-import Party from './Party';
-import MainProps from './MainProps';
-import ReasonsForBetting from './ReasonsForBetting';
-
 import {
   isFunction,
 } from 'utils';
 
-const partyInit = (id) => ({
-  id,
-  participator: '',
-  description: '',
-});
-
-const reasonsForBettingInit = (idRFB) => ({
-  title: '',
-  idParty: '',
-  idRFB,
-  statusFictory: false,
-  bidForItem: [],
-})
+import MainProps from './MainProps';
+import Party from './Party';
 
 class RateForm extends Component {
   constructor(props) {
@@ -49,23 +34,26 @@ class RateForm extends Component {
             participator: '',
             description: '',
           },
-        ],
-        reasonsForBetting: [
           {
-            title: 'Победа',
-            idParty: '1',
-            idRFB: '1',
-            statusFictory: false,
-            bidForItem: [],
+            id: 3,
+            participator: 'Ничья',
+            description: 'Ни одна сторана не выиграет',
           },
-          {
-            title: 'Победа',
-            idParty: '2',
-            idRFB: '2',
-            statusFictory: false,
-            bidForItem: [],
-          }
         ],
+        mainBet: {
+          partyOne: {
+            idParty: 1,
+            participants: [],
+          },
+          partyTwo: {
+            idParty: 2,
+            participants: [],
+          },
+          partyDraw: {
+            idParty: 3,
+            participants: [],
+          },
+        },
         dateStart: new Date(),
         dateFinish: new Date(),
         differenceTime: 0,
@@ -73,9 +61,6 @@ class RateForm extends Component {
       isRedirectToMe: false,
 		}
 	}
-
-  // componentWillUnmount() {
-  // }
 
   componentDidMount () {
     const { rateId } = this.props;
@@ -111,6 +96,39 @@ class RateForm extends Component {
     })
   }
 
+  handleChangeDateStart = (res) => {
+    const { differenceTime } = this.state.data;
+    const value = new Date(new Date(res[0]).setMilliseconds(differenceTime *60*60*1000));
+    this.setState((prevState) => ({
+      data: {
+        ...prevState.data,
+        dateStart: value,
+      }
+    }))
+  }
+
+  handleChangeDateFinisOrAlert = (res) => {
+    const { differenceTime, dateAlert, dateFinish } = this.state.data;
+    const value = new Date(new Date(res[0]).setMilliseconds(differenceTime *60*60*1000));
+    const nameProps = dateAlert && 'dateAlert' || dateFinish && 'dateFinish';
+    this.setState((prevState) => ({
+      data: {
+        ...prevState.data,
+        [nameProps]: value,
+      }
+    }))
+  }
+
+  handleChangeDifferenceTime = (event) => {
+    const { value } = event.currentTarget;
+    this.setState((prevState) => ({
+      data: {
+        ...prevState.data,
+        differenceTime: value,
+      }
+    }))
+  }
+
   handleChangeRate = (e) => {
     const name = e.target.name;
     const id = e.currentTarget.dataset.id;
@@ -138,97 +156,30 @@ class RateForm extends Component {
     })
   }
 
-  handleAddParty = () => {
+  handleDeleteDraw = () => {
+    const { party, mainBet } = this.state.data;
+    const newParty = party.filter(party => party.id !== 3);
+    delete mainBet.partyDraw,
+    this.setState((prevState) => ({
+      data: {
+        ...prevState.data,
+        party: newParty,
+        mainBet,
+      }
+    }))
+  }
+
+
+  handleDeleteDateFinisOrAlert = () => {
     const { data } = this.state;
-    this.setState({
-      data: {
-        ...data,
-        party: [
-          ...data.party,
-          partyInit(data.party.length + 1)
-        ]
-      }
-    })
-  }
-
-  handleAddRFB = () => {
-    const { data } = this.state;
-    this.setState({
-      data: {
-        ...data,
-        reasonsForBetting: [
-          ...data.reasonsForBetting,
-          // преобразование в строку нужно для того чтобы
-          // корректно устанавливать value для select
-          reasonsForBettingInit(String(data.reasonsForBetting.length + 1))
-        ],
-      },
-    });
-  }
-
-  handleChangeDateStart = (res) => {
-    const { differenceTime } = this.state.data;
-    const value = new Date(new Date(res[0]).setMilliseconds(differenceTime *60*60*1000));
-    this.setState((prevState) => ({
-      data: {
-        ...prevState.data,
-        dateStart: value,
-      }
-    }))
-  }
-
-  handleChangeDateFinish = (res) => {
-    const { differenceTime } = this.state.data;
-    const value = new Date(new Date(res[0]).setMilliseconds(differenceTime *60*60*1000));
-    this.setState((prevState) => ({
-      data: {
-        ...prevState.data,
-        dateFinish: value,
-      }
-    }))
-  }
-
-  handleChangeDifferenceTime = (event) => {
-    const { value } = event.currentTarget;
-    this.setState((prevState) => ({
-      data: {
-        ...prevState.data,
-        differenceTime: value,
-      }
-    }))
-  }
-
-  // RFB = reasonsForBetting
-  handleChangeRFB = (e) => {
-    const { value } = e.currentTarget
-    const { idrfb } = e.currentTarget.dataset
-    this.setState((prevState) => ({
-      data: {
-        ...prevState.data,
-        reasonsForBetting: prevState.data.reasonsForBetting.map((RFB) => {
-          if (+RFB.idRFB === +idrfb) {
-            RFB.title = value;
-          };
-          return RFB
-        })
-      }
-    }))
-  }
-
-  handleChangeIdpartInRFB = (e) => {
-    const { value } = e.currentTarget;
-    const { id } = e.target.dataset;
-    this.setState((prevState) => ({
-      data: {
-        ...prevState.data,
-        reasonsForBetting: prevState.data.reasonsForBetting.map((RFB) => {
-          if (+RFB.idRFB === +id) {
-            RFB.idParty = value;
-          };
-          return RFB
-        })
-      }
-    }))
+    if (data.dateFinish) {
+      delete data.dateFinish;
+      data.dateAlert = new Date();
+    } else {
+      delete data.dateAlert;
+      data.dateFinish = new Date();
+    }
+    this.setState({ data });
   }
 
   handleCreateSubmit = () => {
@@ -258,98 +209,60 @@ class RateForm extends Component {
       data: {
         title,
         description,
-        party,
         dateStart,
         dateFinish,
         differenceTime,
-        reasonsForBetting,
-      },
-      isRedirectToMe,
-    } = this.state
+        party,
+        mainBet,
+        dateAlert,
+      }
+    } = this.state;
 
     const {
       creteNewRate,
       getRateByID,
-      titleFrom,
     } = this.props;
-
-    if (isRedirectToMe) {
-      return <Redirect to="/me" />
-    }
 
     return(
       <>
-        <Row className="justify-content-md-center">
-          <Col xs="12" sm="8" m="6">
-            <Form>
-              <MainProps
-                title={title}
-                description={description}
-                handleChange={this.handleChange}
-                dateStart={dateStart}
-                handleChangeDateStart={this.handleChangeDateStart}
-                dateFinish={dateFinish}
-                differenceTime={differenceTime}
-                handleChangeDateFinish={this.handleChangeDateFinish}
-                handleChangeDifferenceTime={this.handleChangeDifferenceTime}
-              />
-
-              <Party
-                party={party}
-                handleChangeRate={this.handleChangeRate}
-              />
-              <Row>
-                <Col xs={{ span: 2, offset: 10 }} md={{ span: 2, offset: 10 }}>
-                  <Button
-                    title="Добавить участника"
-                    onClick={this.handleAddParty}
-                  >
-                    +
-                  </Button>
-                </Col>
-              </Row>
-
-              <ReasonsForBetting
-                party={party}
-                reasonsForBetting={reasonsForBetting}
-                handleChangeRFB={this.handleChangeRFB}
-                handleChangeIdpartInRFB={this.handleChangeIdpartInRFB}
-              />
-
-              <Row>
-                <Col xs={{ span: 2, offset: 10 }} md={{ span: 2, offset: 10 }}>
-                  <Button
-                    title="Добавить условия победы"
-                    onClick={this.handleAddRFB}
-                  >
-                    +
-                  </Button>
-                </Col>
-              </Row>
-
-              {
-                creteNewRate &&
-                <Row>
-                  <Col>
-                  <Button onClick={this.handleCreateSubmit} >
-                    Создать
-                  </Button>
-                  </Col>
-                </Row>
-              }
-              {
-                getRateByID &&
-                <Row>
-                  <Col>
-                  <Button onClick={this.handleChangeSubmit}>
-                    Изменить
-                  </Button>
-                  </Col>
-                </Row>
-              }
-            </Form>
-          </Col>
-        </Row>
+        <MainProps
+          title={title}
+          description={description}
+          handleChange={this.handleChange}
+          dateStart={dateStart}
+          handleChangeDateStart={this.handleChangeDateStart}
+          dateFinish={dateFinish}
+          dateAlert={dateAlert}
+          differenceTime={differenceTime}
+          handleChangeDateFinisOrAlert={this.handleChangeDateFinisOrAlert}
+          handleChangeDifferenceTime={this.handleChangeDifferenceTime}
+          handleDeleteDateFinisOrAlert={this.handleDeleteDateFinisOrAlert}
+        />
+        <Party
+          party={party}
+          handleChangeRate={this.handleChangeRate}
+          handleDeleteDraw={this.handleDeleteDraw}
+        />
+        {
+          creteNewRate &&
+          <Row>
+            <Col>
+            <Button onClick={this.handleCreateSubmit} >
+              Создать
+            </Button>
+            </Col>
+          </Row>
+        }
+        {
+          getRateByID &&
+          <Row>
+            <Col>
+            <Button onClick={this.handleChangeSubmit}>
+              Изменить
+            </Button>
+            </Col>
+          </Row>
+        }
       </>
     )
   }
@@ -360,7 +273,6 @@ RateForm.propType = {
   putRateByID: PropTypes.func,
   getRateByID: PropTypes.func,
   rateId: PropTypes.string,
-  titleFrom: PropTypes.string,
 }
 
 export default RateForm;
