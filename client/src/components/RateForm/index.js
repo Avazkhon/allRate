@@ -221,10 +221,12 @@ class RateForm extends Component {
     const {
       creteNewRate,
       getRateByID,
+      titleFrom,
     } = this.props;
 
     return(
       <>
+        <h4>{titleFrom}</h4>
         <MainProps
           title={title}
           description={description}
@@ -273,6 +275,7 @@ RateForm.propType = {
   putRateByID: PropTypes.func,
   getRateByID: PropTypes.func,
   rateId: PropTypes.string,
+  titleFrom: PropTypes.string,
 }
 
 export default RateForm;

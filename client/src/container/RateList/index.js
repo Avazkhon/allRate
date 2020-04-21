@@ -68,8 +68,8 @@ class RateList extends React.Component {
             </Col>
             <Col xs="12" sm="8" md="9">
               <RateCard
-              sort={sort}
-              rateList={rateList && rateList.data}
+                sort={sort}
+                rateList={rateList && rateList.data}
               />
             </Col>
           </Row>
