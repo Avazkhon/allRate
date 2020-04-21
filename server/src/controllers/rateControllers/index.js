@@ -1,6 +1,7 @@
 const getRate = require('./getRate').getRate;
 const rateModels = require('../../models/rate');
 const WriteToLog = require('../../utils/writeToLog');
+const purseControllers = require('../purse');
 
 const writeToLog = new WriteToLog();
 
@@ -33,6 +34,11 @@ exports.postAddOne = (req, res) => {
           writeToLog.write(err, 'request.err');
           return res.status(500).json(err);
         }
+        purseControllers.createPurse({
+          createTime: req.body.dateCreate,
+          userId: result.author,
+          mainBetId: result._id,
+        });
         res.status(201).json({ message: 'Все хорошо!', result});
       }
     )
