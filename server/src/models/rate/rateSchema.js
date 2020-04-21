@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const urlParty = 'https://sun9-39.userapi.com/c852216/v852216813/1239e2/VZL0QayR6E4.jpg?ava=1';
-const urlMain = 'https://obuchonok.ru/files/images/kibersport_0.jpg';
+const urlMain = 'https://betrating.ru/wp-content/uploads/2018/10/BETREYT-314.jpg';
 
 exports.rateSchema = new Schema(
   {
@@ -22,6 +22,7 @@ exports.rateSchema = new Schema(
       partyOne: {
         coefficient: { type: Number, default: 1.9, min: 1},
         idParty: { type: String, required: true },
+        terms: { type: String, required: true },
         participants: [
           {
             userId: { type: mongoose.ObjectId, required: true },
@@ -34,6 +35,7 @@ exports.rateSchema = new Schema(
       partyDraw: {
         coefficient: { type: Number },
         idParty: { type: String },
+        terms: { type: String }, // Условия
         participants: [
           {
             userId: { type: mongoose.ObjectId },
@@ -46,6 +48,7 @@ exports.rateSchema = new Schema(
       partyTwo: {
         coefficient: { type: Number, default: 1.9, min: 1},
         idParty: { type: String, required: true },
+        terms: { type: String, required: true },
         participants: [
           {
             userId: { type: mongoose.ObjectId, required: true },
