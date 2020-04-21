@@ -27,7 +27,7 @@ const ReasonForBettingCard = ({
       </Col>
     </Row>
     <Card.Body>
-      <Card.Title>{`Условия: ${reasonForBetting.title}`}</Card.Title>
+      <Card.Title>{`Условия: ${reasonForBetting.terms}`}</Card.Title>
       <Card.Title>{`Участник: ${participant.participator}`}</Card.Title>
       {
         participant.description &&
@@ -37,12 +37,11 @@ const ReasonForBettingCard = ({
       <Card.Text>
         {
           `Количество участников: ${
-            reasonForBetting.bidForItem
-            && reasonForBetting.bidForItem.length
+            reasonForBetting.participants
+            && reasonForBetting.participants.length
           }`
         }
       </Card.Text>
-      <Card.Text>Актуален: {reasonForBetting.relevant ? ' да' : ' нет' }</Card.Text>
       <InputGroup>
         <FormControl
           value={summMany}

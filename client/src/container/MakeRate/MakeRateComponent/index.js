@@ -9,6 +9,7 @@ import {
   Card,
   Button,
   Table,
+  Image,
 } from 'react-bootstrap';
 
 import CommonModal from 'widgets/CommonModal';
@@ -39,15 +40,12 @@ class MakeRateComponent extends Component {
       }));
       return;
     };
-    const { idfrb } = e.currentTarget.dataset;
-    const { reasonsForBetting, party } = this.props.rate;
-    const reasonForBetting = reasonsForBetting.find(
-      (itm) => itm.idRFB === idfrb
+    const { partynumber } = e.currentTarget.dataset;
+    const { mainBet, party } = this.props.rate;
+    const reasonForBetting = mainBet[partynumber];
+    const participant = party.find(
+      (itm) => itm.id === reasonForBetting.idParty
     );
-    const participant = reasonForBetting.idParty === 'all'
-      ? { participator: 'all' } : party.find(
-        (itm) => itm.id === reasonForBetting.idParty
-      );
 
     this.setState((prevState) => ({
       isShowModal: !prevState.isShowModal,
@@ -71,11 +69,10 @@ class MakeRateComponent extends Component {
         userId,
         meny: summMany,
         localTime: new Date(),
-        makeCoefficient: reasonForBetting.coefficient,
       };
-      rate.reasonsForBetting.find(
-        (FRB) => FRB.idParty === participant.id
-      ).bidForItem.push(bidForItem);
+      const partyNumber = Object.keys(rate.mainBet)
+      .find(bet => +rate.mainBet[bet].idParty === +reasonForBetting.idParty)
+      rate.mainBet[partyNumber].participants.push(bidForItem);
 
       putRateByID(rate);
     }
@@ -126,28 +123,43 @@ class MakeRateComponent extends Component {
 
               {
                 rate &&
-                <Row>
-                  {
-                    rate.party.map(({participator, description, _id}) => (
-                      <Col key={_id} sm="12" md="4">
-                        <Card style={{ width: '12rem' }}>
-                          <Card.Img variant="top" src={url} />
-                          <Card.Body>
-                            <Card.Title>{participator}</Card.Title>
-                            <Card.Text>{description}</Card.Text>
-                          </Card.Body>
-                        </Card>
-                      </Col>
-                    ))
-                  }
-                </Row>
+                <Col sm="12" md="12">
+                  <Image style={{ width: '100%' }} src={rate.img}/>
+                </Col>
               }
-
-              <MakeRateTabel
+              {
+                rate &&
+                <Card>
+                  <Card.Header>{rate.title}</Card.Header>
+                  <Card.Body>
+                    <Row>
+                      <Col sm="4" md="3">
+                        <Card.Title>{rate.party[0].participator}</Card.Title>
+                      </Col>
+                      <Col sm="4" md="3">
+                        <Image src={rate.party[0].img}/>
+                      </Col>
+                      <Col sm="4" md="3">
+                        <Image src={rate.party[1].img}/>
+                      </Col>
+                      <Col sm="4" md="3">
+                        <Card.Title>{rate.party[1].participator}</Card.Title>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                  <Card.Footer className="text-muted">
+                    <Card.Text>{rate.description}</Card.Text>
+                  </Card.Footer>
+                </Card>
+              }
+              {
+                rate &&
+                <MakeRateTabel
                 handleModal={this.handleModal}
-                reasonsForBetting={rate && rate.reasonsForBetting}
-                party={rate && rate.party}
-              />
+                mainBet={rate.mainBet}
+                party={rate.party}
+                />
+              }
 
             </Col>
           </Row>

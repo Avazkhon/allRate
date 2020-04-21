@@ -44,14 +44,17 @@ class RateForm extends Component {
           partyOne: {
             idParty: 1,
             participants: [],
+            terms: 'Победа',
           },
           partyTwo: {
             idParty: 2,
             participants: [],
+            terms: 'Победа',
           },
           partyDraw: {
             idParty: 3,
             participants: [],
+            terms: 'Ничья',
           },
         },
         dateStart: new Date(),
