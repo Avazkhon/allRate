@@ -23,8 +23,8 @@ const {
 const keyBasisForPayment = {
   [accountReplenishment]: 'пополнения',
   [withdrawal]: 'вывод',
-  [makeRate]: 'выигрыш',
-  [win]: 'проигрыш',
+  [makeRate]: 'ставка',
+  [win]: 'выигрыш',
 };
 
 class HistoryPurse extends Component {
@@ -105,20 +105,20 @@ class HistoryPurse extends Component {
               return (
                 <tr key={_id}>
                   <td> {index} </td>
-                 <td className={classnames('', {
-                   [classes.plus]:
-                     basisForPayment === accountReplenishment
-                     || basisForPayment === makeRate,
-                   [classes.minus]: basisForPayment === withdrawal
-                     || basisForPayment === win,
+                  <td className={classnames('', {
+                  [classes.plus]:
+                    basisForPayment === accountReplenishment
+                    || basisForPayment === win,
+                  [classes.minus]: basisForPayment === makeRate
+                    || basisForPayment === withdrawal,
                   })}
                   >
                     {amount}
                   </td>
-                 <td>{keyBasisForPayment[basisForPayment]}</td>
-                 <td>{date}</td>
-               </tr>
-              );
+                  <td>{keyBasisForPayment[basisForPayment]}</td>
+                  <td>{date}</td>
+                </tr>
+              )
             })
           }
         </table>
