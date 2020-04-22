@@ -107,6 +107,7 @@ class MakeRateComponent extends Component {
       classes,
       rate,
       auth,
+      purse,
     } = this.props;
     return (
       <div
@@ -118,6 +119,7 @@ class MakeRateComponent extends Component {
           toggle={this.handleModal}
         >
           <ReasonForBettingCard
+            amount={purse.purse && purse.purse.amount}
             reasonForBetting={reasonForBetting}
             participant={participant}
             submitRFB={this.submitRFB}
@@ -172,9 +174,9 @@ class MakeRateComponent extends Component {
               {
                 rate &&
                 <MakeRateTabel
-                handleModal={this.handleModal}
-                mainBet={rate.mainBet}
-                party={rate.party}
+                  handleModal={this.handleModal}
+                  mainBet={rate.mainBet}
+                  party={rate.party}
                 />
               }
 

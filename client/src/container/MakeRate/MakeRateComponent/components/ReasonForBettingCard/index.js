@@ -15,6 +15,7 @@ const ReasonForBettingCard = ({
   submitRFB,
   summMany,
   handleChangeMany,
+  amount,
 }) => (
   <Card>
     <Row className="justify-content-md-center">
@@ -42,6 +43,7 @@ const ReasonForBettingCard = ({
           }`
         }
       </Card.Text>
+      <Card.Text>Текущий счет: {amount}</Card.Text>
       <InputGroup>
         <FormControl
           value={summMany}
@@ -69,6 +71,7 @@ ReasonForBettingCard.propType = {
   submitRFB: PropTypes.func,
   handleChangeMany: PropTypes.func,
   summMany: PropTypes.number,
+  amount: PropTypes.number,
 }
 
 export default ReasonForBettingCard;
