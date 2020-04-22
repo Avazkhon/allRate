@@ -22,6 +22,10 @@ import style from './style';
 
 const url = 'https://sun9-39.userapi.com/c852216/v852216813/1239e2/VZL0QayR6E4.jpg?ava=1';
 
+import {
+  basisForPayment,
+} from '../../../constants';
+
 class MakeRateComponent extends Component {
   constructor(props) {
     super(props);
@@ -60,21 +64,34 @@ class MakeRateComponent extends Component {
   }
 
   submitRFB = () => {
-    const { putRateByID, auth, rate } = this.props;
-    if (typeof putRateByID === 'function') {
+    const {
+      postInvoice,
+      auth,
+      rate,
+      purse,
+    } = this.props;
+    if (typeof postInvoice === 'function') {
       const { userId } = auth.auth;
-      const { summMany, reasonForBetting, participant } = this.state;
+      const { summMany, reasonForBetting } = this.state;
 
-      const bidForItem = {
+      const participant = {
         userId,
         meny: summMany,
         localTime: new Date(),
       };
       const partyNumber = Object.keys(rate.mainBet)
       .find(bet => +rate.mainBet[bet].idParty === +reasonForBetting.idParty)
-      rate.mainBet[partyNumber].participants.push(bidForItem);
 
-      putRateByID(rate);
+      const invoice = {
+        amount: summMany,
+        requisites: {
+          src: purse.purse._id,
+          target: rate.mainBet.purseId,
+        },
+        basisForPayment: basisForPayment.makeRate,
+        createTime: new Date,
+      }
+      postInvoice({ ...invoice, rate: { id: rate._id, partyNumber, participant } });
     }
   }
 
@@ -171,8 +188,9 @@ class MakeRateComponent extends Component {
 
 MakeRateComponent.propType = {
   rate: PropTypes.shape({}),
+  purse: PropTypes.shape({}),
   classes: PropTypes.shape({}),
-  putRateByID: PropTypes.func,
+  postInvoice: PropTypes.func,
 }
 
 export default injectSheet({...style})(MakeRateComponent);
