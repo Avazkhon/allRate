@@ -13,15 +13,11 @@ exports.createPurse = (data) => (
 )
 
 exports.getPurse = (props, params) => (
-  new Promise((resolve, reject) => {
+  new Promise((resolve, reject) => (
     Purse.findOne(props, params)
-    .then((result) => {
-      resolve(result);
-    })
-    .catch((err) => {
-      reject(err);
-    })
-  })
+    .then(resolve)
+    .catch(reject)
+  ))
 );
 
 exports.findByIdAndUpdate = (id, data) => (

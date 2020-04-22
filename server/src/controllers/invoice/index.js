@@ -1,6 +1,7 @@
 const uuidv4 = require('uuid').v4;
 const invoiceModel = require('../../models/invoice');
 const purseModel = require('../../models/purse');
+const rateModel = require('../../models/rate');
 const WriteToLog = require('../../utils/writeToLog');
 const {
   accountReplenishment,
@@ -13,21 +14,23 @@ const writeToLog = new WriteToLog();
 
 class InvoiceController {
   constructor() {
-
+    this.minus = 'minus';
+    this.plus = 'plus';
+    this.SUCCESS = 'SUCCESS';
   }
 
   createAmount (prevAmount, changeAmount, action) {
-    if (withdrawal === action || makeRate === action) {
+    if (action === this.plus) {
+      return prevAmount + changeAmount;
+    } else {
       const amount = prevAmount - changeAmount
       return amount >= 0 ? amount : 0;
-    } else {
-      return prevAmount + changeAmount;
     }
   }
 
-  async changePurse (invoice, basisForPayment) {
+  async changePurse (invoice, id, basisForPayment, action) {
     try {
-      const purse = await purseModel.getPurse({ _id: invoice.requisites.target })
+      const purse = await purseModel.getPurse({ _id: id });
       const data = {
         $push: {
           history: {
@@ -37,17 +40,24 @@ class InvoiceController {
             createTime: invoice.createTime
           }
         },
-        amount: this.createAmount(purse.amount, invoice.amount, basisForPayment),
+        amount: this.createAmount(purse.amount, invoice.amount, action),
       };
-
-      return purseModel.findByIdAndUpdate(purse._id, data)
-      .then((purse) => {
-        return 'SUCCESS';
-      })
+      return purseModel.findByIdAndUpdate(id, data)
+      .then( purse => this.SUCCESS)
     } catch(err) {
       writeToLog.write(err, 'update_purse.err');
       return err
     }
+  }
+
+  changeRate = (id, partyNumber, participant) => {
+    const dataPurse = {
+      $push: {
+        [`mainBet.${[partyNumber]}.participants`]: participant,
+      },
+    };
+    return rateModel.findByIdAndUpdate(id, dataPurse)
+    .then(rate => this.SUCCESS);
   }
 
   createInvoice = async (req, res) => {
@@ -64,11 +74,21 @@ class InvoiceController {
       res.status(500).json(err);
       writeToLog.write(err, 'create_invoice.err');
     });
-    const statusChangePurse = await this.changePurse(invoice, body.basisForPayment)
-      if (statusChangePurse === 'SUCCESS') {
-        res.status(201).json(invoice)
+    const allStatus = [];
+    if (body.basisForPayment === accountReplenishment) {
+      allStatus.push( await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.plus));
+    } else if (body.basisForPayment === withdrawal) {
+        allStatus.push( await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.minus));
+    } else {
+        allStatus.push( await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.plus));
+        allStatus.push( await this.changePurse(invoice, invoice.requisites.src, body.basisForPayment, this.minus));
+        allStatus.push( await this.changeRate(body.rate.id, body.rate.partyNumber, body.rate.participant));
+    }
+      if (allStatus.every((status) => status === this.SUCCESS)) {
+        res.status(201).json(invoice);
       } else {
-        res.status(500).json(statusChangePurse);
+        writeToLog.write(...allStatus, 'create_invoice.err');
+        res.status(500).json({ message: 'Не все операции успешно выполнены!'});
       }
   }
 

@@ -16,34 +16,50 @@ exports.postAddOne = (data) => (
 
 exports.getByProps = (props, params) => (
   new Promise((resolve, reject) => {
-    Rate.find(props, params).then((result) => {
-      resolve(result);
-    })
+    Rate.find(props, params)
+    .then(resolve)
+    .catch(reject)
   })
-)
+);
 
-exports.all = (callBack) => {
-  Rate.find({}, callBack)
-  .skip(0).limit(40);
-}
-
-exports.getOneById = (id, callBack) => {
-  Rate.findOne({_id: id}, callBack);
-}
-
-exports.getOneByAuthot = (userId, callBack) => {
-  Rate.find({ author: userId}, callBack)
-  .skip(0).limit(40);
-}
-
-exports.findByIdAndUpdate = (id, data, callBack) => (
+exports.all = () => (
   new Promise((resolve, reject) => (
-    Rate.findByIdAndUpdate({_id: id}, data, { new: true },callBack)
+    Rate.find({})
+    .skip(0).limit(40)
     .then(resolve)
     .catch(reject)
   ))
-)
+);
 
-exports.deleteOne = (id, callBack) => {
-  Rate.deleteOne({_id: id}, callBack);
-}
+exports.getOneById = (id) => (
+  new Promise((resolve, reject) => (
+    Rate.findOne({_id: id})
+    .then(resolve)
+    .catch(reject)
+  ))
+);
+
+exports.getOneByAuthot = (userId) => (
+  new Promise((resolve, reject) => (
+    Rate.find({ author: userId})
+    .skip(0).limit(40)
+    .then(resolve)
+    .catch(reject)
+  ))
+);
+
+exports.findByIdAndUpdate = (id, data) => (
+  new Promise((resolve, reject) => (
+    Rate.findByIdAndUpdate({_id: id}, data, { new: true })
+    .then(resolve)
+    .catch(reject)
+  ))
+);
+
+exports.deleteOne = (id) => (
+  new Promise((resolve, reject) => (
+    Rate.deleteOne({_id: id})
+    .then(resolve)
+    .catch(reject)
+  ))
+);
