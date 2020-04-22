@@ -19,6 +19,7 @@ exports.rateSchema = new Schema(
     img: { type: String, default: urlMain },
     mainBet: {
       title: { type: String, default: 'Основная ставка' },
+      purseId: { type: mongoose.ObjectId },
       partyOne: {
         coefficient: { type: Number, default: 1.9, min: 1},
         idParty: { type: String, required: true },

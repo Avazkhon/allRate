@@ -3,18 +3,14 @@ const purseSchema = require('./purseSchema');
 
 const Purse = mongoose.model('Purse', purseSchema.purseSchema);
 
-exports.createPurse = (data) => {
-  return new Promise((resolve, reject) => {
+exports.createPurse = (data) => (
+  new Promise((resolve, reject) => (
     new Purse(data)
-    .save()
-    .then((result) => {
-      resolve(result);
-    })
-    .catch((err) => {
-      reject(err);
-    })
-  })
-};
+      .save()
+      .then(resolve)
+      .catch(reject)
+  ))
+)
 
 exports.getPurse = (props, params) => (
   new Promise((resolve, reject) => {
