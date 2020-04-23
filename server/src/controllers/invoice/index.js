@@ -59,16 +59,18 @@ class InvoiceController {
         partyTwo,
       },
     } = await rateModel.getOneById(id);
-
     mainBet[partyNumber].amount += amount;
-    const allAmount = partyOne.amount + partyDraw.amount + partyTwo.amount;
-
-    return {
-      'mainBet.partyOne.coefficient': (allAmount / partyOne.amount * 0.9).toFixed(3),
-      'mainBet.partyDraw.coefficient': (allAmount / partyDraw.amount * 0.9).toFixed(3),
-      'mainBet.partyTwo.coefficient': (allAmount / partyTwo.amount * 0.9).toFixed(3),
+    let allAmount = partyOne.amount + partyTwo.amount;
+    allAmount = partyDraw.idParty ? allAmount + partyDraw.amount : allAmount;
+    const data = {
+      'mainBet.partyOne.coefficient': (allAmount / partyOne.amount).toFixed(3),
+      'mainBet.partyTwo.coefficient': (allAmount / partyTwo.amount).toFixed(3),
       [`mainBet.${[partyNumber]}.amount`]: mainBet[partyNumber].amount,
+    };
+    if (partyDraw.idParty) {
+      data['mainBet.partyDraw.coefficient'] = (allAmount / partyDraw.amount).toFixed(3);
     }
+    return data;
   }
 
   changeRate = async (id, partyNumber, participant, amount) => {
