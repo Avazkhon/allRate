@@ -21,7 +21,8 @@ exports.rateSchema = new Schema(
       title: { type: String, default: 'Основная ставка' },
       purseId: { type: mongoose.ObjectId },
       partyOne: {
-        coefficient: { type: Number, default: 1.9, min: 1},
+        amount: { type: Number, default: 0 },
+        coefficient: { type: Number, default: 1, min: 1},
         idParty: { type: String, required: true },
         terms: { type: String, required: true },
         participants: [
@@ -34,6 +35,7 @@ exports.rateSchema = new Schema(
         ],
       },
       partyDraw: {
+        amount: { type: Number, default: 0 },
         coefficient: { type: Number },
         idParty: { type: String },
         terms: { type: String }, // Условия
@@ -47,7 +49,8 @@ exports.rateSchema = new Schema(
         ],
       },
       partyTwo: {
-        coefficient: { type: Number, default: 1.9, min: 1},
+        amount: { type: Number, default: 0 },
+        coefficient: { type: Number, default: 1, min: 1},
         idParty: { type: String, required: true },
         terms: { type: String, required: true },
         participants: [

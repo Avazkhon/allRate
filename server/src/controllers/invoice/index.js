@@ -50,8 +50,30 @@ class InvoiceController {
     }
   }
 
-  changeRate = (id, partyNumber, participant) => {
+  changeCoefficients = async (id, partyNumber, amount) => {
+    const {
+      mainBet,
+      mainBet: {
+        partyOne,
+        partyDraw,
+        partyTwo,
+      },
+    } = await rateModel.getOneById(id);
+
+    mainBet[partyNumber].amount += amount;
+    const allAmount = partyOne.amount + partyDraw.amount + partyTwo.amount;
+
+    return {
+      'mainBet.partyOne.coefficient': (allAmount / partyOne.amount * 0.9).toFixed(3),
+      'mainBet.partyDraw.coefficient': (allAmount / partyDraw.amount * 0.9).toFixed(3),
+      'mainBet.partyTwo.coefficient': (allAmount / partyTwo.amount * 0.9).toFixed(3),
+      [`mainBet.${[partyNumber]}.amount`]: mainBet[partyNumber].amount,
+    }
+  }
+
+  changeRate = async (id, partyNumber, participant, amount) => {
     const dataPurse = {
+      $set: await this.changeCoefficients(id, partyNumber, amount),
       $push: {
         [`mainBet.${[partyNumber]}.participants`]: participant,
       },
@@ -82,7 +104,7 @@ class InvoiceController {
     } else {
         allStatus.push( await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.plus));
         allStatus.push( await this.changePurse(invoice, invoice.requisites.src, body.basisForPayment, this.minus));
-        allStatus.push( await this.changeRate(body.rate.id, body.rate.partyNumber, body.rate.participant));
+        allStatus.push( await this.changeRate(body.rate.id, body.rate.partyNumber, body.rate.participant, invoice.amount));
     }
       if (allStatus.every((status) => status === this.SUCCESS)) {
         res.status(201).json(invoice);
