@@ -51,12 +51,12 @@ class MakeRateTabel extends Component {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>П1</th>
+            <th>П1 | К- {partyOne.coefficient}</th>
             {
               partyDraw.idParty &&
-              <th>Х</th>
+              <th>Х | К- {partyDraw.coefficient}</th>
             }
-            <th>П2</th>
+            <th>П2 | К- {partyTwo.coefficient}</th>
             <th>Уч.</th>
           </tr>
         </thead>

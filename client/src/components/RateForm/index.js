@@ -55,6 +55,7 @@ class RateForm extends Component {
             idParty: 3,
             participants: [],
             terms: 'Ничья',
+            coefficient: 1, // сервер по умочанию не устанавливает коэффициент
           },
         },
         dateStart: new Date(),
