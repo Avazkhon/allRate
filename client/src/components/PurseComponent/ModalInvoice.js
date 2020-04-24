@@ -23,20 +23,21 @@ class ModalInvoice extends Component {
       data: {
         amount: null,
         requisites: {
-          src: "",
+          src: '',
+          target: ''
         },
       }
     }
   }
 
   handleChangeSRC = (e) => {
-    const { value } = e.currentTarget;
+    const { value, name } = e.currentTarget;
     this.setState((prevState) => ({
       data: {
         ...prevState.data,
         requisites: {
           ...prevState.data.requisites,
-          src: value
+          [name]: value
         }
       }
     }))
@@ -59,11 +60,13 @@ class ModalInvoice extends Component {
       auth,
       basisForPayment,
       getPurse,
+      requisiteName
     } = this.props;
 
     if (auth.userData) {
       const { data } = this.state;
-      data.requisites.target = auth.userData.purseId;
+      const name = requisiteName === 'src' ? 'target' : 'src';
+      data.requisites[name] = auth.userData.purseId;
       data.basisForPayment = basisForPayment;
       data.createTime = new Date();
       postInvoice(data).then((action) => {
@@ -80,12 +83,14 @@ class ModalInvoice extends Component {
       show,
       handleClose,
       title,
+      requisiteName,
     } = this.props;
     const {
       amount,
-      src,
+      data,
     } = this.state;
-
+    console.log(data.requisites[requisiteName]);
+    console.log(requisiteName);
     return (
       <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -104,8 +109,8 @@ class ModalInvoice extends Component {
         <Form.Control
           type="text"
           placeholder="Ввидите номер карты"
-          name="src"
-          value={src}
+          name={requisiteName}
+          value={data.requisites[requisiteName]}
           onChange={this.handleChangeSRC}
         />
         </Form.Group>
@@ -126,6 +131,7 @@ class ModalInvoice extends Component {
 ModalInvoice.propType = {
   show: PropTypes.bool.isRequired,
   basisForPayment: PropTypes.string.isRequired,
+  requisiteName: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,
   auth: PropTypes.shape({}),
