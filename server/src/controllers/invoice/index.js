@@ -24,7 +24,10 @@ class InvoiceController {
       return prevAmount + changeAmount;
     } else {
       const amount = prevAmount - changeAmount
-      return amount >= 0 ? amount : 0;
+      if (amount >= 0) {
+        return amount;
+      }
+      throw 'Недостаточно средств!'
     }
   }
 
@@ -37,7 +40,8 @@ class InvoiceController {
             invoiceId: invoice._id,
             amount: invoice.amount,
             basisForPayment,
-            createTime: invoice.createTime
+            createTime: invoice.createTime,
+            action,
           }
         },
         amount: this.createAmount(purse.amount, invoice.amount, action),
@@ -85,6 +89,7 @@ class InvoiceController {
   }
 
   createInvoice = async (req, res) => {
+    try {
     const { user } = req.session;
     if (!user || user && !user.userId) {
       return res.status(401).json({ message: 'Пользователь не авторизован!'});
@@ -92,28 +97,28 @@ class InvoiceController {
     const { body } = req;
     body.authorId = user.userId;
     body.invoiceId = uuidv4();
-
-    const invoice = await invoiceModel.create(body)
-    .catch((err) => {
-      res.status(500).json(err);
-      writeToLog.write(err, 'create_invoice.err');
-    });
-    const allStatus = [];
-    if (body.basisForPayment === accountReplenishment) {
-      allStatus.push( await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.plus));
-    } else if (body.basisForPayment === withdrawal) {
-        allStatus.push( await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.minus));
-    } else {
-        allStatus.push( await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.plus));
-        allStatus.push( await this.changePurse(invoice, invoice.requisites.src, body.basisForPayment, this.minus));
-        allStatus.push( await this.changeRate(body.rate.id, body.rate.partyNumber, body.rate.participant, invoice.amount));
-    }
-      if (allStatus.every((status) => status === this.SUCCESS)) {
-        res.status(201).json(invoice);
-      } else {
-        writeToLog.write(...allStatus, 'create_invoice.err');
-        res.status(500).json({ message: 'Не все операции успешно выполнены!'});
+    if (body.basisForPayment !== accountReplenishment) {
+      const purse = await purseModel.getPurse({_id: body.requisites.src});
+      if (purse.amount < body.amount) {
+        return res.status(402).json({ message: 'Недостаточно средств!'});
       }
+    }
+
+    const invoice = await invoiceModel.create(body);
+    if (body.basisForPayment === accountReplenishment) {
+      await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.plus);
+    } else if (body.basisForPayment === withdrawal) {
+      await this.changePurse(invoice, invoice.requisites.src, body.basisForPayment, this.minus);
+    } else {
+      await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.plus);
+      await this.changePurse(invoice, invoice.requisites.src, body.basisForPayment, this.minus);
+      await this.changeRate(body.rate.id, body.rate.partyNumber, body.rate.participant, invoice.amount);
+    }
+      res.status(201).json(invoice);
+    } catch(err) {
+      writeToLog.write(err, 'create_invoice.err');
+      res.status(500).json({ message: 'Не все операции успешно выполнены!', err});
+    }
   }
 
   async getInvoice (req, res) {
