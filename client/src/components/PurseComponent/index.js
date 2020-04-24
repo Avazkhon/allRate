@@ -77,6 +77,7 @@ class PurseComponent extends Component {
         </Row>
         <ModalInvoice
           title="Пополнения счета!"
+          requisiteName="src"
           show={isShowModalReplenishAccount}
           handleClose={this.handleShowModalRA}
           basisForPayment={basisForPayment.accountReplenishment}
@@ -84,6 +85,7 @@ class PurseComponent extends Component {
         <ModalInvoice
           title="Снятия средств!"
           show={isShowModalWithdrawal}
+          requisiteName="target"
           handleClose={this.handleShowModalWithdrawal}
           basisForPayment={basisForPayment.withdrawal}
         />
