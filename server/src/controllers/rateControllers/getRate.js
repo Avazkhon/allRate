@@ -3,11 +3,7 @@ const WriteToLog = require('../../utils/writeToLog');
 
 const writeToLog = new WriteToLog();
 
-const handlier = (err, result, res) => {
-  if (err) {
-    writeToLog.write(err, 'request.err');
-    return res.sendStatus(500);
-  }
+const handlier = (result, res) => {
   if (!result) {
     res.status = 404
     return res.send('Ставока не найден!');
@@ -17,11 +13,19 @@ const handlier = (err, result, res) => {
 }
 
 exports.getRate = (params, res) => {
-  if (params.id) {
-    rateModels.getOneById(params.id, (err, result) => handlier(err, result, res))
-  } else if (params.userId) {
-    rateModels.getOneByAuthot(params.userId, (err, result) => handlier(err, result, res))
-  } else {
-    rateModels.all((err, result) => handlier(err, result, res))
+  try {
+    if (params.id) {
+      rateModels.getOneById(params.id)
+      .then(result => handlier(result, res));
+    } else if (params.userId) {
+      rateModels.getOneByAuthot(params.userId)
+      .then(result => handlier(result, res));
+    } else {
+      rateModels.all()
+      .then(result => handlier(result, res));
+    }
+  } catch(err) {
+      writeToLog.write(err, 'request.err');
+      return res.sendStatus(500);
   }
 }

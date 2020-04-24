@@ -1,11 +1,12 @@
-const purse = require('../../models/purse');
+const purseModel = require('../../models/purse');
 const userModel = require('../../models/user');
+const rateModel = require('../../models/rate');
 const WriteToLog = require('../../utils/writeToLog');
 
 const writeToLog = new WriteToLog();
 
 exports.createPurse = async (data) => {
-  return purse.createPurse(data)
+  return purseModel.createPurse(data)
   .then((purse) => {
     userModel.updateOne(data.userId, { purseId: purse._id }, (err, result) => {
       if (err) {
@@ -16,13 +17,23 @@ exports.createPurse = async (data) => {
   .catch(err => writeToLog.write(err, 'create_purse.err'));
 }
 
+exports.createPurseForMainBet = async (data) => {
+  const purse = await purseModel.createPurse(data);
+  const rate = await rateModel.findByIdAndUpdate(
+    purse.mainBetId,
+    { 'mainBet.purseId': purse._id }
+  );
+
+  return { purse, rate }
+}
+
 exports.getPurse = (req, res) => {
   const { user } = req.session;
   if (!user || (user && !user.userId )) {
     return res.status(401).json('Пользователь не авторизован!');
   }
 
-  purse.getPurse({ userId: user.userId })
+  purseModel.getPurse({ userId: user.userId })
   .then(data => res.status(200).json(data))
   .catch((err) => {
     writeToLog.write(err, 'get_purse.err')
@@ -36,7 +47,7 @@ exports.findByIdAndUpdate = (req, res) => {
     return res.status(401).json({ message: 'Пользователь не авторизован!' })
   };
   const { _id, amount } = req.body;
-  purse.findByIdAndUpdate(_id , { amount })
+  purseModel.findByIdAndUpdate(_id , { amount })
   .then((data) => {
     res.status(200).json(data)
   })

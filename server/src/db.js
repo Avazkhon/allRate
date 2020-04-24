@@ -14,7 +14,7 @@ const uri = `mongodb+srv://${passwords.nameAndPasswordMongoDB}@cluster0-rzc7k.mo
 mongoose.set('useFindAndModify', false);
 async function connect(done) {
   await mongoose.connect(uri, options)
-  .then((asd) => {
+  .then(() => {
       var db = mongoose.connection;
       db.on('error', console.error.bind(console, 'connection error:'));
       done();

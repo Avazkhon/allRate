@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import {
-  // Container,
-  // Row,
-  // Col,
-  // Card,
-  // Button,
   Table,
 } from 'react-bootstrap';
 
@@ -37,41 +32,65 @@ class MakeRateTabel extends Component {
   render() {
     const {
       // classes,
-      reasonsForBetting,
+      mainBet: {
+        partyOne,
+        partyTwo,
+        partyDraw,
+      },
       party,
       handleModal,
     } = this.props;
-
+    let countParticipants = party && (
+      partyOne.participants.length +
+      partyTwo.participants.length
+    )
+    if (partyDraw.participants.length) {
+      countParticipants = countParticipants + partyDraw.participants.length
+    }
     return (
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>#</th>
-            <th>Участник</th>
-            <th>Условие</th>
-            <th>Коэффициент</th>
-            <th>Количество игроков</th>
+            <th>П1 | К- {partyOne.coefficient}</th>
+            {
+              partyDraw.idParty &&
+              <th>Х | К- {partyDraw.coefficient}</th>
+            }
+            <th>П2 | К- {partyTwo.coefficient}</th>
+            <th>Уч.</th>
           </tr>
         </thead>
         <tbody>
-          {
-            reasonsForBetting && reasonsForBetting.map(({ bidForItem, title, coefficient, idRFB, idParty }, idx) => {
-              const { participator } = this.getPart(idParty);
-              return (
-                <tr
-                  key={idRFB}
-                  data-idfrb={idRFB}
-                  onClick={handleModal}
-                >
-                  <td>{idx}</td>
-                  <td>{participator}</td>
-                  <td>{title}</td>
-                  <td>{coefficient}</td>
-                  <td>{bidForItem.length}</td>
-                </tr>
-              )
-            })
-          }
+          <tr
+          >
+            <td
+              onClick={handleModal}
+              data-partynumber='partyOne'
+              onClick={handleModal}
+            >
+              {partyOne.terms}
+            </td>
+            {
+              partyDraw.idParty &&
+              <td
+                onClick={handleModal}
+                data-partynumber='partyDraw'
+                onClick={handleModal}
+              >
+                {partyDraw.terms}
+              </td>
+            }
+            <td
+              onClick={handleModal}
+              data-partynumber='partyTwo'
+              onClick={handleModal}
+            >
+              {partyTwo.terms}
+            </td>
+            <td>
+              {countParticipants}
+            </td>
+          </tr>
         </tbody>
       </Table>
     );
@@ -79,7 +98,7 @@ class MakeRateTabel extends Component {
 }
 
 MakeRateTabel.propType = {
-  reasonsForBetting: PropTypes.arrayOf({}),
+  mainBet: PropTypes.arrayOf({}),
   party: PropTypes.arrayOf({}),
   handleModal: PropTypes.func,
   // classes: PropTypes.shape({}),

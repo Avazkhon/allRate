@@ -13,6 +13,7 @@ exports.purseSchema = new Schema(
     },
     create: { type: Date, default: new Date() },
     userId: { type: ObjectID, required: true },
+    mainBetId: { type: ObjectID },
     currency: { type: String, default: 'RUB' },
     history: [ // история ставок
       {

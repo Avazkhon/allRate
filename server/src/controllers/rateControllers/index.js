@@ -1,6 +1,7 @@
 const getRate = require('./getRate').getRate;
 const rateModels = require('../../models/rate');
 const WriteToLog = require('../../utils/writeToLog');
+const purseControllers = require('../purse');
 
 const writeToLog = new WriteToLog();
 
@@ -14,33 +15,32 @@ exports.getRate = (req, res) => {
     writeToLog.write(err, 'request.err');
     return res.status(500).json({ message: 'Все плохо!', err});
   }
-
 }
 
-exports.postAddOne = (req, res) => {
+exports.postAddOne = async (req, res) => {
   const { user } = req.session;
   if (!user) {
     return res.status(401).json({ message: 'Пользователь не авторизован!'});
   };
-  let { body } = req;
+  try {
+    let { body } = req;
 
-  if (body) {
-    body = { ...body, author: user.userId, };
+    if (body) {
+      body = { ...body, author: user.userId, };
 
-    rateModels.postAddOne(body,
-      (err, result) => {
-        if (err) {
-          writeToLog.write(err, 'request.err');
-          return res.status(500).json(err);
-        }
-        res.status(201).json({ message: 'Все хорошо!', result});
-      }
-    )
-  } else {
-    res.status(400).json({ message: 'Все плохо!'});
+      const rate = await rateModels.postAddOne(body);
+      const purse = await purseControllers.createPurseForMainBet({
+        createTime: req.body.dateCreate,
+        userId: rate.author,
+        mainBetId: rate._id,
+      });
+      res.status(201).json({ message: 'Все хорошо!', rate });
+    }
+  } catch(err) {
+    writeToLog.write(err, 'request.err');
+    res.status(500).json({ message: 'Все плохо!', err });
   }
 }
-
 
 exports.findByIdAndUpdate = (req, res) => {
   const { id } = req.query;

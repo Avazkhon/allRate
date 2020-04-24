@@ -6,9 +6,6 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
-    volumes:
-      - '.:/code'
-      - '/code/node_modules'
     ports:
       - '3000-3001:3000-3001'
     restart: always
@@ -19,9 +16,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - '8080-8084:8080'
-    volumes:
-      - .:/code
-      - '/code/node_modules'
     links:
       - redis
     restart: always

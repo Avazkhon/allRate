@@ -9,6 +9,7 @@ import {
   Card,
   Button,
   Table,
+  Image,
 } from 'react-bootstrap';
 
 import CommonModal from 'widgets/CommonModal';
@@ -20,6 +21,10 @@ import ReasonForBettingCard from './components/ReasonForBettingCard';
 import style from './style';
 
 const url = 'https://sun9-39.userapi.com/c852216/v852216813/1239e2/VZL0QayR6E4.jpg?ava=1';
+
+import {
+  basisForPayment,
+} from '../../../constants';
 
 class MakeRateComponent extends Component {
   constructor(props) {
@@ -39,15 +44,12 @@ class MakeRateComponent extends Component {
       }));
       return;
     };
-    const { idfrb } = e.currentTarget.dataset;
-    const { reasonsForBetting, party } = this.props.rate;
-    const reasonForBetting = reasonsForBetting.find(
-      (itm) => itm.idRFB === idfrb
+    const { partynumber } = e.currentTarget.dataset;
+    const { mainBet, party } = this.props.rate;
+    const reasonForBetting = mainBet[partynumber];
+    const participant = party.find(
+      (itm) => itm.id === reasonForBetting.idParty
     );
-    const participant = reasonForBetting.idParty === 'all'
-      ? { participator: 'all' } : party.find(
-        (itm) => itm.id === reasonForBetting.idParty
-      );
 
     this.setState((prevState) => ({
       isShowModal: !prevState.isShowModal,
@@ -62,22 +64,34 @@ class MakeRateComponent extends Component {
   }
 
   submitRFB = () => {
-    const { putRateByID, auth, rate } = this.props;
-    if (typeof putRateByID === 'function') {
+    const {
+      postInvoice,
+      auth,
+      rate,
+      purse,
+    } = this.props;
+    if (typeof postInvoice === 'function') {
       const { userId } = auth.auth;
-      const { summMany, reasonForBetting, participant } = this.state;
+      const { summMany, reasonForBetting } = this.state;
 
-      const bidForItem = {
+      const participant = {
         userId,
         meny: summMany,
         localTime: new Date(),
-        makeCoefficient: reasonForBetting.coefficient,
       };
-      rate.reasonsForBetting.find(
-        (FRB) => FRB.idParty === participant.id
-      ).bidForItem.push(bidForItem);
+      const partyNumber = Object.keys(rate.mainBet)
+      .find(bet => +rate.mainBet[bet].idParty === +reasonForBetting.idParty)
 
-      putRateByID(rate);
+      const invoice = {
+        amount: summMany,
+        requisites: {
+          src: purse.purse._id,
+          target: rate.mainBet.purseId,
+        },
+        basisForPayment: basisForPayment.makeRate,
+        createTime: new Date,
+      }
+      postInvoice({ ...invoice, rate: { id: rate._id, partyNumber, participant } });
     }
   }
 
@@ -93,6 +107,7 @@ class MakeRateComponent extends Component {
       classes,
       rate,
       auth,
+      purse,
     } = this.props;
     return (
       <div
@@ -104,6 +119,7 @@ class MakeRateComponent extends Component {
           toggle={this.handleModal}
         >
           <ReasonForBettingCard
+            amount={purse.purse && purse.purse.amount}
             reasonForBetting={reasonForBetting}
             participant={participant}
             submitRFB={this.submitRFB}
@@ -126,28 +142,43 @@ class MakeRateComponent extends Component {
 
               {
                 rate &&
-                <Row>
-                  {
-                    rate.party.map(({participator, description, _id}) => (
-                      <Col key={_id} sm="12" md="4">
-                        <Card style={{ width: '12rem' }}>
-                          <Card.Img variant="top" src={url} />
-                          <Card.Body>
-                            <Card.Title>{participator}</Card.Title>
-                            <Card.Text>{description}</Card.Text>
-                          </Card.Body>
-                        </Card>
-                      </Col>
-                    ))
-                  }
-                </Row>
+                <Col sm="12" md="12">
+                  <Image style={{ width: '100%' }} src={rate.img}/>
+                </Col>
               }
-
-              <MakeRateTabel
-                handleModal={this.handleModal}
-                reasonsForBetting={rate && rate.reasonsForBetting}
-                party={rate && rate.party}
-              />
+              {
+                rate &&
+                <Card>
+                  <Card.Header>{rate.title}</Card.Header>
+                  <Card.Body>
+                    <Row>
+                      <Col sm="4" md="3">
+                        <Card.Title>{rate.party[0].participator}</Card.Title>
+                      </Col>
+                      <Col sm="4" md="3">
+                        <Image src={rate.party[0].img}/>
+                      </Col>
+                      <Col sm="4" md="3">
+                        <Image src={rate.party[1].img}/>
+                      </Col>
+                      <Col sm="4" md="3">
+                        <Card.Title>{rate.party[1].participator}</Card.Title>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                  <Card.Footer className="text-muted">
+                    <Card.Text>{rate.description}</Card.Text>
+                  </Card.Footer>
+                </Card>
+              }
+              {
+                rate &&
+                <MakeRateTabel
+                  handleModal={this.handleModal}
+                  mainBet={rate.mainBet}
+                  party={rate.party}
+                />
+              }
 
             </Col>
           </Row>
@@ -159,8 +190,9 @@ class MakeRateComponent extends Component {
 
 MakeRateComponent.propType = {
   rate: PropTypes.shape({}),
+  purse: PropTypes.shape({}),
   classes: PropTypes.shape({}),
-  putRateByID: PropTypes.func,
+  postInvoice: PropTypes.func,
 }
 
 export default injectSheet({...style})(MakeRateComponent);
