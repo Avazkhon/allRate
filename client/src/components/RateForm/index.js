@@ -45,6 +45,7 @@ class RateForm extends Component {
           },
         ],
         mainBet: {
+          idPartyVictory: 0,
           partyOne: {
             idParty: 1,
             participants: [],
@@ -220,6 +221,19 @@ class RateForm extends Component {
     }
   }
 
+  HandleMakeVictory = (e) => {
+    const { name } = e.currentTarget;
+    this.setState((prevState) => ({
+      data: {
+        ...prevState.data,
+        mainBet: {
+          ...prevState.data.mainBet,
+          idPartyVictory: name
+        }
+      }
+    }))
+  }
+
   render() {
     const {
       data: {
@@ -241,7 +255,6 @@ class RateForm extends Component {
       putRateLiveByID,
       titleFrom,
     } = this.props;
-
     return(
       <>
         <h4>{titleFrom}</h4>
@@ -259,9 +272,12 @@ class RateForm extends Component {
           handleDeleteDateFinisOrAlert={this.handleDeleteDateFinisOrAlert}
         />
         <Party
+          isFinish={rateStatusLive.finish === statusLife}
           party={party}
+          idPartyVictory={mainBet.idPartyVictory}
           handleChangeRate={this.handleChangeRate}
           handleDeleteDraw={this.handleDeleteDraw}
+          HandleMakeVictory={this.HandleMakeVictory}
         />
         <Row>
         {

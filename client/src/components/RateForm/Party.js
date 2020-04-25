@@ -13,25 +13,43 @@ const Party = ({
   party,
   handleChangeRate,
   handleDeleteDraw,
+  HandleMakeVictory,
+  isFinish,
+  idPartyVictory,
 }) => (
   <>
     <Row>
       <Col>
         <ListGroup>
           {party.map((itm) => {
-            const id = itm._id || itm.id;
+            const id = itm.id|| itm._id;
             const isDraw = id === 3;
+            const isChecked = +id === +idPartyVictory;
             return (
               <ListGroup.Item key={id}>
-                <Form.Control
-                  value={itm.participator}
-                  onChange={handleChangeRate}
-                  placeholder="Ввидите сторону участника"
-                  type="text"
-                  name="participator"
-                  data-id={id}
-                  disabled={isDraw}
-                />
+                <Row>
+                  { isFinish &&
+                    <Col sm="1">
+                      <input
+                        checked={isChecked}
+                        name={id}
+                        type="radio"
+                        onClick={HandleMakeVictory}
+                      />
+                    </Col>
+                  }
+                  <Col sm="11">
+                    <Form.Control
+                      value={itm.participator}
+                      onChange={handleChangeRate}
+                      placeholder="Ввидите сторону участника"
+                      type="text"
+                      name="participator"
+                      data-id={id}
+                      disabled={isDraw}
+                    />
+                  </Col>
+                </Row>
                 {
                   !isDraw &&
                   <Form.Control
@@ -65,6 +83,9 @@ Party.propType = {
   party: PropTypes.shape({}),
   handleChangeRate: PropTypes.func,
   handleDeleteDraw: PropTypes.func,
+  HandleMakeVictory: PropTypes.func,
+  isFinish: PropTypes.bool,
+  idPartyVictory: PropTypes.number,
 }
 
 export default Party;
