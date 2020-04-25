@@ -69,7 +69,7 @@ app.route('/api/rate')
   .delete(rateControllers.deleteOne)
 
 app.route('/api/rate-live')
-  .post(rateLiveControllers.rateLive)
+  .put(rateLiveControllers.rateLive)
 
 app.route('/api/purse')
   .get(purseControllers.getPurse)
