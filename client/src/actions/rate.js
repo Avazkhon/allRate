@@ -1,11 +1,9 @@
 import {
   CREATE_NEW_RATE,
-
   GET_RATES,
-
   GET_RATE_BY_ID,
-
   PUT_RATE,
+  PUT_RATE_LIVE,
 } from '../constants';
 
 export function creteNewRate (data) {
@@ -48,6 +46,16 @@ export function putRateByID (data) {
       method: "PUT",
       endpoint: `rate?id=${data._id}`,
       data
+    }
+  })
+}
+
+export function putRateLiveByID (live, id) {
+  return dispatch => dispatch({
+    type: PUT_RATE_LIVE,
+    meta: {
+      method: "PUT",
+      endpoint: `rate-live?live=${live}&id=${id}`,
     }
   })
 }

@@ -13,6 +13,10 @@ import {
   isFunction,
 } from 'utils';
 
+import {
+  rateStatusLive,
+} from '../../constants';
+
 import MainProps from './MainProps';
 import Party from './Party';
 
@@ -208,6 +212,14 @@ class RateForm extends Component {
     }
   }
 
+  handleChangeRateLiveByID = () => {
+    const { data } = this.state;
+    const { putRateLiveByID } = this.props;
+    if (typeof putRateLiveByID === 'function') {
+      putRateLiveByID('finish', data._id);
+    }
+  }
+
   render() {
     const {
       data: {
@@ -219,12 +231,14 @@ class RateForm extends Component {
         party,
         mainBet,
         dateAlert,
+        statusLife,
       }
     } = this.state;
 
     const {
       creteNewRate,
       getRateByID,
+      putRateLiveByID,
       titleFrom,
     } = this.props;
 
@@ -249,26 +263,41 @@ class RateForm extends Component {
           handleChangeRate={this.handleChangeRate}
           handleDeleteDraw={this.handleDeleteDraw}
         />
+        <Row>
         {
           creteNewRate &&
-          <Row>
-            <Col>
+          <Col>
             <Button onClick={this.handleCreateSubmit} >
               Создать
             </Button>
-            </Col>
-          </Row>
+          </Col>
         }
         {
           getRateByID &&
-          <Row>
-            <Col>
+          <Col>
             <Button onClick={this.handleChangeSubmit}>
               Изменить
             </Button>
-            </Col>
-          </Row>
+          </Col>
         }
+        {
+          putRateLiveByID &&
+          (statusLife === rateStatusLive.active || statusLife === rateStatusLive.new) &&
+          <Col>
+            <Button onClick={this.handleChangeRateLiveByID}>
+              Завершить ставку
+            </Button>
+          </Col>
+        }
+        {
+          getRateByID &&
+          <Col>
+            <Button onClick={this.handleChangeSubmit}>
+              Добавить в архив
+            </Button>
+          </Col>
+        }
+        </Row>
       </>
     )
   }
@@ -278,6 +307,7 @@ RateForm.propType = {
   creteNewRate: PropTypes.func,
   putRateByID: PropTypes.func,
   getRateByID: PropTypes.func,
+  putRateLiveByID: PropTypes.func,
   rateId: PropTypes.string,
   titleFrom: PropTypes.string,
 }

@@ -10,6 +10,8 @@ export const GET_RATE_BY_ID = 'GET_RATE_BY_ID';
 export const PUT_RATE = 'PUT_RATE';
 export const GET_COMMON_RATES = 'GET_COMMON_RATES';
 
+export const PUT_RATE_LIVE = 'PUT_RATE_LIVE';
+
 export const GET_PURSE = 'GET_PURSE';
 
 export const POST_INVOICE = 'POST_INVOICE';
@@ -20,3 +22,10 @@ export const basisForPayment = {
   makeRate: 'makeRate',
   win: 'win'
 };
+
+export const rateStatusLive = {
+  new: 'new',
+  active: 'active',
+  finish: 'finish',
+  archive: 'archive',
+}
