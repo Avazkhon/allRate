@@ -21,11 +21,11 @@ class InvoiceController {
 
   createAmount (prevAmount, changeAmount, action) {
     if (action === this.plus) {
-      return prevAmount + changeAmount;
+      return (prevAmount + changeAmount).toFixed(2);
     } else {
       const amount = prevAmount - changeAmount
       if (amount >= 0) {
-        return amount;
+        return amount.toFixed(2);
       }
       throw 'Недостаточно средств!'
     }

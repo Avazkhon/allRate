@@ -13,7 +13,7 @@ const makePay = (mainBet, src, index = 0) => (
       return;
     }
     const dataInvoice = {
-      amount: participant.meny * mainBet.coefficient,
+      amount: (participant.meny * mainBet.coefficient).toFixed(2),
       requisites: { src, target: participant.purseId},
       basisForPayment: basisForPayment.win,
       createTime: new Date(),
