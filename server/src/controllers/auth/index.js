@@ -20,6 +20,7 @@ exports.authIn = (req, res) => {
       const data = {
         userId: result._id,
         userName: result.userName,
+        purseId: result.purseId,
         isAdmin: result.isAdmin,
       };
       req.session.user = data;

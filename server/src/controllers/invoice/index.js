@@ -103,7 +103,6 @@ class InvoiceController {
         return res.status(402).json({ message: 'Недостаточно средств!'});
       }
     }
-
     const invoice = await invoiceModel.create(body);
     if (body.basisForPayment === accountReplenishment) {
       await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.plus);
@@ -112,6 +111,7 @@ class InvoiceController {
     } else {
       await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.plus);
       await this.changePurse(invoice, invoice.requisites.src, body.basisForPayment, this.minus);
+      body.rate.participant.purseId = user.purseId;
       await this.changeRate(body.rate.id, body.rate.partyNumber, body.rate.participant, invoice.amount);
     }
       res.status(201).json(invoice);
@@ -119,6 +119,19 @@ class InvoiceController {
       writeToLog.write(err, 'create_invoice.err');
       res.status(500).json({ message: 'Не все операции успешно выполнены!', err});
     }
+  }
+
+  async createInvoiceForWin (data) {
+    data.authorId = '5ea40bdc49ea8b2a1d6d244a';
+    data.invoiceId = uuidv4();
+    const purse = await purseModel.getPurse({_id: data.requisites.src});
+    if (purse.amount < data.amount) {
+      throw 'Недостаточно средств';
+    }
+    const invoice = await invoiceModel.create(data);
+    await this.changePurse(invoice, invoice.requisites.src, data.basisForPayment, this.minus);
+    await this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus);
+    return invoice;
   }
 
   async getInvoice (req, res) {

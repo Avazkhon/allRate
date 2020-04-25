@@ -28,6 +28,7 @@ exports.rateSchema = new Schema(
         participants: [
           {
             userId: { type: mongoose.ObjectId, required: true },
+            purseId: { type: mongoose.ObjectId, required: true },
             meny: { type: Number, required: true, min: 50, max: 500 },
             serverTime: { type: Date, default: new Date() },
             localTime: { type: Date, required: true },
@@ -42,6 +43,7 @@ exports.rateSchema = new Schema(
         participants: [
           {
             userId: { type: mongoose.ObjectId },
+            purseId: { type: mongoose.ObjectId, required: true },
             meny: { type: Number, min: 50, max: 500 },
             serverTime: { type: Date },
             localTime: { type: Date },
@@ -56,6 +58,7 @@ exports.rateSchema = new Schema(
         participants: [
           {
             userId: { type: mongoose.ObjectId, required: true },
+            purseId: { type: mongoose.ObjectId, required: true },
             meny: { type: Number, required: true, min: 50, max: 500 },
             serverTime: { type: Date, default: new Date() },
             localTime: { type: Date, required: true },
