@@ -89,8 +89,6 @@ class ModalInvoice extends Component {
       amount,
       data,
     } = this.state;
-    console.log(data.requisites[requisiteName]);
-    console.log(requisiteName);
     return (
       <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
