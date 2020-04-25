@@ -36,8 +36,7 @@ exports.rateLive  = async (req, res)  => {
     if (!user || user && !user.userId) {
       return res.status(401).json({ message: 'Пользователь не авторизован!'});
     };
-
-    if (rateStatusLive.finish === live) {
+    if (rateStatusLive.finish === live || rateStatusLive.archive === live) {
       await rateModels.findByIdAndUpdate(id, { statusLife: live })
       .then((result) => {
         res.status(200).send({ message: `статус ставки изменен на ${live}` })

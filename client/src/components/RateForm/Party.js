@@ -16,6 +16,7 @@ const Party = ({
   HandleMakeVictory,
   isFinish,
   idPartyVictory,
+  disabled,
 }) => (
   <>
     <Row>
@@ -35,6 +36,7 @@ const Party = ({
                         name={id}
                         type="radio"
                         onClick={HandleMakeVictory}
+                        disabled={disabled}
                       />
                     </Col>
                   }
@@ -46,7 +48,7 @@ const Party = ({
                       type="text"
                       name="participator"
                       data-id={id}
-                      disabled={isDraw}
+                      disabled={isDraw || disabled}
                     />
                   </Col>
                 </Row>
@@ -59,6 +61,7 @@ const Party = ({
                     placeholder="Ввидите описание"
                     name="description"
                     data-id={id}
+                    disabled={disabled}
                   />
                 }
                 {
@@ -85,6 +88,7 @@ Party.propType = {
   handleDeleteDraw: PropTypes.func,
   HandleMakeVictory: PropTypes.func,
   isFinish: PropTypes.bool,
+  disabled: PropTypes.bool,
   idPartyVictory: PropTypes.number,
 }
 

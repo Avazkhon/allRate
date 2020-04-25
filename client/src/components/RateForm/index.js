@@ -213,11 +213,12 @@ class RateForm extends Component {
     }
   }
 
-  handleChangeRateLiveByID = () => {
+  handleChangeRateLiveByID = (e) => {
+    const { name } = e.currentTarget;
     const { data } = this.state;
     const { putRateLiveByID } = this.props;
     if (typeof putRateLiveByID === 'function') {
-      putRateLiveByID('finish', data._id);
+      putRateLiveByID(name, data._id);
     }
   }
 
@@ -255,10 +256,12 @@ class RateForm extends Component {
       putRateLiveByID,
       titleFrom,
     } = this.props;
+    const isArchive = rateStatusLive.archive === statusLife;
     return(
       <>
         <h4>{titleFrom}</h4>
         <MainProps
+          disabled={isArchive}
           title={title}
           description={description}
           handleChange={this.handleChange}
@@ -272,6 +275,7 @@ class RateForm extends Component {
           handleDeleteDateFinisOrAlert={this.handleDeleteDateFinisOrAlert}
         />
         <Party
+          disabled={isArchive}
           isFinish={rateStatusLive.finish === statusLife}
           party={party}
           idPartyVictory={mainBet.idPartyVictory}
@@ -289,7 +293,7 @@ class RateForm extends Component {
           </Col>
         }
         {
-          getRateByID &&
+          getRateByID && !isArchive &&
           <Col>
             <Button onClick={this.handleChangeSubmit}>
               Изменить
@@ -300,15 +304,15 @@ class RateForm extends Component {
           putRateLiveByID &&
           (statusLife === rateStatusLive.active || statusLife === rateStatusLive.new) &&
           <Col>
-            <Button onClick={this.handleChangeRateLiveByID}>
+            <Button name={rateStatusLive.finish} onClick={this.handleChangeRateLiveByID}>
               Завершить ставку
             </Button>
           </Col>
         }
         {
-          getRateByID &&
+          putRateLiveByID && rateStatusLive.finish === statusLife &&
           <Col>
-            <Button onClick={this.handleChangeSubmit}>
+            <Button name={rateStatusLive.archive} onClick={this.handleChangeRateLiveByID}>
               Добавить в архив
             </Button>
           </Col>
