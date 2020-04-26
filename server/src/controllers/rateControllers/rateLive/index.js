@@ -9,6 +9,10 @@ const writeToLog = new WriteToLog();
 const makePay = (mainBet, src, index = 0) => (
   new Promise((resolve, reject) => {
     const participant = mainBet.participants[index];
+    if (!mainBet.participants.length) {
+      reject('Ставка не сотоялась так как нет ни одной сделаной ставки');
+      return;
+    }
     if (!participant) {
       return;
     }
@@ -42,7 +46,6 @@ exports.rateLive  = async (req, res)  => {
         res.status(200).send({ message: `статус ставки изменен на ${live}` })
       })
     }
-
     if (mainBet) {
       const rate = await rateModels.getOneById(id);
       await makePay(rate.mainBet[mainBet], rate.mainBet.purseId)
