@@ -11,6 +11,7 @@ export const PUT_RATE = 'PUT_RATE';
 export const GET_COMMON_RATES = 'GET_COMMON_RATES';
 
 export const PUT_RATE_LIVE = 'PUT_RATE_LIVE';
+export const PUT_RATE_SELECT_VICTORY = 'PUT_RATE_SELECT_VICTORY';
 
 export const GET_PURSE = 'GET_PURSE';
 

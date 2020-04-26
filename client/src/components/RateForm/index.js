@@ -235,6 +235,29 @@ class RateForm extends Component {
     }))
   }
 
+  handleChangeRateSelectVictory = () => {
+    const { putRateSelectVictory } = this.props;
+    const {
+      data: {
+        _id,
+        mainBet,
+        mainBet: {
+          idPartyVictory
+        },
+      }
+    } = this.state;
+    const partyMainBet = {
+      partyOne: mainBet.partyOne,
+      partyTwo: mainBet.partyTwo,
+      partyDraw: mainBet.partyDraw,
+    };
+    const keyParty = Object.keys(partyMainBet);
+    const selectParty = keyParty.find(party => partyMainBet[party] && (+partyMainBet[party].idParty === +idPartyVictory))
+    if (typeof putRateSelectVictory === 'function') {
+      putRateSelectVictory(selectParty, _id)
+    }
+  }
+
   render() {
     const {
       data: {
@@ -301,7 +324,6 @@ class RateForm extends Component {
           </Col>
         }
         {
-          putRateLiveByID &&
           (statusLife === rateStatusLive.active || statusLife === rateStatusLive.new) &&
           <Col>
             <Button name={rateStatusLive.finish} onClick={this.handleChangeRateLiveByID}>
@@ -310,10 +332,18 @@ class RateForm extends Component {
           </Col>
         }
         {
-          putRateLiveByID && rateStatusLive.finish === statusLife &&
+          rateStatusLive.finish === statusLife &&
           <Col>
             <Button name={rateStatusLive.archive} onClick={this.handleChangeRateLiveByID}>
               Добавить в архив
+            </Button>
+          </Col>
+        }
+        {
+          !isArchive && rateStatusLive.finish === statusLife &&
+          <Col>
+            <Button name={rateStatusLive.archive} onClick={this.handleChangeRateSelectVictory}>
+              Сделать выплатить
             </Button>
           </Col>
         }
@@ -328,6 +358,7 @@ RateForm.propType = {
   putRateByID: PropTypes.func,
   getRateByID: PropTypes.func,
   putRateLiveByID: PropTypes.func,
+  putRateSelectVictory: PropTypes.func,
   rateId: PropTypes.string,
   titleFrom: PropTypes.string,
 }

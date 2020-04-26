@@ -12,6 +12,7 @@ export {
   getRateByID,
   putRateByID,
   putRateLiveByID,
+  putRateSelectVictory,
 } from './rate';
 
 export {
