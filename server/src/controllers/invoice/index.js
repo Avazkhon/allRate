@@ -4,11 +4,14 @@ const purseModel = require('../../models/purse');
 const rateModel = require('../../models/rate');
 const WriteToLog = require('../../utils/writeToLog');
 const {
-  accountReplenishment,
-  withdrawal,
-  makeRate,
-  win,
-} = require('../../constants').basisForPayment;
+  basisForPayment: {
+    accountReplenishment,
+    withdrawal,
+    makeRate,
+    win,
+  },
+  superAdmin,
+} = require('../../constants');
 
 const writeToLog = new WriteToLog();
 
@@ -122,7 +125,7 @@ class InvoiceController {
   }
 
   async createInvoiceForWin (data) {
-    data.authorId = '5ea40bdc49ea8b2a1d6d244a';
+    data.authorId = superAdmin.userId;
     data.invoiceId = uuidv4();
     const purse = await purseModel.getPurse({_id: data.requisites.src});
     if (purse.amount < data.amount) {
@@ -135,7 +138,7 @@ class InvoiceController {
   }
 
   async createInvoiceForPercentage (data) {
-    data.authorId = '5ea40bdc49ea8b2a1d6d244a';
+    data.authorId = superAdmin.userId;
     data.invoiceId = uuidv4();
     const invoice = await invoiceModel.create(data);
     await this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus);

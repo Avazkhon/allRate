@@ -2,7 +2,11 @@ const rateModels = require('../../../models/rate');
 const purseModel = require('../../../models/purse');
 const userModel = require('../../../models/user');
 const WriteToLog = require('../../../utils/writeToLog');
-const { rateStatusLive, basisForPayment } = require('../../../constants');
+const {
+  rateStatusLive,
+  basisForPayment,
+  superAdmin,
+} = require('../../../constants');
 const InvoiceControllers = require('../../invoice');
 
 const invoiceControllers = new InvoiceControllers();
@@ -66,13 +70,12 @@ exports.rateLive  = async (req, res)  => {
       const rate = await rateModels.getOneById(id);
       const author = await userModel.findOne({ _id: rate.author}, { purseId: true });
       const purse = await purseModel.getPurse({ _id: rate.mainBet.purseId });
-      const superAdminPurseId = '5ea5dfa0233e7360e763620b';
       await makePay(rate.mainBet[mainBet], purse._id)
       .then(() => (
         makePayPercentage(purse.amount * 0.3, purse._id, author.purseId)
       ))
       .then(() => (
-        makePayPercentage(purse.amount * 0.3, purse._id, superAdminPurseId)
+        makePayPercentage(purse.amount * 0.3, purse._id, superAdmin.purseId)
       ))
       .then(() => {
         res.status(200).send({ message: `определен победителем ${mainBet} в mainBet` })
