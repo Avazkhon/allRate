@@ -2,7 +2,8 @@ exports.basisForPayment = {
   accountReplenishment: 'accountReplenishment',
   withdrawal: 'withdrawal',
   makeRate: 'makeRate',
-  win: 'win'
+  win: 'win',
+  percentage: 'percentage',
 };
 
 exports.rateStatusLive = {

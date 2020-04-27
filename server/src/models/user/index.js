@@ -16,6 +16,14 @@ exports.getOneById = (id, callBack) => {
   User.findOne({_id: id}, callBack);
 }
 
+exports.findOne = (searchProps, getProps) => (
+  new Promise((resolve, reject) => (
+    User.findOne(searchProps, getProps)
+    .then(resolve)
+    .catch(reject)
+  ))
+)
+
 exports.getOneByUserName = (userName, callBack) => {
   User.findOne({userName: userName}, callBack);
 }

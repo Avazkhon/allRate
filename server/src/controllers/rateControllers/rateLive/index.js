@@ -1,4 +1,6 @@
 const rateModels = require('../../../models/rate');
+const purseModel = require('../../../models/purse');
+const userModel = require('../../../models/user');
 const WriteToLog = require('../../../utils/writeToLog');
 const { rateStatusLive, basisForPayment } = require('../../../constants');
 const InvoiceControllers = require('../../invoice');
@@ -21,13 +23,27 @@ const makePay = (mainBet, src, index = 0) => (
       requisites: { src, target: participant.purseId},
       basisForPayment: basisForPayment.win,
       createTime: new Date(),
-    }
+    };
     return invoiceControllers.createInvoiceForWin(dataInvoice)
     .then((r) => {
       resolve('SUCCESS');
       index++;
       makePay(mainBet, src, index);
     })
+    .catch(reject);
+  })
+)
+
+const makePayPercentage = (amount, src, purseId) => (
+  new Promise((resolve, reject) => {
+    const dataInvoice = {
+      amount: amount.toFixed(2),
+      requisites: { src, target: purseId},
+      basisForPayment: basisForPayment.percentage,
+      createTime: new Date(),
+    }
+    return invoiceControllers.createInvoiceForPercentage(dataInvoice)
+    .then(() => resolve('SUCCESS'))
     .catch(reject);
   })
 )
@@ -48,8 +64,17 @@ exports.rateLive  = async (req, res)  => {
     }
     if (mainBet) {
       const rate = await rateModels.getOneById(id);
-      await makePay(rate.mainBet[mainBet], rate.mainBet.purseId)
-      .then((r) => {
+      const author = await userModel.findOne({ _id: rate.author}, { purseId: true });
+      const purse = await purseModel.getPurse({ _id: rate.mainBet.purseId });
+      const superAdminPurseId = '5ea5dfa0233e7360e763620b';
+      await makePay(rate.mainBet[mainBet], purse._id)
+      .then(() => (
+        makePayPercentage(purse.amount * 0.3, purse._id, author.purseId)
+      ))
+      .then(() => (
+        makePayPercentage(purse.amount * 0.3, purse._id, superAdminPurseId)
+      ))
+      .then(() => {
         res.status(200).send({ message: `определен победителем ${mainBet} в mainBet` })
       })
       .catch((err) => {
