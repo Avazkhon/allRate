@@ -9,6 +9,8 @@ import {
   Button,
 } from 'react-bootstrap';
 
+import Messages from 'components/Messages';
+
 import {
   isFunction,
 } from 'utils';
@@ -67,7 +69,9 @@ class RateForm extends Component {
         dateFinish: new Date(),
         differenceTime: 0,
       },
-      isRedirectToMe: false,
+      error: '',
+      warning: '',
+      isFetching: false,
 		}
 	}
 
@@ -82,6 +86,14 @@ class RateForm extends Component {
     if (prevRateId !== nexRateId) {
       this.changeState(nexRateId);
     }
+  }
+
+  changeStateForMessage = ({ isFetching = false, warning, error }) => {
+    this.setState({
+      isFetching: isFetching,
+      warning: warning ? warning : '',
+      error: error ? error : '',
+    })
   }
 
   changeState = (id) => {
@@ -194,12 +206,19 @@ class RateForm extends Component {
   handleCreateSubmit = () => {
     const { data } = this.state;
     const { creteNewRate } = this.props;
+    this.changeStateForMessage({ isFetching: true });
     if (typeof creteNewRate === "function") {
       creteNewRate(data).then((action) => {
-        if (action.response && action.response.result) {
-          this.setState({ isRedirectToMe: true })
+        if (action.status === 'SUCCESS') {
+          this.changeStateForMessage({
+            isFetching: false,
+            warning: 'Ставка успешно создана!',
+          });
         } else {
-          console.log(action.error);
+          this.changeStateForMessage({
+            isFetching: false,
+            error: action.error,
+          });
         }
       })
     }
@@ -270,7 +289,10 @@ class RateForm extends Component {
         mainBet,
         dateAlert,
         statusLife,
-      }
+      },
+      error,
+      warning,
+      isFetching,
     } = this.state;
 
     const {
@@ -350,6 +372,11 @@ class RateForm extends Component {
           </Col>
         }
         </Row>
+        <Messages
+          error={error}
+          warning={warning}
+          isFetching={isFetching}
+        />
       </>
     )
   }
