@@ -70,6 +70,11 @@ exports.rateLive  = async (req, res)  => {
       const rate = await rateModels.getOneById(id);
       const author = await userModel.findOne({ _id: rate.author}, { purseId: true });
       const purse = await purseModel.getPurse({ _id: rate.mainBet.purseId });
+      await rateModels.findByIdAndUpdate(
+        id,
+        {$set: {[`mainBet.idPartyVictory`]: rate.mainBet[mainBet].idParty }  }
+      );
+
       await makePay(rate.mainBet[mainBet], purse._id)
       .then(() => (
         makePayPercentage(purse.amount * 0.3, purse._id, author.purseId)

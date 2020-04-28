@@ -128,7 +128,7 @@ class InvoiceController {
     data.authorId = superAdmin.userId;
     data.invoiceId = uuidv4();
     const purse = await purseModel.getPurse({_id: data.requisites.src});
-    if (purse.amount < data.amount) {
+    if (+purse.amount < +data.amount) {
       throw 'Недостаточно средств';
     }
     const invoice = await invoiceModel.create(data);
