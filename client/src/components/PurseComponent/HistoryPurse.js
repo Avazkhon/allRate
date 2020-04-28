@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 
-import {
-  Spinner,
-  Alert,
-} from 'react-bootstrap';
+import Messages from 'components/Messages';
 
 import {
   basisForPayment,
@@ -123,27 +120,11 @@ class HistoryPurse extends Component {
             })
           }
         </table>
-        {
-          !history.length && purse && !error &&
-          <div className={classes.center}>
-            <Alert variant="primary">
-              У Вас еще пока нет операции...
-            </Alert>
-          </div>
-        }
-        {
-          error &&
-          <div className={classes.center}>
-            <Alert variant="warning">
-              {error}
-            </Alert>
-          </div>
-        }
-        { isFetching &&
-          <div className={classes.center}>
-            <Spinner animation="border" variant="primary" />
-          </div>
-        }
+        <Messages
+          warning={!history.length && purse && !error && 'У Вас еще пока нет операции...'}
+          error={error}
+          isFetching={isFetching}
+        />
       </>
     )
   }
