@@ -13,89 +13,78 @@ import {
 
 import style from './style';
 
-class Auth extends Component {
-  constructor(props) {
-		super(props);
-		this.state = {
-		}
-	}
-  render() {
-    const {
-      handleChange,
-      handleAuth,
-      handleCreateNewUser,
-      isHeder,
-      classes,
-      error,
-    } = this.props;
-
-    return(
-      <Form className={classes.auth} >
-        <Row>
-          <Col xs="12">
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>Э-почта</Form.Label>
-              <Form.Control
-                  onChange={handleChange}
-                  placeholder="Ввидите электонную почту"
-                  type="email"
-                  name="email"
-                />
-            </Form.Group>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label>Пароль</Form.Label>
-              <Form.Control
-                onChange={handleChange}
-                placeholder="Ввидите пароль"
-                type="password"
-                name="password"
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="12" sm="4">
-            <Button
-              variant="primary"
-              className="login__btn"
-              onClick={handleAuth}
-            >
-              Войти
-            </Button>
-          </Col>
-          {
-            !handleCreateNewUser &&
-            <Col xs="12" sm="12">
-              <Link to='/auth'>
-                <span>Регистрация</span>
-              </Link>
-            </Col>
-          }
-          {
-            handleCreateNewUser &&
-            <Col xs="12" sm="4">
-              <Button onClick={handleCreateNewUser} >Регистрация </Button>
-            </Col>
-          }
-          {
-            error &&
-            <Alert variant="warning">{error}</Alert>
-          }
-          {
-            !isHeder &&
-            <Col xs="12" sm="4">
-              <Button>Забыли пароль?</Button>
-            </Col>
-          }
-        </Row>
-      </Form>
-    )
-  }
-};
+const Auth = ({
+  handleChange,
+  handleAuth,
+  handleCreateNewUser,
+  isHeder,
+  classes,
+  error,
+}) => (
+  <Form className={classes.auth} >
+    <Row>
+      <Col xs="12">
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Э-почта</Form.Label>
+          <Form.Control
+              onChange={handleChange}
+              placeholder="Ввидите электонную почту"
+              type="email"
+              name="email"
+            />
+        </Form.Group>
+      </Col>
+    </Row>
+    <Row>
+      <Col>
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Пароль</Form.Label>
+          <Form.Control
+            onChange={handleChange}
+            placeholder="Ввидите пароль"
+            type="password"
+            name="password"
+          />
+        </Form.Group>
+      </Col>
+    </Row>
+    <Row>
+      <Col xs="12" sm="4">
+        <Button
+          variant="primary"
+          className="login__btn"
+          onClick={handleAuth}
+        >
+          Войти
+        </Button>
+      </Col>
+      {
+        !handleCreateNewUser &&
+        <Col xs="12" sm="12">
+          <Link to='/auth'>
+            <span>Регистрация</span>
+          </Link>
+        </Col>
+      }
+      {
+        handleCreateNewUser &&
+        <Col xs="12" sm="4">
+          <Button onClick={handleCreateNewUser} >Регистрация </Button>
+        </Col>
+      }
+      {
+        error &&
+        <Alert variant="warning">{error}</Alert>
+      }
+      {
+        !isHeder &&
+        <Col xs="12" sm="4">
+          <Button>Забыли пароль?</Button>
+        </Col>
+      }
+    </Row>
+  </Form>
+);
 
 Auth.propType = {
   handleChange: PropTypes.func,
