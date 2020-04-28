@@ -4,11 +4,14 @@ const purseModel = require('../../models/purse');
 const rateModel = require('../../models/rate');
 const WriteToLog = require('../../utils/writeToLog');
 const {
-  accountReplenishment,
-  withdrawal,
-  makeRate,
-  win,
-} = require('../../constants').basisForPayment;
+  basisForPayment: {
+    accountReplenishment,
+    withdrawal,
+    makeRate,
+    win,
+  },
+  superAdmin,
+} = require('../../constants');
 
 const writeToLog = new WriteToLog();
 
@@ -21,10 +24,13 @@ class InvoiceController {
 
   createAmount (prevAmount, changeAmount, action) {
     if (action === this.plus) {
-      return prevAmount + changeAmount;
+      return (prevAmount + changeAmount).toFixed(2);
     } else {
       const amount = prevAmount - changeAmount
-      return amount >= 0 ? amount : 0;
+      if (amount >= 0) {
+        return amount.toFixed(2);
+      }
+      throw 'Недостаточно средств!'
     }
   }
 
@@ -37,7 +43,8 @@ class InvoiceController {
             invoiceId: invoice._id,
             amount: invoice.amount,
             basisForPayment,
-            createTime: invoice.createTime
+            createTime: invoice.createTime,
+            action,
           }
         },
         amount: this.createAmount(purse.amount, invoice.amount, action),
@@ -63,12 +70,12 @@ class InvoiceController {
     let allAmount = partyOne.amount + partyTwo.amount;
     allAmount = partyDraw.idParty ? allAmount + partyDraw.amount : allAmount;
     const data = {
-      'mainBet.partyOne.coefficient': (allAmount / partyOne.amount).toFixed(3),
-      'mainBet.partyTwo.coefficient': (allAmount / partyTwo.amount).toFixed(3),
+      'mainBet.partyOne.coefficient': (allAmount / partyOne.amount * 0.96).toFixed(3),
+      'mainBet.partyTwo.coefficient': (allAmount / partyTwo.amount * 0.96).toFixed(3),
       [`mainBet.${[partyNumber]}.amount`]: mainBet[partyNumber].amount,
     };
     if (partyDraw.idParty) {
-      data['mainBet.partyDraw.coefficient'] = (allAmount / partyDraw.amount).toFixed(3);
+      data['mainBet.partyDraw.coefficient'] = (allAmount / partyDraw.amount * 0.96).toFixed(3);
     }
     return data;
   }
@@ -85,6 +92,7 @@ class InvoiceController {
   }
 
   createInvoice = async (req, res) => {
+    try {
     const { user } = req.session;
     if (!user || user && !user.userId) {
       return res.status(401).json({ message: 'Пользователь не авторизован!'});
@@ -92,28 +100,50 @@ class InvoiceController {
     const { body } = req;
     body.authorId = user.userId;
     body.invoiceId = uuidv4();
-
-    const invoice = await invoiceModel.create(body)
-    .catch((err) => {
-      res.status(500).json(err);
-      writeToLog.write(err, 'create_invoice.err');
-    });
-    const allStatus = [];
-    if (body.basisForPayment === accountReplenishment) {
-      allStatus.push( await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.plus));
-    } else if (body.basisForPayment === withdrawal) {
-        allStatus.push( await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.minus));
-    } else {
-        allStatus.push( await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.plus));
-        allStatus.push( await this.changePurse(invoice, invoice.requisites.src, body.basisForPayment, this.minus));
-        allStatus.push( await this.changeRate(body.rate.id, body.rate.partyNumber, body.rate.participant, invoice.amount));
-    }
-      if (allStatus.every((status) => status === this.SUCCESS)) {
-        res.status(201).json(invoice);
-      } else {
-        writeToLog.write(...allStatus, 'create_invoice.err');
-        res.status(500).json({ message: 'Не все операции успешно выполнены!'});
+    if (body.basisForPayment !== accountReplenishment) {
+      const purse = await purseModel.getPurse({_id: body.requisites.src});
+      if (purse.amount < body.amount) {
+        return res.status(402).json({ message: 'Недостаточно средств!'});
       }
+    }
+    const invoice = await invoiceModel.create(body);
+    if (body.basisForPayment === accountReplenishment) {
+      await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.plus);
+    } else if (body.basisForPayment === withdrawal) {
+      await this.changePurse(invoice, invoice.requisites.src, body.basisForPayment, this.minus);
+    } else {
+      await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.plus);
+      await this.changePurse(invoice, invoice.requisites.src, body.basisForPayment, this.minus);
+      body.rate.participant.purseId = user.purseId;
+      await this.changeRate(body.rate.id, body.rate.partyNumber, body.rate.participant, invoice.amount);
+    }
+      res.status(201).json(invoice);
+    } catch(err) {
+      writeToLog.write(err, 'create_invoice.err');
+      res.status(500).json({ message: 'Не все операции успешно выполнены!', err});
+    }
+  }
+
+  async createInvoiceForWin (data) {
+    data.authorId = superAdmin.userId;
+    data.invoiceId = uuidv4();
+    const purse = await purseModel.getPurse({_id: data.requisites.src});
+    if (+purse.amount < +data.amount) {
+      throw 'Недостаточно средств';
+    }
+    const invoice = await invoiceModel.create(data);
+    await this.changePurse(invoice, invoice.requisites.src, data.basisForPayment, this.minus);
+    await this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus);
+    return invoice;
+  }
+
+  async createInvoiceForPercentage (data) {
+    data.authorId = superAdmin.userId;
+    data.invoiceId = uuidv4();
+    const invoice = await invoiceModel.create(data);
+    await this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus);
+    await this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus);
+    return invoice;
   }
 
   async getInvoice (req, res) {

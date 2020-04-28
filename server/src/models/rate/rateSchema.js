@@ -20,6 +20,8 @@ exports.rateSchema = new Schema(
     mainBet: {
       title: { type: String, default: 'Основная ставка' },
       purseId: { type: mongoose.ObjectId },
+      idPartyVictory: { type: Number, default: 0 },
+      paymentMade: { type: Boolean, default: false },
       partyOne: {
         amount: { type: Number, default: 0 },
         coefficient: { type: Number, default: 1, min: 1},
@@ -28,6 +30,7 @@ exports.rateSchema = new Schema(
         participants: [
           {
             userId: { type: mongoose.ObjectId, required: true },
+            purseId: { type: mongoose.ObjectId, required: true },
             meny: { type: Number, required: true, min: 50, max: 500 },
             serverTime: { type: Date, default: new Date() },
             localTime: { type: Date, required: true },
@@ -42,6 +45,7 @@ exports.rateSchema = new Schema(
         participants: [
           {
             userId: { type: mongoose.ObjectId },
+            purseId: { type: mongoose.ObjectId, required: true },
             meny: { type: Number, min: 50, max: 500 },
             serverTime: { type: Date },
             localTime: { type: Date },
@@ -56,6 +60,7 @@ exports.rateSchema = new Schema(
         participants: [
           {
             userId: { type: mongoose.ObjectId, required: true },
+            purseId: { type: mongoose.ObjectId, required: true },
             meny: { type: Number, required: true, min: 50, max: 500 },
             serverTime: { type: Date, default: new Date() },
             localTime: { type: Date, required: true },

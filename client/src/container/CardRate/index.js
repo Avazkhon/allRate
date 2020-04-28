@@ -18,10 +18,9 @@ import Layout from '../Layout';
 import {
   getRateByID,
   putRateByID,
+  putRateLiveByID,
+  putRateSelectVictory,
 } from '../../actions';
-
-
-import './style.css';
 
 class CardRate extends React.Component {
   constructor(props) {
@@ -35,6 +34,8 @@ class CardRate extends React.Component {
     const {
       getRateByID,
       putRateByID,
+      putRateLiveByID,
+      putRateSelectVictory,
       auth,
     } = this.props;
     return (
@@ -49,6 +50,8 @@ class CardRate extends React.Component {
             <RateForm
               getRateByID={getRateByID}
               putRateByID={putRateByID}
+              putRateLiveByID={putRateLiveByID}
+              putRateSelectVictory={putRateSelectVictory}
               rateId={this.props.match.params.id}
               titleFrom="Карточка ставки"
             />
@@ -61,6 +64,9 @@ class CardRate extends React.Component {
 
 CardRate.propType = {
   getRateByID: PropTypes.func,
+  putRateByID: PropTypes.func,
+  putRateLiveByID: PropTypes.func,
+  putRateSelectVictory: PropTypes.func,
 }
 
 function mapStateToProps(state) {
@@ -75,4 +81,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   getRateByID,
   putRateByID,
+  putRateLiveByID,
+  putRateSelectVictory,
 })(CardRate);

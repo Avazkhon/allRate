@@ -33,6 +33,7 @@ const MainProps = ({
   differenceTime,
   handleChangeDifferenceTime,
   handleDeleteDateFinisOrAlert,
+  disabled,
 }) => (
   <>
     <Row>
@@ -43,6 +44,7 @@ const MainProps = ({
           placeholder="Ввидите заголовок"
           className="create-rate_input"
           name="title"
+          disabled={disabled}
         />
       </Col>
     </Row>
@@ -55,6 +57,7 @@ const MainProps = ({
           placeholder="Ввидите описание"
           className="create-rate_textarea"
           name="description"
+          disabled={disabled}
         />
       </Col>
     </Row>
@@ -76,6 +79,7 @@ const MainProps = ({
         <CreateFlatpickr
           date={dateFinish || dateAlert}
           onChange={handleChangeDateFinisOrAlert}
+          disabled={disabled}
         />
         <Button onClick={handleDeleteDateFinisOrAlert}>
           { dateFinish ? 'Установить время предупреждения' : 'Установить время завершения' }
@@ -83,7 +87,11 @@ const MainProps = ({
       </Col>
       <Col>
         <div>часовой пояс</div>
-        <select value={Number(differenceTime)} onChange={handleChangeDifferenceTime}>
+        <select
+          value={Number(differenceTime)}
+          onChange={handleChangeDifferenceTime}
+          disabled={disabled}
+        >
           {
             timeZone.map((i) => (
               <option key={i} value={i}>{i}</option>
@@ -107,6 +115,7 @@ MainProps.propType = {
   handleChangeDateFinisOrAlert: PropTypes.func,
   handleDeleteDateFinisOrAlert: PropTypes.func,
   handleChangeDifferenceTime: PropTypes.func,
+  disabled: PropTypes.bool,
 }
 
 export default MainProps;

@@ -13,6 +13,10 @@ import {
   isFunction,
 } from 'utils';
 
+import {
+  rateStatusLive,
+} from '../../constants';
+
 import MainProps from './MainProps';
 import Party from './Party';
 
@@ -41,6 +45,7 @@ class RateForm extends Component {
           },
         ],
         mainBet: {
+          idPartyVictory: 0,
           partyOne: {
             idParty: 1,
             participants: [],
@@ -208,6 +213,51 @@ class RateForm extends Component {
     }
   }
 
+  handleChangeRateLiveByID = (e) => {
+    const { name } = e.currentTarget;
+    const { data } = this.state;
+    const { putRateLiveByID } = this.props;
+    if (typeof putRateLiveByID === 'function') {
+      putRateLiveByID(name, data._id);
+    }
+  }
+
+  HandleMakeVictory = (e) => {
+    const { name } = e.currentTarget;
+    this.setState((prevState) => ({
+      data: {
+        ...prevState.data,
+        mainBet: {
+          ...prevState.data.mainBet,
+          idPartyVictory: name
+        }
+      }
+    }))
+  }
+
+  handleChangeRateSelectVictory = () => {
+    const { putRateSelectVictory } = this.props;
+    const {
+      data: {
+        _id,
+        mainBet,
+        mainBet: {
+          idPartyVictory
+        },
+      }
+    } = this.state;
+    const partyMainBet = {
+      partyOne: mainBet.partyOne,
+      partyTwo: mainBet.partyTwo,
+      partyDraw: mainBet.partyDraw,
+    };
+    const keyParty = Object.keys(partyMainBet);
+    const selectParty = keyParty.find(party => partyMainBet[party] && (+partyMainBet[party].idParty === +idPartyVictory))
+    if (typeof putRateSelectVictory === 'function') {
+      putRateSelectVictory(selectParty, _id)
+    }
+  }
+
   render() {
     const {
       data: {
@@ -219,19 +269,23 @@ class RateForm extends Component {
         party,
         mainBet,
         dateAlert,
+        statusLife,
       }
     } = this.state;
 
     const {
       creteNewRate,
       getRateByID,
+      putRateLiveByID,
       titleFrom,
     } = this.props;
-
+    const isArchive = rateStatusLive.archive === statusLife;
+    const isFinish = rateStatusLive.finish === statusLife;
     return(
       <>
         <h4>{titleFrom}</h4>
         <MainProps
+          disabled={isArchive}
           title={title}
           description={description}
           handleChange={this.handleChange}
@@ -245,30 +299,57 @@ class RateForm extends Component {
           handleDeleteDateFinisOrAlert={this.handleDeleteDateFinisOrAlert}
         />
         <Party
+          isArchive={isArchive}
+          isPaymentMade={mainBet.paymentMade}
+          isFinish={isFinish}
           party={party}
+          idPartyVictory={mainBet.idPartyVictory}
           handleChangeRate={this.handleChangeRate}
           handleDeleteDraw={this.handleDeleteDraw}
+          HandleMakeVictory={this.HandleMakeVictory}
         />
+        <Row>
         {
           creteNewRate &&
-          <Row>
-            <Col>
+          <Col>
             <Button onClick={this.handleCreateSubmit} >
               Создать
             </Button>
-            </Col>
-          </Row>
+          </Col>
         }
         {
-          getRateByID &&
-          <Row>
-            <Col>
+          getRateByID && !isArchive && !isFinish &&
+          <Col>
             <Button onClick={this.handleChangeSubmit}>
               Изменить
             </Button>
-            </Col>
-          </Row>
+          </Col>
         }
+        {
+          (statusLife === rateStatusLive.active || statusLife === rateStatusLive.new) &&
+          <Col>
+            <Button name={rateStatusLive.finish} onClick={this.handleChangeRateLiveByID}>
+              Завершить ставку
+            </Button>
+          </Col>
+        }
+        {
+          isFinish &&
+          <Col>
+            <Button name={rateStatusLive.archive} onClick={this.handleChangeRateLiveByID}>
+              Добавить в архив
+            </Button>
+          </Col>
+        }
+        {
+          !isArchive && isFinish && !mainBet.paymentMade &&
+          <Col>
+            <Button name={rateStatusLive.archive} onClick={this.handleChangeRateSelectVictory}>
+              Сделать выплатить
+            </Button>
+          </Col>
+        }
+        </Row>
       </>
     )
   }
@@ -278,6 +359,8 @@ RateForm.propType = {
   creteNewRate: PropTypes.func,
   putRateByID: PropTypes.func,
   getRateByID: PropTypes.func,
+  putRateLiveByID: PropTypes.func,
+  putRateSelectVictory: PropTypes.func,
   rateId: PropTypes.string,
   titleFrom: PropTypes.string,
 }

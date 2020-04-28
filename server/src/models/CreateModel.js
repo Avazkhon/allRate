@@ -6,40 +6,28 @@ class CreateModel {
   }
 
   async create (data) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => (
       new this.Model(data)
       .save()
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((err) => {
-        reject(err);
-      })
-    })
+      .then(resolve)
+      .catch(reject)
+    ))
   }
 
   async get (searchParams, getParams) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => (
       this.Model.findOne(searchParams, getParams)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((err) => {
-        reject(err);
-      })
-    })
+      .then(resolve)
+      .catch(reject)
+    ))
   }
 
-  async findByIdAndUpdate (searchParams, getParams, addParms = { new: true }) {
-    return new Promise((resolve, reject) => {
-      this.Model.findByIdAndUpdate(searchParams, getParams, addParms)
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((err) => {
-        reject(err);
-      })
-    })
+  async findByIdAndUpdate (searchParams, data, addParms = { new: true }) {
+    return new Promise((resolve, reject) => (
+      this.Model.findByIdAndUpdate(searchParams, data, addParms)
+      .then(resolve)
+      .catch(reject)
+    ))
   }
 
 }

@@ -11,6 +11,8 @@ export {
   getRates,
   getRateByID,
   putRateByID,
+  putRateLiveByID,
+  putRateSelectVictory,
 } from './rate';
 
 export {

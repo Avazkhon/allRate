@@ -46,15 +46,16 @@ exports.findByIdAndUpdate = (req, res) => {
   const { id } = req.query;
   const { body } = req;
   try {
-    rateModels.findByIdAndUpdate(id, body, (err, result) => {
-      if (err) {
-        writeToLog.write(err, 'request.err');
-        return res.status(500).json({ message: 'Все плохо!', err});
-      }
+    rateModels.findByIdAndUpdate(id, body)
+    .then((result) => {
       res.status(200).json(result);
-    });
+    })
+    .catch((err) => {
+      writeToLog.write(err, 'update_rate.err');
+      return res.status(500).json({ message: 'Все плохо!', err});
+    })
   }
-  catch(e) {
+  catch(err) {
     return res.status(500).json({ message: 'Все плохо!', err});
   }
 }

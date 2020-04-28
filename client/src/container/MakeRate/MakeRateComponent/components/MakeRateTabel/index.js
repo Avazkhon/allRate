@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import injectSheet from 'react-jss';
 import {
   Table,
 } from 'react-bootstrap';
-
-import style from './style';
 
 class MakeRateTabel extends Component {
   constructor(props) {
@@ -31,7 +28,6 @@ class MakeRateTabel extends Component {
 
   render() {
     const {
-      // classes,
       mainBet: {
         partyOne,
         partyTwo,
@@ -101,7 +97,6 @@ MakeRateTabel.propType = {
   mainBet: PropTypes.arrayOf({}),
   party: PropTypes.arrayOf({}),
   handleModal: PropTypes.func,
-  // classes: PropTypes.shape({}),
 }
 
-export default injectSheet({...style})(MakeRateTabel);
+export default MakeRateTabel;

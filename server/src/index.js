@@ -10,6 +10,7 @@ const InnerTask = require('./innerTask');
 const db = require('./db');
 
 const rateControllers = require('./controllers/rateControllers');
+const rateLiveControllers = require('./controllers/rateControllers/rateLive');
 const userControllers = require('./controllers/user');
 const authControllers = require('./controllers/auth');
 const purseControllers = require('./controllers/purse');
@@ -62,10 +63,13 @@ app.route('/api/user')
 
 
 app.route('/api/rate')
-.get(rateControllers.getRate)
-.post(rateControllers.postAddOne)
-.put(rateControllers.findByIdAndUpdate)
-.delete(rateControllers.deleteOne);
+  .get(rateControllers.getRate)
+  .post(rateControllers.postAddOne)
+  .put(rateControllers.findByIdAndUpdate)
+  .delete(rateControllers.deleteOne)
+
+app.route('/api/rate-live')
+  .put(rateLiveControllers.rateLive)
 
 app.route('/api/purse')
   .get(purseControllers.getPurse)
