@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 import {
   ListGroup,
+  Spinner,
 } from 'react-bootstrap';
 
 import {
@@ -34,11 +35,14 @@ class PurseWidget extends React.Component {
       },
       idPurse,
     } = this.props;
-
     return (
       <ListGroup>
         <ListGroup.Item>
           <Link to="/purse">кошелек: </Link>
+          {
+            !purse &&
+            <Spinner animation="grow" size="sm" />
+          }
           { purse && purse.amount } { purse && purse.currency === 'RUB' ? 'руб.' : ''}
         </ListGroup.Item>
         {
