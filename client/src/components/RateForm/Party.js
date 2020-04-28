@@ -16,7 +16,8 @@ const Party = ({
   HandleMakeVictory,
   isFinish,
   idPartyVictory,
-  disabled,
+  isArchive,
+  isPaymentMade,
 }) => (
   <>
     <Row>
@@ -36,7 +37,7 @@ const Party = ({
                         name={id}
                         type="radio"
                         onClick={HandleMakeVictory}
-                        disabled={disabled}
+                        disabled={isArchive || isPaymentMade}
                       />
                     </Col>
                   }
@@ -48,7 +49,7 @@ const Party = ({
                       type="text"
                       name="participator"
                       data-id={id}
-                      disabled={isDraw || disabled}
+                      disabled={isDraw || isArchive}
                     />
                   </Col>
                 </Row>
@@ -61,7 +62,7 @@ const Party = ({
                     placeholder="Ввидите описание"
                     name="description"
                     data-id={id}
-                    disabled={disabled}
+                    disabled={isArchive}
                   />
                 }
                 {
@@ -88,8 +89,10 @@ Party.propType = {
   handleDeleteDraw: PropTypes.func,
   HandleMakeVictory: PropTypes.func,
   isFinish: PropTypes.bool,
-  disabled: PropTypes.bool,
+  isArchive: PropTypes.bool,
+  isPaymentMade: PropTypes.bool,
   idPartyVictory: PropTypes.number,
-}
+};
+
 
 export default Party;

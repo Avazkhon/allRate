@@ -280,6 +280,7 @@ class RateForm extends Component {
       titleFrom,
     } = this.props;
     const isArchive = rateStatusLive.archive === statusLife;
+    const isFinish = rateStatusLive.finish === statusLife;
     return(
       <>
         <h4>{titleFrom}</h4>
@@ -298,8 +299,9 @@ class RateForm extends Component {
           handleDeleteDateFinisOrAlert={this.handleDeleteDateFinisOrAlert}
         />
         <Party
-          disabled={isArchive}
-          isFinish={rateStatusLive.finish === statusLife}
+          isArchive={isArchive}
+          isPaymentMade={mainBet.paymentMade}
+          isFinish={isFinish}
           party={party}
           idPartyVictory={mainBet.idPartyVictory}
           handleChangeRate={this.handleChangeRate}
@@ -316,7 +318,7 @@ class RateForm extends Component {
           </Col>
         }
         {
-          getRateByID && !isArchive &&
+          getRateByID && !isArchive && !isFinish &&
           <Col>
             <Button onClick={this.handleChangeSubmit}>
               Изменить
@@ -332,7 +334,7 @@ class RateForm extends Component {
           </Col>
         }
         {
-          rateStatusLive.finish === statusLife &&
+          isFinish &&
           <Col>
             <Button name={rateStatusLive.archive} onClick={this.handleChangeRateLiveByID}>
               Добавить в архив
@@ -340,7 +342,7 @@ class RateForm extends Component {
           </Col>
         }
         {
-          !isArchive && rateStatusLive.finish === statusLife &&
+          !isArchive && isFinish && !mainBet.paymentMade &&
           <Col>
             <Button name={rateStatusLive.archive} onClick={this.handleChangeRateSelectVictory}>
               Сделать выплатить
