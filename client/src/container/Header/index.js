@@ -115,8 +115,12 @@ class Header extends React.Component {
     if (auth.auth && auth.auth.userId) {
       authoLogAut(data);
     } else {
-      this.setState((prevState) => ({ isAuth: !prevState.isAuth }));
-      authoLogin(data);
+      authoLogin(data)
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          this.setState((prevState) => ({ isAuth: !prevState.isAuth }));
+        }
+      });
     }
   }
 
@@ -159,6 +163,7 @@ class Header extends React.Component {
                 isHeder
                 handleChange={this.handleChange}
                 handleAuth={this.handleSubmitAuth}
+                error={auth.error}
               />
             }
           </Nav>

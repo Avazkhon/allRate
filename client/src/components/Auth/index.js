@@ -8,6 +8,7 @@ import {
   Button,
   Row,
   Col,
+  Alert,
 } from 'react-bootstrap';
 
 import style from './style';
@@ -18,13 +19,6 @@ class Auth extends Component {
 		this.state = {
 		}
 	}
-
-  // componentDidMount() {
-  // }
-  //
-  // componentWillUnmount() {
-  // }
-
   render() {
     const {
       handleChange,
@@ -32,10 +26,8 @@ class Auth extends Component {
       handleCreateNewUser,
       isHeder,
       classes,
+      error,
     } = this.props;
-
-    // const {
-    // } = this.state;
 
     return(
       <Form className={classes.auth} >
@@ -89,7 +81,10 @@ class Auth extends Component {
               <Button onClick={handleCreateNewUser} >Регистрация </Button>
             </Col>
           }
-
+          {
+            error &&
+            <Alert variant="warning">{error}</Alert>
+          }
           {
             !isHeder &&
             <Col xs="12" sm="4">
@@ -107,7 +102,8 @@ Auth.propType = {
   handleAuth: PropTypes.func,
   handleCreateNewUser: PropTypes.func,
   isHeder: PropTypes.bool,
-  classes: PropTypes.shape({})
+  classes: PropTypes.shape({}),
+  error: PropTypes.string,
 }
 
 export default injectSheet(style)(Auth);
