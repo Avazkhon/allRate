@@ -4,6 +4,10 @@ import injectSheet from 'react-jss';
 import classnames from 'classnames';
 
 import {
+  Spinner,
+} from 'react-bootstrap';
+
+import {
   basisForPayment,
 } from '../../constants';
 
@@ -122,6 +126,11 @@ class HistoryPurse extends Component {
             })
           }
         </table>
+        { !purse &&
+          <div className={classes.spinner}>
+            <Spinner animation="border" variant="primary" />
+          </div>
+        }
       </>
     )
   }
