@@ -21,6 +21,7 @@ exports.rateSchema = new Schema(
       title: { type: String, default: 'Основная ставка' },
       purseId: { type: mongoose.ObjectId },
       idPartyVictory: { type: Number, default: 0 },
+      paymentMade: { type: Boolean, default: false },
       partyOne: {
         amount: { type: Number, default: 0 },
         coefficient: { type: Number, default: 1, min: 1},
