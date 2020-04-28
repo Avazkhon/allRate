@@ -13,6 +13,7 @@ import {
   getPurse,
 } from 'actions';
 
+import Messages from 'components/Messages';
 import PurseWidget from 'widgets/PurseWidget';
 
 class ModalInvoice extends Component {
@@ -26,7 +27,10 @@ class ModalInvoice extends Component {
           src: '',
           target: ''
         },
-      }
+      },
+      warning: '',
+      error: '',
+      isFetching: false,
     }
   }
 
@@ -56,12 +60,13 @@ class ModalInvoice extends Component {
   handleSubmit = () => {
     const {
       postInvoice,
-      handleClose,
       auth,
       basisForPayment,
       getPurse,
       requisiteName
     } = this.props;
+
+    this.setState({isFetching: true});
 
     if (auth.userData) {
       const { data } = this.state;
@@ -71,11 +76,24 @@ class ModalInvoice extends Component {
       data.createTime = new Date();
       postInvoice(data).then((action) => {
         if (action.status === 'SUCCESS') {
-          getPurse()
-          handleClose();
-        }
+          this.setState({
+            isFetching: false,
+            warning: 'Счет успешно обновлен!'
+          });
+          getPurse();
+        };
+        this.setState({
+          isFetching: false,
+          error: action.error
+        });
       });
     }
+  }
+
+  handleClose = () => {
+    this.setState({ warning: '' });
+    const { handleClose } = this.props;
+    handleClose();
   }
 
   render() {
@@ -88,6 +106,9 @@ class ModalInvoice extends Component {
     const {
       amount,
       data,
+      warning,
+      error,
+      isFetching,
     } = this.state;
     return (
       <Modal show={show} onHide={handleClose}>
@@ -114,13 +135,21 @@ class ModalInvoice extends Component {
         </Form.Group>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Close
+        <Button variant="secondary" onClick={this.handleClose}>
+          Назад
         </Button>
         <Button variant="primary" onClick={this.handleSubmit}>
-          Save Changes
+          Сохранить
         </Button>
       </Modal.Footer>
+      {
+        show &&
+        <Messages
+          warning={warning}
+          error={error}
+          isFetching={isFetching}
+        />
+      }
     </Modal>
     );
   }
