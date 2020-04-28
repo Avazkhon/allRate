@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
-import classnames from 'classnames';
 
 import {
   Spinner,
@@ -105,17 +104,10 @@ class HistoryPurse extends Component {
                 ${getMonth(newDate.getMonth())}
                 ${newDate.getHours()}:${newDate.getMinutes()}
                 `;
-
               return (
                 <tr key={_id}>
                   <td> {index} </td>
-                  <td className={classnames('', {
-                  [classes.plus]:
-                    basisForPayment === accountReplenishment
-                    || basisForPayment === win,
-                  [classes.minus]: basisForPayment === makeRate
-                    || basisForPayment === withdrawal,
-                  })}
+                  <td className={classes[invoice.action]}
                   >
                     {amount}
                   </td>
