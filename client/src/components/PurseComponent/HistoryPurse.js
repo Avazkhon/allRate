@@ -4,6 +4,7 @@ import injectSheet from 'react-jss';
 
 import {
   Spinner,
+  Alert,
 } from 'react-bootstrap';
 
 import {
@@ -65,7 +66,9 @@ class HistoryPurse extends Component {
   render() {
     const {
       purse: {
-        purse
+        isFetching,
+        purse,
+        error,
       },
       classes,
     } = this.props;
@@ -120,8 +123,24 @@ class HistoryPurse extends Component {
             })
           }
         </table>
-        { !purse &&
-          <div className={classes.spinner}>
+        {
+          !history.length && purse && !error &&
+          <div className={classes.center}>
+            <Alert variant="primary">
+              У Вас еще пока нет операции...
+            </Alert>
+          </div>
+        }
+        {
+          error &&
+          <div className={classes.center}>
+            <Alert variant="warning">
+              {error}
+            </Alert>
+          </div>
+        }
+        { isFetching &&
+          <div className={classes.center}>
             <Spinner animation="border" variant="primary" />
           </div>
         }

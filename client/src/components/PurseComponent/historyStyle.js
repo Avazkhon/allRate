@@ -17,7 +17,7 @@ export default {
   minus: {
     color: 'red',
   },
-  spinner: {
+  center: {
     margin: '15px auto',
   },
 }
