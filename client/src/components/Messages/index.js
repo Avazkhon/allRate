@@ -28,7 +28,7 @@ const Messages = ({
     error &&
     <div className={classes.center}>
       <Alert variant="warning">
-        {error}
+        {error.message || error}
       </Alert>
     </div>
   }
