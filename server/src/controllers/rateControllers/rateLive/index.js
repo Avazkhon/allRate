@@ -63,7 +63,7 @@ exports.rateLive  = async (req, res)  => {
     if (rateStatusLive.finish === live || rateStatusLive.archive === live) {
       await rateModels.findByIdAndUpdate(id, { statusLife: live })
       .then((result) => {
-        res.status(200).send({ message: `статус ставки изменен на ${live}` })
+        res.status(200).json(result)
       })
     }
     if (mainBet) {
