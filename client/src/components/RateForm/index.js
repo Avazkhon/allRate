@@ -310,7 +310,10 @@ class RateForm extends Component {
         {
           creteNewRate &&
           <Col>
-            <Button onClick={this.handleCreateSubmit} >
+            <Button
+              disabled={isFetching}
+              onClick={this.handleCreateSubmit}
+            >
               Создать
             </Button>
           </Col>
@@ -318,7 +321,10 @@ class RateForm extends Component {
         {
           getRateByID && !isArchive && !isFinish &&
           <Col>
-            <Button onClick={this.handleChangeSubmit}>
+            <Button
+              onClick={this.handleChangeSubmit}
+              disabled={isFetching}
+            >
               Изменить
             </Button>
           </Col>
@@ -326,7 +332,11 @@ class RateForm extends Component {
         {
           (statusLife === rateStatusLive.active || statusLife === rateStatusLive.new) &&
           <Col>
-            <Button name={rateStatusLive.finish} onClick={this.handleChangeRateLiveByID}>
+            <Button
+              name={rateStatusLive.finish}
+              onClick={this.handleChangeRateLiveByID}
+              disabled={isFetching}
+            >
               Завершить ставку
             </Button>
           </Col>
@@ -334,7 +344,11 @@ class RateForm extends Component {
         {
           isFinish &&
           <Col>
-            <Button name={rateStatusLive.archive} onClick={this.handleChangeRateLiveByID}>
+            <Button
+              name={rateStatusLive.archive}
+              onClick={this.handleChangeRateLiveByID}
+              disabled={isFetching}
+            >
               Добавить в архив
             </Button>
           </Col>
@@ -342,7 +356,11 @@ class RateForm extends Component {
         {
           !isArchive && isFinish && !mainBet.paymentMade &&
           <Col>
-            <Button name={rateStatusLive.archive} onClick={this.handleChangeRateSelectVictory}>
+            <Button
+              name={rateStatusLive.archive}
+              onClick={this.handleChangeRateSelectVictory}
+              disabled={isFetching}
+            >
               Сделать выплатить
             </Button>
           </Col>
