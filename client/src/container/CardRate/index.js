@@ -25,9 +25,16 @@ import {
 class CardRate extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data: null
-    }
+    // this.state = {
+    //   data: null
+    // }
+  }
+  componentDidMount() {
+    const {
+      match: { params: { id } },
+      getRateByID,
+    } = this.props;
+    getRateByID(id);
   }
 
   render() {
@@ -37,7 +44,9 @@ class CardRate extends React.Component {
       putRateLiveByID,
       putRateSelectVictory,
       auth,
+      selectRate,
     } = this.props;
+
     return (
       <Layout>
         <Row>
@@ -48,11 +57,11 @@ class CardRate extends React.Component {
           </Col>
           <Col xs="12" sm="8" md="9">
             <RateForm
+              rate={selectRate}
               getRateByID={getRateByID}
               putRateByID={putRateByID}
               putRateLiveByID={putRateLiveByID}
               putRateSelectVictory={putRateSelectVictory}
-              rateId={this.props.match.params.id}
               titleFrom="Карточка ставки"
             />
           </Col>
@@ -67,14 +76,17 @@ CardRate.propType = {
   putRateByID: PropTypes.func,
   putRateLiveByID: PropTypes.func,
   putRateSelectVictory: PropTypes.func,
+  selectRate: PropTypes.shape({}),
 }
 
 function mapStateToProps(state) {
   const {
     auth,
+    selectRate
   } = state;
   return {
     auth,
+    selectRate,
   };
 }
 

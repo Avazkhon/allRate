@@ -69,41 +69,24 @@ class RateForm extends Component {
         dateFinish: new Date(),
         differenceTime: 0,
       },
-      error: '',
       warning: '',
-      isFetching: false,
 		}
 	}
 
-  componentDidMount () {
-    const { rateId } = this.props;
-    this.changeState(rateId);
-  }
-
   componentDidUpdate (prevProps) {
-    const prevRateId = prevProps.rateId;
-    const nexRateId = this.props.rateId;
-    if (prevRateId !== nexRateId) {
-      this.changeState(nexRateId);
+    const { data } = this.props.rate;
+    if (!prevProps.rate.data && data) {
+      this.setState({ data: data });
+    };
+  }
+
+  changeState = (action) => {
+    if (action.status === 'SUCCESS') {
+      this.setState({
+        data: action.response,
+        warning: 'Ставка успешно создана!',
+      });
     }
-  }
-
-  changeStateForMessage = ({ isFetching = false, warning, error }) => {
-    this.setState({
-      isFetching: isFetching,
-      warning: warning ? warning : '',
-      error: error ? error : '',
-    })
-  }
-
-  changeState = (id) => {
-    const { getRateByID } = this.props;
-    isFunction(getRateByID)
-    && getRateByID(id).then((res) => {
-      if (res.response) {
-        this.setState({ data: res.response });
-      }
-    });
   }
 
   handleChange = (e) => {
@@ -206,29 +189,18 @@ class RateForm extends Component {
   handleCreateSubmit = () => {
     const { data } = this.state;
     const { creteNewRate } = this.props;
-    this.changeStateForMessage({ isFetching: true });
+    this.setState({ warning: '' });
     if (typeof creteNewRate === "function") {
-      creteNewRate(data).then((action) => {
-        if (action.status === 'SUCCESS') {
-          this.changeStateForMessage({
-            isFetching: false,
-            warning: 'Ставка успешно создана!',
-          });
-        } else {
-          this.changeStateForMessage({
-            isFetching: false,
-            error: action.error,
-          });
-        }
-      })
+      creteNewRate(data).then(this.changeState);
     }
   }
 
   handleChangeSubmit = () => {
     const { data } = this.state;
     const { putRateByID } = this.props;
+    this.setState({ warning: '' });
     if (typeof putRateByID === "function") {
-      putRateByID(data)
+      putRateByID(data).then(this.changeState)
     }
   }
 
@@ -236,8 +208,9 @@ class RateForm extends Component {
     const { name } = e.currentTarget;
     const { data } = this.state;
     const { putRateLiveByID } = this.props;
+    this.setState({ warning: '' });
     if (typeof putRateLiveByID === 'function') {
-      putRateLiveByID(name, data._id);
+      putRateLiveByID(name, data._id).then(this.changeState);
     }
   }
 
@@ -272,8 +245,9 @@ class RateForm extends Component {
     };
     const keyParty = Object.keys(partyMainBet);
     const selectParty = keyParty.find(party => partyMainBet[party] && (+partyMainBet[party].idParty === +idPartyVictory))
+    this.setState({ warning: '' });
     if (typeof putRateSelectVictory === 'function') {
-      putRateSelectVictory(selectParty, _id)
+      putRateSelectVictory(selectParty, _id).then(this.changeState)
     }
   }
 
@@ -290,9 +264,7 @@ class RateForm extends Component {
         dateAlert,
         statusLife,
       },
-      error,
       warning,
-      isFetching,
     } = this.state;
 
     const {
@@ -300,6 +272,10 @@ class RateForm extends Component {
       getRateByID,
       putRateLiveByID,
       titleFrom,
+      rate: {
+        error,
+        isFetching,
+      }
     } = this.props;
     const isArchive = rateStatusLive.archive === statusLife;
     const isFinish = rateStatusLive.finish === statusLife;
@@ -388,7 +364,6 @@ RateForm.propType = {
   getRateByID: PropTypes.func,
   putRateLiveByID: PropTypes.func,
   putRateSelectVictory: PropTypes.func,
-  rateId: PropTypes.string,
   titleFrom: PropTypes.string,
 }
 
