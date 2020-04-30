@@ -31,6 +31,9 @@ class MakeRateComponent extends Component {
       reasonForBetting: {},
       participant: {},
       summMany: 0,
+      warningInfoice: '',
+      isFetchingInfoice: false,
+      errorInfoice: '',
     }
   }
 
@@ -52,6 +55,9 @@ class MakeRateComponent extends Component {
       isShowModal: !prevState.isShowModal,
       reasonForBetting,
       participant,
+      warningInfoice: '',
+      errorInfoice: '',
+      summMany: 0,
     }))
   }
 
@@ -68,8 +74,15 @@ class MakeRateComponent extends Component {
         data: rate
       },
       purse,
+      getRateByID,
+      getPurse,
     } = this.props;
+
     if (typeof postInvoice === 'function') {
+      this.setState({
+        isFetchingInfoice: true,
+      });
+
       const { userId } = auth.auth;
       const { summMany, reasonForBetting } = this.state;
 
@@ -90,7 +103,22 @@ class MakeRateComponent extends Component {
         basisForPayment: basisForPayment.makeRate,
         createTime: new Date,
       }
-      postInvoice({ ...invoice, rate: { id: rate._id, partyNumber, participant } });
+      postInvoice({ ...invoice, rate: { id: rate._id, partyNumber, participant } })
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          getRateByID(rate._id);
+          getPurse();
+          this.setState({
+            warningInfoice: 'Операция успешно выполненна!',
+            isFetchingInfoice: false,
+          });
+        } else {
+          this.setState({
+            errorInfoice: action.error,
+            isFetchingInfoice: false,
+          });
+        }
+      });
     }
   }
 
@@ -100,6 +128,9 @@ class MakeRateComponent extends Component {
       reasonForBetting,
       participant,
       summMany,
+      warningInfoice,
+      isFetchingInfoice,
+      errorInfoice,
     } = this.state;
 
     const {
@@ -122,7 +153,10 @@ class MakeRateComponent extends Component {
           toggle={this.handleModal}
         >
           <ReasonForBettingCard
-            amount={purse.purse && purse.purse.amount}
+            warning={warningInfoice}
+            isFetching={isFetchingInfoice}
+            error={errorInfoice}
+            purse={purse}
             reasonForBetting={reasonForBetting}
             participant={participant}
             submitRFB={this.submitRFB}
@@ -197,6 +231,8 @@ MakeRateComponent.propType = {
   purse: PropTypes.shape({}),
   classes: PropTypes.shape({}),
   postInvoice: PropTypes.func,
+  getRateByID: PropTypes.func,
+  getPurse: PropTypes.func,
 }
 
 export default injectSheet({...style})(MakeRateComponent);

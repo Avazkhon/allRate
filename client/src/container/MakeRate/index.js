@@ -35,6 +35,8 @@ class MakeRate extends Component {
       auth,
       purse,
       postInvoice,
+      getRateByID,
+      getPurse,
     } = this.props;
 
     return (
@@ -44,6 +46,8 @@ class MakeRate extends Component {
           auth={auth}
           purse={purse}
           postInvoice={postInvoice}
+          getRateByID={getRateByID}
+          getPurse={getPurse}
         />
       </Layout>
     );
