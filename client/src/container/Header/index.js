@@ -142,6 +142,9 @@ class Header extends React.Component {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
             {navBar.map((itm) => {
+              if (!isLogin && itm.url === '/me') {
+                return
+              }
               return (
                 <Nav.Link key={itm.id} href={itm.url}>
                   <span>{itm.name}</span>
