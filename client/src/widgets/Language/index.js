@@ -9,7 +9,7 @@ import {
 } from 'react-bootstrap';
 
 import {
-  getPurse,
+  changeLang,
 } from 'actions';
 
 class Language extends React.Component {
@@ -18,48 +18,60 @@ class Language extends React.Component {
 
   }
 
-  componentDidUpdate(prevProps) {
+  // componentDidUpdate(prevProps) {
+    // changeLang
+  // }
 
+  handleChangeLang = (e) => {
+    const { name } = e.currentTarget;
+    const { changeLang } = this.props;
+    changeLang(name);
   }
 
   render() {
     const {
-      purse: {
-        purse,
-      },
-      idPurse,
+      lang: {
+        lang
+      }
     } = this.props;
     return (
       <DropdownButton
         as={ButtonGroup}
         drop="left"
-        title="lang"
+        title={`lang: ${lang}`}
       >
-        <Dropdown.Item eventKey="1">RU</Dropdown.Item>
-        <Dropdown.Item eventKey="2">EN</Dropdown.Item>
+        <Dropdown.Item
+          name="RU"
+          onClick={this.handleChangeLang}
+        >
+          RU
+        </Dropdown.Item>
+        <Dropdown.Item
+          name="EN"
+          onClick={this.handleChangeLang}
+        >
+          EN
+        </Dropdown.Item>
       </DropdownButton>
     );
   }
 };
 
 Language.propType = {
-  auth: PropTypes.shape({}),
-  idPurse: PropTypes.bool,
+  changeLang: PropTypes.func,
 };
 
 function mapStateToProps (state) {
   const {
-    auth,
-    purse,
+    lang
   } = state;
   return {
-    auth,
-    purse,
+    lang
   };
 }
 export default connect(
   mapStateToProps,
   {
-    getPurse,
+    changeLang,
   }
 )(Language);
