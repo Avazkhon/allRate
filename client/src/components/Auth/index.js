@@ -17,7 +17,7 @@ const Auth = ({
   handleChange,
   handleAuth,
   handleCreateNewUser,
-  isHeder,
+  isHeader,
   classes,
   error,
 }) => (
@@ -73,16 +73,16 @@ const Auth = ({
         </Col>
       }
       {
-        error &&
-        <Alert variant="warning">{error}</Alert>
-      }
-      {
-        !isHeder &&
+        !isHeader &&
         <Col xs="12" sm="4">
           <Button>Забыли пароль?</Button>
         </Col>
       }
     </Row>
+    {
+      error &&
+      <Alert variant="warning">{error}</Alert>
+    }
   </Form>
 );
 
@@ -90,7 +90,7 @@ Auth.propType = {
   handleChange: PropTypes.func,
   handleAuth: PropTypes.func,
   handleCreateNewUser: PropTypes.func,
-  isHeder: PropTypes.bool,
+  isHeader: PropTypes.bool,
   classes: PropTypes.shape({}),
   error: PropTypes.string,
 }

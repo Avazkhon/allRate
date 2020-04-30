@@ -3,6 +3,8 @@ import Select from 'react-select';
 
 import PropTypes from 'prop-types';
 
+import Messages from 'components/Messages';
+
 import './style.css';
 
 const optionsMonth = [
@@ -52,6 +54,8 @@ class CreateNewUser extends Component {
           year: '',
         }
       },
+      isFetching: false,
+      error: '',
 		}
 	}
 
@@ -123,10 +127,22 @@ class CreateNewUser extends Component {
       createNewUser,
       handleCreateNewUser,
     } = this.props;
+    this.setState({
+      isFetching: true,
+      error: '',
+    })
     createNewUser(data)
     .then((action) => {
-      if (action.response) {
+      if (action.status === 'SUCCESS') {
+        this.setState({
+          isFetching: false,
+        })
         handleCreateNewUser();
+      } else {
+        this.setState({
+          isFetching: false,
+          error: action.error,
+        })
       }
     });
   }
@@ -147,8 +163,9 @@ class CreateNewUser extends Component {
         password,
         userName,
         phone,
-      }
-
+      },
+      isFetching,
+      error,
     } = this.state;
 
     return(
@@ -255,6 +272,10 @@ class CreateNewUser extends Component {
             />
           </div>
         </form>
+        <Messages
+          isFetching={isFetching}
+          error={error}
+        />
       </div>
     )
   }

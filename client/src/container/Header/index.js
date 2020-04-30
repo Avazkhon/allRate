@@ -159,7 +159,7 @@ class Header extends React.Component {
             {
               isAuth &&
               <Auth
-                isHeder
+                isHeader
                 handleChange={this.handleChange}
                 handleAuth={this.handleSubmitAuth}
                 error={auth.error}
