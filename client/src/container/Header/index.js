@@ -10,6 +10,8 @@ import {
   Button,
 } from 'react-bootstrap';
 
+import Language from 'widgets/Language';
+
 import style from './style';
 import Auth from '../../components/Auth';
 
@@ -152,6 +154,8 @@ class Header extends React.Component {
               )
             })}
           </Nav>
+          <Language
+          />
           <Nav className={classes.header__auth} ref={this.headerAauth}>
             <Button
               variant="primary"
