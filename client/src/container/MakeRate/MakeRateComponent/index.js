@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
-import queryString from 'query-string';
 import {
   Container,
   Row,
   Col,
   Card,
-  Button,
-  Table,
   Image,
 } from 'react-bootstrap';
 
 import CommonModal from 'widgets/CommonModal';
+import Messages from 'components/Messages';
 import SiteBar from 'components/SiteBar';
-
 import MakeRateTabel from './components/MakeRateTabel';
 import ReasonForBettingCard from './components/ReasonForBettingCard';
 
@@ -45,7 +42,7 @@ class MakeRateComponent extends Component {
       return;
     };
     const { partynumber } = e.currentTarget.dataset;
-    const { mainBet, party } = this.props.rate;
+    const { mainBet, party } = this.props.rate.data;
     const reasonForBetting = mainBet[partynumber];
     const participant = party.find(
       (itm) => itm.id === reasonForBetting.idParty
@@ -67,7 +64,9 @@ class MakeRateComponent extends Component {
     const {
       postInvoice,
       auth,
-      rate,
+      rate: {
+        data: rate
+      },
       purse,
     } = this.props;
     if (typeof postInvoice === 'function') {
@@ -105,7 +104,11 @@ class MakeRateComponent extends Component {
 
     const {
       classes,
-      rate,
+      rate: {
+        data: rate,
+        error,
+        isFetching,
+      },
       auth,
       purse,
     } = this.props;
@@ -136,9 +139,10 @@ class MakeRateComponent extends Component {
               />
             </Col>
             <Col xs="12" sm="9">
-              <content className={classes['content']}>
-                make-rate rateId: {rate && rate._id}
-              </content>
+              <Messages
+                error={error}
+                isFetching={isFetching}
+              />
 
               {
                 rate &&

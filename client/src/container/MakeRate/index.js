@@ -40,7 +40,7 @@ class MakeRate extends Component {
     return (
       <Layout>
         <MakeRateComponent
-          rate={selectRate.data}
+          rate={selectRate}
           auth={auth}
           purse={purse}
           postInvoice={postInvoice}
