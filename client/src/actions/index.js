@@ -29,4 +29,5 @@ export {
 
 export {
   changeLang,
+  getLang,
 } from './language';

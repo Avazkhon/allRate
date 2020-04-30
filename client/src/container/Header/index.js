@@ -21,6 +21,7 @@ import {
   authoLogin,
   authoLogAut,
   getUserById,
+  getLang,
 } from 'actions';
 
 import {
@@ -28,9 +29,9 @@ import {
 } from 'utils';
 
 const navBar = [
-  { id: 1, name: 'Главная', url: '/'},
-  { id: 3, name: 'Моя стриница', url: '/me'},
-  { id: 4, name: 'Помощь', url: '/help'},
+  { id: 1, name: { EN: 'Home', RU: 'Главная' }, url: '/'},
+  { id: 3, name: { EN: 'Me page', RU: 'Моя стриница' }, url: '/me'},
+  { id: 4, name: { EN: 'Help', RU: 'Помощь' }, url: '/help'},
 ]
 
 class Header extends React.Component {
@@ -50,7 +51,9 @@ class Header extends React.Component {
   componentDidMount() {
     const {
       getUserById,
+      getLang,
     } = this.props;
+    getLang();
     const user = getDataUserFromLocalStorag();
     if (user && user.userId) {
       getUserById(user.userId);
@@ -129,6 +132,9 @@ class Header extends React.Component {
     const {
       auth,
       classes,
+      lang: {
+        lang
+      },
     } = this.props;
 
     const {
@@ -149,7 +155,7 @@ class Header extends React.Component {
               }
               return (
                 <Nav.Link key={itm.id} href={itm.url}>
-                  <span>{itm.name}</span>
+                  <span>{itm.name[lang]}</span>
                 </Nav.Link>
               )
             })}
@@ -181,14 +187,18 @@ class Header extends React.Component {
 
 Header.propType = {
   authoLogin: PropTypes.func,
+  lang: PropTypes.shape({}),
+  auth: PropTypes.shape({}),
 }
 
 function mapStateToProps(state) {
   const {
     auth,
+    lang
   } = state;
   return {
     auth,
+    lang,
   };
 }
 
@@ -196,4 +206,5 @@ export default injectSheet(style)(connect(mapStateToProps, {
   authoLogin,
   authoLogAut,
   getUserById,
+  getLang,
 })(Header));

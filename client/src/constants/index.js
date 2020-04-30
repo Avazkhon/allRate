@@ -18,6 +18,7 @@ export const GET_PURSE = 'GET_PURSE';
 export const POST_INVOICE = 'POST_INVOICE';
 
 export const CHANGE_LANG = 'CHANGE_LANG';
+export const GET_LANG = 'GET_LANG';
 
 export const basisForPayment = {
   accountReplenishment: 'accountReplenishment',
