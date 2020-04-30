@@ -32,7 +32,17 @@ const navBar = [
   { id: 1, name: { EN: 'Home', RU: 'Главная' }, url: '/'},
   { id: 3, name: { EN: 'Me page', RU: 'Моя стриница' }, url: '/me'},
   { id: 4, name: { EN: 'Help', RU: 'Помощь' }, url: '/help'},
-]
+];
+const loginText = {
+  Logout: {
+    EN: 'Logout',
+    RU: 'Выйти'
+  },
+  Login: {
+    EN: 'Login',
+    RU: 'Войти'
+  }
+};
 
 class Header extends React.Component {
   constructor(props) {
@@ -167,7 +177,7 @@ class Header extends React.Component {
               variant="primary"
               onClick={ isLogin ? this.handleSubmitAuth : this.handleAuth}
             >
-              {isLogin ? 'Выйти' : 'Войти'}
+              {isLogin ? loginText.Logout[lang] :  loginText.Login[lang]}
             </Button>
             {
               isAuth &&
