@@ -84,7 +84,7 @@ class RateForm extends Component {
     if (action.status === 'SUCCESS') {
       this.setState({
         data: action.response,
-        warning: 'Ставка успешно создана!',
+        warning: 'Ставка успешно обновлена!',
       });
     }
   }
