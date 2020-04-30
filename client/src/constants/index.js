@@ -21,7 +21,8 @@ export const basisForPayment = {
   accountReplenishment: 'accountReplenishment',
   withdrawal: 'withdrawal',
   makeRate: 'makeRate',
-  win: 'win'
+  win: 'win',
+  percentage: 'percentage',
 };
 
 export const rateStatusLive = {

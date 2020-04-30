@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
-import { Link } from "react-router-dom";
 import injectSheet from 'react-jss';
 
 import {
@@ -115,8 +114,12 @@ class Header extends React.Component {
     if (auth.auth && auth.auth.userId) {
       authoLogAut(data);
     } else {
-      this.setState((prevState) => ({ isAuth: !prevState.isAuth }));
-      authoLogin(data);
+      authoLogin(data)
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          this.setState((prevState) => ({ isAuth: !prevState.isAuth }));
+        }
+      });
     }
   }
 
@@ -139,6 +142,9 @@ class Header extends React.Component {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
             {navBar.map((itm) => {
+              if (!isLogin && itm.url === '/me') {
+                return
+              }
               return (
                 <Nav.Link key={itm.id} href={itm.url}>
                   <span>{itm.name}</span>
@@ -156,9 +162,10 @@ class Header extends React.Component {
             {
               isAuth &&
               <Auth
-                isHeder
+                isHeader
                 handleChange={this.handleChange}
                 handleAuth={this.handleSubmitAuth}
+                error={auth.error}
               />
             }
           </Nav>

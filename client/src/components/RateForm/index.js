@@ -9,6 +9,8 @@ import {
   Button,
 } from 'react-bootstrap';
 
+import Messages from 'components/Messages';
+
 import {
   isFunction,
 } from 'utils';
@@ -67,31 +69,24 @@ class RateForm extends Component {
         dateFinish: new Date(),
         differenceTime: 0,
       },
-      isRedirectToMe: false,
+      warning: '',
 		}
 	}
 
-  componentDidMount () {
-    const { rateId } = this.props;
-    this.changeState(rateId);
-  }
-
   componentDidUpdate (prevProps) {
-    const prevRateId = prevProps.rateId;
-    const nexRateId = this.props.rateId;
-    if (prevRateId !== nexRateId) {
-      this.changeState(nexRateId);
-    }
+    const { data } = this.props.rate;
+    if (!prevProps.rate.data && data) {
+      this.setState({ data: data });
+    };
   }
 
-  changeState = (id) => {
-    const { getRateByID } = this.props;
-    isFunction(getRateByID)
-    && getRateByID(id).then((res) => {
-      if (res.response) {
-        this.setState({ data: res.response });
-      }
-    });
+  changeState = (action) => {
+    if (action.status === 'SUCCESS') {
+      this.setState({
+        data: action.response,
+        warning: 'Ставка успешно обновлена!',
+      });
+    }
   }
 
   handleChange = (e) => {
@@ -194,22 +189,18 @@ class RateForm extends Component {
   handleCreateSubmit = () => {
     const { data } = this.state;
     const { creteNewRate } = this.props;
+    this.setState({ warning: '' });
     if (typeof creteNewRate === "function") {
-      creteNewRate(data).then((action) => {
-        if (action.response && action.response.result) {
-          this.setState({ isRedirectToMe: true })
-        } else {
-          console.log(action.error);
-        }
-      })
+      creteNewRate(data).then(this.changeState);
     }
   }
 
   handleChangeSubmit = () => {
     const { data } = this.state;
     const { putRateByID } = this.props;
+    this.setState({ warning: '' });
     if (typeof putRateByID === "function") {
-      putRateByID(data)
+      putRateByID(data).then(this.changeState)
     }
   }
 
@@ -217,8 +208,9 @@ class RateForm extends Component {
     const { name } = e.currentTarget;
     const { data } = this.state;
     const { putRateLiveByID } = this.props;
+    this.setState({ warning: '' });
     if (typeof putRateLiveByID === 'function') {
-      putRateLiveByID(name, data._id);
+      putRateLiveByID(name, data._id).then(this.changeState);
     }
   }
 
@@ -253,8 +245,9 @@ class RateForm extends Component {
     };
     const keyParty = Object.keys(partyMainBet);
     const selectParty = keyParty.find(party => partyMainBet[party] && (+partyMainBet[party].idParty === +idPartyVictory))
+    this.setState({ warning: '' });
     if (typeof putRateSelectVictory === 'function') {
-      putRateSelectVictory(selectParty, _id)
+      putRateSelectVictory(selectParty, _id).then(this.changeState)
     }
   }
 
@@ -270,7 +263,8 @@ class RateForm extends Component {
         mainBet,
         dateAlert,
         statusLife,
-      }
+      },
+      warning,
     } = this.state;
 
     const {
@@ -278,6 +272,10 @@ class RateForm extends Component {
       getRateByID,
       putRateLiveByID,
       titleFrom,
+      rate: {
+        error,
+        isFetching,
+      }
     } = this.props;
     const isArchive = rateStatusLive.archive === statusLife;
     const isFinish = rateStatusLive.finish === statusLife;
@@ -312,7 +310,10 @@ class RateForm extends Component {
         {
           creteNewRate &&
           <Col>
-            <Button onClick={this.handleCreateSubmit} >
+            <Button
+              disabled={isFetching}
+              onClick={this.handleCreateSubmit}
+            >
               Создать
             </Button>
           </Col>
@@ -320,7 +321,10 @@ class RateForm extends Component {
         {
           getRateByID && !isArchive && !isFinish &&
           <Col>
-            <Button onClick={this.handleChangeSubmit}>
+            <Button
+              onClick={this.handleChangeSubmit}
+              disabled={isFetching}
+            >
               Изменить
             </Button>
           </Col>
@@ -328,7 +332,11 @@ class RateForm extends Component {
         {
           (statusLife === rateStatusLive.active || statusLife === rateStatusLive.new) &&
           <Col>
-            <Button name={rateStatusLive.finish} onClick={this.handleChangeRateLiveByID}>
+            <Button
+              name={rateStatusLive.finish}
+              onClick={this.handleChangeRateLiveByID}
+              disabled={isFetching}
+            >
               Завершить ставку
             </Button>
           </Col>
@@ -336,7 +344,11 @@ class RateForm extends Component {
         {
           isFinish &&
           <Col>
-            <Button name={rateStatusLive.archive} onClick={this.handleChangeRateLiveByID}>
+            <Button
+              name={rateStatusLive.archive}
+              onClick={this.handleChangeRateLiveByID}
+              disabled={isFetching}
+            >
               Добавить в архив
             </Button>
           </Col>
@@ -344,12 +356,21 @@ class RateForm extends Component {
         {
           !isArchive && isFinish && !mainBet.paymentMade &&
           <Col>
-            <Button name={rateStatusLive.archive} onClick={this.handleChangeRateSelectVictory}>
+            <Button
+              name={rateStatusLive.archive}
+              onClick={this.handleChangeRateSelectVictory}
+              disabled={isFetching}
+            >
               Сделать выплатить
             </Button>
           </Col>
         }
         </Row>
+        <Messages
+          error={error}
+          warning={warning}
+          isFetching={isFetching}
+        />
       </>
     )
   }
@@ -361,7 +382,6 @@ RateForm.propType = {
   getRateByID: PropTypes.func,
   putRateLiveByID: PropTypes.func,
   putRateSelectVictory: PropTypes.func,
-  rateId: PropTypes.string,
   titleFrom: PropTypes.string,
 }
 

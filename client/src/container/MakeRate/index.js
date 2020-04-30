@@ -31,19 +31,23 @@ class MakeRate extends Component {
 
   render() {
     const {
-      rate,
+      selectRate,
       auth,
       purse,
       postInvoice,
+      getRateByID,
+      getPurse,
     } = this.props;
 
     return (
       <Layout>
         <MakeRateComponent
-          rate={rate.selectRate}
+          rate={selectRate}
           auth={auth}
           purse={purse}
           postInvoice={postInvoice}
+          getRateByID={getRateByID}
+          getPurse={getPurse}
         />
       </Layout>
     );
@@ -52,7 +56,7 @@ class MakeRate extends Component {
 
 MakeRate.propType = {
   auth: PropTypes.shape({}),
-  rate: PropTypes.shape({}),
+  selectRate: PropTypes.shape({}),
   purse: PropTypes.shape({}),
   getRateByID: PropTypes.finc,
   postInvoice: PropTypes.finc,
@@ -62,12 +66,12 @@ MakeRate.propType = {
 function mapStateToProps(state) {
   const {
     auth,
-    rate,
+    selectRate,
     purse
   } = state;
   return {
     auth,
-    rate,
+    selectRate,
     purse,
   };
 }

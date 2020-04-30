@@ -11,12 +11,13 @@ export default {
       cursor: 'pointer',
     }
   },
-
   plus: {
     color: 'green',
   },
   minus: {
     color: 'red',
   },
-
+  center: {
+    margin: '15px auto',
+  },
 }

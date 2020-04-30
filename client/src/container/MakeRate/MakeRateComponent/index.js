@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
-import queryString from 'query-string';
 import {
   Container,
   Row,
   Col,
   Card,
-  Button,
-  Table,
   Image,
 } from 'react-bootstrap';
 
 import CommonModal from 'widgets/CommonModal';
+import Messages from 'components/Messages';
 import SiteBar from 'components/SiteBar';
-
 import MakeRateTabel from './components/MakeRateTabel';
 import ReasonForBettingCard from './components/ReasonForBettingCard';
 
@@ -34,6 +31,9 @@ class MakeRateComponent extends Component {
       reasonForBetting: {},
       participant: {},
       summMany: 0,
+      warningInfoice: '',
+      isFetchingInfoice: false,
+      errorInfoice: '',
     }
   }
 
@@ -45,7 +45,7 @@ class MakeRateComponent extends Component {
       return;
     };
     const { partynumber } = e.currentTarget.dataset;
-    const { mainBet, party } = this.props.rate;
+    const { mainBet, party } = this.props.rate.data;
     const reasonForBetting = mainBet[partynumber];
     const participant = party.find(
       (itm) => itm.id === reasonForBetting.idParty
@@ -55,6 +55,9 @@ class MakeRateComponent extends Component {
       isShowModal: !prevState.isShowModal,
       reasonForBetting,
       participant,
+      warningInfoice: '',
+      errorInfoice: '',
+      summMany: 0,
     }))
   }
 
@@ -67,10 +70,19 @@ class MakeRateComponent extends Component {
     const {
       postInvoice,
       auth,
-      rate,
+      rate: {
+        data: rate
+      },
       purse,
+      getRateByID,
+      getPurse,
     } = this.props;
+
     if (typeof postInvoice === 'function') {
+      this.setState({
+        isFetchingInfoice: true,
+      });
+
       const { userId } = auth.auth;
       const { summMany, reasonForBetting } = this.state;
 
@@ -91,7 +103,22 @@ class MakeRateComponent extends Component {
         basisForPayment: basisForPayment.makeRate,
         createTime: new Date,
       }
-      postInvoice({ ...invoice, rate: { id: rate._id, partyNumber, participant } });
+      postInvoice({ ...invoice, rate: { id: rate._id, partyNumber, participant } })
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          getRateByID(rate._id);
+          getPurse();
+          this.setState({
+            warningInfoice: 'Операция успешно выполненна!',
+            isFetchingInfoice: false,
+          });
+        } else {
+          this.setState({
+            errorInfoice: action.error,
+            isFetchingInfoice: false,
+          });
+        }
+      });
     }
   }
 
@@ -101,11 +128,18 @@ class MakeRateComponent extends Component {
       reasonForBetting,
       participant,
       summMany,
+      warningInfoice,
+      isFetchingInfoice,
+      errorInfoice,
     } = this.state;
 
     const {
       classes,
-      rate,
+      rate: {
+        data: rate,
+        error,
+        isFetching,
+      },
       auth,
       purse,
     } = this.props;
@@ -119,7 +153,10 @@ class MakeRateComponent extends Component {
           toggle={this.handleModal}
         >
           <ReasonForBettingCard
-            amount={purse.purse && purse.purse.amount}
+            warning={warningInfoice}
+            isFetching={isFetchingInfoice}
+            error={errorInfoice}
+            purse={purse}
             reasonForBetting={reasonForBetting}
             participant={participant}
             submitRFB={this.submitRFB}
@@ -136,9 +173,10 @@ class MakeRateComponent extends Component {
               />
             </Col>
             <Col xs="12" sm="9">
-              <content className={classes['content']}>
-                make-rate rateId: {rate && rate._id}
-              </content>
+              <Messages
+                error={error}
+                isFetching={isFetching}
+              />
 
               {
                 rate &&
@@ -193,6 +231,8 @@ MakeRateComponent.propType = {
   purse: PropTypes.shape({}),
   classes: PropTypes.shape({}),
   postInvoice: PropTypes.func,
+  getRateByID: PropTypes.func,
+  getPurse: PropTypes.func,
 }
 
 export default injectSheet({...style})(MakeRateComponent);

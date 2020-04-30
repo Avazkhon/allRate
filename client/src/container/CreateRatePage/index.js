@@ -25,14 +25,11 @@ class CreateRatePAge extends React.Component {
   //   }
   // }
 
-  // componentDidMount() {
-  // }
-
-
   render() {
     const {
       creteNewRate,
       auth,
+      selectRate,
     } = this.props;
     const { userId } = auth.auth ? auth.auth : {};
     return (
@@ -46,6 +43,7 @@ class CreateRatePAge extends React.Component {
             </Col>
             <Col xs="12" sm="9">
               <RateForm
+                rate={selectRate}
                 titleFrom="Создание меню"
                 creteNewRate={creteNewRate}
               />
@@ -59,15 +57,17 @@ class CreateRatePAge extends React.Component {
 
 CreateRatePAge.propType = {
   creteNewRate: PropTypes.func,
-  auth: PropTypes.shape({})
+  auth: PropTypes.shape({}),
 }
 
 function mapStateToProps(state) {
   const {
     auth,
+    selectRate,
   } = state;
   return {
     auth,
+    selectRate,
   };
 }
 

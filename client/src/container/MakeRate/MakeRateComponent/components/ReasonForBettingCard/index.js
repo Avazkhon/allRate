@@ -9,13 +9,24 @@ import {
   Col
 } from 'react-bootstrap';
 
+import Messages from 'components/Messages';
+
 const ReasonForBettingCard = ({
   participant,
   reasonForBetting,
   submitRFB,
   summMany,
   handleChangeMany,
-  amount,
+  purse: {
+    purse: {
+      amount
+    },
+    error: errorPurse,
+    isFetching: isFetchingPurse,
+  },
+  isFetching,
+  warning,
+  error,
 }) => (
   <Card>
     <Row className="justify-content-md-center">
@@ -62,16 +73,27 @@ const ReasonForBettingCard = ({
         сделать ставку
       </Button>
     </Card.Body>
+
+    <Card.Footer>
+      <Messages
+        warning={warning}
+        error={error || errorPurse}
+        isFetching={isFetching || isFetchingPurse}
+      />
+    </Card.Footer>
   </Card>
 )
 
 ReasonForBettingCard.propType = {
   reasonForBetting: PropTypes.shape({}),
   participant: PropTypes.shape({}),
+  purse: PropTypes.shape({}),
   submitRFB: PropTypes.func,
   handleChangeMany: PropTypes.func,
   summMany: PropTypes.number,
-  amount: PropTypes.number,
-}
+  warning: PropTypes.string,
+  error: PropTypes.string,
+  isFetching: PropTypes.bool,
+};
 
 export default ReasonForBettingCard;

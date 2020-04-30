@@ -24,7 +24,7 @@ class PageAuth extends React.Component {
         email: '',
         password: ''
       },
-      isCreateNewUser: false,
+      isCreateNewUser: true,
     }
   }
 
@@ -85,6 +85,7 @@ class PageAuth extends React.Component {
               handleAuth={this.handleAuth}
               handleChange={this.handleChange}
               handleCreateNewUser={this.handleCreateNewUser}
+              error={auth.error}
             />
           }
 

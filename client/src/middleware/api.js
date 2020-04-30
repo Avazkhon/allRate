@@ -66,7 +66,6 @@ function callApi(endpoint, method, data, queryParams, options) {
 
     })
     .catch((error) => {
-      catchPromise(`requestFail ${fullUrl}`)(error);
       throw error;
     })
 }
