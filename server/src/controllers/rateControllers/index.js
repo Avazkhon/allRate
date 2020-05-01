@@ -34,7 +34,7 @@ exports.postAddOne = async (req, res) => {
         userId: rate.author,
         mainBetId: rate._id,
       });
-      res.status(201).json({ message: 'Все хорошо!', rate });
+      res.status(201).json(rate);
     }
   } catch(err) {
     writeToLog.write(err, 'request.err');

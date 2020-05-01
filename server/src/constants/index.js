@@ -4,6 +4,7 @@ exports.basisForPayment = {
   makeRate: 'makeRate',
   win: 'win',
   percentage: 'percentage',
+  stalemateSituation: 'stalemateSituation',
 };
 
 exports.rateStatusLive = {
@@ -14,6 +15,6 @@ exports.rateStatusLive = {
 };
 
 exports.superAdmin = {
-  purseId: '5ea5dfa0233e7360e763620b',
-  userId: '5ea5dfa0233e7360e763620a',
+  userId: '5eac6955f7bdce1b5f700ae1',
+  purseId: '5eac6955f7bdce1b5f700ae2',
 };
