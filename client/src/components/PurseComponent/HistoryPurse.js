@@ -20,6 +20,7 @@ const {
   makeRate,
   win,
   percentage,
+  stalemateSituation,
 } = basisForPayment;
 
 const keyBasisForPayment = {
@@ -27,7 +28,8 @@ const keyBasisForPayment = {
   [withdrawal]: 'вывод',
   [makeRate]: 'ставка',
   [win]: 'выигрыш',
-  [percentage]: 'заработок'
+  [percentage]: 'заработок',
+  [stalemateSituation]: 'патовая ситуация',
 };
 
 class HistoryPurse extends Component {
