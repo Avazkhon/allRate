@@ -12,18 +12,32 @@ const InvoiceControllers = require('../../invoice');
 const invoiceControllers = new InvoiceControllers();
 const writeToLog = new WriteToLog();
 
-const makePay = (mainBet, src, index = 0) => (
+const makePay = (mainBet, partyName, src, index = 0) => (
   new Promise((resolve, reject) => {
-    const participant = mainBet.participants[index];
-    if (!mainBet.participants.length) {
+    const participant = mainBet[partyName].participants[index];
+    if (
+        (!mainBet.partyOne.participants.length || !mainBet.partyTwo.participants.length)
+        && (mainBet.partyDraw.idParty ? !mainBet.partyDraw.participants.length : false)
+      ) {
       reject('Ставка не сотоялась так как нет ни одной сделаной ставки');
       return;
     }
     if (!participant) {
-      return;
+      const meny = (mainBet.partyOne.amount + mainBet.partyTwo.amount + mainBet.partyDraw.amount) * 0.94
+      const dataInvoice = {
+        amount: (meny).toFixed(2),
+        requisites: { src, target: superAdmin.purseId },
+        basisForPayment: basisForPayment.stalemateSituation,
+        createTime: new Date(),
+      };
+      return invoiceControllers.createInvoiceForWin(dataInvoice)
+      .then((r) => {
+        resolve('SUCCESS');
+      })
+      .catch(reject);
     }
     const dataInvoice = {
-      amount: (participant.meny * mainBet.coefficient).toFixed(2),
+      amount: (participant.meny * mainBet[partyName].coefficient).toFixed(2),
       requisites: { src, target: participant.purseId},
       basisForPayment: basisForPayment.win,
       createTime: new Date(),
@@ -32,7 +46,7 @@ const makePay = (mainBet, src, index = 0) => (
     .then((r) => {
       resolve('SUCCESS');
       index++;
-      makePay(mainBet, src, index);
+      makePay(mainBet, partyName, src, index);
     })
     .catch(reject);
   })
@@ -70,23 +84,27 @@ exports.rateLive  = async (req, res)  => {
       const rate = await rateModels.getOneById(id);
       const author = await userModel.findOne({ _id: rate.author}, { purseId: true });
       const purse = await purseModel.getPurse({ _id: rate.mainBet.purseId });
-      await rateModels.findByIdAndUpdate(
-        id,
-        {$set: {
-          [`mainBet.idPartyVictory`]: rate.mainBet[mainBet].idParty,
-          [`mainBet.paymentMade`]: true,
-        }}
-      );
-
-      await makePay(rate.mainBet[mainBet], purse._id)
+      await makePay(rate.mainBet, mainBet, purse._id)
       .then(() => (
-        makePayPercentage(purse.amount * 0.3, purse._id, author.purseId)
+        makePayPercentage(purse.amount * 0.03, purse._id, author.purseId)
       ))
       .then(() => (
-        makePayPercentage(purse.amount * 0.3, purse._id, superAdmin.purseId)
+        makePayPercentage(purse.amount * 0.03, purse._id, superAdmin.purseId)
       ))
       .then(() => {
-        res.status(200).send({ message: `определен победителем ${mainBet} в mainBet` })
+        return rateModels.findByIdAndUpdate(
+          id,
+          {$set: {
+            [`mainBet.idPartyVictory`]: rate.mainBet[mainBet].idParty,
+            [`mainBet.paymentMade`]: true,
+          }}
+        );
+      })
+      .then(() => {
+        return rateModels.getOneById(id);
+      })
+      .then((data) => {
+        res.status(200).send(data);
       })
       .catch((err) => {
         writeToLog.write(err, 'rate_live.err');

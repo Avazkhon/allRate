@@ -20,15 +20,40 @@ const {
   makeRate,
   win,
   percentage,
+  stalemateSituation,
 } = basisForPayment;
 
 const keyBasisForPayment = {
-  [accountReplenishment]: 'пополнения',
-  [withdrawal]: 'вывод',
-  [makeRate]: 'ставка',
-  [win]: 'выигрыш',
-  [percentage]: 'заработок'
+  [accountReplenishment]: { RU: 'пополнения', EN: 'account replenishment'},
+  [withdrawal]: { RU: 'вывод', EN: 'withdrawal' },
+  [makeRate]: { RU: 'ставка', EN: 'make bet'},
+  [win]: { RU: 'выигрыш', EN: 'win'},
+  [percentage]: { RU: 'заработок', EN: 'percentage'},
+  [stalemateSituation]: { RU: 'патовая ситуация', EN: 'stalemate situation' },
 };
+
+const historyText = {
+  title: {
+    RU:'История операции',
+    EN:'Operation History'
+  },
+  amount: {
+    RU: 'Сумма',
+    EN: 'Amount'
+  },
+  basisForPayment: {
+    RU: 'Основание',
+    EN: 'Basis For Payment'
+  },
+  createTime: {
+    RU: 'Дата',
+    EN: 'Date'
+  },
+  warning: {
+    RU: 'У Вас еще пока нет операции...',
+    EN: 'You don’t have an operation yet ...'
+  }
+}
 
 class HistoryPurse extends Component {
   constructor(props) {
@@ -68,6 +93,7 @@ class HistoryPurse extends Component {
         error,
       },
       classes,
+      lang,
     } = this.props;
     const {
       sortBy,
@@ -77,18 +103,18 @@ class HistoryPurse extends Component {
 
     return (
       <>
-        <h3>История операции</h3>
+        <h3>{historyText.title[lang]}</h3>
         <table className={classes.table}>
           <tr>
           <th>#</th>
             <th data-name="amount" onClick={this.handleSort} >
-              Сумма {sortBy === 'amount' ? <strong>*</strong> : ''}
+              {historyText.amount[lang]} {sortBy === 'amount' ? <strong>*</strong> : ''}
             </th>
             <th data-name="basisForPayment" onClick={this.handleSort} >
-              Основание {sortBy === 'basisForPayment' ? <strong>*</strong> : ''}
+              {historyText.basisForPayment[lang]} {sortBy === 'basisForPayment' ? <strong>*</strong> : ''}
               </th>
             <th data-name="createTime" onClick={this.handleSort} >
-              Время {sortBy === 'createTime' ? <strong>*</strong> : ''}
+              {historyText.createTime[lang]} {sortBy === 'createTime' ? <strong>*</strong> : ''}
             </th>
           </tr>
           {
@@ -113,7 +139,7 @@ class HistoryPurse extends Component {
                   >
                     {amount}
                   </td>
-                  <td>{keyBasisForPayment[basisForPayment]}</td>
+                  <td>{keyBasisForPayment[basisForPayment][lang]}</td>
                   <td>{date}</td>
                 </tr>
               )
@@ -121,7 +147,7 @@ class HistoryPurse extends Component {
           }
         </table>
         <Messages
-          warning={!history.length && purse && !error && 'У Вас еще пока нет операции...'}
+          warning={!history.length && purse && !error && historyText.warning[lang]}
           error={error}
           isFetching={isFetching}
         />
@@ -133,6 +159,7 @@ class HistoryPurse extends Component {
 HistoryPurse.proptype = {
   purse: PropTypes.shape({}),
   classes: PropTypes.shape({}),
+  lang: PropTypes.strin,
 }
 
 export default injectSheet(historyStyle)(HistoryPurse)

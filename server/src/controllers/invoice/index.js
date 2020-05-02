@@ -142,7 +142,6 @@ class InvoiceController {
     data.invoiceId = uuidv4();
     const invoice = await invoiceModel.create(data);
     await this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus);
-    await this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus);
     return invoice;
   }
 

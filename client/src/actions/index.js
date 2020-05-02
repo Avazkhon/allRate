@@ -26,3 +26,8 @@ export {
 export {
   postInvoice,
 } from './invoice';
+
+export {
+  changeLang,
+  getLang,
+} from './language';

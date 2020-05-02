@@ -10,6 +10,7 @@ const InnerTask = require('./innerTask');
 const db = require('./db');
 
 const rateControllers = require('./controllers/rateControllers');
+const langControllers = require('./controllers/langControllers');
 const rateLiveControllers = require('./controllers/rateControllers/rateLive');
 const userControllers = require('./controllers/user');
 const authControllers = require('./controllers/auth');
@@ -54,6 +55,10 @@ app.get('/api/', (req, res) => {
 app.route('/api/auth')
   .get(authControllers.authAut)
   .post(authControllers.authIn);
+
+app.route('/api/lang')
+  .get(langControllers.get)
+  .post(langControllers.post);
 
 app.route('/api/user')
   .get(userControllers.getUser) // обрабатывает запросы по userName, id и all

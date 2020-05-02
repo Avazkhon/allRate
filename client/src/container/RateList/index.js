@@ -27,17 +27,17 @@ class RateList extends React.Component {
 
   }
 
-  // static async getInitialProps({ req, res, match, history, location, ...ctx }) {
-  //   const {store} = ctx;
-  //   if (store && store.dispatch) {
-  //     const { userId } = req.query;
-  //     if (userId) {
-  //       await store.dispatch(getCommonRates(userId));
-  //     } else {
-  //       await store.dispatch(getCommonRates());
-  //     }
-  //   }
-  // }
+  static async getInitialProps({ req, res, match, history, location, ...ctx }) {
+    const {store} = ctx;
+    if (store && store.dispatch) {
+      const { userId } = req.query;
+      if (userId) {
+        await store.dispatch(getCommonRates(userId));
+      } else {
+        await store.dispatch(getCommonRates());
+      }
+    }
+  }
 
   componentDidMount() {
     const { getCommonRates, location } = this.props;

@@ -18,6 +18,17 @@ import {
   basisForPayment,
 } from '../../constants';
 
+const actionText = {
+  increase: {
+    RU: 'Пополнить счет',
+    EN: 'Replenish account',
+  },
+  decrease: {
+    RU: 'Вывести деньги',
+    EN: 'Withdraw money',
+  }
+}
+
 class PurseComponent extends Component {
   constructor(props) {
     super(props);
@@ -44,6 +55,9 @@ class PurseComponent extends Component {
       auth: {
         auth,
       },
+      lang: {
+        lang,
+      },
       purse,
     } = this.props;
 
@@ -57,10 +71,10 @@ class PurseComponent extends Component {
           <Col xs="6" sm="3" md="3">
             <ButtonGroup vertical>
               <Button onClick={this.handleShowModalRA}>
-                Пополнить счет
+                {actionText.increase[lang]}
               </Button>
               <Button onClick={this.handleShowModalWithdrawal}>
-                Вывести деньги
+                {actionText.decrease[lang]}
               </Button>
             </ButtonGroup>
           </Col>
@@ -72,18 +86,19 @@ class PurseComponent extends Component {
         </Row>
         <Row>
           <HistoryPurse
+            lang={lang}
             purse={purse}
           />
         </Row>
         <ModalInvoice
-          title="Пополнения счета!"
+          title={actionText.increase[lang]}
           requisiteName="src"
           show={isShowModalReplenishAccount}
           handleClose={this.handleShowModalRA}
           basisForPayment={basisForPayment.accountReplenishment}
         />
         <ModalInvoice
-          title="Снятия средств!"
+          title={actionText.decrease[lang]}
           show={isShowModalWithdrawal}
           requisiteName="target"
           handleClose={this.handleShowModalWithdrawal}
@@ -97,16 +112,19 @@ class PurseComponent extends Component {
 PurseComponent.propType = {
   auth: PropTypes.shape({}),
   purse: PropTypes.shape({}),
+  lang: PropTypes.shape({}),
 };
 
 function mapStateToProps(state) {
   const {
     auth,
     purse,
+    lang,
   } = state;
   return {
     auth,
-    purse
+    purse,
+    lang,
   };
 }
 
