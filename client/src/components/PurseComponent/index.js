@@ -86,6 +86,7 @@ class PurseComponent extends Component {
         </Row>
         <Row>
           <HistoryPurse
+            lang={lang}
             purse={purse}
           />
         </Row>
