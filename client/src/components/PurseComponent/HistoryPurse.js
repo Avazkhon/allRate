@@ -43,12 +43,16 @@ const historyText = {
   },
   basisForPayment: {
     RU: 'Основание',
-    EN: 'basis For Payment'
+    EN: 'Basis For Payment'
   },
   createTime: {
     RU: 'Дата',
     EN: 'Date'
   },
+  warning: {
+    RU: 'У Вас еще пока нет операции...',
+    EN: 'You don’t have an operation yet ...'
+  }
 }
 
 class HistoryPurse extends Component {
@@ -143,7 +147,7 @@ class HistoryPurse extends Component {
           }
         </table>
         <Messages
-          warning={!history.length && purse && !error && 'У Вас еще пока нет операции...'}
+          warning={!history.length && purse && !error && historyText.warning[lang]}
           error={error}
           isFetching={isFetching}
         />
