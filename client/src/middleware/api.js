@@ -9,22 +9,12 @@ function callApi(endpoint, method, data, queryParams, options) {
   const requestOptions = {
     method,
     // credentials: 'same-origin',
-    headers: Object.assign({}, options.headers, {
+    headers: Object.assign({}, {}, {
       Accept: 'application/json'
     }),
     credentials: 'include',
   };
 
-  if (options.csrfToken) {
-    requestOptions.headers['X-CSRFToken'] = options.csrfToken;
-  }
-
-  if (options.cookies) {
-    const cookies = Object.keys(options.cookies)
-      .map(k => `${k}=${options.cookies[k]}`)
-      .join('; ');
-    requestOptions.headers.Cookie = cookies;
-  }
 
   if (queryParams && typeof queryParams === 'object') {
     if (fullUrl.indexOf('/?') === -1) {
@@ -122,26 +112,10 @@ function uploadFiles(endpoint, files, field, options) {
 }
 
 function makeOptions(req, store, timezone, date) {
-  let csrfToken;
-  let cookies;
   let headers = {};
 
   if (req) {
-    csrfToken = req.cookies.csrftoken;
-    cookies = req.cookies;
     headers = req.headers;
-  } else if (typeof window !== 'undefined' && window.location) {
-
-    if (cookie.parse(document.cookie).csrftoken) {
-      csrfToken = cookie.parse(document.cookie).csrftoken;
-    }
-
-    const { priceType } = cookie.parse(document.cookie);
-    if (priceType) {
-      cookies = { priceType };
-    }
-  } else {
-    return null;
   }
 
   if (timezone) {
@@ -153,8 +127,6 @@ function makeOptions(req, store, timezone, date) {
 
   return {
     apiRoot: `http://127.250.250.250/api/`,
-    csrfToken,
-    cookies,
     headers
   };
 }
@@ -171,24 +143,6 @@ export default function createApiMiddleware(req) {
     if (typeof action.meta === 'undefined' || typeof action.meta.endpoint === 'undefined') {
       return next(action);
     }
-
-    // if (
-    //   action.IS_MOCKED_REQUEST === true &&
-    //   action.MOCKED_RESPONSE
-    // ) {
-    //
-    //   console.log('THIS IS_MOCKED_REQUEST', action.IS_MOCKED_REQUEST);
-    //
-    //   next(actionWith(action, 'SEND'));
-    //   return cancelablePromiseWithDelay(500, action.MOCKED_RESPONSE).promise
-    //     .then(() =>{
-    //       console.log('mocked response');
-    //       return next(actionWith(action, 'SUCCESS', {
-    //         response: action.MOCKED_RESPONSE,
-    //         statusCode: 200,
-    //       }))
-    //     });
-    // }
 
     action = {
       ...action,
