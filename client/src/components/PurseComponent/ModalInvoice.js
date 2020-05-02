@@ -16,6 +16,28 @@ import {
 import Messages from 'components/Messages';
 import PurseWidget from 'widgets/PurseWidget';
 
+const placeholder = {
+  card: {
+    RU: 'Введите номер карты',
+    EN: 'Enter card number',
+  },
+  amount: {
+    RU: 'Введите сумму',
+    EN: 'Enter amount'
+  },
+};
+
+const actionText = {
+  cancel: {
+    RU: 'Назад',
+    EN: 'Сancel',
+  },
+  save: {
+    RU: 'Сохранить',
+    EN: 'Save'
+  },
+};
+
 class ModalInvoice extends Component {
 
   constructor(props) {
@@ -102,6 +124,9 @@ class ModalInvoice extends Component {
       handleClose,
       title,
       requisiteName,
+      lang: {
+        lang,
+      },
     } = this.props;
     const {
       amount,
@@ -119,7 +144,7 @@ class ModalInvoice extends Component {
       <Form.Group>
         <Form.Control
           type="text"
-          placeholder="Ввидите сумму"
+          placeholder={placeholder.amount[lang]}
           name="amount"
           value={amount}
           onChange={this.handleChangeAmount}
@@ -127,7 +152,7 @@ class ModalInvoice extends Component {
         <br />
         <Form.Control
           type="text"
-          placeholder="Ввидите номер карты"
+          placeholder={placeholder.card[lang]}
           name={requisiteName}
           value={data.requisites[requisiteName]}
           onChange={this.handleChangeSRC}
@@ -136,10 +161,10 @@ class ModalInvoice extends Component {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={this.handleClose}>
-          Назад
+          {actionText.cancel[lang]}
         </Button>
         <Button variant="primary" onClick={this.handleSubmit}>
-          Сохранить
+          {actionText.save[lang]}
         </Button>
       </Modal.Footer>
       {
@@ -162,14 +187,17 @@ ModalInvoice.propType = {
   title: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,
   auth: PropTypes.shape({}),
+  lang: PropTypes.shape({}),
 };
 
 function mapStateToProps(state) {
   const {
     auth,
+    lang,
   } = state;
   return {
     auth,
+    lang,
   };
 }
 
