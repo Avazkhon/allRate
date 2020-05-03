@@ -15,6 +15,7 @@ const rateLiveControllers = require('./controllers/rateControllers/rateLive');
 const userControllers = require('./controllers/user');
 const authControllers = require('./controllers/auth');
 const purseControllers = require('./controllers/purse');
+const subscriptionsControllers = require('./controllers/subscriptions');
 const InvoiceControllers = require('./controllers/invoice');
 const passwords = require('../password');
 
@@ -55,6 +56,9 @@ app.get('/api/', (req, res) => {
 app.route('/api/auth')
   .get(authControllers.authAut)
   .post(authControllers.authIn);
+
+app.route('/api/subscription')
+  .put(subscriptionsControllers.addSubscribers);
 
 app.route('/api/lang')
   .get(langControllers.get)

@@ -24,6 +24,14 @@ exports.findOne = (searchProps, getProps) => (
   ))
 )
 
+exports.findByIdAndUpdate = (searchProps, data, options) => (
+  new Promise((resolve, reject) => (
+    User.findByIdAndUpdate(searchProps, data, options)
+    .then(resolve)
+    .catch(reject)
+  ))
+)
+
 exports.getOneByUserName = (userName, callBack) => {
   User.findOne({userName: userName}, callBack);
 }
