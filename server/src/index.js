@@ -58,6 +58,7 @@ app.route('/api/auth')
   .post(authControllers.authIn);
 
 app.route('/api/subscription')
+  .get(subscriptionsControllers.get)
   .put(subscriptionsControllers.addSubscription)
   .delete(subscriptionsControllers.deleteSubscription);
 

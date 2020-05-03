@@ -1,21 +1,32 @@
-const subscribersModels = require('../../models/subscriptions');
+const subscriptionModels = require('../../models/subscriptions');
 const userModels = require('../../models/user');
 const WriteToLog = require('../../utils/writeToLog');
 
 const writeToLog = new WriteToLog();
 
+exports.get = async (req, res) => {
+  try {
+    const { id } = req.query;
+    const subscription = await subscriptionModels.get({ userId: id});
+    res.status(200).json(subscription);
+  } catch(error) {
+    writeToLog.write(error, 'get_subscribers.error')
+    res.status(500).json({message: 'error to server', error })
+  }
+}
+
 exports.addSubscription = async (req, res) => {
   try {
     // на кого подписывается / кто подписывается
-    // subscribersModels создаеться для подписывающегося
+    // subscriptionModels создаеться для подписывающегося
     const { subscription, subscriber } = req.query;
     if (subscription === subscriber) {
       return res.status(400).json({message: 'Нельзя подписаться на себя!'});
     }
     const userSubscriber = await userModels.findOne({ _id: subscriber });
-    let fuinSubscriber = await subscribersModels.get({ _id: userSubscriber.subscriptionsId })
+    let fuinSubscriber = await subscriptionModels.get({ _id: userSubscriber.subscriptionsId })
     if (!fuinSubscriber) { // NOTE: это нужно на первое время пока не созданы эти поля у users
-      fuinSubscriber = await subscribersModels.create({
+      fuinSubscriber = await subscriptionModels.create({
         userId: subscriber,
         subscriptions: [{
           userId: subscription,
@@ -31,7 +42,7 @@ exports.addSubscription = async (req, res) => {
       if (fuinSubscriber.subscriptions.find(({ userId }) => userId == subscription)) {
         return res.status(400).json({message: `${subscriber} уже подписан на ${subscription}`});
       };
-      fuinSubscriber = await subscribersModels.findByIdAndUpdate(
+      fuinSubscriber = await subscriptionModels.findByIdAndUpdate(
         { _id: userSubscriber.subscriptionsId },
         {$push: {
           subscriptions: { userId: subscription }
@@ -49,13 +60,13 @@ exports.deleteSubscription = async (req, res) => {
   try {
     const { subscription, subscriber } = req.query;
     const user = await userModels.findOne({ _id: subscriber });
-    await subscribersModels.findByIdAndUpdate(
+    await subscriptionModels.findByIdAndUpdate(
       { _id: user.subscriptionsId },
       {$pull: {
         'subscriptions': { userId: subscription }
       }},
     );
-    const allSubscribers = await subscribersModels.get({ userId: user._id });
+    const allSubscribers = await subscriptionModels.get({ userId: user._id });
     res.status(200).json(allSubscribers);
   } catch(error){
     writeToLog.write(error, 'delete_subscribers.error')
