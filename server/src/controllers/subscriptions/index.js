@@ -44,3 +44,21 @@ exports.addSubscribers = async (req, res) => {
     res.status(500).json({message: 'error to server', error })
   }
 }
+
+exports.deleteSubscribers = async (req, res) => {
+  try {
+    const { subscription, subscriber } = req.query;
+    const user = await userModels.findOne({ _id: subscription });
+    await subscribersModels.findByIdAndUpdate(
+      { _id: user.subscriptionsId },
+      {$pull: {
+        'subscriptions': { userId: subscriber }
+      }},
+    );
+    const allSubscribers = await subscribersModels.get({ userId: user._id });
+    res.status(200).json(allSubscribers);
+  } catch(error){
+    writeToLog.write(error, 'delete_subscribers.error')
+    res.status(500).json({message: 'error to server', error })
+  }
+}
