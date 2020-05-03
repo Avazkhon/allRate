@@ -38,4 +38,5 @@ export {
 
 export {
   addSubscription,
+  getSubscriptions,
 } from './subscriptions';

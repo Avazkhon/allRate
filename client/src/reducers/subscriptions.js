@@ -1,5 +1,6 @@
 import {
-  ADD_SUBSCRIPTION
+  ADD_SUBSCRIPTION,
+  GET_SUBSCRIPTION,
 } from '../constants'
 
 import {
@@ -35,4 +36,8 @@ function changeState (_state, _action) {
 export default createReducer(initState, {
   [ADD_SUBSCRIPTION]: (_state, _action) =>
   changeState(_state, _action),
+
+  [GET_SUBSCRIPTION]: (_state, _action) =>
+  changeState(_state, _action),
+
 })

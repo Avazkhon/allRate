@@ -13,11 +13,16 @@ import {
 
 import {
   getUsers,
+  getSubscriptions,
 } from 'actions';
 
 import SiteBar from 'components/SiteBar';
 import CardUsers from 'components/CardUsers';
 import Layout from '../Layout';
+
+import {
+  getDataUserFromLocalStorag,
+} from 'utils';
 
 class Home extends React.Component {
   constructor(props) {
@@ -26,8 +31,16 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    const { getUsers } = this.props;
+    const {
+      getUsers,
+      getSubscriptions,
+    } = this.props;
     getUsers();
+    const user = getDataUserFromLocalStorag();
+    console.log(user);
+    if (user && user.userId) {
+      getSubscriptions(user.userId);
+    }
   }
 
   render() {
@@ -61,8 +74,8 @@ class Home extends React.Component {
 }
 
 Home.propType = {
-  // authRegistration: PropTypes.func,
-  // createNewUser: PropTypes.func,
+  getUsers: PropTypes.func,
+  getSubscriptions: PropTypes.func,
   users: PropTypes.shape({}),
   auth: PropTypes.shape({}),
 }
@@ -80,4 +93,5 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   getUsers,
+  getSubscriptions,
 })(Home);

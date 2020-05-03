@@ -23,6 +23,7 @@ export const CHANGE_LANG = 'CHANGE_LANG';
 export const GET_LANG = 'GET_LANG';
 
 export const ADD_SUBSCRIPTION = 'ADD_SUBSCRIPTION';
+export const GET_SUBSCRIPTION = 'GET_SUBSCRIPTION';
 
 export const basisForPayment = {
   accountReplenishment: 'accountReplenishment',
