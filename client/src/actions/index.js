@@ -31,3 +31,7 @@ export {
   changeLang,
   getLang,
 } from './language';
+
+export {
+  getUsers,
+} from './user';
