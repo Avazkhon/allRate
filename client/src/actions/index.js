@@ -39,4 +39,5 @@ export {
 export {
   addSubscription,
   getSubscriptions,
+  deleteSubscriptions,
 } from './subscriptions';

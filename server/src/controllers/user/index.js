@@ -35,7 +35,7 @@ exports.craeteUser = async (req, res) => {
     );
     res.status(201).json(user);
   } catch(error) {
-    console.log(error);
+    writeToLog.write(error, 'create_user.error')
     res.status = 400;
     res.json(error);
   };

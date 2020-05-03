@@ -12,6 +12,7 @@ import {
 
 import {
   addSubscription,
+  deleteSubscriptions,
 } from 'actions';
 
 import SiteBar from 'components/SiteBar';
@@ -22,9 +23,22 @@ class CardUser extends React.Component {
   }
 
   handleAddSubscription = (e) => {
-    const { subscription } = e.currentTarget.dataset;
-    const { addSubscription, auth: { auth: { userId }} } = this.props;
-    addSubscription(subscription, userId);
+    const {
+      dataset: {
+        subscription,
+      },
+      name,
+    } = e.currentTarget;
+    const {
+      addSubscription,
+      deleteSubscriptions,
+      auth: { auth: { userId }}
+    } = this.props;
+    if (name) {
+      deleteSubscriptions(subscription, userId);
+    } else {
+      addSubscription(subscription, userId);
+    }
   }
 
   render() {
@@ -35,12 +49,19 @@ class CardUser extends React.Component {
       users: {
         data: users,
       },
+      subscriptions: {
+        data: subscriptions
+      }
     } = this.props;
     return (
       <>
         {
           users &&
           users.map((user) => {
+            const isSubscription = subscriptions &&
+              subscriptions.subscriptions.find((subscription) => {
+                return subscription.userId === user._id
+              })
             return (
               <Card key={user._id}>
                 <Card.Header>{user.userName}</Card.Header>
@@ -67,14 +88,18 @@ class CardUser extends React.Component {
                   </Row>
                 </Card.Body>
                 <Card.Footer>
+                {
+                  auth && auth.userId !== user._id &&
                   <Button
                     data-subscription={user._id}
+                    name={isSubscription && isSubscription.toString() }
                     variant="primary"
                     size="sm"
                     onClick={this.handleAddSubscription}
                   >
-                    Подписаться
+                  {isSubscription ? 'Отписаться' : 'Подписаться'}
                   </Button>
+                }
                 </Card.Footer>
               </Card>
             )
@@ -87,21 +112,26 @@ class CardUser extends React.Component {
 
 CardUser.propType = {
   addSubscription: PropTypes.func,
+  deleteSubscriptions: PropTypes.func,
   users: PropTypes.shape({}),
   auth: PropTypes.shape({}),
+  subscriptions: PropTypes.shape({}),
 }
 
 function mapStateToProps(state) {
   const {
     auth,
     users,
+    subscriptions,
   } = state;
   return {
     auth,
-    users
+    users,
+    subscriptions
   };
 }
 
 export default connect(mapStateToProps, {
   addSubscription,
+  deleteSubscriptions,
 })(CardUser);

@@ -1,6 +1,7 @@
 import {
   ADD_SUBSCRIPTION,
   GET_SUBSCRIPTION,
+  DELETE_SUBSCRIPTION,
 } from '../constants';
 
 export function addSubscription (subscription, subscriber) {
@@ -19,6 +20,16 @@ export function getSubscriptions (subscriber) {
     meta: {
       method: 'GET',
       endpoint:`subscription/?id=${subscriber}`
+    }
+  });
+}
+
+export function deleteSubscriptions (subscription, subscriber) {
+  return dispatch => dispatch({
+    type: DELETE_SUBSCRIPTION,
+    meta: {
+      method: 'DELETE',
+      endpoint:`subscription/?subscription=${subscription}&subscriber=${subscriber}`
     }
   });
 }
