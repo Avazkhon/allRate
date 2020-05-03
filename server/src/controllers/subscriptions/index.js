@@ -45,14 +45,14 @@ exports.addSubscription = async (req, res) => {
   }
 }
 
-exports.deleteSubscribers = async (req, res) => {
+exports.deleteSubscription = async (req, res) => {
   try {
     const { subscription, subscriber } = req.query;
-    const user = await userModels.findOne({ _id: subscription });
+    const user = await userModels.findOne({ _id: subscriber });
     await subscribersModels.findByIdAndUpdate(
       { _id: user.subscriptionsId },
       {$pull: {
-        'subscriptions': { userId: subscriber }
+        'subscriptions': { userId: subscription }
       }},
     );
     const allSubscribers = await subscribersModels.get({ userId: user._id });

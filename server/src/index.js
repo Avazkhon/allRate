@@ -59,7 +59,7 @@ app.route('/api/auth')
 
 app.route('/api/subscription')
   .put(subscriptionsControllers.addSubscription)
-  .delete(subscriptionsControllers.deleteSubscribers);
+  .delete(subscriptionsControllers.deleteSubscription);
 
 app.route('/api/lang')
   .get(langControllers.get)
