@@ -6,7 +6,16 @@ const User = mongoose.model('Users', schema.userSchema);
 exports.postAddOne = (data, callBack) => {
   const note = new User(data);
   note.save(callBack);
-}
+};
+
+exports.create = (data) => (
+  new Promise((resolve, reject) => (
+    new User(data)
+    .save()
+    .then(resolve)
+    .catch(reject)
+  ))
+)
 
 exports.all = (callBack) => {
   User.find({}, callBack);

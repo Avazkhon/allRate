@@ -1,4 +1,5 @@
 const userModels = require('../../models/user');
+const subscribersModels = require('../../models/subscriptions');
 const getUser = require('./getUser');
 const WriteToLog = require('../../utils/writeToLog');
 const purseControllers = require('../purse');
@@ -17,25 +18,27 @@ exports.getUser = (req, res) => {
   res.send('Нет параметров!')
 }
 
-exports.postAddOne = (req, res) => {
-  userModels.postAddOne(
-    req.body,
-    (err, result) => {
-      if (err) {
-        writeToLog.write(err, 'request.err');
-        res.status(500);
-        return res.send(err);
-      }
-      purseControllers.createPurse({ createTime: req.body.dateCreate, userId: result._id })
-
-      const data = {
-        message: 'Пользователь успешно зарегистрирован!!',
-      };
-
-      res.status = 201;
-      res.json(data);
-    }
-  );
+exports.craeteUser = async (req, res) => {
+  try {
+    let user = await userModels.create(req.body);
+    await purseControllers.createPurse({
+      createTime: req.body.dateCreate,
+      userId: user._id
+    });
+    const subscription = await subscribersModels.create({
+      userId: user._id,
+      subscriptions: [],
+    });
+    user = await userModels.findByIdAndUpdate(
+      { _id: user._id },
+      {'$set': { subscriptionsId: subscription._id }}
+    );
+    res.status(201).json(user);
+  } catch(error) {
+    console.log(error);
+    res.status = 400;
+    res.json(error);
+  };
 }
 
 exports.updateOne = (req, res) => {
