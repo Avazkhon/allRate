@@ -4,7 +4,7 @@ const WriteToLog = require('../../utils/writeToLog');
 
 const writeToLog = new WriteToLog();
 
-exports.addSubscribers = async (req, res) => {
+exports.addSubscription = async (req, res) => {
   try {
     // на кого подписывается / кто подписывается
     // subscribersModels создаеться для подписывающегося
@@ -12,33 +12,33 @@ exports.addSubscribers = async (req, res) => {
     if (subscription === subscriber) {
       return res.status(400).json({message: 'Нельзя подписаться на себя!'});
     }
-    const userSubscription = await userModels.findOne({ _id: subscription });
-    let fuinSubscription = await subscribersModels.get({ _id: userSubscription.subscriptionsId })
-    if (!fuinSubscription) { // NOTE: это нужно на первое время пока не созданы эти поля у users
-      fuinSubscription = await subscribersModels.create({
-        userId: subscription,
+    const userSubscriber = await userModels.findOne({ _id: subscriber });
+    let fuinSubscriber = await subscribersModels.get({ _id: userSubscriber.subscriptionsId })
+    if (!fuinSubscriber) { // NOTE: это нужно на первое время пока не созданы эти поля у users
+      fuinSubscriber = await subscribersModels.create({
+        userId: subscriber,
         subscriptions: [{
-          userId: subscriber,
+          userId: subscription,
         }],
       })
 
       await userModels.findByIdAndUpdate(
-        { _id: subscription },
-        { subscriptionsId: fuinSubscription._id },
-        {new: true}
+        { _id: subscriber },
+        { subscriptionsId: fuinSubscriber._id },
+        { new: true }
       );
     } else {
-      if (fuinSubscription.subscriptions.find(({ userId }) => userId == subscriber)) {
+      if (fuinSubscriber.subscriptions.find(({ userId }) => userId == subscription)) {
         return res.status(400).json({message: `${subscriber} уже подписан на ${subscription}`});
       };
-      fuinSubscription = await subscribersModels.findByIdAndUpdate(
+      fuinSubscriber = await subscribersModels.findByIdAndUpdate(
         { _id: userSubscription.subscriptionsId },
         {$push: {
           subscriptions: { userId: subscriber }
         }},
       )
     };
-    res.status(201).json(fuinSubscription);
+    res.status(201).json(fuinSubscriber);
   } catch (error) {
     writeToLog.write(error, 'add_subscribers.error')
     res.status(500).json({message: 'error to server', error })

@@ -58,7 +58,7 @@ app.route('/api/auth')
   .post(authControllers.authIn);
 
 app.route('/api/subscription')
-  .put(subscriptionsControllers.addSubscribers)
+  .put(subscriptionsControllers.addSubscription)
   .delete(subscriptionsControllers.deleteSubscribers);
 
 app.route('/api/lang')
