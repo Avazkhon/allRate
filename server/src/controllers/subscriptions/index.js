@@ -32,9 +32,9 @@ exports.addSubscription = async (req, res) => {
         return res.status(400).json({message: `${subscriber} уже подписан на ${subscription}`});
       };
       fuinSubscriber = await subscribersModels.findByIdAndUpdate(
-        { _id: userSubscription.subscriptionsId },
+        { _id: userSubscriber.subscriptionsId },
         {$push: {
-          subscriptions: { userId: subscriber }
+          subscriptions: { userId: subscription }
         }},
       )
     };
