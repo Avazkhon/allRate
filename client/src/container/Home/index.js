@@ -7,6 +7,8 @@ import {
   Container,
   Row,
   Col,
+  Card,
+  Button,
 } from 'react-bootstrap';
 
 import {
@@ -14,6 +16,7 @@ import {
 } from 'actions';
 
 import SiteBar from 'components/SiteBar';
+import CardUsers from 'components/CardUsers';
 import Layout from '../Layout';
 
 class Home extends React.Component {
@@ -32,6 +35,9 @@ class Home extends React.Component {
       auth: {
         auth
       },
+      users: {
+        data: users,
+      },
     } = this.props;
     return (
       <Layout>
@@ -43,7 +49,9 @@ class Home extends React.Component {
             />
           </Col>
           <Col xs="12" sm="8" md="9">
-            Home
+            <CardUsers
+
+            />
           </Col>
         </Row>
       </Container>
@@ -55,16 +63,18 @@ class Home extends React.Component {
 Home.propType = {
   // authRegistration: PropTypes.func,
   // createNewUser: PropTypes.func,
-  // authoLogin: PropTypes.func,
+  users: PropTypes.shape({}),
   auth: PropTypes.shape({}),
 }
 
 function mapStateToProps(state) {
   const {
     auth,
+    users,
   } = state;
   return {
     auth,
+    users
   };
 }
 
