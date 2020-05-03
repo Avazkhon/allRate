@@ -22,6 +22,8 @@ export const POST_INVOICE = 'POST_INVOICE';
 export const CHANGE_LANG = 'CHANGE_LANG';
 export const GET_LANG = 'GET_LANG';
 
+export const ADD_SUBSCRIPTION = 'ADD_SUBSCRIPTION';
+
 export const basisForPayment = {
   accountReplenishment: 'accountReplenishment',
   withdrawal: 'withdrawal',

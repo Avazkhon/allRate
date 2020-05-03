@@ -35,3 +35,7 @@ export {
 export {
   getUsers,
 } from './user';
+
+export {
+  addSubscription,
+} from './subscriptions';

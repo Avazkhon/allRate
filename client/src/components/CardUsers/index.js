@@ -11,7 +11,7 @@ import {
 } from 'react-bootstrap';
 
 import {
-  getUsers,
+  addSubscription,
 } from 'actions';
 
 import SiteBar from 'components/SiteBar';
@@ -21,9 +21,10 @@ class CardUser extends React.Component {
 
   }
 
-  componentDidMount() {
-    const { getUsers } = this.props;
-    getUsers();
+  handleAddSubscription = (e) => {
+    const { subscription } = e.currentTarget.dataset;
+    const { addSubscription, auth: { auth: { userId }} } = this.props;
+    addSubscription(subscription, userId);
   }
 
   render() {
@@ -66,7 +67,12 @@ class CardUser extends React.Component {
                   </Row>
                 </Card.Body>
                 <Card.Footer>
-                  <Button variant="primary" size="sm">
+                  <Button
+                    data-subscription={user._id}
+                    variant="primary"
+                    size="sm"
+                    onClick={this.handleAddSubscription}
+                  >
                     Подписаться
                   </Button>
                 </Card.Footer>
@@ -80,8 +86,7 @@ class CardUser extends React.Component {
 }
 
 CardUser.propType = {
-  // authRegistration: PropTypes.func,
-  // createNewUser: PropTypes.func,
+  addSubscription: PropTypes.func,
   users: PropTypes.shape({}),
   auth: PropTypes.shape({}),
 }
@@ -98,5 +103,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  getUsers,
+  addSubscription,
 })(CardUser);
