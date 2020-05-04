@@ -131,7 +131,8 @@ class CardUser extends React.Component {
       .then((action) => {
         if (action.status === 'SUCCESS') {
           this.makeBeforeSatte(
-            subscription
+            subscription,
+            { newWarning: 'Отписка успешна выполнена' }
           );
         } else {
           this.makeBeforeSatte(
@@ -145,7 +146,8 @@ class CardUser extends React.Component {
       .then((action) => {
         if (action.status === 'SUCCESS') {
           this.makeBeforeSatte(
-            subscription
+            subscription,
+            { newWarning: 'Подписка успешна оформлена' }
           );
         } else {
           this.makeBeforeSatte(
@@ -160,7 +162,7 @@ class CardUser extends React.Component {
   render() {
     const {
       errors,
-      // warnings,
+      warnings,
       isFetchings,
     } = this.state;
     const {
@@ -186,9 +188,8 @@ class CardUser extends React.Component {
             const isFetchingforUser = isFetchings.find((isFetching) => {
               return isFetching.id === user._id && isFetching.isFetching;
             });
-            const errorUser = errors.find((error) => {
-              return error.id === user._id;
-            });
+            const errorUser = errors.find(error => error.id === user._id);
+            const warningUser = warnings.find(warning => warning.id === user._id)
             return (
               <Card key={user._id}>
                 <Card.Header>{user.userName}</Card.Header>
@@ -230,6 +231,7 @@ class CardUser extends React.Component {
                 }
                 <Messages
                   error={errorUser && errorUser.error}
+                  warning={warningUser && warningUser.warning}
                 />
                 </Card.Footer>
               </Card>
