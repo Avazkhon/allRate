@@ -1,5 +1,6 @@
 const userModels = require('../../models/user');
-const subscribersModels = require('../../models/subscriptions');
+const subscriptionsModels = require('../../models/subscriptions');
+const subscribersModels = require('../../models/subscribers');
 const getUser = require('./getUser');
 const WriteToLog = require('../../utils/writeToLog');
 const purseControllers = require('../purse');
@@ -25,13 +26,21 @@ exports.craeteUser = async (req, res) => {
       createTime: req.body.dateCreate,
       userId: user._id
     });
-    const subscription = await subscribersModels.create({
+    const subscription = await subscriptionsModels.create({
       userId: user._id,
       subscriptions: [],
     });
+    const subscribers = await subscribersModels.create({
+      userId: user._id,
+      subscribers: [],
+    });
     user = await userModels.findByIdAndUpdate(
       { _id: user._id },
-      {'$set': { subscriptionsId: subscription._id }}
+      {'$set': {
+          subscriptionsId: subscription._id,
+          subscribersId: subscribers._id,
+        }
+      }
     );
     res.status(201).json(user);
   } catch(error) {
