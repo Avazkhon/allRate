@@ -17,10 +17,98 @@ import {
 } from 'actions';
 
 import SiteBar from 'components/SiteBar';
+import Messages from 'components/Messages';
+
 class CardUser extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      errors: [],
+      warnings: [],
+      isFetchings: [],
+    }
+
+  }
+
+  makePrevState = (subscriptionId) => {
+    this.setState((prevState) => {
+      const isFetchings = prevState.isFetchings.map((isFetching) => {
+        if (isFetching && isFetching.id === subscriptionId) {
+          isFetching.isFetching = true;
+        } else {
+          isFetching = {
+            isFetching: true,
+            id: subscriptionId
+          }
+        };
+        return isFetching
+      });
+
+      const warnings = prevState.warnings.map((warning) => {
+        if (warning && warning.id === subscriptionId) {
+          warning.warning = '';
+        } else {
+          warning = {
+            warning: '',
+            id: subscriptionId
+          }
+        }
+        return warning
+      });
+
+      const errors = prevState.errors.map((error) => {
+        if (error && error.id === subscriptionId) {
+          error.error = '';
+        } else {
+          error = {
+            error: '',
+            id: subscriptionId
+          }
+        }
+        return error
+      })
+
+      return {
+        isFetchings: isFetchings.length ? isFetchings : [{
+          isFetching: true,
+          id: subscriptionId
+        }],
+        warnings: warnings.length ? warnings :  [{
+          warning: '',
+          id: subscriptionId
+        }],
+        errors: errors.length ? errors : [{
+          error: '',
+          id: subscriptionId
+        }],
+      }
+    })
+  }
+
+  makeBeforeSatte = (subscriptionId, { newWarning, newError } = {}) => {
+    this.setState((prevState) => {
+      return {
+        isFetchings: prevState.isFetchings.map((isFetching) => {
+          if (isFetching && isFetching.id === subscriptionId) {
+            isFetching.isFetching = false;
+          }
+          return isFetching
+        }),
+        warnings: prevState.warnings.map((warning) => {
+          if (warning && warning.id === subscriptionId) {
+            warning.warning = newWarning;
+          }
+          return warning
+        }),
+        errors: prevState.errors.map((error) => {
+          if (error && error.id === subscriptionId) {
+            error.error = newError;
+          }
+          return error
+        })
+      }
+    })
   }
 
   handleAddSubscription = (e) => {
@@ -30,19 +118,51 @@ class CardUser extends React.Component {
       },
       name,
     } = e.currentTarget;
+
+    this.makePrevState(subscription);
+
     const {
       addSubscription,
       deleteSubscriptions,
       auth: { auth: { userId }}
     } = this.props;
     if (name) {
-      deleteSubscriptions(subscription, userId);
+      deleteSubscriptions(subscription, userId)
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          this.makeBeforeSatte(
+            subscription
+          );
+        } else {
+          this.makeBeforeSatte(
+            subscription,
+            { newError: action.error }
+          );
+        }
+      });
     } else {
-      addSubscription(subscription, userId);
+      addSubscription(subscription, userId)
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          this.makeBeforeSatte(
+            subscription
+          );
+        } else {
+          this.makeBeforeSatte(
+            subscription,
+            { newError: action.error }
+          );
+        }
+      });
     }
   }
 
   render() {
+    const {
+      errors,
+      // warnings,
+      isFetchings,
+    } = this.state;
     const {
       auth: {
         auth
@@ -61,8 +181,14 @@ class CardUser extends React.Component {
           users.map((user) => {
             const isSubscription = subscriptions &&
               subscriptions.subscriptions.find((subscription) => {
-                return subscription.userId === user._id
-              })
+                return subscription.userId === user._id;
+              });
+            const isFetchingforUser = isFetchings.find((isFetching) => {
+              return isFetching.id === user._id && isFetching.isFetching;
+            });
+            const errorUser = errors.find((error) => {
+              return error.id === user._id;
+            });
             return (
               <Card key={user._id}>
                 <Card.Header>{user.userName}</Card.Header>
@@ -97,10 +223,14 @@ class CardUser extends React.Component {
                     variant="primary"
                     size="sm"
                     onClick={this.handleAddSubscription}
+                    disabled={isFetchingforUser}
                   >
                   {isSubscription ? 'Отписаться' : 'Подписаться'}
                   </Button>
                 }
+                <Messages
+                  error={errorUser && errorUser.error}
+                />
                 </Card.Footer>
               </Card>
             )
