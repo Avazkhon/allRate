@@ -61,6 +61,7 @@ exports.deleteSubscription = async (req, res) => {
     const { subscription, subscriber } = req.query;
     const userSubscriber = await userModels.findOne({ _id: subscriber });
     const userSubscription = await userModels.findOne({ _id: subscription });
+    const countSubscribers = --userSubscription.subscribersCount > 0 ? --userSubscription.subscribersCount : 0;
     await subscriptionModels.findByIdAndUpdate(
       { _id: userSubscriber.subscriptionsId },
       {$pull: {
@@ -77,7 +78,7 @@ exports.deleteSubscription = async (req, res) => {
 
     await userModels.findByIdAndUpdate(
       { _id: subscription },
-      { $set: { subscribersCount: --userSubscription.subscribersCount } }
+      { $set: { subscribersCount: countSubscribers } }
     );
 
     const allSubscribers = await subscriptionModels.get({ userId: userSubscriber._id });
