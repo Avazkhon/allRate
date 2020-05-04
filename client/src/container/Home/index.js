@@ -14,7 +14,6 @@ import {
 import {
   getUsers,
   getSubscriptions,
-  getUserById,
 } from 'actions';
 
 import SiteBar from 'components/SiteBar';
@@ -35,12 +34,10 @@ class Home extends React.Component {
     const {
       getUsers,
       getSubscriptions,
-      getUserById,
     } = this.props;
     getUsers();
     const user = getDataUserFromLocalStorag();
     if (user && user.userId) {
-      getUserById(user.userId);
       getSubscriptions(user.userId);
     }
   }
@@ -77,7 +74,6 @@ class Home extends React.Component {
 
 Home.propType = {
   getUsers: PropTypes.func,
-  getUserById: PropTypes.func,
   getSubscriptions: PropTypes.func,
   users: PropTypes.shape({}),
   auth: PropTypes.shape({}),
@@ -97,5 +93,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   getUsers,
   getSubscriptions,
-  getUserById,
 })(Home);
