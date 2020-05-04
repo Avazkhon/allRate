@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { FiUsers } from 'react-icons/fi';
 
 
 import {
@@ -83,7 +84,7 @@ class CardUser extends React.Component {
                       </Card.Text>
                     </Col>
                     <Col xs="12" sm="12" md="3">
-                      icon
+                      <FiUsers title="количестко подписччиков"/> {user.subscribersCount}
                     </Col>
                   </Row>
                 </Card.Body>
