@@ -223,19 +223,28 @@ class CardUser extends React.Component {
                   </Row>
                 </Card.Body>
                 <Card.Footer>
+                <Row>
                 {
                   auth && auth.userId !== user._id &&
-                  <Button
-                    data-subscription={user._id}
-                    name={isSubscription && isSubscription.toString() }
-                    variant="primary"
-                    size="sm"
-                    onClick={this.handleAddSubscription}
-                    disabled={isFetchingforUser}
-                  >
-                  {isSubscription ? userCardText.unsubscribe[lang] : userCardText.subscription[lang]}
-                  </Button>
+                  <Col>
+                    <Button
+                      data-subscription={user._id}
+                      name={isSubscription && isSubscription.toString() }
+                      variant="primary"
+                      size="sm"
+                      onClick={this.handleAddSubscription}
+                      disabled={isFetchingforUser}
+                    >
+                      {isSubscription ? userCardText.unsubscribe[lang] : userCardText.subscription[lang]}
+                    </Button>
+                  </Col>
                 }
+                <Col>
+                  <Card.Link href={auth && auth.userId !== user._id ? `profile/${user._id}` : '/me'}>
+                    перейти
+                  </Card.Link>
+                </Col>
+                </Row>
                 <Messages
                   error={errorUser && errorUser.error}
                   warning={warningUser && warningUser.warning}

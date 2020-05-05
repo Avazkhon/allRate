@@ -26,18 +26,18 @@ class ProfileUser extends React.Component {
   }
 
   componentDidMount() {
-    const { getUserById } = this.props;
+    const { getUserById, profileId } = this.props;
     let { auth } = this.props;
     auth = auth && auth.auth || null;
     if (auth && auth.userId) {
-      getUserById(auth.userId)
+      getUserById(profileId || auth.userId)
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { getUserById } = prevProps;
     let { auth } = prevProps;
-    let { auth: userId } = this.props;
+    let { auth: userId, profileId } = this.props;
 
     userId = userId && userId.auth && userId.auth.userId
     auth = auth && auth.auth || null;
@@ -47,14 +47,15 @@ class ProfileUser extends React.Component {
       && auth.userId !== userId)
       || (!auth && userId)
     ) {
-      getUserById(userId);
+      getUserById(profileId || userId);
     }
   }
 
   render() {
     const {
       auth: { userData },
-      classes
+      classes,
+      profileId,
     } = this.props;
 
     let userProps = [];
@@ -81,9 +82,12 @@ class ProfileUser extends React.Component {
               Изменить фото
             </Button>
           </Col>
-          <Col xs="12" sm="6" md="5">
-            <PurseWidget />
-          </Col>
+          {
+            !profileId &&
+            <Col xs="12" sm="6" md="5">
+              <PurseWidget />
+            </Col>
+          }
           <Col xs="12" sm="12" md="5">
             <PersonData
               userProps={userProps}
@@ -98,6 +102,7 @@ class ProfileUser extends React.Component {
 ProfileUser.propType = {
   getUserById: PropTypes.func,
   auth: PropTypes.shape({}),
+  profileId: PropTypes.number,
 }
 
 function mapStateToProps(state) {
