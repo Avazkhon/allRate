@@ -19,6 +19,12 @@ import {
 import SiteBar from 'components/SiteBar';
 import Messages from 'components/Messages';
 
+const userCardText = {
+  subscription: { RU: 'Подписаться', EN: 'Subscription' },
+  unsubscribe: { RU: 'Отписаться', EN: 'Unsubscribe' },
+  titleCountSubscribers: { RU: 'Количестко подписччиков', EN: 'Number of subscribers' }
+}
+
 class CardUser extends React.Component {
   constructor(props) {
     super(props);
@@ -174,7 +180,8 @@ class CardUser extends React.Component {
       },
       subscriptions: {
         data: subscriptions
-      }
+      },
+      lang: { lang }
     } = this.props;
     return (
       <>
@@ -211,7 +218,7 @@ class CardUser extends React.Component {
                       </Card.Text>
                     </Col>
                     <Col xs="12" sm="12" md="3">
-                      <FiUsers title="количестко подписччиков"/> {user.subscribersCount}
+                      <FiUsers title={userCardText.titleCountSubscribers[lang]}/> {user.subscribersCount}
                     </Col>
                   </Row>
                 </Card.Body>
@@ -226,7 +233,7 @@ class CardUser extends React.Component {
                     onClick={this.handleAddSubscription}
                     disabled={isFetchingforUser}
                   >
-                  {isSubscription ? 'Отписаться' : 'Подписаться'}
+                  {isSubscription ? userCardText.unsubscribe[lang] : userCardText.subscription[lang]}
                   </Button>
                 }
                 <Messages
@@ -256,11 +263,13 @@ function mapStateToProps(state) {
     auth,
     users,
     subscriptions,
+    lang,
   } = state;
   return {
     auth,
     users,
-    subscriptions
+    subscriptions,
+    lang,
   };
 }
 

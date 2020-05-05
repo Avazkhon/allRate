@@ -37,7 +37,7 @@ class Language extends React.Component {
     return (
       <DropdownButton
         as={ButtonGroup}
-        drop="drop"
+        drop="down"
         title={`lang: ${lang}`}
       >
         <Dropdown.Item
