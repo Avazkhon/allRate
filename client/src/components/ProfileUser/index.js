@@ -78,9 +78,12 @@ class ProfileUser extends React.Component {
         <Row>
           <Col xs="12" sm="6" md="2">
             <Image src={srcImage} thumbnail alt="Avatar" />
-            <Button>
-              Изменить фото
-            </Button>
+            {
+              !profileId &&
+              <Button>
+                Изменить фото
+              </Button>
+            }
           </Col>
           {
             !profileId &&
