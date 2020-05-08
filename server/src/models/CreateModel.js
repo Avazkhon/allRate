@@ -30,6 +30,14 @@ class CreateModel {
     ))
   }
 
+  async getByProps (props, params) {
+    return new Promise((resolve, reject) => {
+      this.Model.find(props, params)
+      .then(resolve)
+      .catch(reject)
+    })
+  }
+
   async deleteOne (searchParams) {
     return new Promise((resolve, reject) => (
       this.Model.deleteOne(searchParams)
