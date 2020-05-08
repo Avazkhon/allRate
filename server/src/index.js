@@ -75,6 +75,8 @@ app.route('/api/post')
 
 app.route('/api/post/views')
   .put(postllers.views);
+app.route('/api/post/rating')
+  .put(postllers.rating);
 
 app.route('/api/user')
   .get(userControllers.getUser) // обрабатывает запросы по userName, id и all
