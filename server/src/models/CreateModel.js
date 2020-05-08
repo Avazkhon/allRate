@@ -30,6 +30,14 @@ class CreateModel {
     ))
   }
 
+  async deleteOne (searchParams) {
+    return new Promise((resolve, reject) => (
+      this.Model.deleteOne(searchParams)
+      .then(resolve)
+      .catch(reject)
+    ))
+  }
+
 }
 
 module.exports = CreateModel;

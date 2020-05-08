@@ -47,3 +47,22 @@ exports.get = async (req, res) => {
     res.status(500).json(error);
   };
 };
+
+exports.deleteOne = async (req, res) => {
+  try {
+    const {
+      query: {
+        postId,
+      },
+    } = req;
+    const post = await postModels.deleteOne({ _id: postId });
+    if (post.deletedCount) {
+      res.status(200).json({ messages: 'пост успешно удален' });
+    } else {
+      res.status(404).json({ messages: 'нет поста с таким id' });
+    }
+  } catch (error) {
+    writeToLog.write(error, 'get_post.error');
+    res.status(500).json(error);
+  };
+};

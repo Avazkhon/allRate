@@ -70,7 +70,8 @@ app.route('/api/lang')
 app.route('/api/post')
   .get(postllers.get)
   .put(postllers.put)
-  .post(postllers.create);
+  .post(postllers.create)
+  .delete(postllers.deleteOne);
 
 app.route('/api/user')
   .get(userControllers.getUser) // обрабатывает запросы по userName, id и all
