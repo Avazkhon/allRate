@@ -66,3 +66,22 @@ exports.deleteOne = async (req, res) => {
     res.status(500).json(error);
   };
 };
+
+exports.views = async (req, res) => {
+  try {
+    const {
+      query: {
+        postId,
+      },
+    } = req;
+    let post = await postModels.get({ _id: postId });
+    if (!post) {
+      return res.status(404).json({ message: 'нет поста с таким id' });
+    }
+    post = await postModels.findByIdAndUpdate({ _id: postId }, { views: ++post.views });
+    res.status(200).json(post);
+  } catch (error) {
+    writeToLog.write(error, 'views_post.error');
+    res.status(500).json({ message: 'Ошибка на сервере', error});
+  };
+};

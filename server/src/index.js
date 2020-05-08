@@ -73,6 +73,9 @@ app.route('/api/post')
   .post(postllers.create)
   .delete(postllers.deleteOne);
 
+app.route('/api/post/views')
+  .put(postllers.views);
+
 app.route('/api/user')
   .get(userControllers.getUser) // обрабатывает запросы по userName, id и all
   .post(userControllers.craeteUser)
