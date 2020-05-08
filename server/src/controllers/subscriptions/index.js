@@ -48,6 +48,10 @@ exports.addSubscription = async (req, res) => {
       { _id: subscription },
       { $set: { subscribersCount: ++userSubscription.subscribersCount } }
     );
+    await userModels.findByIdAndUpdate(
+      { _id: subscriber },
+      { $set: { subscriptionsCount: ++userSubscriber.subscriptionsCount } }
+    );
 
     res.status(201).json(fuinSubscriber);
   } catch (error) {
@@ -61,7 +65,8 @@ exports.deleteSubscription = async (req, res) => {
     const { subscription, subscriber } = req.query;
     const userSubscriber = await userModels.findOne({ _id: subscriber });
     const userSubscription = await userModels.findOne({ _id: subscription });
-    const countSubscribers = --userSubscription.subscribersCount > 0 ? --userSubscription.subscribersCount : 0;
+    const subscribersCount = --userSubscription.subscribersCount > 0 ? --userSubscription.subscribersCount : 0;
+    const subscriptionsCount = --userSubscriber.subscriptionsCount > 0 ? --userSubscriber.subscriptionsCount : 0;
     await subscriptionModels.findByIdAndUpdate(
       { _id: userSubscriber.subscriptionsId },
       {$pull: {
@@ -78,7 +83,11 @@ exports.deleteSubscription = async (req, res) => {
 
     await userModels.findByIdAndUpdate(
       { _id: subscription },
-      { $set: { subscribersCount: countSubscribers } }
+      { $set: { subscribersCount } }
+    );
+    await userModels.findByIdAndUpdate(
+      { _id: subscriber },
+      { $set: { subscriptionsCount } }
     );
 
     const allSubscribers = await subscriptionModels.get({ userId: userSubscriber._id });

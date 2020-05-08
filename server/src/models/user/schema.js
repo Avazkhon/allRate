@@ -18,6 +18,7 @@ exports.userSchema = new Schema(
     allRate: [{ idNote: mongoose.ObjectId }],
     subscriptionsId: { type: mongoose.ObjectId },
     subscribersId: { type: mongoose.ObjectId },
+    subscriptionsCount: { type: Number, default: 0, min: 0 },
     subscribersCount: { type: Number, default: 0, min: 0 },
     description: String
   },
