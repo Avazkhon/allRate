@@ -93,7 +93,7 @@ class CardUser extends React.Component {
     })
   }
 
-  makeBeforeSatte = (subscriptionId, { newWarning, newError } = {}) => {
+  makeBeforeState = (subscriptionId, { newWarning, newError } = {}) => {
     this.setState((prevState) => {
       return {
         isFetchings: prevState.isFetchings.map((isFetching) => {
@@ -137,12 +137,12 @@ class CardUser extends React.Component {
       deleteSubscriptions(subscription, userId)
       .then((action) => {
         if (action.status === 'SUCCESS') {
-          this.makeBeforeSatte(
+          this.makeBeforeState(
             subscription,
             { newWarning: 'Отписка успешна выполнена' }
           );
         } else {
-          this.makeBeforeSatte(
+          this.makeBeforeState(
             subscription,
             { newError: action.error }
           );
@@ -152,12 +152,12 @@ class CardUser extends React.Component {
       addSubscription(subscription, userId)
       .then((action) => {
         if (action.status === 'SUCCESS') {
-          this.makeBeforeSatte(
+          this.makeBeforeState(
             subscription,
             { newWarning: 'Подписка успешна оформлена' }
           );
         } else {
-          this.makeBeforeSatte(
+          this.makeBeforeState(
             subscription,
             { newError: action.error }
           );
