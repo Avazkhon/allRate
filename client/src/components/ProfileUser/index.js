@@ -22,6 +22,13 @@ import PersonData from './PersonData';
 
 const srcImage = 'https://img.favpng.com/8/0/5/computer-icons-user-profile-avatar-png-favpng-6jJk1WU2YkTBLjFs4ZwueE8Ub.jpg'
 
+
+const profileText = {
+  changeImg: { RU: 'Изменить фото', EN: 'Change image'},
+  titleCountSubscribers: { RU: 'Количестко подписччиков', EN: 'Number of subscribers' },
+  titleCountSubscriptions: { RU: 'Количестко подписок', EN: 'Number of subscriptions' },
+}
+
 class ProfileUser extends React.Component {
   constructor(props) {
     super(props);
@@ -57,6 +64,7 @@ class ProfileUser extends React.Component {
   render() {
     const {
       auth: { userData },
+      lang: { lang },
       classes,
       profileId,
     } = this.props;
@@ -84,7 +92,7 @@ class ProfileUser extends React.Component {
             {
               !profileId &&
               <Button>
-                Изменить фото
+                {profileText.changeImg[lang]}
               </Button>
             }
           </Col>
@@ -92,11 +100,11 @@ class ProfileUser extends React.Component {
             <ListGroup>
               { !profileId && <PurseWidget />}
               <ListGroup.Item>
-                <FiUsers title="Count subscribers"/> {" "}
+                <FiUsers title={profileText.titleCountSubscribers[lang]}/> {" "}
                 { userData && userData.subscribersCount || 0 }
               </ListGroup.Item>
               <ListGroup.Item>
-                <RiUserVoiceLine title="Count subscriptions"/> {" "}
+                <RiUserVoiceLine title={profileText.titleCountSubscriptions[lang]}/> {" "}
                 { userData && userData.subscriptionsCount || 0 }
               </ListGroup.Item>
             </ListGroup>
@@ -115,15 +123,18 @@ class ProfileUser extends React.Component {
 ProfileUser.propType = {
   getUserById: PropTypes.func,
   auth: PropTypes.shape({}),
+  lang: PropTypes.shape({}),
   profileId: PropTypes.number,
 }
 
 function mapStateToProps(state) {
   const {
     auth,
+    lang,
   } = state;
   return {
     auth,
+    lang,
   };
 }
 

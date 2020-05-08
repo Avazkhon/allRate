@@ -22,7 +22,8 @@ import Messages from 'components/Messages';
 const userCardText = {
   subscription: { RU: 'Подписаться', EN: 'Subscription' },
   unsubscribe: { RU: 'Отписаться', EN: 'Unsubscribe' },
-  titleCountSubscribers: { RU: 'Количестко подписччиков', EN: 'Number of subscribers' }
+  titleCountSubscribers: { RU: 'Количестко подписчиков', EN: 'Number of subscribers' },
+  follow: { RU: 'Перейти', EN: 'follow' }
 }
 
 class CardUser extends React.Component {
@@ -241,7 +242,7 @@ class CardUser extends React.Component {
                 }
                 <Col>
                   <Card.Link href={auth && auth.userId !== user._id ? `profile/${user._id}` : '/me'}>
-                    перейти
+                    {userCardText.follow[lang]}
                   </Card.Link>
                 </Col>
                 </Row>
