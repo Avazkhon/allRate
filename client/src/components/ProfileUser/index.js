@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { FiUsers } from 'react-icons/fi';
+import { RiUserVoiceLine } from 'react-icons/ri';
 
 import {
   Row,
@@ -8,6 +10,7 @@ import {
   Button,
   Image,
   Card,
+  ListGroup,
 } from 'react-bootstrap';
 
 import {
@@ -85,12 +88,19 @@ class ProfileUser extends React.Component {
               </Button>
             }
           </Col>
-          {
-            !profileId &&
-            <Col xs="12" sm="6" md="5">
-              <PurseWidget />
-            </Col>
-          }
+          <Col xs="12" sm="6" md="5">
+            <ListGroup>
+              { !profileId && <PurseWidget />}
+              <ListGroup.Item>
+                <FiUsers title="Count subscribers"/> {" "}
+                { userData && userData.subscribersCount || 0 }
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <RiUserVoiceLine title="Count subscriptions"/> {" "}
+                { userData && userData.subscriptionsCount || 0 }
+              </ListGroup.Item>
+            </ListGroup>
+          </Col>
           <Col xs="12" sm="12" md="5">
             <PersonData
               userProps={userProps}
