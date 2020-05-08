@@ -36,6 +36,14 @@ export default [
     }),
   },
   {
+    path: '/profile/:id/',
+    exact: true,
+    component: asyncComponent({
+      loader: () => import('./container/Profile'),
+      Placeholder: () => <div>...LOADING...</div>,
+    }),
+  },
+  {
     path: '/card-rate/:id/',
     exact: true,
     component: asyncComponent({

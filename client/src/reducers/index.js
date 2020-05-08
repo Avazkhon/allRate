@@ -5,6 +5,8 @@ import selectRate from './selectRate';
 import commonRate from './commonRate';
 import purse from './purse';
 import lang from './lang';
+import users from './users';
+import subscriptions from './subscriptions';
 
 export default combineReducers({
   auth,
@@ -13,4 +15,6 @@ export default combineReducers({
   commonRate,
   purse,
   lang,
-})
+  users,
+  subscriptions,
+});

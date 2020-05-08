@@ -1,5 +1,5 @@
 export default {
   center: {
-    'text-align': 'center',
+    'margin': '10px auto',
   }
 }

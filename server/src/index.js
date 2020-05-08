@@ -15,6 +15,7 @@ const rateLiveControllers = require('./controllers/rateControllers/rateLive');
 const userControllers = require('./controllers/user');
 const authControllers = require('./controllers/auth');
 const purseControllers = require('./controllers/purse');
+const subscriptionsControllers = require('./controllers/subscriptions');
 const InvoiceControllers = require('./controllers/invoice');
 const passwords = require('../password');
 
@@ -56,13 +57,18 @@ app.route('/api/auth')
   .get(authControllers.authAut)
   .post(authControllers.authIn);
 
+app.route('/api/subscription')
+  .get(subscriptionsControllers.get)
+  .put(subscriptionsControllers.addSubscription)
+  .delete(subscriptionsControllers.deleteSubscription);
+
 app.route('/api/lang')
   .get(langControllers.get)
   .post(langControllers.post);
 
 app.route('/api/user')
   .get(userControllers.getUser) // обрабатывает запросы по userName, id и all
-  .post(userControllers.postAddOne)
+  .post(userControllers.craeteUser)
   .put(userControllers.updateOne)
   .delete(userControllers.deleteOne);
 
