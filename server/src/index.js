@@ -11,6 +11,7 @@ const db = require('./db');
 
 const rateControllers = require('./controllers/rateControllers');
 const langControllers = require('./controllers/langControllers');
+const postllers = require('./controllers/post');
 const rateLiveControllers = require('./controllers/rateControllers/rateLive');
 const userControllers = require('./controllers/user');
 const authControllers = require('./controllers/auth');
@@ -65,6 +66,11 @@ app.route('/api/subscription')
 app.route('/api/lang')
   .get(langControllers.get)
   .post(langControllers.post);
+
+app.route('/api/post')
+  .get(postllers.get)
+  .put(postllers.put)
+  .post(postllers.create);
 
 app.route('/api/user')
   .get(userControllers.getUser) // обрабатывает запросы по userName, id и all
