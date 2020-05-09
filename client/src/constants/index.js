@@ -26,6 +26,8 @@ export const ADD_SUBSCRIPTION = 'ADD_SUBSCRIPTION';
 export const GET_SUBSCRIPTION = 'GET_SUBSCRIPTION';
 export const DELETE_SUBSCRIPTION = 'DELETE_SUBSCRIPTION';
 
+export const CREATE_POST = 'CREATE_POST';
+
 export const basisForPayment = {
   accountReplenishment: 'accountReplenishment',
   withdrawal: 'withdrawal',

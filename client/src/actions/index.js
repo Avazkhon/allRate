@@ -41,3 +41,7 @@ export {
   getSubscriptions,
   deleteSubscriptions,
 } from './subscriptions';
+
+export {
+  createPost
+} from './post';

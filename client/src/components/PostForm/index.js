@@ -7,6 +7,10 @@ import {
   Button,
 } from 'react-bootstrap';
 
+import {
+  createPost,
+} from 'actions';
+
 class PostFrom extends React.Component {
   constructor(props) {
     super(props);
@@ -25,14 +29,14 @@ class PostFrom extends React.Component {
 
   handleSubmit = () => {
     const { title, text } = this.state;
-    const { auth: { auth } } = this.props;
+    const { auth: { auth }, createPost } = this.props;
     const data = {
       title,
       text,
       authorId: auth.userId,
       createTime: new Date(),
     };
-    console.log(data);
+    createPost(data)
   }
 
   render() {
@@ -73,6 +77,7 @@ class PostFrom extends React.Component {
 
 PostFrom.propType = {
   auth: PropTypes.shape({}),
+  createPost: PropTypes.func,
 }
 
 function mapStateToProps(state) {
@@ -85,4 +90,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
+  createPost,
 })(PostFrom);
