@@ -16,6 +16,25 @@ class PostFrom extends React.Component {
     }
   }
 
+  handleChange = (e) => {
+    const { name, value } = e.currentTarget;
+    this.setState({
+      [name]: value
+    })
+  }
+
+  handleSubmit = () => {
+    const { title, text } = this.state;
+    const { auth: { auth } } = this.props;
+    const data = {
+      title,
+      text,
+      authorId: auth.userId,
+      createTime: new Date(),
+    };
+    console.log(data);
+  }
+
   render() {
     const {
       title,
@@ -29,6 +48,8 @@ class PostFrom extends React.Component {
             type="text"
             placeholder="Enter title"
             value={title}
+            name="title"
+            onChange={this.handleChange}
           />
         </Form.Group>
 
@@ -38,9 +59,11 @@ class PostFrom extends React.Component {
             as="textarea"
             placeholder="Enter text"
             value={text}
+            name="text"
+            onChange={this.handleChange}
           />
         </Form.Group>
-        <Button variant="primary">
+        <Button variant="primary" onClick={this.handleSubmit}>
           Submit
         </Button>
       </Form>
