@@ -18,6 +18,7 @@ import Layout from 'container/Layout';
 import ProfileUser from 'components/ProfileUser';
 import SiteBar from 'components/SiteBar';
 import PostForm from 'components/PostForm';
+import MyList from 'components/MyList';
 
 class MePage extends React.Component {
   // constructor(props) {
@@ -32,7 +33,7 @@ class MePage extends React.Component {
         auth,
       }
     } = this.props;
-    console.log(auth && auth.userId && prevProps.auth && !prevProps.auth.auth);
+
     if (
       (auth && prevProps.auth.auth && (prevProps.auth.auth.userId !== auth.userId))
       || auth && auth.userId && prevProps.auth && !prevProps.auth.auth
@@ -44,6 +45,7 @@ class MePage extends React.Component {
   render() {
     const {
       auth,
+      myList,
     } = this.props;
     const userId = auth.auth && auth.auth.userId;
     return (
@@ -58,6 +60,9 @@ class MePage extends React.Component {
             <Col xs="12" sm="8" md="9">
               <ProfileUser />
               <PostForm />
+              <MyList
+                myList={myList.data ? myList.data : []}
+              />
             </Col>
           </Row>
         </Container>
@@ -74,9 +79,11 @@ MePage.propType = {
 function mapStateToProps(state) {
   const {
     auth,
+    myList,
   } = state;
   return {
     auth,
+    myList,
   };
 }
 

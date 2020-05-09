@@ -9,7 +9,7 @@ import {
 
 const initState = {
   isFetching: false,
-  data: 'RU',
+  data: null,
   error: null,
 };
 
