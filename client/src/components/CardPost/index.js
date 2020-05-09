@@ -4,60 +4,25 @@ import PropTypes from 'prop-types';
 
 import {
   Card,
-  ListGroup,
-  ListGroupItem,
+  Button,
 } from 'react-bootstrap';
 
-import PartyList from './PartyList';
-
-const CardPost = ({
-  post: {
-    title,
-    description,
-    img,
-    dateStart,
-    dateFinish,
-    _id,
-    party,
-  },
-}) => {
+const CardRate = () => {
   return (
     <Card>
-      <Card.Img variant="top" src={img} />
+      <Card.Header>Featured</Card.Header>
       <Card.Body>
-        <Card.Title>{title}</Card.Title>
-        <Card.Text>{description}</Card.Text>
-      </Card.Body>
-      <Card.Body>
-        <PartyList
-          party={party}
-        />
-      </Card.Body>
-        <ListGroup className="list-group-flush">
-          <ListGroupItem>{dateStart}</ListGroupItem>
-          <ListGroupItem>{dateFinish}</ListGroupItem>
-        </ListGroup>
-      <Card.Body>
-        <Card.Link
-          href={`make-rate?rateId=${_id}`}
-        >
-          Перейти
-        </Card.Link>
+        <Card.Title>Special title treatment</Card.Title>
+        <Card.Text>
+          With supporting text below as a natural lead-in to additional content.
+        </Card.Text>
+        <Button variant="primary">Go somewhere</Button>
       </Card.Body>
     </Card>
   )
 }
 
-CardPost.propType = {
-  post: PropTypes.shape({
-    title: PropTypes.string,
-    description: PropTypes.string,
-    img: PropTypes.string,
-    dateStart: PropTypes.string,
-    dateFinish: PropTypes.string,
-    _id: PropTypes.string,
-    party: PropTypes.arrayOf({}),
-  }),
+CardRate.propType = {
 }
 
-export default CardPost
+export default CardRate

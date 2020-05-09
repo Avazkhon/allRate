@@ -33,13 +33,13 @@ class MyList extends React.Component {
         myList.map((itm) => {
           if (itm.mainBet) {
             return (
-              <CardPost key={itm._id}
+              <CardRate key={itm._id}
                 post={itm}
               />
             )
           } else {
             return (
-              <CardRate key={itm._id}
+              <CardPost key={itm._id}
                 rate={itm}
               />
             )
