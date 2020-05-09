@@ -11,12 +11,18 @@ import {
   createPost,
 } from 'actions';
 
+import Messages from 'components/Messages';
+
 class PostFrom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       title: '',
       text: '',
+
+      warning: '',
+      error: '',
+      isFetching: false,
     }
   }
 
@@ -36,13 +42,34 @@ class PostFrom extends React.Component {
       authorId: auth.userId,
       createTime: new Date(),
     };
+    this.setState({
+      warning: '',
+      error: '',
+      isFetching: true,
+    })
     createPost(data)
+    .then((action) => {
+      if (action.status === 'SUCCESS') {
+        this.setState({
+          warning: 'Пост успешно создан!',
+          isFetching: false,
+        })
+      } else {
+        this.setState({
+          error: action.error,
+          isFetching: false,
+        })
+      }
+    })
   }
 
   render() {
     const {
       title,
       text,
+      warning,
+      error,
+      isFetching,
     } = this.state;
     return (
       <Form>
@@ -70,6 +97,12 @@ class PostFrom extends React.Component {
         <Button variant="primary" onClick={this.handleSubmit}>
           Submit
         </Button>
+
+        <Messages
+          warning={warning}
+          error={error}
+          isFetching={isFetching}
+        />
       </Form>
     );
   }
