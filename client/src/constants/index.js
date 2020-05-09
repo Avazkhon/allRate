@@ -28,6 +28,8 @@ export const DELETE_SUBSCRIPTION = 'DELETE_SUBSCRIPTION';
 
 export const CREATE_POST = 'CREATE_POST';
 
+export const GET_MY_LIST = 'GET_MY_LIST';
+
 export const basisForPayment = {
   accountReplenishment: 'accountReplenishment',
   withdrawal: 'withdrawal',

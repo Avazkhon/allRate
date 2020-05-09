@@ -45,3 +45,7 @@ export {
 export {
   createPost
 } from './post';
+
+export {
+  getMyList
+} from './myList'

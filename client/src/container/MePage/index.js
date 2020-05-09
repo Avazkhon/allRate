@@ -10,6 +10,10 @@ import {
   Col,
 } from 'react-bootstrap';
 
+import {
+  getMyList,
+} from 'actions';
+
 import Layout from 'container/Layout';
 import ProfileUser from 'components/ProfileUser';
 import SiteBar from 'components/SiteBar';
@@ -20,6 +24,22 @@ class MePage extends React.Component {
   //   super(props);
   //
   // }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const {
+      getMyList,
+      auth: {
+        auth,
+      }
+    } = this.props;
+    console.log(auth && auth.userId && prevProps.auth && !prevProps.auth.auth);
+    if (
+      (auth && prevProps.auth.auth && (prevProps.auth.auth.userId !== auth.userId))
+      || auth && auth.userId && prevProps.auth && !prevProps.auth.auth
+    ) {
+      getMyList(auth.userId);
+    }
+  }
 
   render() {
     const {
@@ -48,6 +68,7 @@ class MePage extends React.Component {
 
 MePage.propType = {
   auth: PropTypes.shape({}),
+  getMyList: PropTypes.func,
 }
 
 function mapStateToProps(state) {
@@ -60,4 +81,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
+  getMyList,
 })(MePage);
