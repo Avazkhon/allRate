@@ -26,6 +26,14 @@ class PostFrom extends React.Component {
     }
   }
 
+  makeState = () => {
+    this.setState({
+      warning: '',
+      error: '',
+      isFetching: true,
+    })
+  }
+
   handleChange = (e) => {
     const { name, value } = e.currentTarget;
     this.setState({
@@ -42,11 +50,9 @@ class PostFrom extends React.Component {
       authorId: auth.userId,
       createTime: new Date(),
     };
-    this.setState({
-      warning: '',
-      error: '',
-      isFetching: true,
-    })
+
+    this.makeState();
+
     createPost(data)
     .then((action) => {
       if (action.status === 'SUCCESS') {
