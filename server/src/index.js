@@ -13,6 +13,7 @@ const rateControllers = require('./controllers/rateControllers');
 const langControllers = require('./controllers/langControllers');
 const postControllers = require('./controllers/post');
 const myNewsControllers = require('./controllers/myNews');
+const myListControllers = require('./controllers/myList');
 const rateLiveControllers = require('./controllers/rateControllers/rateLive');
 const userControllers = require('./controllers/user');
 const authControllers = require('./controllers/auth');
@@ -82,6 +83,9 @@ app.route('/api/post/rating')
 
 app.route('/api/my_news')
   .get(myNewsControllers.get);
+
+app.route('/api/my_list')
+  .get(myListControllers.get);
 
 app.route('/api/user')
   .get(userControllers.getUser) // обрабатывает запросы по userName, id и all
