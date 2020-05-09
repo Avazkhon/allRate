@@ -1,6 +1,5 @@
 import {
-  CHANGE_LANG,
-  GET_LANG,
+  GET_MY_LIST,
 } from '../constants';
 
 import {
@@ -10,7 +9,7 @@ import {
 
 const initState = {
   isFetching: false,
-  lang: 'RU',
+  data: 'RU',
   error: null,
 };
 
@@ -23,7 +22,7 @@ function changeState (_state, _action) {
     SUCCESS: (state, action) => ({
       ...state,
       error: null,
-      lang: action.response,
+      data: action.response,
       isFetching: false,
     }),
     FAIL: (state, action) => ({
@@ -35,9 +34,6 @@ function changeState (_state, _action) {
 }
 
 export default createReducer(initState, {
-  [CHANGE_LANG]: (_state, _action) =>
-  changeState(_state, _action),
-
-  [GET_LANG]: (_state, _action) =>
+  [GET_MY_LIST]: (_state, _action) =>
   changeState(_state, _action),
 })
