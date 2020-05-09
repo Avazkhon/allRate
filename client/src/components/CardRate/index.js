@@ -11,7 +11,7 @@ import {
 import PartyList from './PartyList';
 
 const CardPost = ({
-  post: {
+  rate: {
     title,
     description,
     img,
@@ -49,7 +49,7 @@ const CardPost = ({
 }
 
 CardPost.propType = {
-  post: PropTypes.shape({
+  rate: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,
     img: PropTypes.string,

@@ -34,13 +34,13 @@ class MyList extends React.Component {
           if (itm.mainBet) {
             return (
               <CardRate key={itm._id}
-                post={itm}
+                rate={itm}
               />
             )
           } else {
             return (
               <CardPost key={itm._id}
-                rate={itm}
+                post={itm}
               />
             )
           }
