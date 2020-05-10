@@ -5,7 +5,11 @@ import PropTypes from 'prop-types';
 import {
   Card,
   Button,
+  Row,
+  Col,
 } from 'react-bootstrap';
+
+import Rating from 'widgets/Rating'
 
 const CardRate = ({
   post: {
@@ -14,6 +18,7 @@ const CardRate = ({
     _id,
     img,
     views,
+    rating,
   }
 }) => {
   return (
@@ -22,7 +27,16 @@ const CardRate = ({
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Text>{text}</Card.Text>
-        views: {views}
+        <Row>
+          <Col>
+            views: {views}
+          </Col>
+          <Col>
+            <Rating
+              rating={rating}
+            />
+          </Col>
+        </Row>
       </Card.Body>
       <Card.Body>
         <Card.Link
@@ -44,6 +58,7 @@ CardRate.propType = {
       url: PropTypes.string,
     }),
     views: PropTypes.number,
+    raiting: PropTypes.shape({}),
   })
 }
 
