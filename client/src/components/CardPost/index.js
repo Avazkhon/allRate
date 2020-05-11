@@ -34,6 +34,7 @@ const CardRate = ({
           <Col>
             <Rating
               rating={rating}
+              postId={_id}
             />
           </Col>
         </Row>

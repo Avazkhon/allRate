@@ -30,6 +30,8 @@ export const CREATE_POST = 'CREATE_POST';
 
 export const GET_MY_LIST = 'GET_MY_LIST';
 
+export const CHANGE_RATING = 'CHANGE_RATING';
+
 export const basisForPayment = {
   accountReplenishment: 'accountReplenishment',
   withdrawal: 'withdrawal',

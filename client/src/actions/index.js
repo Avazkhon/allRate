@@ -48,4 +48,8 @@ export {
 
 export {
   getMyList
-} from './myList'
+} from './myList';
+
+export {
+  changeRatingPost
+} from './rating';
