@@ -45,6 +45,7 @@ export {
 export {
   createPost,
   changeRatingPost,
+  addCountViews,
 } from './post';
 
 export {

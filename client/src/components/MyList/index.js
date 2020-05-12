@@ -7,9 +7,9 @@ import {
   Button,
 } from 'react-bootstrap';
 
-// import {
-//   createPost,
-// } from 'actions';
+import {
+  addCountViews,
+} from 'actions';
 
 import Messages from 'components/Messages';
 import CardPost from 'components/CardPost';
@@ -24,9 +24,12 @@ class MyList extends React.Component {
   }
 
   handleShow = (e) => {
+    const { addCountViews } = this.props;
+    const { id } = e.currentTarget.dataset;
     this.setState({
-      idOpenItm: e.currentTarget.dataset.id
+      idOpenItm: id
     });
+    addCountViews(id);
   }
 
   handleHidden = (e) => {
@@ -72,7 +75,7 @@ class MyList extends React.Component {
 
 MyList.propType = {
   myList: PropTypes.shape({}),
-  // createPost: PropTypes.func,
+  addCountViews: PropTypes.func,
 }
 
 function mapStateToProps(state) {
@@ -85,5 +88,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  // createPost,
+  addCountViews,
 })(MyList);

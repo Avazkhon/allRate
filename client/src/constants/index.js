@@ -27,10 +27,11 @@ export const GET_SUBSCRIPTION = 'GET_SUBSCRIPTION';
 export const DELETE_SUBSCRIPTION = 'DELETE_SUBSCRIPTION';
 
 export const CREATE_POST = 'CREATE_POST';
+export const ADD_COUNT_VIEWS_POST = 'ADD_COUNT_VIEWS_POST';
+export const CHANGE_RATING_POST = 'CHANGE_RATING_POST';
 
 export const GET_MY_LIST = 'GET_MY_LIST';
 
-export const CHANGE_RATING = 'CHANGE_RATING';
 
 export const basisForPayment = {
   accountReplenishment: 'accountReplenishment',
