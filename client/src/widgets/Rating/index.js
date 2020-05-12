@@ -14,6 +14,12 @@ import {
   getMyList,
 } from 'actions';
 
+const ratingText = {
+  negative: { RU: 'Негативный отзыв', EN: 'Negative feedback' },
+  positively: { RU: 'Положительный отзыв', EN: 'Positively feedback' },
+  ratingTitle: { RU: 'Райтинг', EN: 'rating' },
+};
+
 class Rating extends React.Component {
   constructor(props) {
     super(props);
@@ -66,12 +72,13 @@ class Rating extends React.Component {
             variant="secondary"
             onClick={this.handleChangeRating}
             data-action="negative"
-          disabled={isMakeNegative}
+            disabled={isMakeNegative}
+            title={ratingText.negative[lang]}
           >
             <AiFillMinusCircle color={ isMakeNegative ? 'green' : ''} fontSize="20px" />
           </Button>
         }
-        <Button variant="secondary">
+        <Button variant="secondary" title={ratingText.ratingTitle[lang]} >
           <ProgressBar now={ratingUser} label={`${ratingUser.toFixed(2)} %`} />
         </Button>
           {
@@ -81,6 +88,7 @@ class Rating extends React.Component {
               onClick={this.handleChangeRating}
               data-action="positively"
               disabled={isMakePositively}
+              title={ratingText.positively[lang]}
             >
               <AiFillPlusCircle color={ isMakePositively ? 'green' : ''} fontSize="20px"/>
             </Button>
