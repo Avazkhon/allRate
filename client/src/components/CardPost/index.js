@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
+import { AiFillEye } from "react-icons/ai";
 
 
 import {
@@ -39,7 +40,7 @@ const CardRate = ({
         }
         <Row>
           <Col>
-            views: {views}
+            <AiFillEye title="views"/> {views}
           </Col>
           <Col>
             <Rating
