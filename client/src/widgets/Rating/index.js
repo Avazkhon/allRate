@@ -11,6 +11,7 @@ import {
 
 import {
   changeRatingPost,
+  getMyList,
 } from 'actions';
 
 class Rating extends React.Component {
@@ -27,12 +28,18 @@ class Rating extends React.Component {
     const { action } = e.currentTarget.dataset;
     const {
       changeRatingPost,
+      getMyList,
       auth: {
         auth: { userId },
       },
       postId,
     } = this.props;
-    changeRatingPost({ userId, makeTime: new Date() }, postId, action);
+    changeRatingPost({ userId, makeTime: new Date() }, postId, action)
+    .then((action) => {
+      if (action.status === 'SUCCESS') {
+        getMyList(userId);
+      }
+    });
   }
 
   render() {
@@ -48,15 +55,17 @@ class Rating extends React.Component {
     return (
       <ButtonGroup size="sm">
         <Button
-          variant="danger"
+          variant="secondary"
           onClick={this.handleChangeRating}
           data-action="negative"
         >
           <AiFillMinusCircle/>
         </Button>
-        <Button variant="warning" ><ProgressBar now={ratingUser} label={`${ratingUser.toFixed(2)} %`} /></Button>
+        <Button variant="secondary">
+          <ProgressBar now={ratingUser} label={`${ratingUser.toFixed(2)} %`} />
+        </Button>
         <Button
-          variant="success"
+          variant="secondary"
           onClick={this.handleChangeRating}
           data-action="positively"
         >
@@ -69,6 +78,7 @@ class Rating extends React.Component {
 
 Rating.propType = {
   changeRatingPost: PropTypes.func,
+  getMyList: PropTypes.func,
   rating: PropTypes.shape({}),
   postId: PropTypes.string,
 };
@@ -87,5 +97,6 @@ export default connect(
   mapStateToProps,
   {
     changeRatingPost,
+    getMyList,
   }
 )(Rating);
