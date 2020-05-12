@@ -43,13 +43,10 @@ export {
 } from './subscriptions';
 
 export {
-  createPost
+  createPost,
+  changeRatingPost,
 } from './post';
 
 export {
   getMyList
 } from './myList';
-
-export {
-  changeRatingPost
-} from './rating';
