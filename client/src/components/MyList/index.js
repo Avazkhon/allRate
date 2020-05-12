@@ -19,10 +19,26 @@ class MyList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      idOpenItm: null,
     }
   }
 
+  handleShow = (e) => {
+    this.setState({
+      idOpenItm: e.currentTarget.dataset.id
+    });
+  }
+
+  handleHidden = (e) => {
+    this.setState({
+      idOpenItm: null
+    });
+  }
+
   render() {
+    const {
+      idOpenItm,
+    } = this.state;
     const {
       myList,
     } = this.props;
@@ -41,6 +57,9 @@ class MyList extends React.Component {
             return (
               <CardPost key={itm._id}
                 post={itm}
+                handleShow={this.handleShow}
+                handleHidden={this.handleHidden}
+                isShow={idOpenItm === itm._id}
               />
             )
           }

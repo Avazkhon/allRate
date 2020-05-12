@@ -52,6 +52,7 @@ class Rating extends React.Component {
       },
       rating,
       postId,
+      isShow,
     } = this.props;
     const allCount = rating.positively.length + rating.negative.length;
     const ratingUser = (rating.positively.length / (allCount ? allCount : 1)) * 100;
@@ -59,25 +60,31 @@ class Rating extends React.Component {
     const isMakeNegative = auth && rating.negative.some(user => user.userId === auth.userId )
     return (
       <ButtonGroup size="sm">
-        <Button
-          variant="secondary"
-          onClick={this.handleChangeRating}
-          data-action="negative"
+        {
+          isShow &&
+          <Button
+            variant="secondary"
+            onClick={this.handleChangeRating}
+            data-action="negative"
           disabled={isMakeNegative}
-        >
-          <AiFillMinusCircle color={ isMakeNegative ? 'blue' : ''}/>
-        </Button>
+          >
+            <AiFillMinusCircle color={ isMakeNegative ? 'green' : ''} fontSize="20px" />
+          </Button>
+        }
         <Button variant="secondary">
           <ProgressBar now={ratingUser} label={`${ratingUser.toFixed(2)} %`} />
         </Button>
-        <Button
-          variant="secondary"
-          onClick={this.handleChangeRating}
-          data-action="positively"
-          disabled={isMakePositively}
-        >
-          <AiFillPlusCircle color={ isMakePositively ? 'blue' : ''}/>
-        </Button>
+          {
+            isShow &&
+            <Button
+              variant="secondary"
+              onClick={this.handleChangeRating}
+              data-action="positively"
+              disabled={isMakePositively}
+            >
+              <AiFillPlusCircle color={ isMakePositively ? 'green' : ''} fontSize="20px"/>
+            </Button>
+          }
       </ButtonGroup>
     );
   }
@@ -88,6 +95,7 @@ Rating.propType = {
   getMyList: PropTypes.func,
   rating: PropTypes.shape({}),
   postId: PropTypes.string,
+  isShow: PropTypes.bool,
 };
 
 function mapStateToProps (state) {

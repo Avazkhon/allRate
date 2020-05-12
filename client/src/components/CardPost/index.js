@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import injectSheet from 'react-jss';
 
 
 import {
@@ -9,7 +10,9 @@ import {
   Col,
 } from 'react-bootstrap';
 
-import Rating from 'widgets/Rating'
+import Rating from 'widgets/Rating';
+
+import styleCardPost from './styleCardPost';
 
 const CardRate = ({
   post: {
@@ -19,14 +22,21 @@ const CardRate = ({
     img,
     views,
     rating,
-  }
+  },
+  handleShow,
+  handleHidden,
+  isShow,
+  classes,
 }) => {
   return (
     <Card>
       <Card.Img variant="top" src={img.url} />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
-        <Card.Text>{text}</Card.Text>
+        {
+          isShow &&
+          <Card.Text>{text}</Card.Text>
+        }
         <Row>
           <Col>
             views: {views}
@@ -35,22 +45,29 @@ const CardRate = ({
             <Rating
               rating={rating}
               postId={_id}
+              isShow={isShow}
             />
           </Col>
         </Row>
       </Card.Body>
       <Card.Body>
-        <Card.Link
-          href={`make-rate?rateId=${_id}`}
+        <div
+          onClick={isShow ? handleHidden : handleShow}
+          data-id={_id}
+          className={classes.btn}
         >
-          Перейти
-        </Card.Link>
+          {isShow ? 'Скрыть' : 'Просмотреть'}
+        </div>
       </Card.Body>
     </Card>
   )
 }
 
 CardRate.propType = {
+  classes: PropTypes.shape({}),
+  handleShow: PropTypes.func,
+  handleHidden: PropTypes.func,
+  isShow: PropTypes.bool,
   post: PropTypes.shape({
     title: PropTypes.string,
     text: PropTypes.string,
@@ -63,4 +80,4 @@ CardRate.propType = {
   })
 }
 
-export default CardRate;
+export default injectSheet(styleCardPost)(CardRate);
