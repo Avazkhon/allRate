@@ -47,19 +47,25 @@ class Rating extends React.Component {
       lang: {
         lang
       },
+      auth: {
+        auth,
+      },
       rating,
       postId,
     } = this.props;
     const allCount = rating.positively.length + rating.negative.length;
     const ratingUser = (rating.positively.length / (allCount ? allCount : 1)) * 100;
+    const isMakePositively = auth && rating.positively.some(user => user.userId === auth.userId )
+    const isMakeNegative = auth && rating.negative.some(user => user.userId === auth.userId )
     return (
       <ButtonGroup size="sm">
         <Button
           variant="secondary"
           onClick={this.handleChangeRating}
           data-action="negative"
+          disabled={isMakeNegative}
         >
-          <AiFillMinusCircle/>
+          <AiFillMinusCircle color={ isMakeNegative ? 'blue' : ''}/>
         </Button>
         <Button variant="secondary">
           <ProgressBar now={ratingUser} label={`${ratingUser.toFixed(2)} %`} />
@@ -68,8 +74,9 @@ class Rating extends React.Component {
           variant="secondary"
           onClick={this.handleChangeRating}
           data-action="positively"
+          disabled={isMakePositively}
         >
-          <AiFillPlusCircle/>
+          <AiFillPlusCircle color={ isMakePositively ? 'blue' : ''}/>
         </Button>
       </ButtonGroup>
     );
