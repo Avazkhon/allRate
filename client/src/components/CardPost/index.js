@@ -15,6 +15,12 @@ import Rating from 'widgets/Rating';
 
 import styleCardPost from './styleCardPost';
 
+const cardPostText = {
+  show: { RU: 'Просмотреть', EN: 'show' },
+  hidden: { RU: 'Скрыть', EN: 'Hidden' },
+  views: { RU: 'Просмотры', EN: 'Views' }
+};
+
 const CardRate = ({
   post: {
     title,
@@ -28,6 +34,7 @@ const CardRate = ({
   handleHidden,
   isShow,
   classes,
+  lang,
 }) => {
   return (
     <Card>
@@ -40,7 +47,7 @@ const CardRate = ({
         }
         <Row>
           <Col>
-            <AiFillEye title="views"/> {views}
+            <AiFillEye title={cardPostText.views[lang]}/> {views}
           </Col>
           <Col>
             <Rating
@@ -57,7 +64,7 @@ const CardRate = ({
           data-id={_id}
           className={classes.btn}
         >
-          {isShow ? 'Скрыть' : 'Просмотреть'}
+          {isShow ? cardPostText.hidden[lang] : cardPostText.hidden[lang]}
         </div>
       </Card.Body>
     </Card>
@@ -69,6 +76,7 @@ CardRate.propType = {
   handleShow: PropTypes.func,
   handleHidden: PropTypes.func,
   isShow: PropTypes.bool,
+  lang: PropTypes.string,
   post: PropTypes.shape({
     title: PropTypes.string,
     text: PropTypes.string,

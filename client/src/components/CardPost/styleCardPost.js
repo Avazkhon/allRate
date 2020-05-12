@@ -1,7 +1,8 @@
 export default {
   btn: {
     '&:hover': {
-      cursor: 'pointer'
+      cursor: 'pointer',
+      color: 'blue',
     }
   }
 }

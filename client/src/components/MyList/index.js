@@ -44,6 +44,9 @@ class MyList extends React.Component {
     } = this.state;
     const {
       myList,
+      lang: {
+        lang,
+      }
     } = this.props;
 
     return (
@@ -63,6 +66,7 @@ class MyList extends React.Component {
                 handleShow={this.handleShow}
                 handleHidden={this.handleHidden}
                 isShow={idOpenItm === itm._id}
+                lang={lang}
               />
             )
           }
@@ -80,10 +84,10 @@ MyList.propType = {
 
 function mapStateToProps(state) {
   const {
-    // auth,
+    lang,
   } = state;
   return {
-    // auth,
+    lang,
   };
 }
 
