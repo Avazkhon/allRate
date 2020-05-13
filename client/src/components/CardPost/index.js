@@ -64,7 +64,7 @@ const CardRate = ({
           data-id={_id}
           className={classes.btn}
         >
-          {isShow ? cardPostText.hidden[lang] : cardPostText.hidden[lang]}
+          {isShow ? cardPostText.hidden[lang] : cardPostText.show[lang]}
         </div>
       </Card.Body>
     </Card>
