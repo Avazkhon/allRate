@@ -39,7 +39,7 @@ const CardPost = ({
         </ListGroup>
       <Card.Body>
         <Card.Link
-          href={`make-rate?rateId=${_id}`}
+          href={`/make-rate?rateId=${_id}`}
         >
           Перейти
         </Card.Link>

@@ -12,6 +12,7 @@ exports.rateSchema = new Schema(
     serverTime: { type: Date, default: new Date() },
     differenceTime: { type: Number, required: true },
     localTime: { type: Date, required: true },
+    createTime: { type: Date, required: true },
     dateStart: { type: Date, required: true },
     dateFinish: { type: Date },
     dateAlert: { type: Date },
