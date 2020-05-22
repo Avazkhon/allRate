@@ -78,8 +78,14 @@ class Rating extends React.Component {
             <AiFillMinusCircle color={ isMakeNegative ? 'green' : ''} fontSize="20px" />
           </Button>
         }
-        <Button variant="secondary" title={ratingText.ratingTitle[lang]} >
-          <ProgressBar now={ratingUser} label={`${ratingUser.toFixed(2)} %`} />
+        <Button
+          variant={ rating.negative.length ? 'danger' : 'secondary'}
+          title={ratingText.ratingTitle[lang]}
+        >
+          <ProgressBar
+            now={ratingUser || rating.negative.length && 100}
+            label={`${ratingUser.toFixed(2)} %`}
+          />
         </Button>
           {
             isShow &&
