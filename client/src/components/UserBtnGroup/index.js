@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import {
   Nav,
   Modal,
 } from 'react-bootstrap';
+
+import {
+  getMyNews,
+  getMyList,
+} from 'actions';
 
 import PostForm from 'components/PostForm';
 
@@ -13,6 +19,7 @@ class UserBtnGroup extends Component {
     super(props);
     this.state = {
       isCreatePost: false,
+      isShowMyNews: false,
     }
   }
 
@@ -22,9 +29,42 @@ class UserBtnGroup extends Component {
     }))
   }
 
+  handleShowlist = () => {
+    const {
+      isShowMyNews,
+    } = this.state;
+    const {
+      getMyNews,
+      getMyList,
+      auth: { auth }
+    } = this.props;
+    if (auth && auth.userId) {
+      if (isShowMyNews) {
+        getMyNews(auth.userId)
+        .then((actions) => {
+          if (actions.status === 'SUCCESS') {
+            this.setState((prevState) => ({
+              isShowMyNews: !prevState.isShowMyNews
+            }))
+          }
+        })
+      } else {
+        getMyList(auth.userId)
+        .then((actions) => {
+          if (actions.status === 'SUCCESS') {
+            this.setState((prevState) => ({
+              isShowMyNews: !prevState.isShowMyNews
+            }))
+          }
+        })
+      }
+    }
+  }
+
   render() {
     const {
       isCreatePost,
+      isShowMyNews,
     } = this.state;
 
     return (
@@ -34,7 +74,11 @@ class UserBtnGroup extends Component {
             <Nav.Link onClick={this.handleCreatePost}>Создать пост</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link>мой новости</Nav.Link>
+            <Nav.Link
+              onClick={this.handleShowlist}
+            >
+              {isShowMyNews ? 'мой лист': 'мои новости'}
+            </Nav.Link>
           </Nav.Item>
         </Nav>
         <Modal show={isCreatePost} onHide={this.handleCreatePost}>
@@ -51,7 +95,20 @@ class UserBtnGroup extends Component {
 }
 
 UserBtnGroup.propType = {
-  // isCreatePost: PropTypes.string.isRequired,
+  getMyNews: PropTypes.func.isRequired,
+  getMyList: PropTypes.func.isRequired,
 }
 
-export default UserBtnGroup;
+function mapStateToProps(state) {
+  const {
+    auth,
+  } = state;
+  return {
+    auth,
+  };
+}
+
+export default connect(mapStateToProps, {
+  getMyNews,
+  getMyList,
+})(UserBtnGroup);

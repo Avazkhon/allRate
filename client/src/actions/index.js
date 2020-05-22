@@ -49,5 +49,6 @@ export {
 } from './post';
 
 export {
-  getMyList
+  getMyList,
+  getMyNews,
 } from './myList';

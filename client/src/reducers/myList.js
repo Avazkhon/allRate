@@ -1,5 +1,6 @@
 import {
   GET_MY_LIST,
+  GET_MY_NEWS,
 } from '../constants';
 
 import {
@@ -11,6 +12,7 @@ const initState = {
   isFetching: false,
   data: null,
   error: null,
+  list: 'myList',
 };
 
 function changeState (_state, _action) {
@@ -24,6 +26,7 @@ function changeState (_state, _action) {
       error: null,
       data: action.response,
       isFetching: false,
+      list: action.list
     }),
     FAIL: (state, action) => ({
       ...state,
@@ -35,5 +38,8 @@ function changeState (_state, _action) {
 
 export default createReducer(initState, {
   [GET_MY_LIST]: (_state, _action) =>
+  changeState(_state, _action),
+
+  [GET_MY_NEWS]: (_state, _action) =>
   changeState(_state, _action),
 })

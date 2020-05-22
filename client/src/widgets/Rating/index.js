@@ -12,6 +12,7 @@ import {
 import {
   changeRatingPost,
   getMyList,
+  getMyNews,
 } from 'actions';
 
 const ratingText = {
@@ -35,15 +36,21 @@ class Rating extends React.Component {
     const {
       changeRatingPost,
       getMyList,
+      getMyNews,
       auth: {
         auth: { userId },
       },
       postId,
+      myList,
     } = this.props;
     changeRatingPost({ userId, makeTime: new Date() }, postId, action)
     .then((action) => {
       if (action.status === 'SUCCESS') {
-        getMyList(userId);
+        if (myList.list === 'myList') {
+          getMyList(userId);
+        } else {
+          getMyNews(userId)
+        }
       }
     });
   }
@@ -79,11 +86,11 @@ class Rating extends React.Component {
           </Button>
         }
         <Button
-          variant={ rating.negative.length ? 'danger' : 'secondary'}
+          variant={ !ratingUser && rating.negative.length ? 'danger' : 'secondary'}
           title={ratingText.ratingTitle[lang]}
         >
           <ProgressBar
-            now={ratingUser || rating.negative.length && 100}
+            now={ratingUser}
             label={`${ratingUser.toFixed(2)} %`}
           />
         </Button>
@@ -107,7 +114,9 @@ class Rating extends React.Component {
 Rating.propType = {
   changeRatingPost: PropTypes.func,
   getMyList: PropTypes.func,
+  getMyNews: PropTypes.func,
   rating: PropTypes.shape({}),
+  myList: PropTypes.shape({}),
   postId: PropTypes.string,
   isShow: PropTypes.bool,
 };
@@ -116,10 +125,12 @@ function mapStateToProps (state) {
   const {
     lang,
     auth,
+    myList,
   } = state;
   return {
     lang,
     auth,
+    myList
   };
 }
 export default connect(
@@ -127,5 +138,6 @@ export default connect(
   {
     changeRatingPost,
     getMyList,
+    getMyNews,
   }
 )(Rating);
