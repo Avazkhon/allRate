@@ -17,7 +17,7 @@ import {
 import Layout from 'container/Layout';
 import ProfileUser from 'components/ProfileUser';
 import SiteBar from 'components/SiteBar';
-import PostForm from 'components/PostForm';
+import UserBtnGroup from 'components/UserBtnGroup';
 import MyList from 'components/MyList';
 
 class MePage extends React.Component {
@@ -59,7 +59,7 @@ class MePage extends React.Component {
             </Col>
             <Col xs="12" sm="8" md="9">
               <ProfileUser />
-              <PostForm />
+              <UserBtnGroup />
               <MyList
                 myList={myList.data ? myList.data : []}
               />
