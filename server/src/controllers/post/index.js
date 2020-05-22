@@ -98,6 +98,8 @@ exports.rating = async (req, res) => {
         action
       },
     } = req;
+    const positively = 'positively';
+    const negative = 'negative';
     if (!userId || !makeTime || !postId || !action) {
       res.status(400).json({
         message: 'не хватате данных',
@@ -109,9 +111,14 @@ exports.rating = async (req, res) => {
     }
     const post = await postModels.findByIdAndUpdate(
       { _id: postId },
-      {$push: {
-        [`rating.${action}`]: { userId, makeTime }
-      }}
+      {
+        $push: {
+          [`rating.${action}`]: { userId, makeTime }
+        },
+        $pull: {
+          [`rating.${ action === positively ? negative : positively}`]: { userId }
+        },
+      }
     );
     res.status(200).json(post);
 
