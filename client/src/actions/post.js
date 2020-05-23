@@ -20,8 +20,8 @@ export function changeRatingPost (data, postId, action) {
   return dispatch => dispatch({
     type: CHANGE_RATING_POST,
     meta: {
-      method: 'PUT',
-      endpoint:`post/rating/?postId=${postId}&action=${action}`,
+      method: 'PATCH',
+      endpoint:`rating/?postId=${postId}&action=${action}`,
       data
     }
   });

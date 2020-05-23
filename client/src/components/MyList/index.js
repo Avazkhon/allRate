@@ -9,6 +9,7 @@ import {
 
 import {
   addCountViews,
+  changeRatingPost,
 } from 'actions';
 
 import Messages from 'components/Messages';
@@ -46,7 +47,8 @@ class MyList extends React.Component {
       myList,
       lang: {
         lang,
-      }
+      },
+      changeRatingPost,
     } = this.props;
 
     return (
@@ -62,6 +64,7 @@ class MyList extends React.Component {
           } else {
             return (
               <CardPost key={itm._id}
+                changeRating={changeRatingPost}
                 post={itm}
                 handleShow={this.handleShow}
                 handleHidden={this.handleHidden}
@@ -80,6 +83,7 @@ class MyList extends React.Component {
 MyList.propType = {
   myList: PropTypes.shape({}),
   addCountViews: PropTypes.func,
+  changeRatingPost: PropTypes.func,
 }
 
 function mapStateToProps(state) {
@@ -93,4 +97,5 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   addCountViews,
+  changeRatingPost,
 })(MyList);

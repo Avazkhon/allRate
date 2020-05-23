@@ -32,6 +32,7 @@ const CardRate = ({
   },
   handleShow,
   handleHidden,
+  changeRating,
   isShow,
   classes,
   lang,
@@ -51,6 +52,7 @@ const CardRate = ({
           </Col>
           <Col>
             <Rating
+              changeRating={changeRating}
               rating={rating}
               postId={_id}
               isShow={isShow}
@@ -74,6 +76,7 @@ const CardRate = ({
 CardRate.propType = {
   classes: PropTypes.shape({}),
   handleShow: PropTypes.func,
+  changeRating: PropTypes.func,
   handleHidden: PropTypes.func,
   isShow: PropTypes.bool,
   lang: PropTypes.string,

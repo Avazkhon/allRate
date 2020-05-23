@@ -10,7 +10,6 @@ import {
 } from 'react-bootstrap';
 
 import {
-  changeRatingPost,
   getMyList,
   getMyNews,
 } from 'actions';
@@ -34,7 +33,7 @@ class Rating extends React.Component {
   handleChangeRating = (e) => {
     const { action } = e.currentTarget.dataset;
     const {
-      changeRatingPost,
+      changeRating,
       getMyList,
       getMyNews,
       auth: {
@@ -43,7 +42,7 @@ class Rating extends React.Component {
       postId,
       myList,
     } = this.props;
-    changeRatingPost({ userId, makeTime: new Date() }, postId, action)
+    changeRating({ userId, makeTime: new Date() }, postId, action)
     .then((action) => {
       if (action.status === 'SUCCESS') {
         if (myList.list === 'myList') {
@@ -112,9 +111,9 @@ class Rating extends React.Component {
 };
 
 Rating.propType = {
-  changeRatingPost: PropTypes.func,
   getMyList: PropTypes.func,
   getMyNews: PropTypes.func,
+  changeRating: PropTypes.func,
   rating: PropTypes.shape({}),
   myList: PropTypes.shape({}),
   postId: PropTypes.string,
@@ -136,7 +135,6 @@ function mapStateToProps (state) {
 export default connect(
   mapStateToProps,
   {
-    changeRatingPost,
     getMyList,
     getMyNews,
   }
