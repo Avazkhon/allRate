@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { AiFillEye } from "react-icons/ai";
 
 
 import {
   Card,
   ListGroup,
   ListGroupItem,
+  Row,
+  Col,
 } from 'react-bootstrap';
 
 import Rating from 'widgets/Rating';
@@ -21,6 +24,7 @@ const CardPost = ({
     _id,
     party,
     rating,
+    views,
   },
   changeRating,
   isShow,
@@ -32,37 +36,51 @@ const CardPost = ({
       <Card.Img variant="top" src={img} />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
-        <Card.Text>{description}</Card.Text>
+        {
+          isShow &&
+          <Card.Text>{description}</Card.Text>
+        }
       </Card.Body>
-      <Card.Body>
+      { isShow &&
+        <Card.Body>
         <PartyList
-          party={party}
+        party={party}
         />
-      </Card.Body>
-        <ListGroup className="list-group-flush">
-          <ListGroupItem>{dateStart}</ListGroupItem>
-          <ListGroupItem>{dateFinish}</ListGroupItem>
-        </ListGroup>
-      <Card.Body>
-        <Card.Link
-          href={`/make-rate?rateId=${_id}`}
-        >
-          Перейти
-        </Card.Link>
-      <div
-        onClick={isShow ? handleHidden : handleShow}
-        data-id={_id}
-        data-actionname="rate"
-      >
-        {isShow ? 'Скрыть' : 'Просмотреть'}
-      </div>
+        </Card.Body>
+      }
+      <ListGroup className="list-group-flush">
+        <ListGroupItem>{dateStart}</ListGroupItem>
+        <ListGroupItem>{dateFinish}</ListGroupItem>
+      </ListGroup>
+      <Card.Body as={Row}>
+        <Col ms="2">
+          <AiFillEye title="Просмотры"/> {views}
+        </Col>
+        <Col>
+          <Card.Link
+            href={`/make-rate?rateId=${_id}`}
+          >
+            Перейти
+          </Card.Link>
+        </Col>
+        <Col>
+          <div
+            onClick={isShow ? handleHidden : handleShow}
+            data-id={_id}
+            data-actionname="rate"
+          >
+            {isShow ? 'Скрыть' : 'Просмотреть'}
+          </div>
+        </Col>
         { rating &&
-          <Rating
-            changeRating={changeRating}
-            rating={rating}
-            postId={_id}
-            isShow={isShow}
-          />
+          <Col>
+            <Rating
+              changeRating={changeRating}
+              rating={rating}
+              postId={_id}
+              isShow={isShow}
+            />
+          </Col>
         }
       </Card.Body>
     </Card>
