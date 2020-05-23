@@ -27,12 +27,12 @@ export function changeRatingPost (data, postId, action) {
   });
 }
 
-export function addCountViews (postId) {
+export function addCountViewsPost (postId) {
   return dispatch => dispatch({
     type: ADD_COUNT_VIEWS_POST,
     meta: {
-      method: 'PUT',
-      endpoint:`post/views/?postId=${postId}`,
+      method: 'PATCH',
+      endpoint:`views/?postId=${postId}`,
     }
   });
 }

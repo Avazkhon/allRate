@@ -24,6 +24,8 @@ const CardPost = ({
   },
   changeRating,
   isShow,
+  handleHidden,
+  handleShow,
 }) => {
   return (
     <Card>
@@ -47,6 +49,13 @@ const CardPost = ({
         >
           Перейти
         </Card.Link>
+      <div
+        onClick={isShow ? handleHidden : handleShow}
+        data-id={_id}
+        data-actionname="rate"
+      >
+        {isShow ? 'Скрыть' : 'Просмотреть'}
+      </div>
         { rating &&
           <Rating
             changeRating={changeRating}
@@ -71,6 +80,8 @@ CardPost.propType = {
     party: PropTypes.arrayOf({}),
   }),
   changeRating: PropTypes.func,
+  handleShow: PropTypes.func,
+  handleHidden: PropTypes.func,
 }
 
 export default CardPost

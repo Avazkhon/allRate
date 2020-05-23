@@ -8,9 +8,10 @@ import {
 } from 'react-bootstrap';
 
 import {
-  addCountViews,
+  addCountViewsPost,
   changeRatingPost,
   changeRatingRate,
+  addCountViewsRate,
 } from 'actions';
 
 import Messages from 'components/Messages';
@@ -26,12 +27,16 @@ class MyList extends React.Component {
   }
 
   handleShow = (e) => {
-    const { addCountViews } = this.props;
-    const { id } = e.currentTarget.dataset;
+    const { addCountViewsPost, addCountViewsRate } = this.props;
+    const { id, actionname } = e.currentTarget.dataset;
     this.setState({
       idOpenItm: id
     });
-    addCountViews(id);
+    if (actionname === 'post') {
+      addCountViewsPost(id);
+    } else {
+      addCountViewsRate(id);
+    }
   }
 
   handleHidden = (e) => {
@@ -63,6 +68,8 @@ class MyList extends React.Component {
                 rate={itm}
                 changeRating={changeRatingRate}
                 isShow={idOpenItm === itm._id}
+                handleShow={this.handleShow}
+                handleHidden={this.handleHidden}
               />
             )
           } else {
@@ -86,9 +93,10 @@ class MyList extends React.Component {
 
 MyList.propType = {
   myList: PropTypes.shape({}),
-  addCountViews: PropTypes.func,
+  addCountViewsPost: PropTypes.func,
   changeRatingPost: PropTypes.func,
   changeRatingRate: PropTypes.func,
+  addCountViewsRate: PropTypes.func,
 }
 
 function mapStateToProps(state) {
@@ -101,7 +109,8 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  addCountViews,
+  addCountViewsPost,
   changeRatingPost,
   changeRatingRate,
+  addCountViewsRate,
 })(MyList);

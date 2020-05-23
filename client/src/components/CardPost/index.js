@@ -64,6 +64,7 @@ const CardRate = ({
         <div
           onClick={isShow ? handleHidden : handleShow}
           data-id={_id}
+          data-actionname="post"
           className={classes.btn}
         >
           {isShow ? cardPostText.hidden[lang] : cardPostText.show[lang]}

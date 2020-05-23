@@ -6,6 +6,8 @@ import {
   PUT_RATE_LIVE,
   PUT_RATE_SELECT_VICTORY,
   CHANGE_RATING_POST,
+  CHANGE_RATING_RATE,
+  ADD_COUNT_VIEWS_RATE,
 } from '../constants';
 
 export function creteNewRate (data) {
@@ -74,11 +76,21 @@ export function putRateSelectVictory (partyOne, id) {
 
 export function changeRatingRate (data, rateId, action) {
   return dispatch => dispatch({
-    type: CHANGE_RATING_POST,
+    type: CHANGE_RATING_RATE,
     meta: {
       method: 'PATCH',
       endpoint:`rating/?rateId=${rateId}&action=${action}`,
       data
+    }
+  });
+}
+
+export function addCountViewsRate (rateId) {
+  return dispatch => dispatch({
+    type: ADD_COUNT_VIEWS_RATE,
+    meta: {
+      method: 'PATCH',
+      endpoint:`views/?rateId=${rateId}`,
     }
   });
 }

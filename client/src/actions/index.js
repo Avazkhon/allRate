@@ -14,6 +14,7 @@ export {
   putRateLiveByID,
   putRateSelectVictory,
   changeRatingRate,
+  addCountViewsRate,
 } from './rate';
 
 export {
@@ -46,7 +47,7 @@ export {
 export {
   createPost,
   changeRatingPost,
-  addCountViews,
+  addCountViewsPost,
 } from './post';
 
 export {
