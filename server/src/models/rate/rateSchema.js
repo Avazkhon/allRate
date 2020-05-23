@@ -18,6 +18,7 @@ exports.rateSchema = new Schema(
     dateAlert: { type: Date },
     statusLife: { type: String, default: 'new' },
     img: { type: String, default: urlMain },
+    views: { type: Number, required: true, min: 0, default: 0 },
     mainBet: {
       title: { type: String, default: 'Основная ставка' },
       purseId: { type: mongoose.ObjectId },
