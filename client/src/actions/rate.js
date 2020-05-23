@@ -5,6 +5,7 @@ import {
   PUT_RATE,
   PUT_RATE_LIVE,
   PUT_RATE_SELECT_VICTORY,
+  CHANGE_RATING_POST,
 } from '../constants';
 
 export function creteNewRate (data) {
@@ -69,4 +70,15 @@ export function putRateSelectVictory (partyOne, id) {
       endpoint: `rate-live?mainBet=${partyOne}&id=${id}`,
     }
   })
+}
+
+export function changeRatingRate (data, rateId, action) {
+  return dispatch => dispatch({
+    type: CHANGE_RATING_POST,
+    meta: {
+      method: 'PATCH',
+      endpoint:`rating/?rateId=${rateId}&action=${action}`,
+      data
+    }
+  });
 }

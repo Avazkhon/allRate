@@ -8,6 +8,7 @@ import {
   ListGroupItem,
 } from 'react-bootstrap';
 
+import Rating from 'widgets/Rating';
 import PartyList from './PartyList';
 
 const CardPost = ({
@@ -19,7 +20,10 @@ const CardPost = ({
     dateFinish,
     _id,
     party,
+    rating,
   },
+  changeRating,
+  isShow,
 }) => {
   return (
     <Card>
@@ -43,6 +47,14 @@ const CardPost = ({
         >
           Перейти
         </Card.Link>
+        { rating &&
+          <Rating
+            changeRating={changeRating}
+            rating={rating}
+            postId={_id}
+            isShow={isShow}
+          />
+        }
       </Card.Body>
     </Card>
   )
@@ -58,6 +70,7 @@ CardPost.propType = {
     _id: PropTypes.string,
     party: PropTypes.arrayOf({}),
   }),
+  changeRating: PropTypes.func,
 }
 
 export default CardPost

@@ -10,6 +10,7 @@ import {
 import {
   addCountViews,
   changeRatingPost,
+  changeRatingRate,
 } from 'actions';
 
 import Messages from 'components/Messages';
@@ -49,6 +50,7 @@ class MyList extends React.Component {
         lang,
       },
       changeRatingPost,
+      changeRatingRate,
     } = this.props;
 
     return (
@@ -59,6 +61,8 @@ class MyList extends React.Component {
             return (
               <CardRate key={itm._id}
                 rate={itm}
+                changeRating={changeRatingRate}
+                isShow={idOpenItm === itm._id}
               />
             )
           } else {
@@ -84,6 +88,7 @@ MyList.propType = {
   myList: PropTypes.shape({}),
   addCountViews: PropTypes.func,
   changeRatingPost: PropTypes.func,
+  changeRatingRate: PropTypes.func,
 }
 
 function mapStateToProps(state) {
@@ -98,4 +103,5 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   addCountViews,
   changeRatingPost,
+  changeRatingRate,
 })(MyList);
