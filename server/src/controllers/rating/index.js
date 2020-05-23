@@ -1,4 +1,5 @@
 const postModels = require('../../models/post');
+const rateModels = require('../../models/rate');
 const WriteToLog = require('../../utils/writeToLog');
 
 const writeToLog = new WriteToLog();
@@ -11,22 +12,34 @@ exports.rating = async (req, res) => {
       },
       query: {
         postId,
-        action
+        rateId,
+        action,
       },
     } = req;
     const positively = 'positively';
     const negative = 'negative';
-    if (!userId || !makeTime || !postId || !action) {
-      res.status(400).json({
+    if (!userId || !makeTime || !action) {
+      return res.status(400).json({
         message: 'не хватате данных',
         userId: `required-${userId}`,
         makeTime: `required-${makeTime}`,
-        postId: `required-${postId}`,
         action: `required-${action}`,
       });
+    };
+
+    let models = '';
+    let searchById = null;
+    if (postId) {
+      searchById = { _id: postId };
+      models = postModels;
+    } else if (rateId) {
+      searchById = rateId;
+      models = rateModels;
+    } else {
+      throw 'Не хватает параматров!';
     }
-    const post = await postModels.findByIdAndUpdate(
-      { _id: postId },
+    const response = await models.findByIdAndUpdate(
+      searchById,
       {
         $push: {
           [`rating.${action}`]: { userId, makeTime }
@@ -36,7 +49,7 @@ exports.rating = async (req, res) => {
         },
       }
     );
-    res.status(200).json(post);
+    res.status(200).json(response);
 
   } catch (error) {
     writeToLog.write(error, 'get_post.error');
