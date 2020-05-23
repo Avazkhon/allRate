@@ -19,6 +19,7 @@ const userControllers = require('./controllers/user');
 const authControllers = require('./controllers/auth');
 const purseControllers = require('./controllers/purse');
 const subscriptionsControllers = require('./controllers/subscriptions');
+const ratingControllers = require('./controllers/rating');
 const InvoiceControllers = require('./controllers/invoice');
 const passwords = require('../password');
 
@@ -75,11 +76,10 @@ app.route('/api/post')
   .post(postControllers.create)
   .delete(postControllers.deleteOne);
 
+app.patch('/api/rating', ratingControllers.rating)
+
 app.route('/api/post/views')
   .put(postControllers.views);
-
-app.route('/api/post/rating')
-  .put(postControllers.rating);
 
 app.route('/api/my_news')
   .get(myNewsControllers.get);
