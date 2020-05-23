@@ -64,13 +64,13 @@ const CardPost = ({
           </Card.Link>
         </Col>
         <Col>
-          <div
+          <Card.Link
             onClick={isShow ? handleHidden : handleShow}
             data-id={_id}
             data-actionname="rate"
           >
             {isShow ? 'Скрыть' : 'Просмотреть'}
-          </div>
+          </Card.Link>
         </Col>
         { rating &&
           <Col>

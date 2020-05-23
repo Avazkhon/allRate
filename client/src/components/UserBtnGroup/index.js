@@ -39,7 +39,7 @@ class UserBtnGroup extends Component {
       auth: { auth }
     } = this.props;
     if (auth && auth.userId) {
-      if (isShowMyNews) {
+      if (!isShowMyNews) {
         getMyNews(auth.userId)
         .then((actions) => {
           if (actions.status === 'SUCCESS') {

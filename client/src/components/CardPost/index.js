@@ -61,14 +61,14 @@ const CardRate = ({
         </Row>
       </Card.Body>
       <Card.Body>
-        <div
+        <Card.Link
           onClick={isShow ? handleHidden : handleShow}
           data-id={_id}
           data-actionname="post"
           className={classes.btn}
         >
           {isShow ? cardPostText.hidden[lang] : cardPostText.show[lang]}
-        </div>
+        </Card.Link>
       </Card.Body>
     </Card>
   )
