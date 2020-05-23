@@ -75,6 +75,20 @@ exports.rateSchema = new Schema(
       description: { type: String, required: true, min: 10, max: 200 },
       img: { type: String, default: urlParty },
     }],
+    rating: {
+      positively: [
+        {
+          userId: { type: mongoose.ObjectId, required: true },
+          makeTime: { type: Date, required: true }
+        }
+      ],
+      negative: [
+        {
+          userId: { type: mongoose.ObjectId, required: true },
+          makeTime: { type: Date, required: true }
+        }
+      ],
+    }
   },
   { collection: 'Rate' }
 );
