@@ -4,6 +4,7 @@ import {
   PUT_RATE,
   PUT_RATE_LIVE,
   PUT_RATE_SELECT_VICTORY,
+  CHANGE_RATING_RATE,
 } from '../constants'
 
 import {
@@ -52,5 +53,8 @@ export default createReducer(initState, {
   createRequestReducer(_state, _action, selectRateReduc()),
 
   [PUT_RATE_SELECT_VICTORY]: (_state, _action) =>
+  createRequestReducer(_state, _action, selectRateReduc()),
+
+  [CHANGE_RATING_RATE]: (_state, _action) =>
   createRequestReducer(_state, _action, selectRateReduc()),
 })

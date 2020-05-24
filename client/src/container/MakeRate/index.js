@@ -7,6 +7,7 @@ import {
   getRateByID,
   postInvoice,
   getPurse,
+  changeRatingRate,
 } from 'actions';
 
 import Layout from '../Layout';
@@ -37,6 +38,7 @@ class MakeRate extends Component {
       postInvoice,
       getRateByID,
       getPurse,
+      changeRatingRate,
     } = this.props;
 
     return (
@@ -48,6 +50,7 @@ class MakeRate extends Component {
           postInvoice={postInvoice}
           getRateByID={getRateByID}
           getPurse={getPurse}
+          changeRatingRate={changeRatingRate}
         />
       </Layout>
     );
@@ -80,4 +83,5 @@ export default connect(mapStateToProps, {
   getRateByID,
   postInvoice,
   getPurse,
+  changeRatingRate,
 })(MakeRate);

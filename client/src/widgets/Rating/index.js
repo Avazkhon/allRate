@@ -53,7 +53,7 @@ class Rating extends React.Component {
         if (myList.list === 'myNews') {
           getMyNews(userId);
         }
-         if (getUserById) {
+        if (getUserById) {
           getUserById(_id);
         }
       }

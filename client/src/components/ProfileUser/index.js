@@ -117,7 +117,7 @@ class ProfileUser extends React.Component {
                   getUserById={getUserById}
                   rating={userData && userData.rating}
                   postId={userData && userData._id}
-                  isShow={true}
+                  isShow
                 />
               </ListGroup.Item>
             </ListGroup>

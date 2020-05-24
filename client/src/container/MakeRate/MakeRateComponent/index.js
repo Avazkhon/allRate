@@ -9,6 +9,7 @@ import {
   Image,
 } from 'react-bootstrap';
 
+import Rating from 'widgets/Rating';
 import CommonModal from 'widgets/CommonModal';
 import Messages from 'components/Messages';
 import SiteBar from 'components/SiteBar';
@@ -142,7 +143,10 @@ class MakeRateComponent extends Component {
       },
       auth,
       purse,
+      changeRatingRate,
+      getRateByID,
     } = this.props;
+
     return (
       <div
         className={classes['make-rate']}
@@ -217,7 +221,15 @@ class MakeRateComponent extends Component {
                   party={rate.party}
                 />
               }
-
+              {
+                rate &&
+                <Rating
+                  changeRating={changeRatingRate}
+                  rating={rate.rating}
+                  postId={rate._id}
+                  isShow
+                />
+              }
             </Col>
           </Row>
         </Container>
@@ -233,6 +245,7 @@ MakeRateComponent.propType = {
   postInvoice: PropTypes.func,
   getRateByID: PropTypes.func,
   getPurse: PropTypes.func,
+  changeRatingRate: PropTypes.func,
 }
 
 export default injectSheet({...style})(MakeRateComponent);
