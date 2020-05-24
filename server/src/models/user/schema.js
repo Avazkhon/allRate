@@ -20,7 +20,21 @@ exports.userSchema = new Schema(
     subscribersId: { type: mongoose.ObjectId },
     subscriptionsCount: { type: Number, default: 0, min: 0 },
     subscribersCount: { type: Number, default: 0, min: 0 },
-    description: String
+    description: String,
+    rating: {
+      positively: [
+        {
+          userId: { type: mongoose.ObjectId, required: true },
+          makeTime: { type: Date, required: true }
+        }
+      ],
+      negative: [
+        {
+          userId: { type: mongoose.ObjectId, required: true },
+          makeTime: { type: Date, required: true }
+        }
+      ],
+    }
   },
   { collection: 'Users' }
 );

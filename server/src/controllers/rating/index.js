@@ -1,5 +1,6 @@
 const postModels = require('../../models/post');
 const rateModels = require('../../models/rate');
+const userModels = require('../../models/user');
 const WriteToLog = require('../../utils/writeToLog');
 
 const writeToLog = new WriteToLog();
@@ -13,6 +14,7 @@ exports.rating = async (req, res) => {
       query: {
         postId,
         rateId,
+        userId: queryUserId,
         action,
       },
     } = req;
@@ -32,6 +34,9 @@ exports.rating = async (req, res) => {
     if (postId) {
       searchById = { _id: postId };
       models = postModels;
+    } else if (queryUserId) {
+      searchById = { _id: queryUserId };
+      models = userModels;
     } else if (rateId) {
       searchById = rateId;
       models = rateModels;
@@ -47,7 +52,8 @@ exports.rating = async (req, res) => {
         $pull: {
           [`rating.${ action === positively ? negative : positively}`]: { userId }
         },
-      }
+      },
+      { new: true }
     );
     res.status(200).json(response);
 
