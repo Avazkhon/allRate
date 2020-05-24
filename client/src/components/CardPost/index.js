@@ -51,6 +51,16 @@ const CardRate = ({
             <AiFillEye title={cardPostText.views[lang]}/> {views}
           </Col>
           <Col>
+            <Card.Link
+              onClick={isShow ? handleHidden : handleShow}
+              data-id={_id}
+              data-actionname="post"
+              className={classes.btn}
+            >
+            {isShow ? cardPostText.hidden[lang] : cardPostText.show[lang]}
+            </Card.Link>
+          </Col>
+          <Col>
             <Rating
               changeRating={changeRating}
               rating={rating}
@@ -59,16 +69,6 @@ const CardRate = ({
             />
           </Col>
         </Row>
-      </Card.Body>
-      <Card.Body>
-        <Card.Link
-          onClick={isShow ? handleHidden : handleShow}
-          data-id={_id}
-          data-actionname="post"
-          className={classes.btn}
-        >
-          {isShow ? cardPostText.hidden[lang] : cardPostText.show[lang]}
-        </Card.Link>
       </Card.Body>
     </Card>
   )
