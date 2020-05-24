@@ -72,16 +72,14 @@ const CardPost = ({
             {isShow ? 'Скрыть' : 'Просмотреть'}
           </Card.Link>
         </Col>
-        { rating &&
-          <Col>
-            <Rating
-              changeRating={changeRating}
-              rating={rating}
-              postId={_id}
-              isShow={isShow}
-            />
-          </Col>
-        }
+        <Col>
+          <Rating
+            changeRating={changeRating}
+            rating={rating}
+            postId={_id}
+            isShow={isShow}
+          />
+        </Col>
       </Card.Body>
     </Card>
   )

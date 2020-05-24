@@ -36,8 +36,10 @@ class Rating extends React.Component {
       changeRating,
       getMyList,
       getMyNews,
+      getUserById,
       auth: {
         auth: { userId },
+        userData: { _id }
       },
       postId,
       myList,
@@ -47,8 +49,12 @@ class Rating extends React.Component {
       if (action.status === 'SUCCESS') {
         if (myList.list === 'myList') {
           getMyList(userId);
-        } else {
-          getMyNews(userId)
+        }
+        if (myList.list === 'myNews') {
+          getMyNews(userId);
+        }
+         if (getUserById) {
+          getUserById(_id);
         }
       }
     });
@@ -62,10 +68,19 @@ class Rating extends React.Component {
       auth: {
         auth,
       },
-      rating,
       postId,
       isShow,
     } = this.props;
+    let {
+      rating,
+    } = this.props;
+
+    if (!rating) {
+      rating = {
+        positively: [],
+        negative: [],
+      }
+    }
     const allCount = rating.positively.length + rating.negative.length;
     const ratingUser = (rating.positively.length / (allCount ? allCount : 1)) * 100;
     const isMakePositively = auth && rating.positively.some(user => user.userId === auth.userId )
@@ -113,6 +128,7 @@ class Rating extends React.Component {
 Rating.propType = {
   getMyList: PropTypes.func,
   getMyNews: PropTypes.func,
+  getUserById: PropTypes.func,
   changeRating: PropTypes.func,
   rating: PropTypes.shape({}),
   myList: PropTypes.shape({}),

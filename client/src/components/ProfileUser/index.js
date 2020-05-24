@@ -15,8 +15,10 @@ import {
 
 import {
   getUserById,
+  changeRatingUser,
 } from 'actions';
 
+import Rating from 'widgets/Rating';
 import PurseWidget from 'widgets/PurseWidget';
 import PersonData from './PersonData';
 
@@ -67,6 +69,8 @@ class ProfileUser extends React.Component {
       lang: { lang },
       classes,
       profileId,
+      changeRatingUser,
+      getUserById,
     } = this.props;
 
     let userProps = [];
@@ -107,6 +111,15 @@ class ProfileUser extends React.Component {
                 <RiUserVoiceLine title={profileText.titleCountSubscriptions[lang]}/> {" "}
                 { userData && userData.subscriptionsCount || 0 }
               </ListGroup.Item>
+              <ListGroup.Item>
+                <Rating
+                  changeRating={changeRatingUser}
+                  getUserById={getUserById}
+                  rating={userData && userData.rating}
+                  postId={userData && userData._id}
+                  isShow={true}
+                />
+              </ListGroup.Item>
             </ListGroup>
           </Col>
           <Col xs="12" sm="12" md="5">
@@ -122,6 +135,7 @@ class ProfileUser extends React.Component {
 
 ProfileUser.propType = {
   getUserById: PropTypes.func,
+  changeRatingUser: PropTypes.func,
   auth: PropTypes.shape({}),
   lang: PropTypes.shape({}),
   profileId: PropTypes.number,
@@ -140,4 +154,5 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   getUserById,
+  changeRatingUser,
 })(ProfileUser);

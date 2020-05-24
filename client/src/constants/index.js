@@ -3,6 +3,7 @@ export const LOG_IN = 'LOG_IN';
 export const REGISTRATION_USER = 'REGISTRATION_USER';
 export const LOG_AUT = 'LOG_AUT';
 export const CREATE_NEW_USER = 'CREATE_NEW_USER';
+export const CHANGE_RATING_USER = 'CHANGE_RATING_USER';
 
 export const GET_USERS = 'GET_USERS';
 
@@ -35,8 +36,6 @@ export const GET_MY_NEWS = 'GET_MY_NEWS';
 
 export const CHANGE_RATING_RATE = 'CHANGE_RATING_RATE';
 export const ADD_COUNT_VIEWS_RATE = 'ADD_COUNT_VIEWS_RATE';
-
-
 
 
 export const basisForPayment = {

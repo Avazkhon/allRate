@@ -4,6 +4,7 @@ export {
   createNewUser,
   getUserById,
   authoLogAut,
+  changeRatingUser,
 } from './auth';
 
 export {
