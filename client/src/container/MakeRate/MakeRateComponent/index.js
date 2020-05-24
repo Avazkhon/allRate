@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
+import { AiFillEye } from "react-icons/ai";
 import {
   Container,
   Row,
@@ -223,12 +224,19 @@ class MakeRateComponent extends Component {
               }
               {
                 rate &&
-                <Rating
-                  changeRating={changeRatingRate}
-                  rating={rate.rating}
-                  postId={rate._id}
-                  isShow
-                />
+                <Row>
+                  <Col ms="2">
+                    <AiFillEye title="Просмотры"/> {rate.views}
+                  </Col>
+                  <Col>
+                    <Rating
+                      changeRating={changeRatingRate}
+                      rating={rate.rating}
+                      postId={rate._id}
+                      isShow
+                    />
+                  </Col>
+                </Row>
               }
             </Col>
           </Row>
