@@ -14,8 +14,10 @@ import {
 import {
   addSubscription,
   deleteSubscriptions,
+  changeRatingUser,
 } from 'actions';
 
+import Rating from 'widgets/Rating';
 import SiteBar from 'components/SiteBar';
 import Messages from 'components/Messages';
 
@@ -182,7 +184,8 @@ class CardUser extends React.Component {
       subscriptions: {
         data: subscriptions
       },
-      lang: { lang }
+      lang: { lang },
+      changeRatingUser,
     } = this.props;
     return (
       <>
@@ -241,6 +244,13 @@ class CardUser extends React.Component {
                   </Col>
                 }
                 <Col>
+                  <Rating
+                    changeRating={changeRatingUser}
+                    rating={user.rating}
+                    postId={user._id}
+                  />
+                </Col>
+                <Col>
                   <Card.Link href={auth && auth.userId !== user._id ? `profile/${user._id}` : '/me'}>
                     {userCardText.follow[lang]}
                   </Card.Link>
@@ -286,4 +296,5 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   addSubscription,
   deleteSubscriptions,
+  changeRatingUser,
 })(CardUser);

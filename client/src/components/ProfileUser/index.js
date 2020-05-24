@@ -111,15 +111,18 @@ class ProfileUser extends React.Component {
                 <RiUserVoiceLine title={profileText.titleCountSubscriptions[lang]}/> {" "}
                 { userData && userData.subscriptionsCount || 0 }
               </ListGroup.Item>
-              <ListGroup.Item>
-                <Rating
-                  changeRating={changeRatingUser}
-                  getUserById={getUserById}
-                  rating={userData && userData.rating}
-                  postId={userData && userData._id}
-                  isShow
-                />
-              </ListGroup.Item>
+              {
+                profileId &&
+                <ListGroup.Item>
+                  <Rating
+                    changeRating={changeRatingUser}
+                    getUserById={getUserById}
+                    rating={userData && userData.rating}
+                    postId={userData && userData._id}
+                    isShow
+                  />
+                </ListGroup.Item>
+              }
             </ListGroup>
           </Col>
           <Col xs="12" sm="12" md="5">
