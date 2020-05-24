@@ -36,14 +36,20 @@ exports.rating = async (req, res) => {
       models = postModels;
     } else if (queryUserId) {
       searchById = { _id: queryUserId };
-      models = userModels;
+      models = userModels.model;
     } else if (rateId) {
       searchById = rateId;
       models = rateModels;
     } else {
       throw 'Не хватает параматров!';
-    }
-    const response = await models.findByIdAndUpdate(
+    };
+
+    let response = await models.get(searchById);
+    if (response && response.rating && response.rating[action].length) {
+      return res.status(200).json(response);
+    };
+
+    response = await models.findByIdAndUpdate(
       searchById,
       {
         $push: {

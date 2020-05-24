@@ -1,7 +1,16 @@
 const mongoose = require('mongoose');
 const schema = require('./schema');
+const CreateModel = require('../CreateModel');
 
 const User = mongoose.model('Users', schema.userSchema);
+
+
+exports.model = new CreateModel(
+  'Users',
+  schema.userSchema
+);
+
+
 
 exports.postAddOne = (data, callBack) => {
   const note = new User(data);
