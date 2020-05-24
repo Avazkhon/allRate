@@ -45,7 +45,11 @@ exports.rating = async (req, res) => {
     };
 
     let response = await models.get(searchById);
-    if (response && response.rating && response.rating[action].length) {
+    if (
+      response && response.rating &&
+      response.rating[action].find(itm => itm.userId === userId)
+    )
+    {
       return res.status(200).json(response);
     };
 
