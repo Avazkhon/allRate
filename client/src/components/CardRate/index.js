@@ -30,6 +30,7 @@ const CardPost = ({
   isShow,
   handleHidden,
   handleShow,
+  getCommonRates
 }) => {
   return (
     <Card>
@@ -75,6 +76,7 @@ const CardPost = ({
         <Col>
           <Rating
             changeRating={changeRating}
+            getCommonRates={getCommonRates}
             rating={rating}
             postId={_id}
             isShow={isShow}
@@ -98,6 +100,7 @@ CardPost.propType = {
   changeRating: PropTypes.func,
   handleShow: PropTypes.func,
   handleHidden: PropTypes.func,
+  getCommonRates: PropTypes.func,
 }
 
 export default CardPost

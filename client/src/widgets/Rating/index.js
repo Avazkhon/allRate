@@ -39,6 +39,7 @@ class Rating extends React.Component {
       getMyNews,
       getAllNews,
       getUserById,
+      getCommonRates,
       auth: {
         auth: { userId },
         userData: { _id }
@@ -60,6 +61,9 @@ class Rating extends React.Component {
         }
         if (getUserById) {
           getUserById(_id);
+        }
+        if (getCommonRates) {
+          getCommonRates(userId);
         }
       }
     });
@@ -135,6 +139,7 @@ Rating.propType = {
   getMyNews: PropTypes.func,
   getAllNews: PropTypes.func,
   getUserById: PropTypes.func,
+  getCommonRates: PropTypes.func,
   changeRating: PropTypes.func,
   rating: PropTypes.shape({}),
   myList: PropTypes.shape({}),
