@@ -7,19 +7,14 @@ import {
   Container,
   Row,
   Col,
-  Card,
-  Button,
 } from 'react-bootstrap';
 
 import {
-  getUsers,
   getAllNews,
-  getSubscriptions,
 } from 'actions';
 
 import MyList from 'components/MyList';
 import SiteBar from 'components/SiteBar';
-import CardUsers from 'components/CardUsers';
 import Layout from '../Layout';
 
 import {
@@ -34,25 +29,15 @@ class Home extends React.Component {
 
   componentDidMount() {
     const {
-      getUsers,
       getAllNews,
-      getSubscriptions,
     } = this.props;
-    getUsers();
     getAllNews();
-    const user = getDataUserFromLocalStorag();
-    if (user && user.userId) {
-      getSubscriptions(user.userId);
-    }
   }
 
   render() {
     const {
       auth: {
         auth
-      },
-      users: {
-        data: users,
       },
       myList,
     } = this.props;
@@ -67,7 +52,6 @@ class Home extends React.Component {
             />
           </Col>
           <Col xs="12" sm="8" md="9">
-            <CardUsers />
             <MyList
               myList={myList.data ? myList.data : []}
             />
@@ -80,10 +64,7 @@ class Home extends React.Component {
 }
 
 Home.propType = {
-  getUsers: PropTypes.func,
   getAllNews: PropTypes.func,
-  getSubscriptions: PropTypes.func,
-  users: PropTypes.shape({}),
   auth: PropTypes.shape({}),
   myList: PropTypes.shape({}),
 }
@@ -91,18 +72,14 @@ Home.propType = {
 function mapStateToProps(state) {
   const {
     auth,
-    users,
     myList,
   } = state;
   return {
     auth,
-    users,
     myList,
   };
 }
 
 export default connect(mapStateToProps, {
-  getUsers,
   getAllNews,
-  getSubscriptions,
 })(Home);
