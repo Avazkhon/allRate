@@ -12,6 +12,7 @@ import {
 import {
   getMyList,
   getMyNews,
+  getAllNews,
 } from 'actions';
 
 const ratingText = {
@@ -36,6 +37,7 @@ class Rating extends React.Component {
       changeRating,
       getMyList,
       getMyNews,
+      getAllNews,
       getUserById,
       auth: {
         auth: { userId },
@@ -52,6 +54,9 @@ class Rating extends React.Component {
         }
         if (myList.list === 'myNews') {
           getMyNews(userId);
+        }
+        if (myList.list === 'allNews') {
+          getAllNews();
         }
         if (getUserById) {
           getUserById(_id);
@@ -128,6 +133,7 @@ class Rating extends React.Component {
 Rating.propType = {
   getMyList: PropTypes.func,
   getMyNews: PropTypes.func,
+  getAllNews: PropTypes.func,
   getUserById: PropTypes.func,
   changeRating: PropTypes.func,
   rating: PropTypes.shape({}),
@@ -153,5 +159,6 @@ export default connect(
   {
     getMyList,
     getMyNews,
+    getAllNews,
   }
 )(Rating);

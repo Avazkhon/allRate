@@ -1,6 +1,7 @@
 import {
   GET_MY_LIST,
   GET_MY_NEWS,
+  GET_ALL_NEWS,
 } from '../constants';
 
 import {
@@ -41,5 +42,8 @@ export default createReducer(initState, {
   changeState(_state, _action),
 
   [GET_MY_NEWS]: (_state, _action) =>
+  changeState(_state, _action),
+
+  [GET_ALL_NEWS]: (_state, _action) =>
   changeState(_state, _action),
 })

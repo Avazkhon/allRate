@@ -13,9 +13,11 @@ import {
 
 import {
   getUsers,
+  getAllNews,
   getSubscriptions,
 } from 'actions';
 
+import MyList from 'components/MyList';
 import SiteBar from 'components/SiteBar';
 import CardUsers from 'components/CardUsers';
 import Layout from '../Layout';
@@ -33,9 +35,11 @@ class Home extends React.Component {
   componentDidMount() {
     const {
       getUsers,
+      getAllNews,
       getSubscriptions,
     } = this.props;
     getUsers();
+    getAllNews();
     const user = getDataUserFromLocalStorag();
     if (user && user.userId) {
       getSubscriptions(user.userId);
@@ -50,7 +54,9 @@ class Home extends React.Component {
       users: {
         data: users,
       },
+      myList,
     } = this.props;
+
     return (
       <Layout>
       <Container>
@@ -61,8 +67,9 @@ class Home extends React.Component {
             />
           </Col>
           <Col xs="12" sm="8" md="9">
-            <CardUsers
-
+            <CardUsers />
+            <MyList
+              myList={myList.data ? myList.data : []}
             />
           </Col>
         </Row>
@@ -74,23 +81,28 @@ class Home extends React.Component {
 
 Home.propType = {
   getUsers: PropTypes.func,
+  getAllNews: PropTypes.func,
   getSubscriptions: PropTypes.func,
   users: PropTypes.shape({}),
   auth: PropTypes.shape({}),
+  myList: PropTypes.shape({}),
 }
 
 function mapStateToProps(state) {
   const {
     auth,
     users,
+    myList,
   } = state;
   return {
     auth,
-    users
+    users,
+    myList,
   };
 }
 
 export default connect(mapStateToProps, {
   getUsers,
+  getAllNews,
   getSubscriptions,
 })(Home);

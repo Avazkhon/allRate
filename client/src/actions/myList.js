@@ -2,6 +2,7 @@
 import {
   GET_MY_LIST,
   GET_MY_NEWS,
+  GET_ALL_NEWS,
 } from '../constants';
 
 export function getMyList (userId) {
@@ -22,6 +23,17 @@ export function getMyNews (userId) {
     meta: {
       method: 'GET',
       endpoint:`my_news/?userId=${userId}`
+    }
+  });
+};
+
+export function getAllNews () {
+  return dispatch => dispatch({
+    type: GET_ALL_NEWS,
+    list: 'allNews',
+    meta: {
+      method: 'GET',
+      endpoint:`all_news`
     }
   });
 };

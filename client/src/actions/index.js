@@ -54,4 +54,5 @@ export {
 export {
   getMyList,
   getMyNews,
+  getAllNews,
 } from './myList';

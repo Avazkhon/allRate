@@ -33,6 +33,7 @@ export const CHANGE_RATING_POST = 'CHANGE_RATING_POST';
 
 export const GET_MY_LIST = 'GET_MY_LIST';
 export const GET_MY_NEWS = 'GET_MY_NEWS';
+export const GET_ALL_NEWS = 'GET_ALL_NEWS';
 
 export const CHANGE_RATING_RATE = 'CHANGE_RATING_RATE';
 export const ADD_COUNT_VIEWS_RATE = 'ADD_COUNT_VIEWS_RATE';
