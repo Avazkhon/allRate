@@ -17,8 +17,10 @@ const handlier = (err, result, res) => {
 }
 
 exports.getOne = (params, res) => {
-  if (params.id) {
+  if (params.id && !Array.isArray(params.id)) {
     userModels.getOneById(params.id, (err, result) => handlier(err, result, res))
+  } else if (Array.isArray(params.id)) {
+    userModels.model.getByProps({ _id: params.id  }, (err, result) => handlier(err, result, res))
   } else if (params.userName) {
     userModels.getOneByUserName(params.userName, (err, result) => handlier(err, result, res))
   } else {
