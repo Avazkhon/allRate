@@ -59,7 +59,7 @@ const CardRate = ({
           <Col>
             <AiFillEye title={cardPostText.views[lang]}/> {views}
           </Col>
-          <Col>
+          <Col ms="2">
             <Card.Link
               onClick={isShow ? handleHidden : handleShow}
               data-id={_id}

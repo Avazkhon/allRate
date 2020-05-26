@@ -103,6 +103,7 @@ class MyList extends React.Component {
                 handleHidden={this.handleHidden}
                 isShow={idOpenItm === itm._id}
                 user={users.data && this.getAuthor(users.data, itm)}
+                lang={lang}
               />
             )
           }
