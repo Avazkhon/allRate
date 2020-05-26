@@ -1,6 +1,7 @@
 const postModels = require('../../models/post');
 const rateModels = require('../../models/rate');
 const WriteToLog = require('../../utils/writeToLog');
+const { sortByDate } = require('../../utils');
 
 const writeToLog = new WriteToLog();
 
@@ -14,7 +15,7 @@ function getNews (userId) {
       .then(result => list.push(...result));
     })
     .then(() => {
-      resolve(list)
+      resolve(sortByDate(list))
     });
   });
 };

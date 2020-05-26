@@ -3,6 +3,7 @@ const rateModels = require('../../models/rate');
 const userModels = require('../../models/user');
 const subscribersModels = require('../../models/subscribers');
 const WriteToLog = require('../../utils/writeToLog');
+const { sortByDate } = require('../../utils');
 
 const writeToLog = new WriteToLog();
 
@@ -36,7 +37,7 @@ exports.get = async (req, res) => {
     const user = await userModels.findOne({ _id: userId })
     const subscribers = await subscribersModels.get({ _id: user.subscribersId })
     const result = await getNews(subscribers.subscribers);
-    res.status(200).json(result);
+    res.status(200).json(sortByDate(result));
 
   } catch (error) {
     writeToLog.write(error, 'get_my_news.error');
