@@ -57,6 +57,8 @@ class MyList extends React.Component {
     });
   }
 
+  getAuthor = (users, itm) => users.find(user => user._id === itm.author || user._id === itm.authorId)
+
   render() {
     const {
       idOpenItm,
@@ -86,7 +88,7 @@ class MyList extends React.Component {
                 isShow={idOpenItm === itm._id}
                 handleShow={this.handleShow}
                 handleHidden={this.handleHidden}
-                user={users.data && users.data.find(user => user._id === itm.author || user._id === itm.authorId)}
+                user={users.data && this.getAuthor(users.data, itm)}
               />
             )
           } else {
@@ -97,8 +99,7 @@ class MyList extends React.Component {
                 handleShow={this.handleShow}
                 handleHidden={this.handleHidden}
                 isShow={idOpenItm === itm._id}
-                user={users.data && users.data.find(user => user._id === itm.author || user._id === itm.authorId)}
-                lang={lang}
+                user={users.data && this.getAuthor(users.data, itm)}
               />
             )
           }

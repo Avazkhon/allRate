@@ -15,7 +15,6 @@ export function getUsers () {
 
 export function getUsersByIds (arr) {
   const params = arr.join('&id=');
-  console.log(params);
   return dispatch => dispatch({
     type: GET_USERS_BY_IDS,
     meta: {
