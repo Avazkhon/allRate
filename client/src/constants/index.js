@@ -6,6 +6,7 @@ export const CREATE_NEW_USER = 'CREATE_NEW_USER';
 export const CHANGE_RATING_USER = 'CHANGE_RATING_USER';
 
 export const GET_USERS = 'GET_USERS';
+export const GET_USERS_BY_IDS = 'GET_USERS_BY_IDS';
 
 export const CREATE_NEW_RATE = 'CREATE_NEW_RATE';
 export const GET_RATES = 'GET_RATES';

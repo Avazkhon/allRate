@@ -30,7 +30,8 @@ const CardPost = ({
   isShow,
   handleHidden,
   handleShow,
-  getCommonRates
+  getCommonRates,
+  user,
 }) => {
   return (
     <Card>
@@ -54,6 +55,16 @@ const CardPost = ({
         <ListGroupItem>{dateFinish}</ListGroupItem>
       </ListGroup>
       <Card.Body as={Row}>
+        <Col ms="4">
+          <Card.Img
+            src="https://html5css.ru/w3css/img_avatar3.png"
+            alt="Card image"
+            style={{ width: '2rem' }}
+          />
+          <div>{
+            user && user.userName
+          }</div>
+        </Col>
         <Col ms="2">
           <AiFillEye title="Просмотры"/> {views}
         </Col>

@@ -37,6 +37,7 @@ export {
 
 export {
   getUsers,
+  getUsersByIds,
 } from './user';
 
 export {

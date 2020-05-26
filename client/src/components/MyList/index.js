@@ -13,6 +13,7 @@ import {
   changeRatingRate,
   addCountViewsRate,
   getCommonRates,
+  getUsersByIds,
 } from 'actions';
 
 import Messages from 'components/Messages';
@@ -24,6 +25,16 @@ class MyList extends React.Component {
     super(props);
     this.state = {
       idOpenItm: null,
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {
+      myList,
+      getUsersByIds,
+    } = this.props;
+    if (!prevProps.myList.length && myList.length) {
+      getUsersByIds(myList.map(itm => itm.author || itm.authorId));
     }
   }
 
@@ -59,6 +70,7 @@ class MyList extends React.Component {
       changeRatingRate,
       getCommonRates,
       isRateList,
+      users,
     } = this.props;
 
     return (
@@ -74,6 +86,7 @@ class MyList extends React.Component {
                 isShow={idOpenItm === itm._id}
                 handleShow={this.handleShow}
                 handleHidden={this.handleHidden}
+                user={users.data && users.data.find(user => user._id === itm.author)}
               />
             )
           } else {
@@ -97,6 +110,7 @@ class MyList extends React.Component {
 
 MyList.propType = {
   myList: PropTypes.shape({}),
+  users: PropTypes.shape({}),
   addCountViewsPost: PropTypes.func,
   changeRatingPost: PropTypes.func,
   changeRatingRate: PropTypes.func,
@@ -108,9 +122,11 @@ MyList.propType = {
 function mapStateToProps(state) {
   const {
     lang,
+    users
   } = state;
   return {
     lang,
+    users,
   };
 }
 
@@ -120,4 +136,5 @@ export default connect(mapStateToProps, {
   changeRatingRate,
   addCountViewsRate,
   getCommonRates,
+  getUsersByIds,
 })(MyList);
