@@ -86,7 +86,7 @@ class MyList extends React.Component {
                 isShow={idOpenItm === itm._id}
                 handleShow={this.handleShow}
                 handleHidden={this.handleHidden}
-                user={users.data && users.data.find(user => user._id === itm.author)}
+                user={users.data && users.data.find(user => user._id === itm.author || user._id === itm.authorId)}
               />
             )
           } else {
@@ -97,6 +97,7 @@ class MyList extends React.Component {
                 handleShow={this.handleShow}
                 handleHidden={this.handleHidden}
                 isShow={idOpenItm === itm._id}
+                user={users.data && users.data.find(user => user._id === itm.author || user._id === itm.authorId)}
                 lang={lang}
               />
             )

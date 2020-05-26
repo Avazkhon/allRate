@@ -61,9 +61,7 @@ const CardPost = ({
             alt="Card image"
             style={{ width: '2rem' }}
           />
-          <div>{
-            user && user.userName
-          }</div>
+          <div>{user && user.userName}</div>
         </Col>
         <Col ms="2">
           <AiFillEye title="Просмотры"/> {views}
@@ -108,6 +106,7 @@ CardPost.propType = {
     _id: PropTypes.string,
     party: PropTypes.arrayOf({}),
   }),
+  user: PropTypes.arrayOf({}),
   changeRating: PropTypes.func,
   handleShow: PropTypes.func,
   handleHidden: PropTypes.func,

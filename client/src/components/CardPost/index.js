@@ -36,6 +36,7 @@ const CardRate = ({
   isShow,
   classes,
   lang,
+  user,
 }) => {
   return (
     <Card>
@@ -47,6 +48,14 @@ const CardRate = ({
           <Card.Text>{text}</Card.Text>
         }
         <Row>
+          <Col ms="4">
+            <Card.Img
+              src="https://html5css.ru/w3css/img_avatar3.png"
+              alt="Card image"
+              style={{ width: '2rem' }}
+            />
+            <div>{user && user.userName}</div>
+          </Col>
           <Col>
             <AiFillEye title={cardPostText.views[lang]}/> {views}
           </Col>
@@ -76,6 +85,7 @@ const CardRate = ({
 
 CardRate.propType = {
   classes: PropTypes.shape({}),
+  user: PropTypes.shape({}),
   handleShow: PropTypes.func,
   changeRating: PropTypes.func,
   handleHidden: PropTypes.func,
