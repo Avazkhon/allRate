@@ -11,7 +11,7 @@ export function getMyList (userId) {
     list: 'myList',
     meta: {
       method: 'GET',
-      endpoint:`my_list/?userId=${userId}`
+      endpoint:`list/?nameList=myList&userId=${userId}`
     }
   });
 };
@@ -22,7 +22,7 @@ export function getMyNews (userId) {
     list: 'myNews',
     meta: {
       method: 'GET',
-      endpoint:`my_news/?userId=${userId}`
+      endpoint:`list/?nameList=myNews&userId=${userId}`
     }
   });
 };
@@ -33,7 +33,7 @@ export function getAllNews () {
     list: 'allNews',
     meta: {
       method: 'GET',
-      endpoint:`all_news`
+      endpoint:`list/?nameList=allNews`
     }
   });
 };
