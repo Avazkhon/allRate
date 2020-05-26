@@ -49,9 +49,7 @@ class RateList extends React.Component {
 
   render() {
     const {
-      rateList: {
-        data: rateList
-      },
+      rateList,
       classes,
       location,
       auth,
@@ -69,7 +67,7 @@ class RateList extends React.Component {
             <Col xs="12" sm="8" md="9">
               <MyList
                 isRateList
-                myList={rateList || []}
+                myList={rateList}
               />
             </Col>
           </Row>

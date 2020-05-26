@@ -33,9 +33,7 @@ class Profile extends React.Component {
   render() {
     const {
       auth,
-      myList: {
-        data: myList
-      },
+      myList,
     } = this.props;
     const userId = auth.auth && auth.auth.userId;
     const { match: { params: { id } } } = this.props;
@@ -53,7 +51,7 @@ class Profile extends React.Component {
                 profileId={id}
               />
               <MyList
-                myList={myList ? myList : []}
+                myList={myList}
               />
             </Col>
           </Row>

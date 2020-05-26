@@ -33,8 +33,11 @@ class MyList extends React.Component {
       myList,
       getUsersByIds,
     } = this.props;
-    if (!prevProps.myList.length && myList.length) {
-      getUsersByIds(myList.map(itm => itm.author || itm.authorId));
+    if (
+      (!prevProps.myList.data && myList.data && myList.data.length)
+      || myList.list != prevProps.myList.list
+    ) {
+      getUsersByIds(myList.data.map(itm => itm.author || itm.authorId));
     }
   }
 
@@ -78,7 +81,7 @@ class MyList extends React.Component {
     return (
       <div>
       {
-        myList.map((itm) => {
+        myList.data && myList.data.map((itm) => {
           if (itm.mainBet) {
             return (
               <CardRate key={itm._id}

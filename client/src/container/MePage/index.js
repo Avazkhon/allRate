@@ -61,7 +61,7 @@ class MePage extends React.Component {
               <ProfileUser />
               <UserBtnGroup />
               <MyList
-                myList={myList.data ? myList.data : []}
+                myList={myList}
               />
             </Col>
           </Row>

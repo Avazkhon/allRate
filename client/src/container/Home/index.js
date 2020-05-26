@@ -53,7 +53,7 @@ class Home extends React.Component {
           </Col>
           <Col xs="12" sm="8" md="9">
             <MyList
-              myList={myList.data ? myList.data : []}
+              myList={myList}
             />
           </Col>
         </Row>
