@@ -54,7 +54,11 @@ const CardRate = ({
               alt="Card image"
               style={{ width: '2rem' }}
             />
-            <div>{user && user.userName}</div>
+            <Card.Link
+              href={`profile/${user && user._id}`}
+            >
+              {' '}{user && user.userName}
+            </Card.Link>
           </Col>
           <Col>
             <AiFillEye title={cardPostText.views[lang]}/> {views}
