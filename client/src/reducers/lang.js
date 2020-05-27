@@ -24,10 +24,12 @@ function changeState (_state, _action) {
       ...state,
       error: null,
       lang: action.response,
+      isFetching: false,
     }),
     FAIL: (state, action) => ({
       ...state,
       error: action.error,
+      isFetching: false,
     }),
   })
 }

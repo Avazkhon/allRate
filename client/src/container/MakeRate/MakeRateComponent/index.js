@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
+import { AiFillEye } from "react-icons/ai";
 import {
   Container,
   Row,
@@ -9,6 +10,7 @@ import {
   Image,
 } from 'react-bootstrap';
 
+import Rating from 'widgets/Rating';
 import CommonModal from 'widgets/CommonModal';
 import Messages from 'components/Messages';
 import SiteBar from 'components/SiteBar';
@@ -142,7 +144,10 @@ class MakeRateComponent extends Component {
       },
       auth,
       purse,
+      changeRatingRate,
+      getRateByID,
     } = this.props;
+
     return (
       <div
         className={classes['make-rate']}
@@ -217,7 +222,22 @@ class MakeRateComponent extends Component {
                   party={rate.party}
                 />
               }
-
+              {
+                rate &&
+                <Row>
+                  <Col ms="2">
+                    <AiFillEye title="Просмотры"/> {rate.views}
+                  </Col>
+                  <Col>
+                    <Rating
+                      changeRating={changeRatingRate}
+                      rating={rate.rating}
+                      postId={rate._id}
+                      isShow
+                    />
+                  </Col>
+                </Row>
+              }
             </Col>
           </Row>
         </Container>
@@ -233,6 +253,7 @@ MakeRateComponent.propType = {
   postInvoice: PropTypes.func,
   getRateByID: PropTypes.func,
   getPurse: PropTypes.func,
+  changeRatingRate: PropTypes.func,
 }
 
 export default injectSheet({...style})(MakeRateComponent);

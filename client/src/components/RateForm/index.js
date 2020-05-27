@@ -188,6 +188,7 @@ class RateForm extends Component {
 
   handleCreateSubmit = () => {
     const { data } = this.state;
+    data.createTime = new Date();
     const { creteNewRate } = this.props;
     this.setState({ warning: '' });
     if (typeof creteNewRate === "function") {

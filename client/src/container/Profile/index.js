@@ -10,9 +10,14 @@ import {
   Col,
 } from 'react-bootstrap';
 
+import {
+  getMyList,
+} from 'actions';
+
 import Layout from 'container/Layout';
 import ProfileUser from 'components/ProfileUser';
 import SiteBar from 'components/SiteBar';
+import MyList from 'components/MyList';
 
 class Profile extends React.Component {
   // constructor(props) {
@@ -20,13 +25,18 @@ class Profile extends React.Component {
   //
   // }
 
+  componentDidMount() {
+    const { getMyList, match: { params: { id } } } = this.props;
+    getMyList(id)
+  }
+
   render() {
     const {
       auth,
+      myList,
     } = this.props;
     const userId = auth.auth && auth.auth.userId;
     const { match: { params: { id } } } = this.props;
-
     return (
       <Layout>
         <Container>
@@ -40,6 +50,9 @@ class Profile extends React.Component {
               <ProfileUser
                 profileId={id}
               />
+              <MyList
+                myList={myList}
+              />
             </Col>
           </Row>
         </Container>
@@ -50,16 +63,21 @@ class Profile extends React.Component {
 
 Profile.propType = {
   auth: PropTypes.shape({}),
+  myList: PropTypes.shape({}),
+  getMyList: PropTypes.func,
 }
 
 function mapStateToProps(state) {
   const {
     auth,
+    myList,
   } = state;
   return {
     auth,
+    myList
   };
 }
 
 export default connect(mapStateToProps, {
+  getMyList,
 })(Profile);

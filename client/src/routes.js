@@ -12,6 +12,14 @@ export default [
     }),
   },
   {
+    path: '/users',
+    exact: true,
+    component: asyncComponent({
+      loader: () => import('./container/UsersList'),
+      Placeholder: () => <div>...LOADING...</div>,
+    }),
+  },
+  {
     path: '/create-rate',
     exact: true,
     component: asyncComponent({

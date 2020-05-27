@@ -11,11 +11,15 @@ const db = require('./db');
 
 const rateControllers = require('./controllers/rateControllers');
 const langControllers = require('./controllers/langControllers');
+const postControllers = require('./controllers/post');
+const myListControllers = require('./controllers/myList');
 const rateLiveControllers = require('./controllers/rateControllers/rateLive');
 const userControllers = require('./controllers/user');
 const authControllers = require('./controllers/auth');
 const purseControllers = require('./controllers/purse');
 const subscriptionsControllers = require('./controllers/subscriptions');
+const ratingControllers = require('./controllers/rating');
+const viewsControllers = require('./controllers/views');
 const InvoiceControllers = require('./controllers/invoice');
 const passwords = require('../password');
 
@@ -65,6 +69,18 @@ app.route('/api/subscription')
 app.route('/api/lang')
   .get(langControllers.get)
   .post(langControllers.post);
+
+app.route('/api/post')
+  .get(postControllers.get)
+  .put(postControllers.put)
+  .post(postControllers.create)
+  .delete(postControllers.deleteOne);
+
+app.patch('/api/rating', ratingControllers.rating)
+app.patch('/api/views', viewsControllers.views)
+
+app.route('/api/list')
+  .get(myListControllers.get);
 
 app.route('/api/user')
   .get(userControllers.getUser) // обрабатывает запросы по userName, id и all

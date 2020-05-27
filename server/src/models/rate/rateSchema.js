@@ -12,11 +12,13 @@ exports.rateSchema = new Schema(
     serverTime: { type: Date, default: new Date() },
     differenceTime: { type: Number, required: true },
     localTime: { type: Date, required: true },
+    createTime: { type: Date, required: true },
     dateStart: { type: Date, required: true },
     dateFinish: { type: Date },
     dateAlert: { type: Date },
     statusLife: { type: String, default: 'new' },
     img: { type: String, default: urlMain },
+    views: { type: Number, required: true, min: 0, default: 0 },
     mainBet: {
       title: { type: String, default: 'Основная ставка' },
       purseId: { type: mongoose.ObjectId },
@@ -74,6 +76,20 @@ exports.rateSchema = new Schema(
       description: { type: String, required: true, min: 10, max: 200 },
       img: { type: String, default: urlParty },
     }],
+    rating: {
+      positively: [
+        {
+          userId: { type: mongoose.ObjectId, required: true },
+          makeTime: { type: Date, required: true }
+        }
+      ],
+      negative: [
+        {
+          userId: { type: mongoose.ObjectId, required: true },
+          makeTime: { type: Date, required: true }
+        }
+      ],
+    }
   },
   { collection: 'Rate' }
 );

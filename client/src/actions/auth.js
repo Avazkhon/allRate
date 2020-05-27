@@ -4,6 +4,7 @@ import {
   REGISTRATION_USER,
   LOG_AUT,
   CREATE_NEW_USER,
+  CHANGE_RATING_USER
 } from '../constants'
 
 export function authRegistration() {
@@ -55,6 +56,17 @@ export function getUserById(userId) {
     meta: {
       method: 'GET',
       endpoint: 'user/?id='+userId,
+    }
+  });
+}
+
+export function changeRatingUser (data, userId, action) {
+  return dispatch => dispatch({
+    type: CHANGE_RATING_USER,
+    meta: {
+      method: 'PATCH',
+      endpoint:`rating/?userId=${userId}&action=${action}`,
+      data
     }
   });
 }

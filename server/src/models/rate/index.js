@@ -21,6 +21,13 @@ exports.getByProps = (props, params) => (
     .catch(reject)
   })
 );
+exports.get = (id, params) => (
+  new Promise((resolve, reject) => {
+    Rate.findOne({_id: id}, params)
+    .then(resolve)
+    .catch(reject)
+  })
+);
 
 exports.all = () => (
   new Promise((resolve, reject) => (

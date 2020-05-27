@@ -9,7 +9,10 @@ const writeToLog = new WriteToLog();
 
 exports.getUser = (req, res) => {
   const { id, userName, all } = req.query;
-  const params = (id && {id}) || (userName && {userName}) || (all === 'true' && {all});
+  const params =
+  (id && {id}) ||
+  (userName && {userName}) ||
+  (all === 'true' && {all});
 
   if (params) {
     return getUser.getOne(params, res); // эта функция сама определяет какой тип параметра

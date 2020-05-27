@@ -7,6 +7,8 @@ import {
   getRateByID,
   postInvoice,
   getPurse,
+  changeRatingRate,
+  addCountViewsRate,
 } from 'actions';
 
 import Layout from '../Layout';
@@ -23,10 +25,12 @@ class MakeRate extends Component {
       location,
       getRateByID,
       getPurse,
+      addCountViewsRate,
     } = this.props;
     const { rateId } = queryString.parse(location.search);
-    getRateByID(rateId)
-    getPurse()
+    getRateByID(rateId);
+    getPurse();
+    addCountViewsRate(rateId)
   }
 
   render() {
@@ -37,6 +41,7 @@ class MakeRate extends Component {
       postInvoice,
       getRateByID,
       getPurse,
+      changeRatingRate,
     } = this.props;
 
     return (
@@ -48,6 +53,7 @@ class MakeRate extends Component {
           postInvoice={postInvoice}
           getRateByID={getRateByID}
           getPurse={getPurse}
+          changeRatingRate={changeRatingRate}
         />
       </Layout>
     );
@@ -80,4 +86,6 @@ export default connect(mapStateToProps, {
   getRateByID,
   postInvoice,
   getPurse,
+  changeRatingRate,
+  addCountViewsRate,
 })(MakeRate);

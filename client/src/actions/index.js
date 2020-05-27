@@ -4,6 +4,7 @@ export {
   createNewUser,
   getUserById,
   authoLogAut,
+  changeRatingUser,
 } from './auth';
 
 export {
@@ -13,6 +14,8 @@ export {
   putRateByID,
   putRateLiveByID,
   putRateSelectVictory,
+  changeRatingRate,
+  addCountViewsRate,
 } from './rate';
 
 export {
@@ -34,6 +37,7 @@ export {
 
 export {
   getUsers,
+  getUsersByIds,
 } from './user';
 
 export {
@@ -41,3 +45,15 @@ export {
   getSubscriptions,
   deleteSubscriptions,
 } from './subscriptions';
+
+export {
+  createPost,
+  changeRatingPost,
+  addCountViewsPost,
+} from './post';
+
+export {
+  getMyList,
+  getMyNews,
+  getAllNews,
+} from './myList';

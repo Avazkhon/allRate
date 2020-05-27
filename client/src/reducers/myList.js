@@ -1,7 +1,8 @@
 import {
-  GET_USERS,
-  GET_USERS_BY_IDS,
-} from '../constants'
+  GET_MY_LIST,
+  GET_MY_NEWS,
+  GET_ALL_NEWS,
+} from '../constants';
 
 import {
   createReducer,
@@ -12,6 +13,7 @@ const initState = {
   isFetching: false,
   data: null,
   error: null,
+  list: 'myList',
 };
 
 function changeState (_state, _action) {
@@ -24,19 +26,24 @@ function changeState (_state, _action) {
       ...state,
       error: null,
       data: action.response,
+      isFetching: false,
+      list: action.list
     }),
     FAIL: (state, action) => ({
       ...state,
       error: action.error,
-      isFetching: true,
+      isFetching: false,
     }),
   })
 }
 
 export default createReducer(initState, {
-  [GET_USERS]: (_state, _action) =>
+  [GET_MY_LIST]: (_state, _action) =>
   changeState(_state, _action),
 
-  [GET_USERS_BY_IDS]: (_state, _action) =>
+  [GET_MY_NEWS]: (_state, _action) =>
+  changeState(_state, _action),
+
+  [GET_ALL_NEWS]: (_state, _action) =>
   changeState(_state, _action),
 })

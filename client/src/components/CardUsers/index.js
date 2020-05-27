@@ -14,8 +14,10 @@ import {
 import {
   addSubscription,
   deleteSubscriptions,
+  changeRatingUser,
 } from 'actions';
 
+import Rating from 'widgets/Rating';
 import SiteBar from 'components/SiteBar';
 import Messages from 'components/Messages';
 
@@ -93,7 +95,7 @@ class CardUser extends React.Component {
     })
   }
 
-  makeBeforeSatte = (subscriptionId, { newWarning, newError } = {}) => {
+  makeBeforeState = (subscriptionId, { newWarning, newError } = {}) => {
     this.setState((prevState) => {
       return {
         isFetchings: prevState.isFetchings.map((isFetching) => {
@@ -137,12 +139,12 @@ class CardUser extends React.Component {
       deleteSubscriptions(subscription, userId)
       .then((action) => {
         if (action.status === 'SUCCESS') {
-          this.makeBeforeSatte(
+          this.makeBeforeState(
             subscription,
             { newWarning: 'Отписка успешна выполнена' }
           );
         } else {
-          this.makeBeforeSatte(
+          this.makeBeforeState(
             subscription,
             { newError: action.error }
           );
@@ -152,12 +154,12 @@ class CardUser extends React.Component {
       addSubscription(subscription, userId)
       .then((action) => {
         if (action.status === 'SUCCESS') {
-          this.makeBeforeSatte(
+          this.makeBeforeState(
             subscription,
             { newWarning: 'Подписка успешна оформлена' }
           );
         } else {
-          this.makeBeforeSatte(
+          this.makeBeforeState(
             subscription,
             { newError: action.error }
           );
@@ -182,7 +184,8 @@ class CardUser extends React.Component {
       subscriptions: {
         data: subscriptions
       },
-      lang: { lang }
+      lang: { lang },
+      changeRatingUser,
     } = this.props;
     return (
       <>
@@ -241,6 +244,13 @@ class CardUser extends React.Component {
                   </Col>
                 }
                 <Col>
+                  <Rating
+                    changeRating={changeRatingUser}
+                    rating={user.rating}
+                    postId={user._id}
+                  />
+                </Col>
+                <Col>
                   <Card.Link href={auth && auth.userId !== user._id ? `profile/${user._id}` : '/me'}>
                     {userCardText.follow[lang]}
                   </Card.Link>
@@ -286,4 +296,5 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   addSubscription,
   deleteSubscriptions,
+  changeRatingUser,
 })(CardUser);

@@ -10,18 +10,19 @@ import {
 } from 'react-bootstrap';
 
 import {
-  getAllNews,
+  getUsers,
+  getSubscriptions,
 } from 'actions';
 
-import MyList from 'components/MyList';
 import SiteBar from 'components/SiteBar';
+import CardUsers from 'components/CardUsers';
 import Layout from '../Layout';
 
 import {
   getDataUserFromLocalStorag,
 } from 'utils';
 
-class Home extends React.Component {
+class UsersList extends React.Component {
   constructor(props) {
     super(props);
 
@@ -29,15 +30,23 @@ class Home extends React.Component {
 
   componentDidMount() {
     const {
-      getAllNews,
+      getUsers,
+      getSubscriptions,
     } = this.props;
-    getAllNews();
+    getUsers();
+    const user = getDataUserFromLocalStorag();
+    if (user && user.userId) {
+      getSubscriptions(user.userId);
+    }
   }
 
   render() {
     const {
       auth: {
         auth
+      },
+      users: {
+        data: users,
       },
       myList,
     } = this.props;
@@ -52,9 +61,7 @@ class Home extends React.Component {
             />
           </Col>
           <Col xs="12" sm="8" md="9">
-            <MyList
-              myList={myList}
-            />
+            <CardUsers />
           </Col>
         </Row>
       </Container>
@@ -63,23 +70,25 @@ class Home extends React.Component {
   }
 }
 
-Home.propType = {
-  getAllNews: PropTypes.func,
+UsersList.propType = {
+  getUsers: PropTypes.func,
+  getSubscriptions: PropTypes.func,
+  users: PropTypes.shape({}),
   auth: PropTypes.shape({}),
-  myList: PropTypes.shape({}),
 }
 
 function mapStateToProps(state) {
   const {
     auth,
-    myList,
+    users,
   } = state;
   return {
     auth,
-    myList,
+    users,
   };
 }
 
 export default connect(mapStateToProps, {
-  getAllNews,
-})(Home);
+  getUsers,
+  getSubscriptions,
+})(UsersList);

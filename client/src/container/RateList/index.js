@@ -18,7 +18,7 @@ import {
 
 import style from './style';
 
-import RateCard from './components/RateCard';
+import MyList from 'components/MyList';
 import SiteBar from 'components/SiteBar';
 
 class RateList extends React.Component {
@@ -55,8 +55,6 @@ class RateList extends React.Component {
       auth,
     } = this.props;
 
-    const { sort } = queryString.parse(location.search);
-
     return (
       <Layout>
         <Container className="justify-content-xs-center">
@@ -67,9 +65,9 @@ class RateList extends React.Component {
               />
             </Col>
             <Col xs="12" sm="8" md="9">
-              <RateCard
-                sort={sort}
-                rateList={rateList && rateList.data}
+              <MyList
+                isRateList
+                myList={rateList}
               />
             </Col>
           </Row>
