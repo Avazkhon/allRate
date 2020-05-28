@@ -67,55 +67,20 @@ exports.updateOne = (req, res) => {
     user.isAdmin = isAdmin || false;
   }
 
-  if (!id) {
-    res.status = 400;
-    return res.send('Не хватает данных для изменения!')
-  }
-
-  let promise = new Promise((resolve, reject) => {
-    userModels.getOneById(id, (err, result) => {
-      if (err) {
-        writeToLog.write(err, 'request.err');
-        res.status(500);
-        return res.send(err);
-      }
-      resolve(result);
-    });
-  });
-
-  promise.then((result) => {
-    if (result && result.length) {
-      userModels.updateOne(id, user, (err, result) => {
-        if (err) {
-          writeToLog.write(err, 'request.err');
-          res.status(500);
-          return res.send(err);
-        }
-       res.status = 200;
-       return res.send('Пользователь успешно обновлен!');
-      })
-    } else {
-      res.status = 400;
-      res.send('Пользователь не найден!');
-    }
+  userModels.findByIdAndUpdate({ _id: id }, user)
+  .then(result => res.status(200).json(result))
+  .then((error) => {
+    res.status(500).json(error);
+    writeToLog.write(error, 'update_user.error');
   })
 }
 
 exports.deleteOne = (req, res) => {
   const { id } = req.query;
-
-  userModels.deleteOne(id, (err, result) => {
-    if (err) {
-      writeToLog.write(err, 'request.err');
-      res.status(500);
-      return res.send(err);
-    }
-
-    if (!result.deletedCount) {
-      res.status = 404;
-      return res.send('Пользователя нет!')
-    }
-    res.status = 200;
-    res.send('Пользователь успешно удален!')
+  userModels.deleteOne({ _id: id })
+  .then(() => res.status(200).json({ messages: 'Пользователь успешно удален!' }))
+  .catch((error) => {
+    writeToLog.write(error, 'delete_user.err');
+    return res.status(500).json(error);
   })
 }
