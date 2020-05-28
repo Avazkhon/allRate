@@ -66,7 +66,7 @@ const myNews = async (req, res) => {
       },
     } = req;
     const user = await userModels.findOne({ _id: userId })
-    const subscribers = await subscribersModels.get({ _id: user.subscribersId })
+    const subscribers = await subscribersModels.findOne({ _id: user.subscribersId })
     const result = await getMyNews(subscribers.subscribers);
     res.status(200).json(sortByDate(result));
 

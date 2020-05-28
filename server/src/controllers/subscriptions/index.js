@@ -8,7 +8,7 @@ const writeToLog = new WriteToLog();
 exports.get = async (req, res) => {
   try {
     const { id } = req.query;
-    const subscription = await subscriptionModels.get({ userId: id});
+    const subscription = await subscriptionModels.findOne({ userId: id});
     res.status(200).json(subscription);
   } catch(error) {
     writeToLog.write(error, 'get_subscribers.error')
@@ -26,7 +26,7 @@ exports.addSubscription = async (req, res) => {
     }
     const userSubscriber = await userModels.findOne({ _id: subscriber });
     const userSubscription = await userModels.findOne({ _id: subscription });
-    let fuinSubscriber = await subscriptionModels.get({ _id: userSubscriber.subscriptionsId })
+    let fuinSubscriber = await subscriptionModels.findOne({ _id: userSubscriber.subscriptionsId })
 
     if (fuinSubscriber.subscriptions.find(({ userId }) => userId == subscription)) {
       return res.status(400).json({message: `${subscriber} уже подписан на ${subscription}`});
@@ -90,7 +90,7 @@ exports.deleteSubscription = async (req, res) => {
       { $set: { subscriptionsCount } }
     );
 
-    const allSubscribers = await subscriptionModels.get({ userId: userSubscriber._id });
+    const allSubscribers = await subscriptionModels.findOne({ userId: userSubscriber._id });
     res.status(200).json(allSubscribers);
   } catch(error){
     console.log(error);

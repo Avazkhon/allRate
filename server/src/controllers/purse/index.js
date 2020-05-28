@@ -8,11 +8,8 @@ const writeToLog = new WriteToLog();
 exports.createPurse = async (data) => {
   return purseModel.createPurse(data)
   .then((purse) => {
-    userModel.updateOne(data.userId, { purseId: purse._id }, (err, result) => {
-      if (err) {
-        writeToLog.write(err, 'update_user.err')
-      }
-    })
+    userModel.findByIdAndUpdate({ _id: data.userId}, { purseId: purse._id })
+    .catch(err => writeToLog.write(err, 'update_user.err'));
   })
   .catch(err => writeToLog.write(err, 'create_purse.err'));
 }
@@ -20,11 +17,10 @@ exports.createPurse = async (data) => {
 exports.createPurseForMainBet = async (data) => {
   const purse = await purseModel.createPurse(data);
   const rate = await rateModel.findByIdAndUpdate(
-    purse.mainBetId,
+    { _id: purse.mainBetId },
     { 'mainBet.purseId': purse._id }
   );
-
-  return { purse, rate }
+  return { purse, rate };
 }
 
 exports.getPurse = (req, res) => {
