@@ -82,7 +82,7 @@ exports.rateLive  = async (req, res)  => {
     }
     if (mainBet) {
       const rate = await rateModels.getOneById(id);
-      const author = await userModel.findOne({ _id: rate.author}, { purseId: true });
+      const author = await userModel.findOne({ _id: rate.authorId}, { purseId: true });
       const purse = await purseModel.getPurse({ _id: rate.mainBet.purseId });
       await makePay(rate.mainBet, mainBet, purse._id)
       .then(() => (

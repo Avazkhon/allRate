@@ -31,7 +31,7 @@ exports.postAddOne = async (req, res) => {
       const rate = await rateModels.postAddOne(body);
       const purse = await purseControllers.createPurseForMainBet({
         createTime: req.body.dateCreate,
-        userId: rate.author,
+        userId: rate.authorId,
         mainBetId: rate._id,
       });
       res.status(201).json(rate);

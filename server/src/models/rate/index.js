@@ -48,7 +48,7 @@ exports.getOneById = (id) => (
 
 exports.getOneByAuthot = (userId) => (
   new Promise((resolve, reject) => (
-    Rate.find({ author: userId})
+    Rate.find({ authorId: userId})
     .skip(0).limit(40)
     .then(resolve)
     .catch(reject)

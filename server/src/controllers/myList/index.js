@@ -10,7 +10,7 @@ const writeToLog = new WriteToLog();
 function getMyList (userId) {
   return new Promise((resolve, reject) => {
     const list = [];
-    rateModels.getByProps({ author: userId })
+    rateModels.getByProps({ authorId: userId })
     .then(result => list.push(...result))
     .then(() => {
       return postModels.getByProps({ authorId: userId })
@@ -29,7 +29,7 @@ function getMyNews (subscribers, news = [], index = 0) {
       return;
     }
     const userId = subscribers[index].userId;
-    rateModels.getByProps({ author: userId })
+    rateModels.getByProps({ authorId: userId })
     .then(result => news.push(...result))
     .then(() => {
       return postModels.getByProps({ authorId: userId })
