@@ -20,7 +20,7 @@ class InnerTask {
 
   async update(arr, status) {
     for (var rate of arr) {
-      rateModels.findByIdAndUpdate(rate._id, { statusLife: status }, (err, result) => {
+      rateModels.findByIdAndUpdate({ _id: rate._id }, { statusLife: status }, (err, result) => {
         if (err) {
           writeToLog.write(err, 'inner_task_update.err')
         }

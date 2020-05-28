@@ -28,7 +28,7 @@ exports.postAddOne = async (req, res) => {
     if (body) {
       body = { ...body, authorId: user.userId, };
 
-      const rate = await rateModels.postAddOne(body);
+      const rate = await rateModels.create(body);
       const purse = await purseControllers.createPurseForMainBet({
         createTime: req.body.dateCreate,
         userId: rate.authorId,
@@ -46,7 +46,7 @@ exports.findByIdAndUpdate = (req, res) => {
   const { id } = req.query;
   const { body } = req;
   try {
-    rateModels.findByIdAndUpdate(id, body)
+    rateModels.findByIdAndUpdate({ _id: id }, body)
     .then((result) => {
       res.status(200).json(result);
     })
@@ -63,7 +63,7 @@ exports.findByIdAndUpdate = (req, res) => {
 exports.deleteOne = (req, res) => {
   const { id } = req.query;
   try {
-    rateModels.deleteOne(id, (err, result) => {
+    rateModels.deleteOne({ _id: id }, (err, result) => {
       if (err) {
         writeToLog.write(err, 'request.err');
         return res.status(500).json({ message: 'Все плохо!', err});

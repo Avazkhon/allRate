@@ -15,13 +15,13 @@ const handlier = (result, res) => {
 exports.getRate = (params, res) => {
   try {
     if (params.id) {
-      rateModels.getOneById(params.id)
+      rateModels.findOne({ _id: params.id})
       .then(result => handlier(result, res));
     } else if (params.userId) {
-      rateModels.getOneByAuthot(params.userId)
+      rateModels.getByProps({ authorId: userId })
       .then(result => handlier(result, res));
     } else {
-      rateModels.all()
+      rateModels.getByProps({})
       .then(result => handlier(result, res));
     }
   } catch(err) {

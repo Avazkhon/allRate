@@ -75,13 +75,13 @@ exports.rateLive  = async (req, res)  => {
       return res.status(401).json({ message: 'Пользователь не авторизован!'});
     };
     if (rateStatusLive.finish === live || rateStatusLive.archive === live) {
-      await rateModels.findByIdAndUpdate(id, { statusLife: live })
+      await rateModels.findByIdAndUpdate({ _id: id }, { statusLife: live })
       .then((result) => {
         res.status(200).json(result)
       })
     }
     if (mainBet) {
-      const rate = await rateModels.getOneById(id);
+      const rate = await rateModels.findOne({ _id: id });
       const author = await userModel.findOne({ _id: rate.authorId}, { purseId: true });
       const purse = await purseModel.getPurse({ _id: rate.mainBet.purseId });
       await makePay(rate.mainBet, mainBet, purse._id)
@@ -93,7 +93,7 @@ exports.rateLive  = async (req, res)  => {
       ))
       .then(() => {
         return rateModels.findByIdAndUpdate(
-          id,
+          { _id: id },
           {$set: {
             [`mainBet.idPartyVictory`]: rate.mainBet[mainBet].idParty,
             [`mainBet.paymentMade`]: true,
@@ -101,7 +101,7 @@ exports.rateLive  = async (req, res)  => {
         );
       })
       .then(() => {
-        return rateModels.getOneById(id);
+        return rateModels.findOne({ _id: id });
       })
       .then((data) => {
         res.status(200).send(data);
