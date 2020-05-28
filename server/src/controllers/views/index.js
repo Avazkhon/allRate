@@ -18,10 +18,10 @@ exports.views = async (req, res) => {
       queryId = { _id: postId };
       models = postModels;
     } else if (rateId) {
-      queryId = rateId;
+      queryId = { _id: rateId };
       models = rateModels;
     }
-    let response = await models.get(queryId);
+    let response = await models.findOne(queryId);
     if (!response) {
       return res.status(404).json({ message: 'нет поста с таким id' });
     }
