@@ -14,7 +14,7 @@ class CreateModel {
     ))
   }
 
-  async get (searchParams, getParams) {
+  async findOne (searchParams, getParams) {
     return new Promise((resolve, reject) => (
       this.Model.findOne(searchParams, getParams)
       .then(resolve)

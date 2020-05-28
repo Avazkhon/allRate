@@ -151,7 +151,7 @@ class InvoiceController {
       return res.status(401).json({ message: 'Пользователь не авторизован!'});
     };
     const { id } = req.query;
-    invoiceModel.get({ _id: id })
+    invoiceModel.findOne({ _id: id })
     .then((invoice) => {
       res.status(201).json(invoice);
     })
