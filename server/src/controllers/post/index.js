@@ -40,7 +40,7 @@ exports.get = async (req, res) => {
         postId,
       },
     } = req;
-    const post = await postModels.get({ _id: postId });
+    const post = await postModels.findOne({ _id: postId });
     res.status(200).json(post);
   } catch (error) {
     writeToLog.write(error, 'get_post.error');

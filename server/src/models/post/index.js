@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const postSchema = require('./postSchema');
 const CreateModel = require('../CreateModel');
 

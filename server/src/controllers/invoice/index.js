@@ -36,7 +36,7 @@ class InvoiceController {
 
   async changePurse (invoice, id, basisForPayment, action) {
     try {
-      const purse = await purseModel.getPurse({ _id: id });
+      const purse = await purseModel.findOne({ _id: id });
       const data = {
         $push: {
           history: {
@@ -49,7 +49,7 @@ class InvoiceController {
         },
         amount: this.createAmount(purse.amount, invoice.amount, action),
       };
-      return purseModel.findByIdAndUpdate(id, data)
+      return purseModel.findByIdAndUpdate({ _id: id}, data)
       .then( purse => this.SUCCESS)
     } catch(err) {
       writeToLog.write(err, 'update_purse.err');
@@ -65,7 +65,7 @@ class InvoiceController {
         partyDraw,
         partyTwo,
       },
-    } = await rateModel.getOneById(id);
+    } = await rateModel.findOne({ _id: id });
     mainBet[partyNumber].amount += amount;
     let allAmount = partyOne.amount + partyTwo.amount;
     allAmount = partyDraw.idParty ? allAmount + partyDraw.amount : allAmount;
@@ -87,7 +87,7 @@ class InvoiceController {
         [`mainBet.${[partyNumber]}.participants`]: participant,
       },
     };
-    return rateModel.findByIdAndUpdate(id, dataPurse)
+    return rateModel.findByIdAndUpdate({ _id: id}, dataPurse)
     .then(rate => this.SUCCESS);
   }
 
@@ -101,7 +101,7 @@ class InvoiceController {
     body.authorId = user.userId;
     body.invoiceId = uuidv4();
     if (body.basisForPayment !== accountReplenishment) {
-      const purse = await purseModel.getPurse({_id: body.requisites.src});
+      const purse = await purseModel.findOne({_id: body.requisites.src});
       if (purse.amount < body.amount) {
         return res.status(402).json({ message: 'Недостаточно средств!'});
       }
@@ -127,7 +127,7 @@ class InvoiceController {
   async createInvoiceForWin (data) {
     data.authorId = superAdmin.userId;
     data.invoiceId = uuidv4();
-    const purse = await purseModel.getPurse({_id: data.requisites.src});
+    const purse = await purseModel.findOne({_id: data.requisites.src});
     if (+purse.amount < +data.amount) {
       throw 'Недостаточно средств';
     }
