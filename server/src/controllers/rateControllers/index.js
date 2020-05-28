@@ -26,7 +26,7 @@ exports.postAddOne = async (req, res) => {
     let { body } = req;
 
     if (body) {
-      body = { ...body, author: user.userId, };
+      body = { ...body, authorId: user.userId, };
 
       const rate = await rateModels.postAddOne(body);
       const purse = await purseControllers.createPurseForMainBet({
