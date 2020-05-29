@@ -18,7 +18,7 @@ exports.getRate = (params, res) => {
       rateModels.findOne({ _id: params.id})
       .then(result => handlier(result, res));
     } else if (params.userId) {
-      rateModels.getByProps({ authorId: userId })
+      rateModels.getByProps({ authorId: params.userId })
       .then(result => handlier(result, res));
     } else {
       rateModels.getByProps({})
