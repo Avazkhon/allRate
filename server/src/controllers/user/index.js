@@ -8,9 +8,10 @@ const purseControllers = require('../purse');
 const writeToLog = new WriteToLog();
 
 exports.getUser = (req, res) => {
-  const { id, userName, all } = req.query;
+  const { id, ids, userName, all } = req.query;
   const params =
   (id && {id}) ||
+  (ids && {ids}) ||
   (userName && {userName}) ||
   (all === 'true' && {all});
 

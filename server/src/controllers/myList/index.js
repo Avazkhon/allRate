@@ -72,7 +72,6 @@ const myNews = async (req, res) => {
 
   } catch (error) {
     writeToLog.write(error, 'get_my_news.error');
-    console.log(error);
     res.status(500).json({ massages: 'error to server', error });
   }
 };

@@ -12,11 +12,11 @@ const handlier = (result, res) => {
   res.send(result);
 }
 exports.getOne = (params, res) => {
-  if (params.id && !Array.isArray(params.id)) {
+  if (params.id) {
     userModels.findOne({ _id: params.id })
     .then(result => handlier(result, res));
-  } else if (Array.isArray(params.id)) {
-    userModels.getByProps({ _id: params.id  })
+  } else if (Array.isArray(params.ids)) {
+    userModels.getByProps({ _id: params.ids  })
     .then(result => handlier(result, res));
   } else if (params.userName) {
     userModels.getByProps({ userName: params.userName })

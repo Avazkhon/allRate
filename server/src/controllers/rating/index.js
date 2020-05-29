@@ -69,7 +69,6 @@ exports.rating = async (req, res) => {
 
   } catch (error) {
     writeToLog.write(error, 'get_post.error');
-    console.log(error);
     res.status(500).json({ message: 'Ошибка на сервере', error});
   };
 };

@@ -93,7 +93,6 @@ exports.deleteSubscription = async (req, res) => {
     const allSubscribers = await subscriptionModels.findOne({ userId: userSubscriber._id });
     res.status(200).json(allSubscribers);
   } catch(error){
-    console.log(error);
     writeToLog.write(error, 'delete_subscribers.error')
     res.status(500).json({message: 'error to server', error })
   }
