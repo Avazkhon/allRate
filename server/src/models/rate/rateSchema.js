@@ -7,7 +7,7 @@ const urlMain = 'https://betrating.ru/wp-content/uploads/2018/10/BETREYT-314.jpg
 exports.rateSchema = new Schema(
   {
     title: { type: String, required: true, min: 3, max: 50 },
-    author: { type: mongoose.ObjectId, required: true },
+    authorId: { type: mongoose.ObjectId, required: true },
     description: { type: String, required: true, min: 10, max: 500 },
     serverTime: { type: Date, default: new Date() },
     differenceTime: { type: Number, required: true },

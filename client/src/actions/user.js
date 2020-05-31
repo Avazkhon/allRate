@@ -14,12 +14,12 @@ export function getUsers () {
 }
 
 export function getUsersByIds (arr) {
-  const params = arr.join('&id=');
+  const params = arr.join('&ids=');
   return dispatch => dispatch({
     type: GET_USERS_BY_IDS,
     meta: {
       method: 'GET',
-      endpoint:`user/?id${params}`
+      endpoint:`user/?ids=${params}`
     }
   });
 }

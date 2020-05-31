@@ -5,35 +5,34 @@ const writeToLog = new WriteToLog();
 
 exports.authIn = (req, res) => {
   const { email, password } = req.body;
-
-  userModels.getOneByUserEmail(email, (err, result) => {
-    if (err) {
-      writeToLog.write(err, 'request.err');
-      return res.status(500).send(err);
-    }
-
-    if (result
-      && result.email === email
-      && result.password === password
+  userModels.findOne({ email })
+  .then((user) => {
+    if (user
+      && user.email === email
+      && user.password === password
     )
     {
       const data = {
-        userId: result._id,
-        userName: result.userName,
-        purseId: result.purseId,
-        isAdmin: result.isAdmin,
+        userId: user._id,
+        userName: user.userName,
+        purseId: user.purseId,
+        isAdmin: user.isAdmin,
       };
       req.session.user = data;
       return res.status(200).json(data);
     }
     return res.status(401).send('Не правельный email или пароль!');
-  });
+  })
+  .catch((error) => {
+    writeToLog.write(err, 'request.err');
+    res.status(500).json(error);
+  })
 }
 
 exports.authAut = (req, res) => {
   req.session.user = null;
   return res.status(200)
-    .json({
-      message: 'Пользователь успешно вышел из системы!'
-    });
+  .json({
+    message: 'Пользователь успешно вышел из системы!'
+  });
 }

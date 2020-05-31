@@ -38,13 +38,13 @@ exports.rating = async (req, res) => {
       searchById = { _id: queryUserId };
       models = userModels.model;
     } else if (rateId) {
-      searchById = rateId;
+      searchById = { _id: rateId };
       models = rateModels;
     } else {
       throw 'Не хватает параматров!';
     };
 
-    let response = await models.get(searchById);
+    let response = await models.findOne(searchById);
     if (
       response && response.rating &&
       response.rating[action].find(itm => itm.userId === userId)
@@ -69,7 +69,6 @@ exports.rating = async (req, res) => {
 
   } catch (error) {
     writeToLog.write(error, 'get_post.error');
-    console.log(error);
     res.status(500).json({ message: 'Ошибка на сервере', error});
   };
 };

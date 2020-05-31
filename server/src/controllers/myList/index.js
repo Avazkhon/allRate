@@ -10,7 +10,7 @@ const writeToLog = new WriteToLog();
 function getMyList (userId) {
   return new Promise((resolve, reject) => {
     const list = [];
-    rateModels.getByProps({ author: userId })
+    rateModels.getByProps({ authorId: userId })
     .then(result => list.push(...result))
     .then(() => {
       return postModels.getByProps({ authorId: userId })
@@ -29,7 +29,7 @@ function getMyNews (subscribers, news = [], index = 0) {
       return;
     }
     const userId = subscribers[index].userId;
-    rateModels.getByProps({ author: userId })
+    rateModels.getByProps({ authorId: userId })
     .then(result => news.push(...result))
     .then(() => {
       return postModels.getByProps({ authorId: userId })
@@ -66,13 +66,12 @@ const myNews = async (req, res) => {
       },
     } = req;
     const user = await userModels.findOne({ _id: userId })
-    const subscribers = await subscribersModels.get({ _id: user.subscribersId })
+    const subscribers = await subscribersModels.findOne({ _id: user.subscribersId })
     const result = await getMyNews(subscribers.subscribers);
     res.status(200).json(sortByDate(result));
 
   } catch (error) {
     writeToLog.write(error, 'get_my_news.error');
-    console.log(error);
     res.status(500).json({ massages: 'error to server', error });
   }
 };

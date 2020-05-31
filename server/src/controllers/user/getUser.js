@@ -3,11 +3,7 @@ const WriteToLog = require('../../utils/writeToLog');
 
 const writeToLog = new WriteToLog();
 
-const handlier = (err, result, res) => {
-  if (err) {
-    writeToLog.write(err, 'request.err');
-    return res.sendStatus(500);
-  }
+const handlier = (result, res) => {
   if (!result) {
     res.status = 404
     return res.send('User не найден!');
@@ -15,15 +11,18 @@ const handlier = (err, result, res) => {
   res.status = 200;
   res.send(result);
 }
-
 exports.getOne = (params, res) => {
-  if (params.id && !Array.isArray(params.id)) {
-    userModels.getOneById(params.id, (err, result) => handlier(err, result, res))
-  } else if (Array.isArray(params.id)) {
-    userModels.model.getByProps({ _id: params.id  }, (err, result) => handlier(err, result, res))
+  if (params.id) {
+    userModels.findOne({ _id: params.id })
+    .then(result => handlier(result, res));
+  } else if (Array.isArray(params.ids)) {
+    userModels.getByProps({ _id: params.ids  })
+    .then(result => handlier(result, res));
   } else if (params.userName) {
-    userModels.getOneByUserName(params.userName, (err, result) => handlier(err, result, res))
+    userModels.getByProps({ userName: params.userName })
+    .then(result => handlier(result, res));
   } else {
-    userModels.all((err, result) => handlier(err, result, res))
+    userModels.getByProps({})
+    .then(result => handlier(result, res));
   }
 }
