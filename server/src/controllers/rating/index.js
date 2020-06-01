@@ -36,7 +36,7 @@ exports.rating = async (req, res) => {
       models = postModels;
     } else if (queryUserId) {
       searchById = { _id: queryUserId };
-      models = userModels.model;
+      models = userModels;
     } else if (rateId) {
       searchById = { _id: rateId };
       models = rateModels;
@@ -68,6 +68,7 @@ exports.rating = async (req, res) => {
     res.status(200).json(response);
 
   } catch (error) {
+    console.log(error);
     writeToLog.write(error, 'get_post.error');
     res.status(500).json({ message: 'Ошибка на сервере', error});
   };

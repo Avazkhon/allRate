@@ -38,9 +38,21 @@ exports.get = async (req, res) => {
     const {
       query: {
         postId,
+        limit,
+        page,
       },
     } = req;
-    const post = await postModels.findOne({ _id: postId });
+    let post = null;
+    if (postId) {
+      post = await postModels.findOne({ _id: postId });
+    } else {
+      const options = {
+        sort: { createTime: -1 },
+        limit,
+        page,
+      }
+      post = await postModels.paginate({}, options);
+    }
     res.status(200).json(post);
   } catch (error) {
     writeToLog.write(error, 'get_post.error');

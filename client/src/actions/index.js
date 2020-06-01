@@ -50,6 +50,7 @@ export {
   createPost,
   changeRatingPost,
   addCountViewsPost,
+  getPosts,
 } from './post';
 
 export {
