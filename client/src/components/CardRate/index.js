@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { AiFillEye } from "react-icons/ai";
 
 
@@ -25,6 +26,10 @@ const CardPost = ({
     party,
     rating,
     views,
+    authorId,
+  },
+  auth: {
+    auth
   },
   changeRating,
   isShow,
@@ -76,6 +81,14 @@ const CardPost = ({
           >
             Перейти
           </Card.Link>
+          {
+            auth && auth.userId === authorId &&
+            <Card.Link
+              href={`/card-rate/${_id}`}
+            >
+              Редактировать
+            </Card.Link>
+          }
         </Col>
         <Col>
           <Card.Link
@@ -111,10 +124,20 @@ CardPost.propType = {
     party: PropTypes.arrayOf({}),
   }),
   user: PropTypes.arrayOf({}),
+  auth: PropTypes.arrayOf({}),
   changeRating: PropTypes.func,
   handleShow: PropTypes.func,
   handleHidden: PropTypes.func,
   getCommonRates: PropTypes.func,
 }
 
-export default CardPost
+function mapStateToProps(state) {
+  const {
+    auth,
+  } = state;
+  return {
+    auth,
+  }
+}
+
+export default connect(mapStateToProps, {})(CardPost)
