@@ -12,7 +12,7 @@ import {
 
 import {
   getAllNews,
-  getPosts,
+  getPostsPage,
 } from 'actions';
 
 import MyList from 'components/MyList';
@@ -32,9 +32,9 @@ class Home extends React.Component {
   componentDidMount() {
     const {
       getAllNews,
-      getPosts,
+      getPostsPage,
     } = this.props;
-    getPosts({ page: 1, limit: 6 })
+    getPostsPage({ page: 1, limit: 6 })
     getAllNews();
   }
 
@@ -110,5 +110,5 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   getAllNews,
-  getPosts,
+  getPostsPage,
 })(Home);

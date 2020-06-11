@@ -1,5 +1,5 @@
 import {
-  GET_POSTS,
+  GET_POSTS_PAGE,
 } from '../constants';
 
 import {
@@ -34,6 +34,6 @@ function changeState (_state, _action) {
 }
 
 export default createReducer(initState, {
-  [GET_POSTS]: (_state, _action) =>
+  [GET_POSTS_PAGE]: (_state, _action) =>
   changeState(_state, _action),
 })
