@@ -10,6 +10,7 @@ export const GET_USERS_BY_IDS = 'GET_USERS_BY_IDS';
 
 export const CREATE_NEW_RATE = 'CREATE_NEW_RATE';
 export const GET_RATES = 'GET_RATES';
+export const GET_RATES_PAGE = 'GET_RATES_PAGE';
 export const GET_RATE_BY_ID = 'GET_RATE_BY_ID';
 export const PUT_RATE = 'PUT_RATE';
 export const GET_COMMON_RATES = 'GET_COMMON_RATES';

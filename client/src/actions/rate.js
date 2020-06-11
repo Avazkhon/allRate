@@ -8,6 +8,7 @@ import {
   CHANGE_RATING_POST,
   CHANGE_RATING_RATE,
   ADD_COUNT_VIEWS_RATE,
+  GET_RATES_PAGE,
 } from '../constants';
 
 export function creteNewRate (data) {
@@ -91,6 +92,16 @@ export function addCountViewsRate (rateId) {
     meta: {
       method: 'PATCH',
       endpoint:`views/?rateId=${rateId}`,
+    }
+  });
+}
+
+export function getRatesPage ({ page, limit }) {
+  return dispatch => dispatch({
+    type: GET_RATES_PAGE,
+    meta: {
+      method: 'GET',
+      endpoint:`rate/?page=${page}&limit=${limit}`,
     }
   });
 }

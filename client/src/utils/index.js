@@ -39,6 +39,26 @@ export function createRequestReducer(state, action, reducerMap) {
   return reducer ? reducer(state, action) : state;
 };
 
+export function changeState (_state, _action) {
+  return createRequestReducer(_state, _action, {
+    SEND: (state, action) => ({
+      ...state,
+      isFetching: true,
+    }),
+    SUCCESS: (state, action) => ({
+      ...state,
+      error: null,
+      data: action.response,
+      isFetching: false,
+    }),
+    FAIL: (state, action) => ({
+      ...state,
+      error: action.error,
+      isFetching: false,
+    }),
+  })
+}
+
 export function getMonth(index) {
   const month = [
     'Январь',

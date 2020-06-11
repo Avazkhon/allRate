@@ -16,6 +16,7 @@ export {
   putRateSelectVictory,
   changeRatingRate,
   addCountViewsRate,
+  getRatesPage,
 } from './rate';
 
 export {
