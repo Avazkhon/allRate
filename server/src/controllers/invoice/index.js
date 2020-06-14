@@ -70,12 +70,12 @@ class InvoiceController {
     let allAmount = partyOne.amount + partyTwo.amount;
     allAmount = partyDraw.idParty ? allAmount + partyDraw.amount : allAmount;
     const data = {
-      'mainBet.partyOne.coefficient': (allAmount / partyOne.amount * 0.96).toFixed(3),
-      'mainBet.partyTwo.coefficient': (allAmount / partyTwo.amount * 0.96).toFixed(3),
+      'mainBet.partyOne.coefficient': (allAmount / partyOne.amount * 0.94).toFixed(2),
+      'mainBet.partyTwo.coefficient': (allAmount / partyTwo.amount * 0.94).toFixed(2),
       [`mainBet.${[partyNumber]}.amount`]: mainBet[partyNumber].amount,
     };
     if (partyDraw.idParty) {
-      data['mainBet.partyDraw.coefficient'] = (allAmount / partyDraw.amount * 0.96).toFixed(3);
+      data['mainBet.partyDraw.coefficient'] = (allAmount / partyDraw.amount * 0.94).toFixed(2);
     }
     return data;
   }
@@ -128,9 +128,6 @@ class InvoiceController {
     data.authorId = superAdmin.userId;
     data.invoiceId = uuidv4();
     const purse = await purseModel.findOne({_id: data.requisites.src});
-    if (+purse.amount < +data.amount) {
-      throw 'Недостаточно средств';
-    }
     const invoice = await invoiceModel.create(data);
     await this.changePurse(invoice, invoice.requisites.src, data.basisForPayment, this.minus);
     await this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus);
@@ -141,6 +138,7 @@ class InvoiceController {
     data.authorId = superAdmin.userId;
     data.invoiceId = uuidv4();
     const invoice = await invoiceModel.create(data);
+    await this.changePurse(invoice, invoice.requisites.src, data.basisForPayment, this.minus);
     await this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus);
     return invoice;
   }
