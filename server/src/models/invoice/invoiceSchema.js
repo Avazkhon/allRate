@@ -8,7 +8,7 @@ exports.invoiceSchema = new Schema(
     amount: { // сумма
       type: Number,
       required: true,
-      min: 10,
+      min: 1,
     },
     requisites: {
       src: { type: String, required: true }, // откуда
