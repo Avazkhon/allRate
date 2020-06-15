@@ -10,12 +10,13 @@ import {
   ListGroupItem,
   Row,
   Col,
+  Modal,
 } from 'react-bootstrap';
 
 import Rating from 'widgets/Rating';
 import PartyList from './PartyList';
 
-const CardPost = ({
+const CardComponent = ({
   rate: {
     title,
     description,
@@ -111,6 +112,51 @@ const CardPost = ({
       </Card.Body>
     </Card>
   )
+}
+
+const CardPost = ({
+  rate,
+  auth,
+  changeRating,
+  isShow,
+  handleHidden,
+  handleShow,
+  getCommonRates,
+  user,
+}) => {
+  if (!isShow) {
+    return (
+      <CardComponent
+        rate={rate}
+        user={user}
+        getCommonRates={getCommonRates}
+        handleShow={handleShow}
+        handleHidden={handleHidden}
+        changeRating={changeRating}
+        auth={auth}
+      />
+    )
+  } else {
+    return (
+      <Modal show={isShow} onHide={handleHidden}>
+        <Modal.Header closeButton>
+          <Modal.Title>Подробная информация</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <CardComponent
+            rate={rate}
+            user={user}
+            getCommonRates={getCommonRates}
+            handleShow={handleShow}
+            handleHidden={handleHidden}
+            changeRating={changeRating}
+            isShow
+            auth={auth}
+          />
+        </Modal.Body>
+      </Modal>
+    )
+  }
 }
 
 CardPost.propType = {
