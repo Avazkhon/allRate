@@ -9,6 +9,7 @@ import {
   Button,
   Row,
   Col,
+  Modal,
 } from 'react-bootstrap';
 
 import Rating from 'widgets/Rating';
@@ -21,7 +22,7 @@ const cardPostText = {
   views: { RU: 'Просмотры', EN: 'Views' }
 };
 
-const CardRate = ({
+const CardComponent = ({
   post: {
     title,
     text,
@@ -85,6 +86,51 @@ const CardRate = ({
       </Card.Body>
     </Card>
   )
+}
+
+const CardRate = ({
+  post,
+  handleShow,
+  handleHidden,
+  changeRating,
+  isShow,
+  classes,
+  lang,
+  user,
+}) => {
+  if (!isShow) {
+    return (
+      <CardComponent
+        post={post}
+        handleShow={handleShow}
+        handleHidden={handleHidden}
+        changeRating={changeRating}
+        classes={classes}
+        lang={lang}
+        user={user}
+      />
+    )
+  } else {
+    return (
+      <Modal show={isShow} onHide={handleHidden}>
+        <Modal.Header closeButton>
+          <Modal.Title>Подробная информация</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <CardComponent
+            post={post}
+            handleShow={handleShow}
+            handleHidden={handleHidden}
+            changeRating={changeRating}
+            classes={classes}
+            lang={lang}
+            user={user}
+            isShow
+          />
+        </Modal.Body>
+      </Modal>
+    )
+  }
 }
 
 CardRate.propType = {
