@@ -6,6 +6,7 @@
 /.pnp
 .pnp.js
 var/log/*
+image/
 
 # testing
 /coverage
