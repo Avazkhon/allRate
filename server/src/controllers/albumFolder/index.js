@@ -1,46 +1,28 @@
 const fs = require('fs');
+
 const userModels = require('../../models/user');
 
-class AlbumАolder {
+class AlbumFolder {
   constructor () {
-    this.PATH = process.cwd() + '/image/';
+    this.PATH = process.cwd() + '/var/image/';
   }
 
-  addFile = async (fileUploaded, pathName) => {
-    return  fileUploaded.mv(pathName + fileUploaded.name, function(err) {
+  addFile = async (fileUploaded, pathName, userId) => {
+    const nameImage = `${userId}-${fileUploaded.name.replace(/ /g,"_")}`
+    return  fileUploaded.mv(`${pathName}${nameImage}`, function(err) {
       if (err) {
         throw err;
       }
     });
   }
 
-  createFolderAndAddImage = (fileUploaded, userId) => {
-    return new Promise((resolve, reject) => {
-      const pathName = this.PATH + userId + '/';
-
-      if (fs.existsSync(pathName)) {
-        this.addFile(fileUploaded, pathName)
-        .then(resolve)
-        .catch(reject);
-      } else {
-        fs.mkdir(pathName, { recursive: true }, (err) => {
-          if (err) {
-            reject(err);
-          }
-          this.addFile(fileUploaded, pathName)
-          .then(resolve)
-          .catch(reject);
-        })
-      }
-    })
-  }
-
   changeAvatar = (fileUploaded, userId) => {
-    return this.createFolderAndAddImage(fileUploaded, userId)
+    const nameImage = `${userId}-${fileUploaded.name.replace(/ /g,"_")}`
+    return this.addFile(fileUploaded, this.PATH, userId)
     .then(() => {
       userModels.findByIdAndUpdate({ _id: userId },
         {'$set': {
-            avatar: `/${fileUploaded.name}`,
+            avatar: `/img/${nameImage}`,
           }
         }
       );
@@ -66,4 +48,4 @@ class AlbumАolder {
   }
 }
 
-module.exports = AlbumАolder;
+module.exports = AlbumFolder;
