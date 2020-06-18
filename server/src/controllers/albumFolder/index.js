@@ -22,7 +22,7 @@ class AlbumFolder {
     .then(() => {
       userModels.findByIdAndUpdate({ _id: userId },
         {'$set': {
-            avatar: `/img/${nameImage}`,
+            avatar: `/api/img/?idImg=${nameImage}`,
           }
         }
       );
@@ -45,6 +45,10 @@ class AlbumFolder {
     .catch((err) => {
       res.status(500).json({ err: err.toString() });
     })
+  }
+
+  getImg = (req, res) => {
+    res.sendFile(this.PATH + req.query.idImg);
   }
 }
 

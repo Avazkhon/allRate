@@ -116,6 +116,8 @@ app.route('/api/invoice')
 app.route('/api/image')
   .post(albumFolder.addImage)
 
+app.get('/api/img', albumFolder.getImg);
+
 db.connect((err) => {
   if (err) {
     writeToLog.write(err, 'data_base.err');
