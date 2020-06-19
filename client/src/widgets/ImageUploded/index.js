@@ -1,16 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import {
   Modal,
   Button,
 } from 'react-bootstrap';
-
-import {
-  changeImg,
-  getUserById,
-} from 'actions';
 
 import Messages from 'components/Messages';
 
@@ -46,10 +40,6 @@ class ImageUploded extends React.Component {
   onClickHandler = () => {
     const {
       changeImg,
-      getUserById,
-      auth: {
-        auth,
-      },
       lang: {
         lang,
       },
@@ -59,10 +49,10 @@ class ImageUploded extends React.Component {
       error: '',
       warning: '',
     })
-    changeImg('fileUploaded', [this.state.file])
+
+    return changeImg('fileUploaded', [this.state.file])
     .then((action) => {
       if (action.status === 'SUCCESS') {
-        getUserById(auth.userId)
         this.setState({
           isFetching: false,
           warning: imageUploded.warning[lang],
@@ -73,6 +63,7 @@ class ImageUploded extends React.Component {
           error: action.error,
         })
       }
+      return action;
     });
   }
 
@@ -90,9 +81,7 @@ class ImageUploded extends React.Component {
       warning,
     } = this.state;
     const {
-      lang: {
-        lang
-      }
+      lang
     } = this.props;
     return (
       <>
@@ -126,25 +115,7 @@ class ImageUploded extends React.Component {
 
 ImageUploded.propType = {
   changeImg: PropTypes.func,
-  getUserById: PropTypes.func,
-  lang: PropTypes.shape({}),
-  auth: PropTypes.shape({}),
+  lang: PropTypes.string,
 };
 
-function mapStateToProps (state) {
-  const {
-    lang,
-    auth,
-  } = state;
-  return {
-    lang,
-    auth
-  };
-}
-export default connect(
-  mapStateToProps,
-  {
-    changeImg,
-    getUserById,
-  }
-)(ImageUploded);
+export default ImageUploded;

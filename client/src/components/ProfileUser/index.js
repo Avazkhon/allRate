@@ -14,6 +14,7 @@ import {
 } from 'react-bootstrap';
 
 import {
+  changeImg,
   getUserById,
   changeRatingUser,
 } from 'actions';
@@ -59,6 +60,23 @@ class ProfileUser extends React.Component {
     }
   }
 
+  handleUploded = (fileUploaded, files) => {
+    const {
+      changeImg,
+      getUserById,
+      auth: {
+        auth
+      }
+    } = this.props;
+    return changeImg(fileUploaded, files)
+    .then((action) => {
+      if (auth.userId && action.status === 'SUCCESS') {
+        getUserById(auth.userId)
+      }
+      return action;
+    })
+  }
+
   render() {
     const {
       auth: { userData },
@@ -91,7 +109,10 @@ class ProfileUser extends React.Component {
             <Image style={{ height: '190px',  width: '18rem' }} src={userData && userData.avatar || srcImage} thumbnail alt="Avatar" />
             {
               !profileId &&
-              <ImageUploded />
+              <ImageUploded
+                lang={lang}
+                changeImg={this.handleUploded}
+              />
             }
           </Col>
           <Col xs="12" sm="6" md="5">
@@ -132,6 +153,7 @@ class ProfileUser extends React.Component {
 
 ProfileUser.propType = {
   getUserById: PropTypes.func,
+  changeImg: PropTypes.func,
   changeRatingUser: PropTypes.func,
   auth: PropTypes.shape({}),
   lang: PropTypes.shape({}),
@@ -150,6 +172,7 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
+  changeImg,
   getUserById,
   changeRatingUser,
 })(ProfileUser);
