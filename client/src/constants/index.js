@@ -41,6 +41,7 @@ export const GET_ALL_NEWS = 'GET_ALL_NEWS';
 export const CHANGE_RATING_RATE = 'CHANGE_RATING_RATE';
 export const ADD_COUNT_VIEWS_RATE = 'ADD_COUNT_VIEWS_RATE';
 
+export const CHANGE_IMG = 'CHANGE_IMG';
 
 export const basisForPayment = {
   accountReplenishment: 'accountReplenishment',

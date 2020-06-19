@@ -59,3 +59,7 @@ export {
   getMyNews,
   getAllNews,
 } from './myList';
+
+export {
+  changeImg,
+} from './image';

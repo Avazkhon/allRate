@@ -19,6 +19,7 @@ import {
 } from 'actions';
 
 import Rating from 'widgets/Rating';
+import ImageUploded from 'widgets/ImageUploded';
 import PurseWidget from 'widgets/PurseWidget';
 import PersonData from './PersonData';
 
@@ -26,16 +27,11 @@ const srcImage = 'https://img.favpng.com/8/0/5/computer-icons-user-profile-avata
 
 
 const profileText = {
-  changeImg: { RU: 'Изменить фото', EN: 'Change image'},
   titleCountSubscribers: { RU: 'Количестко подписччиков', EN: 'Number of subscribers' },
   titleCountSubscriptions: { RU: 'Количестко подписок', EN: 'Number of subscriptions' },
 }
 
 class ProfileUser extends React.Component {
-  constructor(props) {
-    super(props);
-
-  }
 
   componentDidMount() {
     const { getUserById, profileId } = this.props;
@@ -92,12 +88,10 @@ class ProfileUser extends React.Component {
       <Card>
         <Row>
           <Col xs="12" sm="6" md="2">
-            <Image src={srcImage} thumbnail alt="Avatar" />
+            <Image style={{ height: '190px',  width: '18rem' }} src={userData && userData.avatar || srcImage} thumbnail alt="Avatar" />
             {
               !profileId &&
-              <Button>
-                {profileText.changeImg[lang]}
-              </Button>
+              <ImageUploded />
             }
           </Col>
           <Col xs="12" sm="6" md="5">
