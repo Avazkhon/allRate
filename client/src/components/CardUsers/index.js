@@ -208,7 +208,7 @@ class CardUser extends React.Component {
                   <Row>
                     <Col xs="12" sm="6" md="4">
                       <Card.Img
-                        src="https://html5css.ru/w3css/img_avatar3.png"
+                        src={user.avatar || 'https://html5css.ru/w3css/img_avatar3.png'}
                         alt="Card image"
                         style={{ width: '8rem' }}
                       />

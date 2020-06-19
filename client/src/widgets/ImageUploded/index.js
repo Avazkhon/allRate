@@ -16,6 +16,9 @@ import Messages from 'components/Messages';
 
 const imageUploded = {
   changeImg: { RU: 'Изменить фото', EN: 'Change image'},
+  title: { RU: 'Выбор Фотографии', EN: 'Select image'},
+  send: { RU: 'Загрузить', EN: 'Uploaded'},
+  warning: { RU: 'Фото успешно загружено', EN: 'Photo uploaded successfully'},
 }
 
 class ImageUploded extends React.Component {
@@ -34,6 +37,10 @@ class ImageUploded extends React.Component {
     this.setState({
       file: e.target.files[0]
     });
+    this.setState({
+      error: '',
+      warning: '',
+    })
   }
 
   onClickHandler = () => {
@@ -42,6 +49,9 @@ class ImageUploded extends React.Component {
       getUserById,
       auth: {
         auth,
+      },
+      lang: {
+        lang,
       },
     } = this.props
     this.setState({
@@ -55,7 +65,7 @@ class ImageUploded extends React.Component {
         getUserById(auth.userId)
         this.setState({
           isFetching: false,
-          warning: 'Фото успешно загружено',
+          warning: imageUploded.warning[lang],
         })
       } else {
         this.setState({
@@ -91,7 +101,7 @@ class ImageUploded extends React.Component {
         </Button>
         <Modal show={isShowModal} onHide={this.handleShowModal}>
           <Modal.Header closeButton>
-            <Modal.Title>Подробная информация</Modal.Title>
+            <Modal.Title>{imageUploded.title[lang]}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <input
@@ -99,7 +109,7 @@ class ImageUploded extends React.Component {
               type="file"
               name="fileUploaded"
             />
-            <Button onClick={this.onClickHandler}>Отправить</Button>
+            <Button onClick={this.onClickHandler}>{imageUploded.send[lang]}</Button>
           </Modal.Body>
           <Modal.Footer>
             <Messages
