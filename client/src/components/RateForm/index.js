@@ -86,7 +86,8 @@ class RateForm extends Component {
         data: action.response,
         warning: 'Ставка успешно обновлена!',
       });
-    }
+    };
+    return action;
   }
 
   handleChange = (e) => {
@@ -187,12 +188,18 @@ class RateForm extends Component {
   }
 
   handleCreateSubmit = () => {
-    const { data } = this.state;
+    const { data, file } = this.state;
     data.createTime = new Date();
-    const { creteNewRate } = this.props;
+    const { creteNewRate, changeImg } = this.props;
     this.setState({ warning: '' });
     if (typeof creteNewRate === "function") {
-      creteNewRate(data).then(this.changeState);
+      creteNewRate(data)
+      .then(this.changeState)
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          changeImg('rate', [file], { rateId: action.response._id });
+        }
+      });
     }
   }
 
@@ -252,6 +259,12 @@ class RateForm extends Component {
     }
   }
 
+  selectFile = (e) => {
+    this.setState({
+      file: e.target.files[0],
+    })
+  }
+
   render() {
     const {
       data: {
@@ -307,6 +320,9 @@ class RateForm extends Component {
           handleDeleteDraw={this.handleDeleteDraw}
           HandleMakeVictory={this.HandleMakeVictory}
         />
+
+        <input type="file" name="post" onChange={this.selectFile}/>
+
         <Row>
         {
           creteNewRate &&
@@ -383,6 +399,7 @@ RateForm.propType = {
   getRateByID: PropTypes.func,
   putRateLiveByID: PropTypes.func,
   putRateSelectVictory: PropTypes.func,
+  changeImg: PropTypes.func,
   titleFrom: PropTypes.string,
 }
 

@@ -9,6 +9,7 @@ import {
 
 import {
   createPost,
+  changeImg,
 } from 'actions';
 
 import Messages from 'components/Messages';
@@ -19,6 +20,7 @@ class PostFrom extends React.Component {
     this.state = {
       title: '',
       text: '',
+      file: null,
 
       warning: '',
       error: '',
@@ -42,8 +44,8 @@ class PostFrom extends React.Component {
   }
 
   handleSubmit = () => {
-    const { title, text } = this.state;
-    const { auth: { auth }, createPost } = this.props;
+    const { title, text, file } = this.state;
+    const { auth: { auth }, createPost, changeImg } = this.props;
     const data = {
       title,
       text,
@@ -60,12 +62,19 @@ class PostFrom extends React.Component {
           warning: 'Пост успешно создан!',
           isFetching: false,
         })
+        changeImg('post', [file], { postId: action.response._id });
       } else {
         this.setState({
           error: action.error,
           isFetching: false,
         })
       }
+    })
+  }
+
+  selectFile = (e) => {
+    this.setState({
+      file: e.target.files[0],
     })
   }
 
@@ -100,6 +109,8 @@ class PostFrom extends React.Component {
             onChange={this.handleChange}
           />
         </Form.Group>
+
+        <input type="file" name="post" onChange={this.selectFile}/>
         <Button variant="primary" onClick={this.handleSubmit}>
           Submit
         </Button>
@@ -117,6 +128,7 @@ class PostFrom extends React.Component {
 PostFrom.propType = {
   auth: PropTypes.shape({}),
   createPost: PropTypes.func,
+  changeImg: PropTypes.func,
 }
 
 function mapStateToProps(state) {
@@ -130,4 +142,5 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   createPost,
+  changeImg,
 })(PostFrom);
