@@ -12,6 +12,8 @@ import {
   getUserById,
 } from 'actions';
 
+import Messages from 'components/Messages';
+
 const imageUploded = {
   changeImg: { RU: 'Изменить фото', EN: 'Change image'},
 }
@@ -22,6 +24,9 @@ class ImageUploded extends React.Component {
     this.state = {
       file: null,
       isShowModal: false,
+      isFetching: false,
+      error: '',
+      warning: '',
     }
   }
 
@@ -39,10 +44,24 @@ class ImageUploded extends React.Component {
         auth,
       },
     } = this.props
+    this.setState({
+      isFetching: true,
+      error: '',
+      warning: '',
+    })
     changeImg('fileUploaded', [this.state.file])
     .then((action) => {
       if (action.status === 'SUCCESS') {
         getUserById(auth.userId)
+        this.setState({
+          isFetching: false,
+          warning: 'Фото успешно загружено',
+        })
+      } else {
+        this.setState({
+          isFetching: false,
+          error: action.error,
+        })
       }
     });
   }
@@ -56,6 +75,9 @@ class ImageUploded extends React.Component {
   render() {
     const {
       isShowModal,
+      isFetching,
+      error,
+      warning,
     } = this.state;
     const {
       lang: {
@@ -79,6 +101,13 @@ class ImageUploded extends React.Component {
             />
             <Button onClick={this.onClickHandler}>Отправить</Button>
           </Modal.Body>
+          <Modal.Footer>
+            <Messages
+              error={error}
+              warning={warning}
+              isFetching={isFetching}
+            />
+          </Modal.Footer>
         </Modal>
       </>
     )
