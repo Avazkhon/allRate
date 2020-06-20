@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
 
 import {
-  Container,
   Row,
   Col,
 } from 'react-bootstrap';
@@ -71,12 +69,14 @@ class CardRate extends React.Component {
   }
 }
 
-CardRate.propType = {
+CardRate.propTypes = {
   getRateByID: PropTypes.func,
   putRateByID: PropTypes.func,
   putRateLiveByID: PropTypes.func,
   putRateSelectVictory: PropTypes.func,
   selectRate: PropTypes.shape({}),
+  match: PropTypes.shape(),
+  auth: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {

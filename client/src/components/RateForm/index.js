@@ -393,7 +393,7 @@ class RateForm extends Component {
   }
 };
 
-RateForm.propType = {
+RateForm.propTypes = {
   creteNewRate: PropTypes.func,
   putRateByID: PropTypes.func,
   getRateByID: PropTypes.func,

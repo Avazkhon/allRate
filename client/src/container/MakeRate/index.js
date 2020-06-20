@@ -60,13 +60,16 @@ class MakeRate extends Component {
   }
 }
 
-MakeRate.propType = {
+MakeRate.propTypes = {
   auth: PropTypes.shape({}),
+  location: PropTypes.shape(),
   selectRate: PropTypes.shape({}),
   purse: PropTypes.shape({}),
   getRateByID: PropTypes.finc,
   postInvoice: PropTypes.finc,
   getPurse: PropTypes.finc,
+  addCountViewsRate: PropTypes.finc,
+  changeRatingRate: PropTypes.finc,
 }
 
 function mapStateToProps(state) {

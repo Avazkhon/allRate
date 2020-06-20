@@ -156,7 +156,7 @@ class HistoryPurse extends Component {
   }
 };
 
-HistoryPurse.proptype = {
+HistoryPurse.propTypes = {
   purse: PropTypes.shape({}),
   classes: PropTypes.shape({}),
   lang: PropTypes.strin,

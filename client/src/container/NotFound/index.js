@@ -16,8 +16,8 @@ const NotFound = ({
   </Layout>
 );
 
-NotFound.propType = {
-  classes: PropTypes.shape({}),
+NotFound.propTypes = {
+  classes: PropTypes.shape(),
 }
 
 

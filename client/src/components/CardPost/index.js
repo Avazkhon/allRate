@@ -6,7 +6,6 @@ import { AiFillEye } from "react-icons/ai";
 
 import {
   Card,
-  Button,
   Row,
   Col,
   Modal,
@@ -56,7 +55,7 @@ const CardComponent = ({
               style={{ width: '2rem' }}
             />
             <Card.Link
-              href={`profile/${user && user._id}`}
+              href={`/profile/${user && user._id}`}
             >
               {' '}{user && user.userName}
             </Card.Link>
@@ -133,7 +132,7 @@ const CardRate = ({
   }
 }
 
-CardRate.propType = {
+CardRate.propTypes = {
   classes: PropTypes.shape({}),
   user: PropTypes.shape({}),
   handleShow: PropTypes.func,

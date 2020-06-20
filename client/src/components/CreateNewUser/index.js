@@ -281,7 +281,7 @@ class CreateNewUser extends Component {
   }
 }
 
-CreateNewUser.propType = {
+CreateNewUser.propTypes = {
   createNewUser: PropTypes.func,
   handleCreateNewUser: PropTypes.func,
   handleReturnLogin: PropTypes.func,

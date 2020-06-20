@@ -45,10 +45,6 @@ class UsersList extends React.Component {
       auth: {
         auth
       },
-      users: {
-        data: users,
-      },
-      myList,
     } = this.props;
 
     return (
@@ -70,21 +66,19 @@ class UsersList extends React.Component {
   }
 }
 
-UsersList.propType = {
+UsersList.propTypes = {
   getUsers: PropTypes.func,
   getSubscriptions: PropTypes.func,
-  users: PropTypes.shape({}),
-  auth: PropTypes.shape({}),
+  users: PropTypes.shape(),
+  auth: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {
   const {
     auth,
-    users,
   } = state;
   return {
     auth,
-    users,
   };
 }
 

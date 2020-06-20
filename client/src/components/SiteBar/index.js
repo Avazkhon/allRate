@@ -25,7 +25,7 @@ const Sitebar = ({
   </div>
 )
 
-Sitebar.propType = {
+Sitebar.propTypes = {
   classes: PropTypes.shape({}),
   userId: PropTypes.string.isRequired,
 }

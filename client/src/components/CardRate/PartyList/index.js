@@ -9,41 +9,26 @@ import {
 
 import style from './style';
 
-class PartyList extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //
-  // }
+const PartyList = ({ party }) => {
+  return (
+    <ListGroup className="list-group-flush">
+      {
+        party.map((itm) => {
+          if (itm.id == 3) {
+            return;
+          }
+          return (
+            <ListGroupItem key={itm._id}>{itm.participator}</ListGroupItem>
+          )
+        })
+      }
+    </ListGroup>
+  )
+};
 
-
-  render() {
-    const {
-      party,
-      classes,
-    } = this.props;
-    return (
-      <ListGroup className="list-group-flush">
-        {
-          party.map((itm) => {
-            if (itm.id == 3) {
-              return;
-            }
-            return (
-              <ListGroupItem key={itm._id}>{itm.participator}</ListGroupItem>
-            )
-          })
-        }
-      </ListGroup>
-    );
-  }
-}
-
-PartyList.propType = {
-  party: PropTypes.shape({}),
-  classes: PropTypes.shape({
-    _id: PropTypes.string,
-    participator: PropTypes.string,
-  })
+PartyList.propTypes = {
+  party: PropTypes.shape(),
+  classes: PropTypes.shape()
 }
 
 export default injectSheet(style)(PartyList);

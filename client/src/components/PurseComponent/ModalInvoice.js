@@ -180,7 +180,7 @@ class ModalInvoice extends Component {
   }
 }
 
-ModalInvoice.propType = {
+ModalInvoice.propTypes = {
   show: PropTypes.bool.isRequired,
   basisForPayment: PropTypes.string.isRequired,
   requisiteName: PropTypes.string.isRequired,

@@ -114,7 +114,7 @@ class MyList extends React.Component {
   }
 }
 
-MyList.propType = {
+MyList.propTypes = {
   myList: PropTypes.shape({}),
   users: PropTypes.shape({}),
   addCountViewsPost: PropTypes.func,

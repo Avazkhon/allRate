@@ -93,7 +93,7 @@ class MakeRateTabel extends Component {
   }
 }
 
-MakeRateTabel.propType = {
+MakeRateTabel.propTypes = {
   mainBet: PropTypes.arrayOf({}),
   party: PropTypes.arrayOf({}),
   handleModal: PropTypes.func,

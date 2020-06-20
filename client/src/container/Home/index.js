@@ -20,9 +20,6 @@ import MyList from 'components/MyList';
 import SiteBar from 'components/SiteBar';
 import Layout from '../Layout';
 
-import {
-  getDataUserFromLocalStorag,
-} from 'utils';
 
 class Home extends React.Component {
   constructor(props) {
@@ -112,11 +109,11 @@ class Home extends React.Component {
   }
 }
 
-Home.propType = {
+Home.propTypes = {
   getAllNews: PropTypes.func,
   getRatesPage: PropTypes.func,
   getPostsPage: PropTypes.func,
-  auth: PropTypes.shape({}),
+  auth: PropTypes.shape(),
   myList: PropTypes.shape({}),
   posts: PropTypes.shape({}),
   rate: PropTypes.shape({}),

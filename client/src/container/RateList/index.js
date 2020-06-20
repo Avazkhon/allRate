@@ -50,8 +50,7 @@ class RateList extends React.Component {
   render() {
     const {
       rateList,
-      classes,
-      location,
+      // classes,
       auth,
     } = this.props;
 
@@ -77,9 +76,11 @@ class RateList extends React.Component {
   }
 }
 
-RateList.propType = {
+RateList.propTypes = {
   getCommonRates: PropTypes.func,
-  rateList: PropTypes.shape({})
+  rateList: PropTypes.shape(),
+  location: PropTypes.shape(),
+  auth: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {

@@ -270,7 +270,7 @@ class CardUser extends React.Component {
   }
 }
 
-CardUser.propType = {
+CardUser.propTypes = {
   addSubscription: PropTypes.func,
   deleteSubscriptions: PropTypes.func,
   users: PropTypes.shape({}),

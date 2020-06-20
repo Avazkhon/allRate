@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from "react-router-dom";
-import injectSheet from 'react-jss';
 
 import {
   Container,
@@ -26,7 +24,7 @@ class MePage extends React.Component {
   //
   // }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps) {
     const {
       getMyList,
       auth: {
@@ -71,8 +69,9 @@ class MePage extends React.Component {
   }
 }
 
-MePage.propType = {
-  auth: PropTypes.shape({}),
+MePage.propTypes = {
+  auth: PropTypes.shape(),
+  myList: PropTypes.shape(),
   getMyList: PropTypes.func,
 }
 

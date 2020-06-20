@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
@@ -86,12 +86,12 @@ const Auth = ({
   </Form>
 );
 
-Auth.propType = {
+Auth.propTypes = {
   handleChange: PropTypes.func,
   handleAuth: PropTypes.func,
   handleCreateNewUser: PropTypes.func,
   isHeader: PropTypes.bool,
-  classes: PropTypes.shape({}),
+  classes: PropTypes.shape(),
   error: PropTypes.string,
 }
 

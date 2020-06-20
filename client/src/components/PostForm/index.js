@@ -125,7 +125,7 @@ class PostFrom extends React.Component {
   }
 }
 
-PostFrom.propType = {
+PostFrom.propTypes = {
   auth: PropTypes.shape({}),
   createPost: PropTypes.func,
   changeImg: PropTypes.func,
