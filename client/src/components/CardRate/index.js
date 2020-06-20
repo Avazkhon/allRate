@@ -114,6 +114,28 @@ const CardComponent = ({
   )
 }
 
+CardComponent.propTypes = {
+  rate: PropTypes.shape({
+    title: PropTypes.string,
+    description: PropTypes.string,
+    img: PropTypes.string,
+    dateStart: PropTypes.string,
+    dateFinish: PropTypes.string,
+    _id: PropTypes.string,
+    authorId: PropTypes.string,
+    party: PropTypes.arrayOf(PropTypes.shape({})),
+    rating: PropTypes.shape(),
+    views: PropTypes.number,
+  }),
+  user: PropTypes.shape(),
+  auth: PropTypes.shape(),
+  isShow: PropTypes.bool,
+  changeRating: PropTypes.func,
+  handleShow: PropTypes.func,
+  handleHidden: PropTypes.func,
+  getCommonRates: PropTypes.func,
+}
+
 const CardPost = ({
   rate,
   auth,
@@ -167,10 +189,10 @@ CardPost.propTypes = {
     dateStart: PropTypes.string,
     dateFinish: PropTypes.string,
     _id: PropTypes.string,
-    party: PropTypes.arrayOf({}),
+    party: PropTypes.arrayOf(PropTypes.shape({})),
   }),
-  user: PropTypes.arrayOf({}),
-  auth: PropTypes.arrayOf({}),
+  user: PropTypes.shape(),
+  auth: PropTypes.shape(),
   changeRating: PropTypes.func,
   handleShow: PropTypes.func,
   handleHidden: PropTypes.func,

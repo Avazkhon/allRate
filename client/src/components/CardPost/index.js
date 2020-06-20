@@ -87,6 +87,29 @@ const CardComponent = ({
   )
 }
 
+CardComponent.propTypes = {
+  classes: PropTypes.shape(),
+  user: PropTypes.shape({
+    _id: PropTypes.string,
+    userName: PropTypes.string,
+  }),
+  handleShow: PropTypes.func,
+  changeRating: PropTypes.func,
+  handleHidden: PropTypes.func,
+  isShow: PropTypes.bool,
+  lang: PropTypes.string,
+  post: PropTypes.shape({
+    title: PropTypes.string,
+    text: PropTypes.string,
+    _id: PropTypes.string,
+    img: PropTypes.shape({
+      url: PropTypes.string,
+    }),
+    views: PropTypes.number,
+    rating: PropTypes.shape(),
+  })
+}
+
 const CardRate = ({
   post,
   handleShow,
