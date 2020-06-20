@@ -13,35 +13,37 @@ const Messages = ({
   warning,
   error,
   isFetching,
-  classes,
+  classes
 }) => (
   <>
-  {
-    warning &&
+    {
+      warning &&
     <div className={classes.center}>
       <Alert variant="primary">
-      {warning}
+        {warning}
       </Alert>
     </div>
-  }
-  {
-    error &&
+    }
+    {
+      error &&
     <div className={classes.center}>
       <Alert variant="warning">
         {error.message || error}
       </Alert>
     </div>
-  }
-  { isFetching &&
+    }
+    { isFetching &&
     <div className={classes.center}>
       <Spinner animation="border" variant="primary" />
     </div>
-  }
+    }
   </>
 );
 
-Messages.propType = {
-  style: PropTypes.shape({}),
+Messages.propTypes = {
+  classes: PropTypes.shape({
+    center: PropTypes.string,
+  }),
   warning: PropTypes.string,
   error: PropTypes.string,
   isFetching: PropTypes.bool,
