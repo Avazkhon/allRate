@@ -50,7 +50,7 @@ class ImageUploded extends React.Component {
       warning: '',
     })
 
-    return changeImg('fileUploaded', [this.state.file])
+    return changeImg('avatar', [this.state.file])
     .then((action) => {
       if (action.status === 'SUCCESS') {
         this.setState({

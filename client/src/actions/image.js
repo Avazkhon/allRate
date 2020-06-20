@@ -2,7 +2,7 @@ import {
   CHANGE_IMG,
 } from '../constants';
 
-export function changeImg (field, data, { postId, rateId }) {
+export function changeImg (field, data, { postId, rateId } = {}) {
   let endpoint = '';
   if (postId) {
     endpoint = `/?post=${postId}`;

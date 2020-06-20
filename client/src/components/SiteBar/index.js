@@ -26,8 +26,8 @@ const Sitebar = ({
 )
 
 Sitebar.propTypes = {
-  classes: PropTypes.shape({}),
-  userId: PropTypes.string.isRequired,
+  classes: PropTypes.shape(),
+  userId: PropTypes.string,
 }
 
 export default injectSheet(style)(Sitebar);
