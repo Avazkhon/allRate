@@ -10,6 +10,7 @@ export const GET_USERS_BY_IDS = 'GET_USERS_BY_IDS';
 
 export const CREATE_NEW_RATE = 'CREATE_NEW_RATE';
 export const GET_RATES = 'GET_RATES';
+export const GET_RATES_PAGE = 'GET_RATES_PAGE';
 export const GET_RATE_BY_ID = 'GET_RATE_BY_ID';
 export const PUT_RATE = 'PUT_RATE';
 export const GET_COMMON_RATES = 'GET_COMMON_RATES';
@@ -31,6 +32,7 @@ export const DELETE_SUBSCRIPTION = 'DELETE_SUBSCRIPTION';
 export const CREATE_POST = 'CREATE_POST';
 export const ADD_COUNT_VIEWS_POST = 'ADD_COUNT_VIEWS_POST';
 export const CHANGE_RATING_POST = 'CHANGE_RATING_POST';
+export const GET_POSTS_PAGE = 'GET_POSTS_PAGE';
 
 export const GET_MY_LIST = 'GET_MY_LIST';
 export const GET_MY_NEWS = 'GET_MY_NEWS';
@@ -39,6 +41,7 @@ export const GET_ALL_NEWS = 'GET_ALL_NEWS';
 export const CHANGE_RATING_RATE = 'CHANGE_RATING_RATE';
 export const ADD_COUNT_VIEWS_RATE = 'ADD_COUNT_VIEWS_RATE';
 
+export const CHANGE_IMG = 'CHANGE_IMG';
 
 export const basisForPayment = {
   accountReplenishment: 'accountReplenishment',

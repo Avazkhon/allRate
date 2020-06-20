@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 class CreateModel {
   constructor(nameModel, schema) {
+    schema.plugin(mongoosePaginate);
     this.Model = mongoose.model(nameModel, schema);
   }
 
@@ -46,6 +48,13 @@ class CreateModel {
     ))
   }
 
+  async paginate (props, params) {
+    return new Promise((resolve, reject) => {
+      this.Model.paginate(props, params)
+      .then(resolve)
+      .catch(reject)
+    })
+  }
 }
 
 module.exports = CreateModel;

@@ -3,6 +3,7 @@ import {
   CREATE_POST,
   CHANGE_RATING_POST,
   ADD_COUNT_VIEWS_POST,
+  GET_POSTS_PAGE,
 } from '../constants';
 
 export function createPost (data) {
@@ -33,6 +34,16 @@ export function addCountViewsPost (postId) {
     meta: {
       method: 'PATCH',
       endpoint:`views/?postId=${postId}`,
+    }
+  });
+}
+
+export function getPostsPage ({ page, limit }) {
+  return dispatch => dispatch({
+    type: GET_POSTS_PAGE,
+    meta: {
+      method: 'GET',
+      endpoint:`post/?page=${page}&limit=${limit}`,
     }
   });
 }

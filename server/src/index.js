@@ -4,6 +4,8 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
+
 const WriteToLog = require('./utils/writeToLog');
 const InnerTask = require('./innerTask');
 
@@ -21,6 +23,7 @@ const subscriptionsControllers = require('./controllers/subscriptions');
 const ratingControllers = require('./controllers/rating');
 const viewsControllers = require('./controllers/views');
 const InvoiceControllers = require('./controllers/invoice');
+const AlbumFolder = require('./controllers/albumFolder');
 const passwords = require('../password');
 
 const app = express();
@@ -28,6 +31,7 @@ const router = express.Router();
 const writeToLog = new WriteToLog();
 const innerTask = new InnerTask();
 const invoiceControllers = new InvoiceControllers();
+const albumFolder = new AlbumFolder();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -44,6 +48,7 @@ app.use(session({
     ttl: 1000 * 60 * 60 * 24
   }),
 }));
+app.use(fileUpload());
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "http://127.250.250.250");
@@ -107,6 +112,11 @@ app.route('/api/purse')
 app.route('/api/invoice')
   .get(invoiceControllers.getInvoice)
   .post(invoiceControllers.createInvoice)
+
+app.route('/api/image')
+  .post(albumFolder.addImage)
+
+app.get('/api/img', albumFolder.getImg);
 
 db.connect((err) => {
   if (err) {

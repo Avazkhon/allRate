@@ -16,6 +16,7 @@ export {
   putRateSelectVictory,
   changeRatingRate,
   addCountViewsRate,
+  getRatesPage,
 } from './rate';
 
 export {
@@ -50,6 +51,7 @@ export {
   createPost,
   changeRatingPost,
   addCountViewsPost,
+  getPostsPage,
 } from './post';
 
 export {
@@ -57,3 +59,7 @@ export {
   getMyNews,
   getAllNews,
 } from './myList';
+
+export {
+  changeImg,
+} from './image';

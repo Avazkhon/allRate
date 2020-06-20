@@ -16,6 +16,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - '8080-8084:8080'
+    volumes:
+      - ./var:/usr/src/app/var/
     links:
       - redis
     restart: always

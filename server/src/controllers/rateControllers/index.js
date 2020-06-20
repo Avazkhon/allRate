@@ -6,8 +6,10 @@ const purseControllers = require('../purse');
 const writeToLog = new WriteToLog();
 
 exports.getRate = (req, res) => {
-  const { id, userId, all } = req.query;
-  const params = (id && {id}) || (userId && {userId}) || (all === 'true' && {all});
+  const { id, userId, all, page } = req.query;
+  const params = (id && {id}) || (userId && {userId}) ||
+    (all === 'true' && {all}) || ( page && { ...req.query });
+
   try {
     return getRate(params, res);
   }

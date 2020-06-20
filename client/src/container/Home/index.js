@@ -7,10 +7,13 @@ import {
   Container,
   Row,
   Col,
+  Carousel,
 } from 'react-bootstrap';
 
 import {
   getAllNews,
+  getPostsPage,
+  getRatesPage,
 } from 'actions';
 
 import MyList from 'components/MyList';
@@ -30,7 +33,11 @@ class Home extends React.Component {
   componentDidMount() {
     const {
       getAllNews,
+      getPostsPage,
+      getRatesPage,
     } = this.props;
+    getPostsPage({ page: 1, limit: 6 });
+    getRatesPage({ page: 1, limit: 6 });
     getAllNews();
   }
 
@@ -40,6 +47,8 @@ class Home extends React.Component {
         auth
       },
       myList,
+      posts,
+      rate,
     } = this.props;
 
     return (
@@ -52,6 +61,46 @@ class Home extends React.Component {
             />
           </Col>
           <Col xs="12" sm="8" md="9">
+            <Carousel>
+              {
+                posts.data && posts.data.docs && posts.data.docs.map((itm) => {
+                  return (
+                    <Carousel.Item key={itm._id}>
+                      <img
+                        className="d-block w-100"
+                        src={itm.img.url}
+                        alt={itm.title}
+                      />
+
+                      <Carousel.Caption>
+                        <h3>{itm.title}</h3>
+                        <p>{itm.text}</p>
+                      </Carousel.Caption>
+                    </Carousel.Item>
+                  )
+                })
+              }
+            </Carousel>
+            <Carousel>
+              {
+                rate.data && rate.data.docs && rate.data.docs.map((itm) => {
+                  return (
+                    <Carousel.Item key={itm._id}>
+                      <img
+                        className="d-block w-100"
+                        src={itm.img}
+                        alt={itm.title}
+                      />
+
+                      <Carousel.Caption>
+                        <h3>{itm.title}</h3>
+                        <p>{itm.description}</p>
+                      </Carousel.Caption>
+                    </Carousel.Item>
+                  )
+                })
+              }
+            </Carousel>
             <MyList
               myList={myList}
             />
@@ -65,21 +114,31 @@ class Home extends React.Component {
 
 Home.propType = {
   getAllNews: PropTypes.func,
+  getRatesPage: PropTypes.func,
+  getPostsPage: PropTypes.func,
   auth: PropTypes.shape({}),
   myList: PropTypes.shape({}),
+  posts: PropTypes.shape({}),
+  rate: PropTypes.shape({}),
 }
 
 function mapStateToProps(state) {
   const {
     auth,
     myList,
+    posts,
+    rate,
   } = state;
   return {
     auth,
     myList,
+    posts,
+    rate,
   };
 }
 
 export default connect(mapStateToProps, {
   getAllNews,
+  getPostsPage,
+  getRatesPage,
 })(Home);

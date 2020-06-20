@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { AiFillEye } from "react-icons/ai";
 
 
@@ -9,12 +10,13 @@ import {
   ListGroupItem,
   Row,
   Col,
+  Modal,
 } from 'react-bootstrap';
 
 import Rating from 'widgets/Rating';
 import PartyList from './PartyList';
 
-const CardPost = ({
+const CardComponent = ({
   rate: {
     title,
     description,
@@ -25,6 +27,10 @@ const CardPost = ({
     party,
     rating,
     views,
+    authorId,
+  },
+  auth: {
+    auth
   },
   changeRating,
   isShow,
@@ -76,6 +82,14 @@ const CardPost = ({
           >
             Перейти
           </Card.Link>
+          {
+            auth && auth.userId === authorId &&
+            <Card.Link
+              href={`/card-rate/${_id}`}
+            >
+              Редактировать
+            </Card.Link>
+          }
         </Col>
         <Col>
           <Card.Link
@@ -100,6 +114,51 @@ const CardPost = ({
   )
 }
 
+const CardPost = ({
+  rate,
+  auth,
+  changeRating,
+  isShow,
+  handleHidden,
+  handleShow,
+  getCommonRates,
+  user,
+}) => {
+  if (!isShow) {
+    return (
+      <CardComponent
+        rate={rate}
+        user={user}
+        getCommonRates={getCommonRates}
+        handleShow={handleShow}
+        handleHidden={handleHidden}
+        changeRating={changeRating}
+        auth={auth}
+      />
+    )
+  } else {
+    return (
+      <Modal show={isShow} onHide={handleHidden}>
+        <Modal.Header closeButton>
+          <Modal.Title>Подробная информация</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <CardComponent
+            rate={rate}
+            user={user}
+            getCommonRates={getCommonRates}
+            handleShow={handleShow}
+            handleHidden={handleHidden}
+            changeRating={changeRating}
+            isShow
+            auth={auth}
+          />
+        </Modal.Body>
+      </Modal>
+    )
+  }
+}
+
 CardPost.propType = {
   rate: PropTypes.shape({
     title: PropTypes.string,
@@ -111,10 +170,20 @@ CardPost.propType = {
     party: PropTypes.arrayOf({}),
   }),
   user: PropTypes.arrayOf({}),
+  auth: PropTypes.arrayOf({}),
   changeRating: PropTypes.func,
   handleShow: PropTypes.func,
   handleHidden: PropTypes.func,
   getCommonRates: PropTypes.func,
 }
 
-export default CardPost
+function mapStateToProps(state) {
+  const {
+    auth,
+  } = state;
+  return {
+    auth,
+  }
+}
+
+export default connect(mapStateToProps, {})(CardPost)

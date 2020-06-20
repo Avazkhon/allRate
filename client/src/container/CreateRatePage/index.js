@@ -11,6 +11,7 @@ import {
 
 import {
   creteNewRate,
+  changeImg,
 } from 'actions'
 
 import RateForm from 'components/RateForm';
@@ -30,6 +31,7 @@ class CreateRatePAge extends React.Component {
       creteNewRate,
       auth,
       selectRate,
+      changeImg,
     } = this.props;
     const { userId } = auth.auth ? auth.auth : {};
     return (
@@ -46,6 +48,7 @@ class CreateRatePAge extends React.Component {
                 rate={selectRate}
                 titleFrom="Создание меню"
                 creteNewRate={creteNewRate}
+                changeImg={changeImg}
               />
             </Col>
           </Row>
@@ -57,6 +60,7 @@ class CreateRatePAge extends React.Component {
 
 CreateRatePAge.propType = {
   creteNewRate: PropTypes.func,
+  changeImg: PropTypes.func,
   auth: PropTypes.shape({}),
 }
 
@@ -73,4 +77,5 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   creteNewRate,
+  changeImg,
 })(CreateRatePAge);
