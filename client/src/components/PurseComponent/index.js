@@ -109,7 +109,7 @@ class PurseComponent extends Component {
   }
 }
 
-PurseComponent.propType = {
+PurseComponent.propTypes = {
   auth: PropTypes.shape({}),
   purse: PropTypes.shape({}),
   lang: PropTypes.shape({}),

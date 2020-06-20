@@ -68,7 +68,7 @@ const CardComponent = ({
             style={{ width: '2rem' }}
           />
           <Card.Link
-            href={`profile/${user && user._id}`}
+            href={`/profile/${user && user._id}`}
           >
             {' '}{user && user.userName}
           </Card.Link>
@@ -159,7 +159,7 @@ const CardPost = ({
   }
 }
 
-CardPost.propType = {
+CardPost.propTypes = {
   rate: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,

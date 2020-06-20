@@ -113,7 +113,7 @@ class ImageUploded extends React.Component {
   }
 };
 
-ImageUploded.propType = {
+ImageUploded.propTypes = {
   changeImg: PropTypes.func,
   lang: PropTypes.string,
 };

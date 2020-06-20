@@ -44,8 +44,8 @@ class Purse extends Component {
   }
 }
 
-Purse.propType = {
-  auth: PropTypes.shape({}),
+Purse.propTypes = {
+  auth: PropTypes.shape(),
 };
 
 function mapStateToProps(state) {

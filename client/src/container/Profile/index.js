@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from "react-router-dom";
-import injectSheet from 'react-jss';
 
 import {
   Container,
@@ -61,9 +59,10 @@ class Profile extends React.Component {
   }
 }
 
-Profile.propType = {
-  auth: PropTypes.shape({}),
-  myList: PropTypes.shape({}),
+Profile.propTypes = {
+  auth: PropTypes.shape(),
+  match: PropTypes.shape(),
+  myList: PropTypes.shape(),
   getMyList: PropTypes.func,
 }
 

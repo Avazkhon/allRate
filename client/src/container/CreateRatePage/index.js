@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
 
 import {
   Row,
@@ -58,10 +57,11 @@ class CreateRatePAge extends React.Component {
   }
 }
 
-CreateRatePAge.propType = {
+CreateRatePAge.propTypes = {
   creteNewRate: PropTypes.func,
   changeImg: PropTypes.func,
-  auth: PropTypes.shape({}),
+  selectRate: PropTypes.shape(),
+  auth: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {

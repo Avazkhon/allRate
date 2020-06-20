@@ -18,9 +18,10 @@ const CommonModal = ({
   </Drawer>
 )
 
-CommonModal.propType = {
+CommonModal.propTypes = {
   open: PropTypes.bool,
   toggle: PropTypes.func,
+  children: PropTypes.shape()
 }
 
 export default CommonModal;

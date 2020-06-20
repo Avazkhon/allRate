@@ -246,7 +246,7 @@ class MakeRateComponent extends Component {
   }
 }
 
-MakeRateComponent.propType = {
+MakeRateComponent.propTypes = {
   rate: PropTypes.shape({}),
   purse: PropTypes.shape({}),
   classes: PropTypes.shape({}),

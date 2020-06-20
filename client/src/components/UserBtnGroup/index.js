@@ -94,7 +94,7 @@ class UserBtnGroup extends Component {
   }
 }
 
-UserBtnGroup.propType = {
+UserBtnGroup.propTypes = {
   getMyNews: PropTypes.func.isRequired,
   getMyList: PropTypes.func.isRequired,
 }

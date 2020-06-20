@@ -195,7 +195,7 @@ class Header extends React.Component {
   }
 };
 
-Header.propType = {
+Header.propTypes = {
   authoLogin: PropTypes.func,
   lang: PropTypes.shape({}),
   auth: PropTypes.shape({}),

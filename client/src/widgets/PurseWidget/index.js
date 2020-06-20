@@ -19,13 +19,13 @@ class PurseWidget extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { getPurse, purse, auth } = this.props;
+    const { getPurse, auth } = this.props;
     if (
       auth.auth && !prevProps.purse.isFetching
       && !prevProps.purse.error && !prevProps.purse.purse
     ) {
       getPurse();
-    };
+    }
   }
 
   render() {
@@ -55,11 +55,13 @@ class PurseWidget extends React.Component {
       </ListGroup>
     );
   }
-};
+}
 
-PurseWidget.propType = {
-  auth: PropTypes.shape({}),
+PurseWidget.propTypes = {
+  auth: PropTypes.shape(),
+  purse: PropTypes.shape(),
   idPurse: PropTypes.bool,
+  getPurse: PropTypes.func,
 };
 
 function mapStateToProps (state) {

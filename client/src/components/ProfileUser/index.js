@@ -151,7 +151,7 @@ class ProfileUser extends React.Component {
   }
 };
 
-ProfileUser.propType = {
+ProfileUser.propTypes = {
   getUserById: PropTypes.func,
   changeImg: PropTypes.func,
   changeRatingUser: PropTypes.func,

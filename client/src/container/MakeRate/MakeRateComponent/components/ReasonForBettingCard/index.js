@@ -84,10 +84,21 @@ const ReasonForBettingCard = ({
   </Card>
 )
 
-ReasonForBettingCard.propType = {
-  reasonForBetting: PropTypes.shape({}),
-  participant: PropTypes.shape({}),
-  purse: PropTypes.shape({}),
+ReasonForBettingCard.propTypes = {
+  reasonForBetting: PropTypes.shape({
+    img: PropTypes.string,
+    terms: PropTypes.string,
+    coefficient: PropTypes.number,
+    participants: PropTypes.arrayOf()
+  }),
+  participant: PropTypes.shape(PropTypes.string),
+  purse: PropTypes.shape({
+    purse: PropTypes.shape({
+      amount: PropTypes.number,
+    }),
+    isFetching: PropTypes.bool,
+    error: PropTypes.shape()
+  }),
   submitRFB: PropTypes.func,
   handleChangeMany: PropTypes.func,
   summMany: PropTypes.number,

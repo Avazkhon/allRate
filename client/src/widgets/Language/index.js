@@ -57,7 +57,7 @@ class Language extends React.Component {
   }
 };
 
-Language.propType = {
+Language.propTypes = {
   changeLang: PropTypes.func,
 };
 

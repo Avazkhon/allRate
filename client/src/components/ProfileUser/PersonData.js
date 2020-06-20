@@ -25,9 +25,9 @@ class PersonData extends React.Component {
       </ListGroup>
     );
   }
-};
+}
 
-PersonData.propType = {
-  userProps: PropTypes.shape({}),
+PersonData.propTypes = {
+  userProps: PropTypes.arrayOf(PropTypes.shape()),
 }
 export default PersonData;

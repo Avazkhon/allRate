@@ -83,8 +83,8 @@ const Party = ({
     </Row>
   </>
 )
-Party.propType = {
-  party: PropTypes.shape({}),
+Party.propTypes = {
+  party: PropTypes.arrayOf(PropTypes.shape()),
   handleChangeRate: PropTypes.func,
   handleDeleteDraw: PropTypes.func,
   HandleMakeVictory: PropTypes.func,

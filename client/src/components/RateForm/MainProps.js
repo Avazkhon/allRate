@@ -11,13 +11,13 @@ import CreateFlatpickr from '../CreateFlatpickr';
 
 const timeZone = (() => {
   const array = [];
-  for (var i = 12; i > 0; i--) {
-    array.push(-i)
-  };
+  for (let i = 12; i > 0; i--) {
+    array.push(-i);
+  }
 
-  for (var i = 0; i < 15; i++) {
-    array.push(i)
-  };
+  for (let i = 0; i < 15; i++) {
+    array.push(i);
+  }
   return array;
 })();
 
@@ -103,7 +103,7 @@ const MainProps = ({
   </>
 );
 
-MainProps.propType = {
+MainProps.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   differenceTime: PropTypes.number,

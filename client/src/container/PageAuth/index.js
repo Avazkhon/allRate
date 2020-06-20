@@ -104,7 +104,7 @@ class PageAuth extends React.Component {
   }
 }
 
-PageAuth.propType = {
+PageAuth.propTypes = {
   authRegistration: PropTypes.func,
   createNewUser: PropTypes.func,
   authoLogin: PropTypes.func,

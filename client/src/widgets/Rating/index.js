@@ -134,7 +134,7 @@ class Rating extends React.Component {
   }
 };
 
-Rating.propType = {
+Rating.propTypes = {
   getMyList: PropTypes.func,
   getMyNews: PropTypes.func,
   getAllNews: PropTypes.func,

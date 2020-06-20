@@ -5,29 +5,24 @@ import { connect } from 'react-redux';
 import Header from '../Header';
 import Footer from '../Footer';
 
-class Layout extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <React.StrictMode>
-        <div className="layout-header">
-          <Header/>
-        </div>
-        <div className='content'>
-          {this.props.children}
-        </div>
-        <div className="layout-footer">
-          <Footer />
-        </div>
-      </React.StrictMode>
-    );
-  }
+const Layout = (props) => {
+  return (
+    <React.StrictMode>
+      <div className="layout-header">
+        <Header/>
+      </div>
+      <div className='content'>
+        {props.children}
+      </div>
+      <div className="layout-footer">
+        <Footer />
+      </div>
+    </React.StrictMode>
+  );
 }
 
-Layout.propType = {
+Layout.propTypes = {
+  children: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {
@@ -39,5 +34,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
-})(Layout);
+export default connect(
+  mapStateToProps,
+  {}
+)(Layout);
