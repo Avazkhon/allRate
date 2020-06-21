@@ -5,7 +5,7 @@ const writeToLog = new WriteToLog();
 
 exports.authIn = (req, res) => {
   const { email, password } = req.body;
-  userModels.findOne({ email })
+  userModels.findOne({ email }, { password: true })
   .then((user) => {
     if (user
       && user.email === email
@@ -24,7 +24,8 @@ exports.authIn = (req, res) => {
     return res.status(401).send('Не правельный email или пароль!');
   })
   .catch((error) => {
-    writeToLog.write(err, 'request.err');
+    console.log(error);
+    writeToLog.write(error, 'request.err');
     res.status(500).json(error);
   })
 }
