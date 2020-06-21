@@ -11,6 +11,7 @@ exports.userSchema = new Schema(
     email: { type: String, required: true, unique: true },
     isAdmin: { type: Boolean },
     dateCreate: { type: Date, required: true },
+    mailConfirmation: { type: 'Mixed' },
     age: {
       day: { type: String, required: true },
       month: { type: String, required: true },

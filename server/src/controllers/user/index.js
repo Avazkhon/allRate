@@ -1,12 +1,13 @@
+const uuidv4 = require('uuid').v4;
+const getUser = require('./getUser');
 const userModels = require('../../models/user');
 const subscriptionsModels = require('../../models/subscriptions');
 const subscribersModels = require('../../models/subscribers');
-const getUser = require('./getUser');
 const WriteToLog = require('../../utils/writeToLog');
+const transporter = require('../../utils/transporter');
 const purseControllers = require('../purse');
 
 const writeToLog = new WriteToLog();
-
 exports.getUser = (req, res) => {
   const { id, ids, userName, all } = req.query;
   const params =
@@ -26,6 +27,7 @@ exports.getUser = (req, res) => {
 exports.craeteUser = async (req, res) => {
   try {
     let user = await userModels.create(req.body);
+    const token = uuidv4();
     await purseControllers.createPurse({
       createTime: req.body.dateCreate,
       userId: user._id
@@ -38,14 +40,30 @@ exports.craeteUser = async (req, res) => {
       userId: user._id,
       subscribers: [],
     });
+    transporter.sendMail({
+      to: user.email,
+      subject: "my app", // Subject line
+      text: "mail confirmation", // plain text body
+      html: `
+        <div>
+          <h3>Hello, ${user.userName}</h3>
+          <p>
+            To confirm the mail, follow the link http://127.250.250.250/auth/?mail_confirmation=${token}
+          </p>
+        <div/>
+      `,
+    });
+
     user = await userModels.findByIdAndUpdate(
       { _id: user._id },
       {'$set': {
           subscriptionsId: subscription._id,
           subscribersId: subscribers._id,
+          mailConfirmation: token,
         }
       }
-    );
+    )
+    .catch((error) => {writeToLog.write(error, 'mail_confirmation.error')})
     res.status(201).json(user);
   } catch(error) {
     writeToLog.write(error, 'create_user.error')

@@ -36,3 +36,18 @@ exports.authAut = (req, res) => {
     message: 'Пользователь успешно вышел из системы!'
   });
 }
+
+exports.mailConfirmation = async (req, res) => {
+  const { mail_confirmation } = req.query;
+  await userModels.findOneAndUpdate(
+    { mailConfirmation: mail_confirmation },
+    { mailConfirmation: true }
+  )
+  .then((user) => {
+    return res.status(200).json(user);
+  })
+  .catch((error) => {
+    writeToLog.write(error, 'mail_confirmation.error');
+    res.status(500).json(error);
+  })
+}

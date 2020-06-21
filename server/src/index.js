@@ -66,6 +66,8 @@ app.route('/api/auth')
   .get(authControllers.authAut)
   .post(authControllers.authIn);
 
+app.patch('/api/mail_confirmation', authControllers.mailConfirmation);
+
 app.route('/api/subscription')
   .get(subscriptionsControllers.get)
   .put(subscriptionsControllers.addSubscription)
