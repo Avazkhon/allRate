@@ -1,17 +1,19 @@
 const nodemailer = require("nodemailer");
 
+const { emailAccount } = require("../../password");
+
 let transporter = nodemailer.createTransport(
   {
     host: "smtp.yandex.ru",
     port: 465,
     secure: true, // true for 465, false for other ports
     auth: {
-      user: 'avazkhon@star-tex.ru', // generated ethereal user
-      pass: 'yndex0125699', // generated ethereal password
+      user: emailAccount.user, // generated ethereal user
+      pass: emailAccount.pass, // generated ethereal password
     },
   },
   {
-    from: '"Fred Foo 👻" <avazkhon@star-tex.ru>', // sender address
+    from: `"All Rate" <${emailAccount.user}>`, // sender address
   }
 );
 
