@@ -69,6 +69,7 @@ class RateForm extends Component {
         dateFinish: new Date(),
         differenceTime: 0,
       },
+      file: '',
       warning: '',
 		}
 	}
@@ -320,8 +321,15 @@ class RateForm extends Component {
           handleDeleteDraw={this.handleDeleteDraw}
           HandleMakeVictory={this.HandleMakeVictory}
         />
-
-        <input type="file" name="post" onChange={this.selectFile}/>
+        {
+          creteNewRate &&
+          <input
+            accept=".jpeg, .jpg"
+            type="file"
+            name="post"
+            onChange={this.selectFile}
+          />
+        }
 
         <Row>
         {

@@ -110,7 +110,7 @@ class PostFrom extends React.Component {
           />
         </Form.Group>
 
-        <input type="file" name="post" onChange={this.selectFile}/>
+        <input accept=".jpeg, .jpg" type="file" name="post" onChange={this.selectFile}/>
         <Button variant="primary" onClick={this.handleSubmit}>
           Submit
         </Button>

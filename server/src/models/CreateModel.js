@@ -32,6 +32,14 @@ class CreateModel {
     ))
   }
 
+  async findOneAndUpdate (searchParams, data, addParms = { new: true }) {
+    return new Promise((resolve, reject) => (
+      this.Model.findOneAndUpdate(searchParams, data, addParms)
+      .then(resolve)
+      .catch(reject)
+    ))
+  }
+
   async getByProps (props, params) {
     return new Promise((resolve, reject) => {
       this.Model.find(props, params)

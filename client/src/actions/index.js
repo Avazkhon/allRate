@@ -5,6 +5,7 @@ export {
   getUserById,
   authoLogAut,
   changeRatingUser,
+  postUpdateUsersById,
 } from './auth';
 
 export {

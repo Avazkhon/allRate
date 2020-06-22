@@ -4,6 +4,7 @@ export const REGISTRATION_USER = 'REGISTRATION_USER';
 export const LOG_AUT = 'LOG_AUT';
 export const CREATE_NEW_USER = 'CREATE_NEW_USER';
 export const CHANGE_RATING_USER = 'CHANGE_RATING_USER';
+export const POST_UPDATE_USERS_BY_ID = 'POST_UPDATE_USERS_BY_ID';
 
 export const GET_USERS = 'GET_USERS';
 export const GET_USERS_BY_IDS = 'GET_USERS_BY_IDS';

@@ -94,6 +94,7 @@ class ImageUploded extends React.Component {
           </Modal.Header>
           <Modal.Body>
             <input
+              accept=".jpeg, .jpg"
               onChange={this.handleSelectFile}
               type="file"
               name="fileUploaded"

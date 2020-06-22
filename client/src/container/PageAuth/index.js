@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
+import queryString from 'query-string';
 
 import Layout from '../Layout';
 
@@ -12,6 +13,7 @@ import {
   authRegistration,
   authoLogin,
   createNewUser,
+  postUpdateUsersById,
 } from '../../actions'
 
 import './style.css';
@@ -28,8 +30,11 @@ class PageAuth extends React.Component {
     }
   }
 
-  // componentDidMount() {
-  // }
+  componentDidMount() {
+    const { location, postUpdateUsersById } = this.props;
+    const { mail_confirmation } = queryString.parse(location.search);
+    postUpdateUsersById(mail_confirmation);
+  }
 
   handleChange = (e) => {
     const name = e.target.name;
@@ -109,6 +114,7 @@ PageAuth.propTypes = {
   createNewUser: PropTypes.func,
   authoLogin: PropTypes.func,
   auth: PropTypes.shape({}),
+  location: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {
@@ -124,4 +130,5 @@ export default connect(mapStateToProps, {
   authRegistration,
   authoLogin,
   createNewUser,
+  postUpdateUsersById,
 })(PageAuth);

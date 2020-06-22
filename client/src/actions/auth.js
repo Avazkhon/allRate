@@ -4,7 +4,8 @@ import {
   REGISTRATION_USER,
   LOG_AUT,
   CREATE_NEW_USER,
-  CHANGE_RATING_USER
+  CHANGE_RATING_USER,
+  POST_UPDATE_USERS_BY_ID,
 } from '../constants'
 
 export function authRegistration() {
@@ -67,6 +68,16 @@ export function changeRatingUser (data, userId, action) {
       method: 'PATCH',
       endpoint:`rating/?userId=${userId}&action=${action}`,
       data
+    }
+  });
+}
+
+export function postUpdateUsersById (mail_confirmation) {
+  return dispatch => dispatch({
+    type: POST_UPDATE_USERS_BY_ID,
+    meta: {
+      method: 'PATCH',
+      endpoint:`mail_confirmation/?mail_confirmation=${mail_confirmation}`,
     }
   });
 }
