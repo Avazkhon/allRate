@@ -132,7 +132,9 @@ function mapStateToProps(state) {
   } = state;
   return {
     lang,
-    users,
+    users: {
+      data: users.data.docs,
+    }
   };
 }
 

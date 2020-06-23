@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FiUsers } from 'react-icons/fi';
-import ReactPaginate from 'react-paginate';
 import queryString from 'query-string';
-
 
 import {
   Row,
@@ -21,6 +19,7 @@ import {
 } from 'actions';
 
 import Rating from 'widgets/Rating';
+import NexLoadPage from 'widgets/NexLoadPage';
 import SiteBar from 'components/SiteBar';
 import Messages from 'components/Messages';
 
@@ -40,17 +39,6 @@ class CardUser extends React.Component {
       isFetchings: [],
     }
 
-  }
-
-
-  handleChangePagination = ({ selected }) => {
-    const { userPaginate, history } = this.props;
-    const prevQueryParams = queryString.parse(location.search);
-    userPaginate(selected + 1, prevQueryParams.limit);
-    const nexQueryParams = queryString.stringify({...prevQueryParams, page: selected + 1});
-    history.push({
-      search: nexQueryParams
-    });
   }
 
   makePrevState = (subscriptionId) => {
@@ -193,12 +181,15 @@ class CardUser extends React.Component {
       },
       users: {
         data: users,
+        isFetchings: isFetchingsLoadUsers,
       },
       subscriptions: {
         data: subscriptions
       },
       lang: { lang },
       changeRatingUser,
+      history,
+      userPaginate,
     } = this.props;
 
 
@@ -281,12 +272,11 @@ class CardUser extends React.Component {
           })
         }
 
-        <ReactPaginate
-          initialPage={0}
-          pageCount={users && users.totalPages}
-          pageRangeDisplayed={2}
-          marginPagesDisplayed={3}
-          onPageChange={this.handleChangePagination}
+        <NexLoadPage
+          isFetching={isFetchingsLoadUsers}
+          hasNextPage={users && users.hasNextPage}
+          actionForLoad={userPaginate}
+          history={history}
         />
 
       </>
