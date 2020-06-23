@@ -26,7 +26,7 @@ exports.getUser = (req, res) => {
 
 exports.craeteUser = async (req, res) => {
   try {
-    let user = await userModels.create(req.body);
+    let user = await userModels.create(req.body)
     const token = uuidv4();
     await purseControllers.createPurse({
       createTime: req.body.dateCreate,
@@ -67,8 +67,7 @@ exports.craeteUser = async (req, res) => {
     res.status(201).json(user);
   } catch(error) {
     writeToLog.write(error, 'create_user.error')
-    res.status = 400;
-    res.json(error);
+    res.status(500).json(error);
   };
 }
 
