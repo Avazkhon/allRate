@@ -67,7 +67,6 @@ class UsersList extends React.Component {
 }
 
 UsersList.propTypes = {
-  getUsers: PropTypes.func,
   getSubscriptions: PropTypes.func,
   users: PropTypes.shape(),
   auth: PropTypes.shape(),

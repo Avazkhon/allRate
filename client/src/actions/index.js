@@ -38,7 +38,6 @@ export {
 } from './language';
 
 export {
-  getUsers,
   getUsersByIds,
   userPaginate,
 } from './user';
