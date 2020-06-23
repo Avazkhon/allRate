@@ -40,6 +40,7 @@ export {
 export {
   getUsers,
   getUsersByIds,
+  userPaginate,
 } from './user';
 
 export {

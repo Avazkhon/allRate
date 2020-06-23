@@ -1,6 +1,7 @@
 import {
   GET_USERS,
   GET_USERS_BY_IDS,
+  GET_USERS_PAGINATE,
 } from '../constants'
 
 import {
@@ -38,5 +39,8 @@ export default createReducer(initState, {
   changeState(_state, _action),
 
   [GET_USERS_BY_IDS]: (_state, _action) =>
+  changeState(_state, _action),
+
+  [GET_USERS_PAGINATE]: (_state, _action) =>
   changeState(_state, _action),
 })

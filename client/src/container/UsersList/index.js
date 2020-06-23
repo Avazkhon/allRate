@@ -10,7 +10,6 @@ import {
 } from 'react-bootstrap';
 
 import {
-  getUsers,
   getSubscriptions,
 } from 'actions';
 
@@ -30,10 +29,8 @@ class UsersList extends React.Component {
 
   componentDidMount() {
     const {
-      getUsers,
       getSubscriptions,
     } = this.props;
-    getUsers();
     const user = getDataUserFromLocalStorag();
     if (user && user.userId) {
       getSubscriptions(user.userId);
@@ -45,6 +42,7 @@ class UsersList extends React.Component {
       auth: {
         auth
       },
+      history,
     } = this.props;
 
     return (
@@ -57,7 +55,9 @@ class UsersList extends React.Component {
             />
           </Col>
           <Col xs="12" sm="8" md="9">
-            <CardUsers />
+            <CardUsers
+              history={history}
+            />
           </Col>
         </Row>
       </Container>
@@ -71,6 +71,7 @@ UsersList.propTypes = {
   getSubscriptions: PropTypes.func,
   users: PropTypes.shape(),
   auth: PropTypes.shape(),
+  history: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {
@@ -83,6 +84,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  getUsers,
   getSubscriptions,
 })(UsersList);

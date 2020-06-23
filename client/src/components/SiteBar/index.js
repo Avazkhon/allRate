@@ -20,7 +20,7 @@ const Sitebar = ({
         <p className={classes['sitebar-link']}><Link to={`/rate-list?userId=${userId}`}><span>Созданные ставки</span></Link></p>
       }
       <p className={classes['sitebar-link']}><Link to='/rate-list?sort=all'><span>Список ставок</span></Link></p>
-      <p className={classes['sitebar-link']}><Link to='/users'><span>Люди</span></Link></p>
+      <p className={classes['sitebar-link']}><Link to='/users/?page=1&limit=24'><span>Люди</span></Link></p>
     </aside>
   </div>
 )

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FiUsers } from 'react-icons/fi';
+import ReactPaginate from 'react-paginate';
+import queryString from 'query-string';
 
 
 import {
@@ -15,6 +17,7 @@ import {
   addSubscription,
   deleteSubscriptions,
   changeRatingUser,
+  userPaginate,
 } from 'actions';
 
 import Rating from 'widgets/Rating';
@@ -31,13 +34,23 @@ const userCardText = {
 class CardUser extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       errors: [],
       warnings: [],
       isFetchings: [],
     }
 
+  }
+
+
+  handleChangePagination = ({ selected }) => {
+    const { userPaginate, history } = this.props;
+    const prevQueryParams = queryString.parse(location.search);
+    userPaginate(selected + 1, prevQueryParams.limit);
+    const nexQueryParams = queryString.stringify({...prevQueryParams, page: selected + 1});
+    history.push({
+      search: nexQueryParams
+    });
   }
 
   makePrevState = (subscriptionId) => {
@@ -187,11 +200,13 @@ class CardUser extends React.Component {
       lang: { lang },
       changeRatingUser,
     } = this.props;
+
+
     return (
       <>
         {
-          users &&
-          users.map((user) => {
+          users && users.docs &&
+          users.docs.map((user) => {
             const isSubscription = subscriptions &&
               subscriptions.subscriptions.find((subscription) => {
                 return subscription.userId === user._id;
@@ -265,6 +280,15 @@ class CardUser extends React.Component {
             )
           })
         }
+
+        <ReactPaginate
+          initialPage={0}
+          pageCount={users && users.totalPages}
+          pageRangeDisplayed={2}
+          marginPagesDisplayed={3}
+          onPageChange={this.handleChangePagination}
+        />
+
       </>
     );
   }
@@ -273,9 +297,11 @@ class CardUser extends React.Component {
 CardUser.propTypes = {
   addSubscription: PropTypes.func,
   deleteSubscriptions: PropTypes.func,
+  userPaginate: PropTypes.func,
   users: PropTypes.shape({}),
   auth: PropTypes.shape({}),
   subscriptions: PropTypes.shape({}),
+  history: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {
@@ -297,4 +323,5 @@ export default connect(mapStateToProps, {
   addSubscription,
   deleteSubscriptions,
   changeRatingUser,
+  userPaginate,
 })(CardUser);
