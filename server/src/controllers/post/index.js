@@ -40,18 +40,22 @@ exports.get = async (req, res) => {
         postId,
         limit,
         page,
+        authorId,
       },
     } = req;
     let post = null;
     if (postId) {
       post = await postModels.findOne({ _id: postId });
     } else {
+      const query = {
+        authorId,
+      };
       const options = {
         sort: { createTime: -1 },
         limit,
         page,
       }
-      post = await postModels.paginate({}, options);
+      post = await postModels.paginate(query, options);
     }
     res.status(200).json(post);
   } catch (error) {
