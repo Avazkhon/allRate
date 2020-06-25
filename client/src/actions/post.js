@@ -38,12 +38,12 @@ export function addCountViewsPost (postId) {
   });
 }
 
-export function getPostsPage ({ page, limit }) {
+export function getPostsPage ({ page, limit, authorId }) {
   return dispatch => dispatch({
     type: GET_POSTS_PAGE,
     meta: {
       method: 'GET',
-      endpoint:`post/?page=${page}&limit=${limit}`,
+      endpoint:`post/?page=${page}&limit=${limit}${authorId ? '&authorId=' + authorId : ''}`,
     }
   });
 }

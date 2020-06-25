@@ -3,23 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import {
-  Form,
-  Button,
-} from 'react-bootstrap';
-
-import {
   addCountViewsPost,
   changeRatingPost,
-  changeRatingRate,
-  addCountViewsRate,
-  getCommonRates,
   getUsersByIds,
+  getPostsPage,
 } from 'actions';
 
 import CardPost from 'components/CardPost';
-import CardRate from 'components/CardRate';
+import NexLoadPage from 'widgets/NexLoadPage';
 
-class MyList extends React.Component {
+class CardsPosts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,28 +22,23 @@ class MyList extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     const {
-      myList,
+      posts,
       getUsersByIds,
     } = this.props;
     if (
-      (!prevProps.myList.data && myList.data && myList.data.length)
-      || myList.list != prevProps.myList.list
+      (!prevProps.posts.data && posts.data && posts.data.docs.length)
     ) {
-      getUsersByIds(myList.data.map(itm => itm.author || itm.authorId));
+      getUsersByIds(posts.data.docs.map(itm => itm.author || itm.authorId));
     }
   }
 
   handleShow = (e) => {
-    const { addCountViewsPost, addCountViewsRate } = this.props;
-    const { id, actionname } = e.currentTarget.dataset;
+    const { addCountViewsPost } = this.props;
+    const { id } = e.currentTarget.dataset;
     this.setState({
       idOpenItm: id
     });
-    if (actionname === 'post') {
-      addCountViewsPost(id);
-    } else {
-      addCountViewsRate(id);
-    }
+    addCountViewsPost(id);
   }
 
   handleHidden = (e) => {
@@ -65,35 +53,22 @@ class MyList extends React.Component {
     const {
       idOpenItm,
     } = this.state;
+
     const {
-      myList,
+      posts,
       lang: {
         lang,
       },
       changeRatingPost,
-      changeRatingRate,
-      getCommonRates,
-      isRateList,
       users,
+      history,
+      getPostsPage,
     } = this.props;
-
+    console.log(posts);
     return (
-      <div>
-      {
-        myList.data && myList.data.map((itm) => {
-          if (itm.mainBet) {
-            return (
-              <CardRate key={itm._id}
-                rate={itm}
-                changeRating={changeRatingRate}
-                getCommonRates={isRateList && getCommonRates}
-                isShow={idOpenItm === itm._id}
-                handleShow={this.handleShow}
-                handleHidden={this.handleHidden}
-                user={users.data && this.getAuthor(users.data, itm)}
-              />
-            )
-          } else {
+      <>
+        {
+          posts.data && posts.data.docs.map((itm) => {
             return (
               <CardPost key={itm._id}
                 changeRating={changeRatingPost}
@@ -105,22 +80,26 @@ class MyList extends React.Component {
                 lang={lang}
               />
             )
-          }
-        })
-      }
-      </div>
+          })
+        }
+        <NexLoadPage
+          isFetching={posts.isFetching}
+          hasNextPage={posts.data && posts.data.hasNextPage}
+          actionForLoad={getPostsPage}
+          history={history}
+        />
+      </>
     );
   }
 }
 
-MyList.propTypes = {
-  myList: PropTypes.shape({}),
-  users: PropTypes.shape({}),
+CardsPosts.propTypes = {
+  posts: PropTypes.shape({}),
+  users: PropTypes.shape(),
+  history: PropTypes.shape(),
   addCountViewsPost: PropTypes.func,
+  getPostsPage: PropTypes.func,
   changeRatingPost: PropTypes.func,
-  changeRatingRate: PropTypes.func,
-  addCountViewsRate: PropTypes.func,
-  getCommonRates: PropTypes.func,
   isRateList: PropTypes.bool,
 }
 
@@ -140,8 +119,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   addCountViewsPost,
   changeRatingPost,
-  changeRatingRate,
-  addCountViewsRate,
-  getCommonRates,
   getUsersByIds,
-})(MyList);
+  getPostsPage,
+})(CardsPosts);
