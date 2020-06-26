@@ -16,6 +16,7 @@ import {
   getUsersByIds,
 } from 'actions';
 
+import Messages from 'components/Messages';
 import CardPost from 'components/CardPost';
 import CardRate from 'components/CardRate';
 
