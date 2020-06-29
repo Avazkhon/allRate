@@ -16,6 +16,7 @@ import {
 
 import Messages from 'components/Messages';
 import CardPost from 'components/CardPost';
+import NexLoadPage from 'widgets/NexLoadPage';
 
 class CardsPosts extends React.Component {
   constructor(props) {
@@ -55,6 +56,11 @@ class CardsPosts extends React.Component {
 
   getAuthor = (users, itm) => users.find(user => user._id === itm.author || user._id === itm.authorId)
 
+
+  handleGetPostsPage = (page, limit) => {
+    const { getPostsPage, userId } = this.props;
+    getPostsPage({ page, limit, userId })
+  }
   render() {
     const {
       idOpenItm,
@@ -66,7 +72,7 @@ class CardsPosts extends React.Component {
       },
       changeRatingPost,
       users,
-      getPostsPage,
+      history,
     } = this.props;
 
     return (
@@ -86,17 +92,27 @@ class CardsPosts extends React.Component {
           )
         })
       }
+
+      <NexLoadPage
+        isFetching={posts.isFetching}
+        hasNextPage={posts.data && posts.data.hasNextPage}
+        actionForLoad={this.handleGetPostsPage}
+        history={history}
+      />
+
       </div>
     );
   }
 }
 
 CardsPosts.propTypes = {
-  posts: PropTypes.shape({}),
-  users: PropTypes.shape({}),
+  posts: PropTypes.shape(),
+  users: PropTypes.shape(),
+  history: PropTypes.shape(),
   addCountViewsPost: PropTypes.func,
   changeRatingPost: PropTypes.func,
   getPostsPage: PropTypes.func,
+  userId: PropTypes.string,
 }
 
 function mapStateToProps(state) {
