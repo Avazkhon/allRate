@@ -47,9 +47,12 @@ exports.get = async (req, res) => {
     if (postId) {
       post = await postModels.findOne({ _id: postId });
     } else {
-      const query = {
-        authorId,
-      };
+      const query = {};
+
+      if (authorId) {
+        query.authorId = authorId;
+      }
+
       const options = {
         sort: { createTime: -1 },
         limit,
