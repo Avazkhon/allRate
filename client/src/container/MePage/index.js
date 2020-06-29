@@ -9,14 +9,14 @@ import {
 } from 'react-bootstrap';
 
 import {
-  getMyList,
+  getPostsPage
 } from 'actions';
 
 import Layout from 'container/Layout';
 import ProfileUser from 'components/ProfileUser';
 import SiteBar from 'components/SiteBar';
 import UserBtnGroup from 'components/UserBtnGroup';
-import MyList from 'components/MyList';
+import CardsPosts from 'components/CardsPosts';
 
 class MePage extends React.Component {
   // constructor(props) {
@@ -26,7 +26,7 @@ class MePage extends React.Component {
 
   componentDidUpdate(prevProps) {
     const {
-      getMyList,
+      getPostsPage,
       auth: {
         auth,
       }
@@ -36,14 +36,14 @@ class MePage extends React.Component {
       (auth && prevProps.auth.auth && (prevProps.auth.auth.userId !== auth.userId))
       || auth && auth.userId && prevProps.auth && !prevProps.auth.auth
     ) {
-      getMyList(auth.userId);
+      getPostsPage({ page: 1, limit: 3, userId: auth.userId })
     }
   }
 
   render() {
     const {
       auth,
-      myList,
+      posts,
     } = this.props;
     const userId = auth.auth && auth.auth.userId;
     return (
@@ -58,8 +58,8 @@ class MePage extends React.Component {
             <Col xs="12" sm="8" md="9">
               <ProfileUser />
               <UserBtnGroup />
-              <MyList
-                myList={myList}
+              <CardsPosts
+                posts={posts}
               />
             </Col>
           </Row>
@@ -71,21 +71,21 @@ class MePage extends React.Component {
 
 MePage.propTypes = {
   auth: PropTypes.shape(),
-  myList: PropTypes.shape(),
-  getMyList: PropTypes.func,
+  posts: PropTypes.shape(),
+  getPostsPage: PropTypes.func,
 }
 
 function mapStateToProps(state) {
   const {
     auth,
-    myList,
+    posts,
   } = state;
   return {
     auth,
-    myList,
+    posts,
   };
 }
 
 export default connect(mapStateToProps, {
-  getMyList,
+getPostsPage
 })(MePage);

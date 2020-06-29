@@ -257,7 +257,7 @@ class CardUser extends React.Component {
                   />
                 </Col>
                 <Col>
-                  <Card.Link href={auth && auth.userId !== user._id ? `profile/${user._id}` : '/me'}>
+                  <Card.Link href={auth && auth.userId !== user._id ? `/profile/${user._id}` : '/me'}>
                     {userCardText.follow[lang]}
                   </Card.Link>
                 </Col>
