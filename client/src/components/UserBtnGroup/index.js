@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
+import injectSheet from 'react-jss';
 
 import {
   Nav,
   Modal,
+  ListGroup,
 } from 'react-bootstrap';
 
 import {
@@ -14,6 +16,8 @@ import {
 } from 'actions';
 
 import PostForm from 'components/PostForm';
+
+import style from './style';
 
 class UserBtnGroup extends Component {
   constructor(props) {
@@ -68,21 +72,29 @@ class UserBtnGroup extends Component {
       isShowMyNews,
     } = this.state;
 
+    const {
+      classes,
+    } = this.props;
+
     return (
       <>
-        <Nav>
-          <Nav.Item>
-            <div onClick={this.handleCreatePost}>Создать пост</div>
-          </Nav.Item>
-          <Nav.Item>
-            <Link
-              onClick={this.handleShowlist}
-              to={isShowMyNews ? '/me/?page=1&limit=3#content=my_posts' : '/me/?page=2&limit=5#content=subscribtion_posts' }
-            >
-              {isShowMyNews ? 'мой лист': 'мои новости'}
-            </Link>
-          </Nav.Item>
-        </Nav>
+      <ListGroup horizontal>
+        <ListGroup.Item
+          className={classes.btn}
+          onClick={this.handleCreatePost}
+        >
+          Создать пост
+        </ListGroup.Item>
+        <ListGroup.Item>
+          <Link
+            className={classes.btn}
+            onClick={this.handleShowlist}
+            to={isShowMyNews ? '/me/?page=1&limit=3#content=my_posts' : '/me/?page=2&limit=5#content=subscribtion_posts' }
+          >
+            {isShowMyNews ? 'мой лист': 'мои новости'}
+          </Link>
+        </ListGroup.Item>
+      </ListGroup>
         <Modal show={isCreatePost} onHide={this.handleCreatePost}>
           <Modal.Header closeButton>
             <Modal.Title>Создание поста</Modal.Title>
@@ -97,6 +109,7 @@ class UserBtnGroup extends Component {
 }
 
 UserBtnGroup.propTypes = {
+  classes: PropTypes.shape(),
   getMyNews: PropTypes.func.isRequired,
   getMyList: PropTypes.func.isRequired,
 }
@@ -110,7 +123,9 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
-  getMyNews,
-  getMyList,
-})(UserBtnGroup);
+export default injectSheet(style)(
+  connect(mapStateToProps, {
+    getMyNews,
+    getMyList,
+  })(UserBtnGroup)
+);
