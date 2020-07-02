@@ -59,6 +59,30 @@ export function changeState (_state, _action) {
   })
 }
 
+
+export function changeStateBattery (_state, _action) {
+  return createRequestReducer(_state, _action, {
+    SEND: (state) => ({
+      ...state,
+      isFetching: true,
+    }),
+    SUCCESS: (state, action) => ({
+      ...state,
+      isFetching: false,
+      error: null,
+      data: {
+        ...action.response,
+        docs: [...state.data.docs, ...action.response.docs],
+      },
+    }),
+    FAIL: (state, action) => ({
+      ...state,
+      error: action.error,
+      isFetching: false,
+    }),
+  })
+}
+
 export function getMonth(index) {
   const month = [
     'Январь',
