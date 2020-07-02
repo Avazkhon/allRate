@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
 
 import {
   Container,
@@ -20,6 +21,8 @@ function MePage ({
   history,
 }) {
   const userId = auth.auth && auth.auth.userId;
+  const { content } = queryString.parse(history.location.hash);
+
   return (
     <Layout>
       <Container>
@@ -32,11 +35,14 @@ function MePage ({
           <Col xs="12" sm="8" md="9">
             <ProfileUser />
             <UserBtnGroup />
-            <CardsPosts
-              userId={userId}
-              posts={posts}
-              history={history}
-            />
+            {
+              (content === 'my_posts' || !content) &&
+              <CardsPosts
+                userId={userId}
+                posts={posts}
+                history={history}
+              />
+            }
           </Col>
         </Row>
       </Container>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
 
 import {
   Nav,
@@ -71,14 +72,15 @@ class UserBtnGroup extends Component {
       <>
         <Nav>
           <Nav.Item>
-            <Nav.Link onClick={this.handleCreatePost}>Создать пост</Nav.Link>
+            <div onClick={this.handleCreatePost}>Создать пост</div>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link
+            <Link
               onClick={this.handleShowlist}
+              to={isShowMyNews ? '/me/?page=1&limit=3#content=my_posts' : '/me/?page=2&limit=5#content=subscribtion_posts' }
             >
               {isShowMyNews ? 'мой лист': 'мои новости'}
-            </Nav.Link>
+            </Link>
           </Nav.Item>
         </Nav>
         <Modal show={isCreatePost} onHide={this.handleCreatePost}>
