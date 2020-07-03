@@ -14,10 +14,12 @@ import ProfileUser from 'components/ProfileUser';
 import SiteBar from 'components/SiteBar';
 import UserBtnGroup from 'components/UserBtnGroup';
 import CardsPosts from 'components/CardsPosts';
+import CardsRates from 'components/CardsRates';
 
 function MePage ({
   auth,
   posts,
+  rates,
   history,
 }) {
   const userId = auth.auth && auth.auth.userId;
@@ -43,6 +45,14 @@ function MePage ({
                 history={history}
               />
             }
+            {
+              (content === 'subscribtion_rates') &&
+              <CardsRates
+                userId={userId}
+                rates={rates}
+                history={history}
+              />
+            }
           </Col>
         </Row>
       </Container>
@@ -53,6 +63,7 @@ function MePage ({
 MePage.propTypes = {
   auth: PropTypes.shape(),
   posts: PropTypes.shape(),
+  rates: PropTypes.shape(),
   history: PropTypes.shape(),
 }
 
@@ -60,10 +71,12 @@ function mapStateToProps(state) {
   const {
     auth,
     posts,
+    rate,
   } = state;
   return {
     auth,
     posts,
+    rates: rate
   };
 }
 

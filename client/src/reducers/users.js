@@ -27,7 +27,7 @@ function changeState (_state, _action) {
       error: null,
       isFetching: false,
       data: {
-        docs: action.response
+        docs: [...state.data.docs, ...action.response]
       },
     }),
     FAIL: (state, action) => ({

@@ -5,14 +5,16 @@ import {
 
 import {
   createReducer,
-  createRequestReducer,
   changeState,
+  changeStateBattery,
 } from '../utils';
 
 const initState = {
   isFetching: false,
   error: null,
-  data: null,
+  data: {
+    docs: [],
+  },
 };
 
 export default createReducer(initState, {
@@ -21,6 +23,6 @@ export default createReducer(initState, {
   changeState(_state, _action),
 
   [GET_RATES_PAGE]: (_state, _action) =>
-  changeState(_state, _action),
+  changeStateBattery(_state, _action),
 
 });

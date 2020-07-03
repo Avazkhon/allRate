@@ -32,7 +32,7 @@ export function createReducer(initialState, reducerMap) {
 
     return reducer ? reducer({ ...state}, action) : state;
   };
-};
+}
 
 export function createRequestReducer(state, action, reducerMap) {
   const reducer = reducerMap[action.status];

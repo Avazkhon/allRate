@@ -8,17 +8,18 @@ import {
 } from 'react-bootstrap';
 
 import {
-  addCountViewsPost,
-  changeRatingPost,
+  changeRatingRate,
+  addCountViewsRate,
+  getCommonRates,
   getUsersByIds,
-  getPostsPage,
+  getRatesPage,
 } from 'actions';
 
 import Messages from 'components/Messages';
-import CardPost from 'components/CardPost';
+import CardRate from 'components/CardRate';
 import NexLoadPage from 'widgets/NexLoadPage';
 
-class CardsPosts extends React.Component {
+class CardsRates extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,12 +28,12 @@ class CardsPosts extends React.Component {
   }
 
   handleShow = (e) => {
-    const { addCountViewsPost } = this.props;
+    const { addCountViewsRate } = this.props;
     const { id, actionname } = e.currentTarget.dataset;
     this.setState({
       idOpenItm: id
     });
-    addCountViewsPost(id);
+    addCountViewsRate(id);
   }
 
   handleHidden = (e) => {
@@ -43,26 +44,28 @@ class CardsPosts extends React.Component {
 
   getAuthor = (users, itm) => users.find(user => user._id === itm.author || user._id === itm.authorId)
 
-
-  handleGetPostsPage = (page, limit) => {
-    const { getPostsPage, userId, getUsersByIds } = this.props;
-    getPostsPage({ page, limit, userId })
+  handleGetRatesPage = (page, limit) => {
+    const { getRatesPage, userId, getUsersByIds } = this.props;
+    getRatesPage({ page, limit, userId })
     .then((action) => {
       if (action.status === 'SUCCESS') {
         getUsersByIds(action.response.docs.map(itm => itm.author || itm.authorId));
       }
     })
   }
+
   render() {
     const {
       idOpenItm,
     } = this.state;
     const {
-      posts,
+      rates,
       lang: {
         lang,
       },
-      changeRatingPost,
+      changeRatingRate,
+      getCommonRates,
+      isRateList,
       users,
       history,
     } = this.props;
@@ -70,25 +73,25 @@ class CardsPosts extends React.Component {
     return (
       <div>
       {
-        posts.data && posts.data.docs.map((itm) => {
+        rates.data && rates.data.docs.map((itm) => {
           return (
-            <CardPost key={itm._id}
-              changeRating={changeRatingPost}
-              post={itm}
+            <CardRate key={itm._id}
+              rate={itm}
+              changeRating={changeRatingRate}
+              getCommonRates={isRateList && getCommonRates}
+              isShow={idOpenItm === itm._id}
               handleShow={this.handleShow}
               handleHidden={this.handleHidden}
-              isShow={idOpenItm === itm._id}
               user={users.data && this.getAuthor(users.data, itm)}
-              lang={lang}
             />
           )
         })
       }
 
       <NexLoadPage
-        isFetching={posts.isFetching}
-        hasNextPage={posts.data && posts.data.hasNextPage}
-        actionForLoad={this.handleGetPostsPage}
+        isFetching={rates.isFetching}
+        hasNextPage={rates.data && rates.data.hasNextPage}
+        actionForLoad={this.handleGetRatesPage}
         history={history}
       />
 
@@ -97,14 +100,15 @@ class CardsPosts extends React.Component {
   }
 }
 
-CardsPosts.propTypes = {
-  posts: PropTypes.shape(),
-  users: PropTypes.shape(),
-  history: PropTypes.shape(),
-  addCountViewsPost: PropTypes.func,
-  changeRatingPost: PropTypes.func,
-  getPostsPage: PropTypes.func,
-  userId: PropTypes.string,
+CardsRates.propTypes = {
+  rates: PropTypes.shape({}),
+  users: PropTypes.shape({}),
+  changeRatingRate: PropTypes.func,
+  addCountViewsRate: PropTypes.func,
+  getCommonRates: PropTypes.func,
+  getRatesPage: PropTypes.func,
+  getUsersByIds: PropTypes.func,
+  isRateList: PropTypes.bool,
 }
 
 function mapStateToProps(state) {
@@ -121,8 +125,9 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  addCountViewsPost,
-  changeRatingPost,
+  changeRatingRate,
+  addCountViewsRate,
+  getCommonRates,
   getUsersByIds,
-  getPostsPage,
-})(CardsPosts);
+  getRatesPage,
+})(CardsRates);
