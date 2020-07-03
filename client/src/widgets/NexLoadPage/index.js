@@ -18,7 +18,8 @@ class NexLoadPage extends React.Component {
     const { actionForLoad, history } = this.props;
     actionForLoad(1, 24);
     history.push({
-      search: 'page=1&limit=24'
+      search: 'page=1&limit=24',
+      hash: history.location.hash
     });
   }
 
@@ -28,7 +29,8 @@ class NexLoadPage extends React.Component {
     actionForLoad(Number(prevQueryParams.page) + 1, prevQueryParams.limit);
     const nexQueryParams = queryString.stringify({...prevQueryParams, page: Number(prevQueryParams.page) + 1});
     history.push({
-      search: nexQueryParams
+      search: nexQueryParams,
+      hash: history.location.hash
     });
   }
 
