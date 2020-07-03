@@ -89,7 +89,7 @@ class UserBtnGroup extends Component {
           <Link
             className={classes.btn}
             onClick={this.handleShowlist}
-            to={isShowMyNews ? '/me/?page=1&limit=3#content=my_posts' : '/me/?page=2&limit=5#content=subscribtion_posts' }
+            to={isShowMyNews ? '/me/?page=1&limit=24#content=my_posts' : '/me/?page=1&limit=24#content=subscribtion_posts' }
           >
             {isShowMyNews ? 'мой лист': 'мои новости'}
           </Link>
