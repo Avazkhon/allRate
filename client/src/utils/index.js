@@ -66,15 +66,19 @@ export function changeStateBattery (_state, _action) {
       ...state,
       isFetching: true,
     }),
-    SUCCESS: (state, action) => ({
-      ...state,
-      isFetching: false,
-      error: null,
-      data: {
-        ...action.response,
-        docs: [...state.data.docs, ...action.response.docs],
-      },
-    }),
+    SUCCESS: (state, action) => {
+      const docs = !state.data.page || (action.response.page > state.data.page)
+        ? action.response.docs : [];
+      return {
+        ...state,
+        isFetching: false,
+        error: null,
+        data: {
+          ...action.response,
+          docs: [...state.data.docs, ...docs],
+        },
+      }
+    },
     FAIL: (state, action) => ({
       ...state,
       error: action.error,
