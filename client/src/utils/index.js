@@ -37,7 +37,7 @@ export function createReducer(initialState, reducerMap) {
 export function createRequestReducer(state, action, reducerMap) {
   const reducer = reducerMap[action.status];
   return reducer ? reducer(state, action) : state;
-};
+}
 
 export function changeState (_state, _action) {
   return createRequestReducer(_state, _action, {
@@ -59,6 +59,24 @@ export function changeState (_state, _action) {
   })
 }
 
+export const changeStateNewAndOld = (state, response) => {
+  let data = {};
+  if (response.page === 1) {
+    data = {
+      ...response,
+      docs: response.docs,
+    }
+  } else {
+    const docs = !state.data.page || (response.page > state.data.page)
+      ? response.docs : [];
+    data = {
+      ...response,
+      docs: [...state.data.docs, ...docs],
+    }
+  }
+  return data;
+}
+
 
 export function changeStateBattery (_state, _action) {
   return createRequestReducer(_state, _action, {
@@ -67,16 +85,11 @@ export function changeStateBattery (_state, _action) {
       isFetching: true,
     }),
     SUCCESS: (state, action) => {
-      const docs = !state.data.page || (action.response.page > state.data.page)
-        ? action.response.docs : [];
       return {
         ...state,
         isFetching: false,
         error: null,
-        data: {
-          ...action.response,
-          docs: [...state.data.docs, ...docs],
-        },
+        data: changeStateNewAndOld(state, action.response),
       }
     },
     FAIL: (state, action) => ({

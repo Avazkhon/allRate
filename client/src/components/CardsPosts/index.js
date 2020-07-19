@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
 
 import {
   Form,
@@ -16,7 +17,6 @@ import {
 
 import Messages from 'components/Messages';
 import CardPost from 'components/CardPost';
-import NexLoadPage from 'widgets/NexLoadPage';
 
 class CardsPosts extends React.Component {
   constructor(props) {
@@ -24,6 +24,35 @@ class CardsPosts extends React.Component {
     this.state = {
       idOpenItm: null,
     }
+  }
+
+  componentDidMount() {
+    const { userId } = JSON.parse(localStorage.getItem('userData'));
+    this.userId = userId;
+    this.handleChangePagination()
+  }
+
+  handleChangePagination = (increment) => {
+    const incrementPage = increment ? increment : 0;
+    const { getPostsPage, history, userId, getUsersByIds } = this.props;
+    const { page = 1, limit = 3 } = queryString.parse(location.search);
+    const { content: hash } = queryString.parse(history.location.hash);
+    const nexQueryParams = queryString.stringify({page: Number(page) + incrementPage, limit});
+    let userParams = { authorId: userId || this.userId };
+    if (hash === 'subscribtion_posts') {
+      userParams = { subscriptionsId: userId || this.userId}
+    }
+
+    getPostsPage({page: Number(page) + incrementPage, limit, ...userParams})
+    .then((action) => {
+      if (action.status === 'SUCCESS' && action.response.docs.length) {
+        getUsersByIds(action.response.docs.map(itm => itm.author || itm.authorId));
+      }
+    });
+    history.push({
+      search: nexQueryParams,
+      hash: history.location.hash
+    });
   }
 
   handleShow = (e) => {
@@ -44,15 +73,10 @@ class CardsPosts extends React.Component {
   getAuthor = (users, itm) => users.find(user => user._id === itm.author || user._id === itm.authorId)
 
 
-  handleGetPostsPage = (page, limit) => {
-    const { getPostsPage, userId, getUsersByIds } = this.props;
-    getPostsPage({ page, limit, userId })
-    .then((action) => {
-      if (action.status === 'SUCCESS') {
-        getUsersByIds(action.response.docs.map(itm => itm.author || itm.authorId));
-      }
-    })
+  handleGetPostsPage = () => {
+    this.handleChangePagination(1);
   }
+
   render() {
     const {
       idOpenItm,
@@ -66,32 +90,27 @@ class CardsPosts extends React.Component {
       users,
       history,
     } = this.props;
-
     return (
       <div>
-      {
-        posts.data && posts.data.docs.map((itm) => {
-          return (
-            <CardPost key={itm._id}
-              changeRating={changeRatingPost}
-              post={itm}
-              handleShow={this.handleShow}
-              handleHidden={this.handleHidden}
-              isShow={idOpenItm === itm._id}
-              user={users.data && this.getAuthor(users.data, itm)}
-              lang={lang}
-            />
-          )
-        })
-      }
-
-      <NexLoadPage
-        isFetching={posts.isFetching}
-        hasNextPage={posts.data && posts.data.hasNextPage}
-        actionForLoad={this.handleGetPostsPage}
-        history={history}
-      />
-
+        {
+          posts.data && posts.data.docs.map((itm) => {
+            return (
+              <CardPost key={itm._id}
+                changeRating={changeRatingPost}
+                post={itm}
+                handleShow={this.handleShow}
+                handleHidden={this.handleHidden}
+                isShow={idOpenItm === itm._id}
+                user={users.data && this.getAuthor(users.data, itm)}
+                lang={lang}
+              />
+            )
+          })
+        }
+        {
+          posts.data && posts.data.hasNextPage &&
+          <Button onClick={this.handleGetPostsPage}>Загрузить</Button>
+        }
       </div>
     );
   }
@@ -110,7 +129,7 @@ CardsPosts.propTypes = {
 function mapStateToProps(state) {
   const {
     lang,
-    users
+    users,
   } = state;
   return {
     lang,

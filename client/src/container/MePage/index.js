@@ -46,6 +46,14 @@ function MePage ({
               />
             }
             {
+              (content === 'subscribtion_posts') &&
+              <CardsPosts
+                userId={userId}
+                posts={posts}
+                history={history}
+              />
+            }
+            {
               (content === 'subscribtion_rates') &&
               <CardsRates
                 userId={userId}
