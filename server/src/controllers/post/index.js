@@ -1,7 +1,22 @@
 const postModels = require('../../models/post');
 const WriteToLog = require('../../utils/writeToLog');
+const subscriptionModels = require('../../models/subscriptions');
+
 
 const writeToLog = new WriteToLog();
+
+const getAuthorIdOrAuthorIds = async function ({ authorId, subscriptionsId }) {
+  const query = {};
+  if (authorId) {
+    query.authorId = authorId;
+  }
+  if (subscriptionsId) {
+    let subscription = await subscriptionModels.findOne({ userId: subscriptionsId})
+    subscription = subscription.subscriptions.map((elem) => elem.userId )
+    query.authorId = subscription;
+  }
+  return query;
+}
 
 exports.create = async (req, res) => {
   try {
@@ -41,23 +56,21 @@ exports.get = async (req, res) => {
         limit,
         page,
         authorId,
+        subscriptionsId,
       },
     } = req;
     let post = null;
     if (postId) {
       post = await postModels.findOne({ _id: postId });
     } else {
-      const query = {};
-
-      if (authorId) {
-        query.authorId = authorId;
-      }
+      const query = await getAuthorIdOrAuthorIds({ authorId, subscriptionsId });
 
       const options = {
         sort: { createTime: -1 },
         limit,
         page,
       }
+
       post = await postModels.paginate(query, options);
     }
     res.status(200).json(post);
