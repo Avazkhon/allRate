@@ -1,6 +1,7 @@
 const rateModels = require('../../models/rate');
 const WriteToLog = require('../../utils/writeToLog');
-const { sortByDate } = require('../../utils');
+const { sortByDate, getAuthorIdOrAuthorIds } = require('../../utils');
+const subscriptionModels = require('../../models/subscriptions');
 
 const writeToLog = new WriteToLog();
 
@@ -13,7 +14,7 @@ const handlier = (result, res) => {
   res.send(result);
 }
 
-exports.getRate = (params, res) => {
+exports.getRate = async (params, res) => {
   try {
     if (params.id) {
       rateModels.findOne({ _id: params.id})
@@ -22,12 +23,17 @@ exports.getRate = (params, res) => {
       rateModels.getByProps({ authorId: params.userId })
       .then(result => handlier(sortByDate(result), res));
     } else if (params.page) {
+      const query = await getAuthorIdOrAuthorIds({
+        authorId: params.userId,
+        subscriptionsId: params.subscriptionsId
+      });
+
       const options = {
         sort: { createTime: -1 },
         limit: params.limit,
         page: params.page,
       }
-      rateModels.paginate({}, options)
+      rateModels.paginate(query, options)
       .then(result => handlier(result, res));
     } else {
       rateModels.getByProps({})

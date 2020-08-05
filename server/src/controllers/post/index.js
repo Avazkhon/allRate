@@ -1,22 +1,10 @@
 const postModels = require('../../models/post');
 const WriteToLog = require('../../utils/writeToLog');
+const { getAuthorIdOrAuthorIds } = require('../../utils');
 const subscriptionModels = require('../../models/subscriptions');
 
 
 const writeToLog = new WriteToLog();
-
-const getAuthorIdOrAuthorIds = async function ({ authorId, subscriptionsId }) {
-  const query = {};
-  if (authorId) {
-    query.authorId = authorId;
-  }
-  if (subscriptionsId) {
-    let subscription = await subscriptionModels.findOne({ userId: subscriptionsId})
-    subscription = subscription.subscriptions.map((elem) => elem.userId )
-    query.authorId = subscription;
-  }
-  return query;
-}
 
 exports.create = async (req, res) => {
   try {
