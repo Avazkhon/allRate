@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
 
 import {
   Form,
@@ -27,6 +28,12 @@ class CardsRates extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { userId } = JSON.parse(localStorage.getItem('userData'));
+    this.userId = userId;
+    this.handleChangePagination();
+  }
+
   handleShow = (e) => {
     const { addCountViewsRate } = this.props;
     const { id, actionname } = e.currentTarget.dataset;
@@ -44,15 +51,35 @@ class CardsRates extends React.Component {
 
   getAuthor = (users, itm) => users.find(user => user._id === itm.author || user._id === itm.authorId)
 
-  handleGetRatesPage = (page, limit) => {
-    const { getRatesPage, userId, getUsersByIds } = this.props;
-    getRatesPage({ page, limit, userId })
+
+  handleChangePagination = (increment) => {
+    const incrementPage = increment ? increment : 0;
+    const { getRatesPage, history, userId, getUsersByIds } = this.props;
+    const { page = 1, limit = 24 } = queryString.parse(location.search);
+    const { content: hash } = queryString.parse(history.location.hash);
+    const nexQueryParams = queryString.stringify({page: Number(page) + incrementPage, limit});
+    let userParams = { authorId: userId || this.userId };
+    if (hash === 'subscribtion_rates') {
+      userParams = { subscriptionsId: userId || this.userId}
+    }
+
+    getRatesPage({page: Number(page) + incrementPage, limit, ...userParams})
     .then((action) => {
-      if (action.status === 'SUCCESS') {
+      if (action.status === 'SUCCESS' && action.response.docs.length) {
         getUsersByIds(action.response.docs.map(itm => itm.author || itm.authorId));
       }
-    })
+    });
+    history.push({
+      search: nexQueryParams,
+      hash: history.location.hash
+    });
   }
+
+  handleGetRatesPage = () => {
+    this.handleChangePagination(1);
+  }
+
+
 
   render() {
     const {
@@ -88,12 +115,10 @@ class CardsRates extends React.Component {
         })
       }
 
-      <NexLoadPage
-        isFetching={rates.isFetching}
-        hasNextPage={rates.data && rates.data.hasNextPage}
-        actionForLoad={this.handleGetRatesPage}
-        history={history}
-      />
+      {
+        rates.data && rates.data.hasNextPage &&
+            <Button className="d-block mx-auto" onClick={this.handleGetRatesPage}>Загрузить</Button>
+      }
 
       </div>
     );

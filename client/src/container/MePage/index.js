@@ -61,6 +61,14 @@ function MePage ({
                 history={history}
               />
             }
+            {
+              (content === 'my_rates') &&
+              <CardsRates
+                userId={userId}
+                rates={rates}
+                history={history}
+              />
+            }
           </Col>
         </Row>
       </Container>

@@ -35,7 +35,7 @@ class CardsPosts extends React.Component {
   handleChangePagination = (increment) => {
     const incrementPage = increment ? increment : 0;
     const { getPostsPage, history, userId, getUsersByIds } = this.props;
-    const { page = 1, limit = 3 } = queryString.parse(location.search);
+    const { page = 1, limit = 24 } = queryString.parse(location.search);
     const { content: hash } = queryString.parse(history.location.hash);
     const nexQueryParams = queryString.stringify({page: Number(page) + incrementPage, limit});
     let userParams = { authorId: userId || this.userId };
@@ -109,7 +109,7 @@ class CardsPosts extends React.Component {
         }
         {
           posts.data && posts.data.hasNextPage &&
-          <Button onClick={this.handleGetPostsPage}>Загрузить</Button>
+          <Button className="d-block mx-auto" onClick={this.handleGetPostsPage}>Загрузить</Button>
         }
       </div>
     );
