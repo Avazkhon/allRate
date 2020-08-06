@@ -18,7 +18,6 @@ import {
 
 import style from './style';
 
-import MyList from 'components/MyList';
 import SiteBar from 'components/SiteBar';
 
 class RateList extends React.Component {
@@ -49,7 +48,6 @@ class RateList extends React.Component {
 
   render() {
     const {
-      rateList,
       // classes,
       auth,
     } = this.props;
@@ -61,12 +59,6 @@ class RateList extends React.Component {
             <Col xs="12"  sm="4" md="3">
               <SiteBar
                 userId={auth && auth.userId}
-              />
-            </Col>
-            <Col xs="12" sm="8" md="9">
-              <MyList
-                isRateList
-                myList={rateList}
               />
             </Col>
           </Row>

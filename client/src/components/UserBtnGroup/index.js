@@ -19,11 +19,6 @@ import {
   Col,
 } from 'react-bootstrap';
 
-import {
-  getMyNews,
-  getMyList,
-} from 'actions';
-
 import PostForm from 'components/PostForm';
 
 import style from './style';
@@ -120,8 +115,6 @@ class UserBtnGroup extends Component {
 
 UserBtnGroup.propTypes = {
   classes: PropTypes.shape(),
-  getMyNews: PropTypes.func.isRequired,
-  getMyList: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state) {
@@ -134,8 +127,5 @@ function mapStateToProps(state) {
 }
 
 export default injectSheet(style)(
-  connect(mapStateToProps, {
-    getMyNews,
-    getMyList,
-  })(UserBtnGroup)
+  connect(mapStateToProps, {})(UserBtnGroup)
 );

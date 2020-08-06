@@ -56,11 +56,5 @@ export {
 } from './post';
 
 export {
-  getMyList,
-  getMyNews,
-  getAllNews,
-} from './myList';
-
-export {
   changeImg,
 } from './image';

@@ -11,12 +11,10 @@ import {
 } from 'react-bootstrap';
 
 import {
-  getAllNews,
   getPostsPage,
   getRatesPage,
 } from 'actions';
 
-import MyList from 'components/MyList';
 import SiteBar from 'components/SiteBar';
 import Layout from '../Layout';
 
@@ -29,13 +27,11 @@ class Home extends React.Component {
 
   componentDidMount() {
     const {
-      getAllNews,
       getPostsPage,
       getRatesPage,
     } = this.props;
     getPostsPage({ page: 1, limit: 6 });
     getRatesPage({ page: 1, limit: 6 });
-    getAllNews();
   }
 
   render() {
@@ -43,7 +39,6 @@ class Home extends React.Component {
       auth: {
         auth
       },
-      myList,
       posts,
       rate,
     } = this.props;
@@ -98,9 +93,6 @@ class Home extends React.Component {
                 })
               }
             </Carousel>
-            <MyList
-              myList={myList}
-            />
           </Col>
         </Row>
       </Container>
@@ -110,11 +102,9 @@ class Home extends React.Component {
 }
 
 Home.propTypes = {
-  getAllNews: PropTypes.func,
   getRatesPage: PropTypes.func,
   getPostsPage: PropTypes.func,
   auth: PropTypes.shape(),
-  myList: PropTypes.shape({}),
   posts: PropTypes.shape({}),
   rate: PropTypes.shape({}),
 }
@@ -122,20 +112,17 @@ Home.propTypes = {
 function mapStateToProps(state) {
   const {
     auth,
-    myList,
     posts,
     rate,
   } = state;
   return {
     auth,
-    myList,
     posts,
     rate,
   };
 }
 
 export default connect(mapStateToProps, {
-  getAllNews,
   getPostsPage,
   getRatesPage,
 })(Home);
