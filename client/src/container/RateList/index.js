@@ -13,12 +13,13 @@ import {
 import Layout from '../Layout';
 
 import {
-  getCommonRates,
+  getRatesPage,
 } from '../../actions';
 
 import style from './style';
 
 import SiteBar from 'components/SiteBar';
+import CardsRates from 'components/CardsRates';
 
 class RateList extends React.Component {
   constructor(props) {
@@ -26,30 +27,24 @@ class RateList extends React.Component {
 
   }
 
-  static async getInitialProps({ req, res, match, history, location, ...ctx }) {
-    const {store} = ctx;
-    if (store && store.dispatch) {
-      const { userId } = req.query;
-      if (userId) {
-        await store.dispatch(getCommonRates(userId));
-      } else {
-        await store.dispatch(getCommonRates());
-      }
-    }
-  }
-
-  componentDidMount() {
-    const { getCommonRates, location } = this.props;
-    if (typeof getCommonRates === 'function') {
-      const { userId } = queryString.parse(location.search);
-      getCommonRates(userId || '');
-    }
-  }
+  // static async getInitialProps({ req, res, match, history, location, ...ctx }) {
+  //   const {store} = ctx;
+  //   if (store && store.dispatch) {
+  //     const { userId } = req.query;
+  //     if (userId) {
+  //       await store.dispatch(getCommonRates(userId));
+  //     } else {
+  //       await store.dispatch(getCommonRates());
+  //     }
+  //   }
+  // }
 
   render() {
     const {
       // classes,
       auth,
+      rates,
+      history,
     } = this.props;
 
     return (
@@ -61,6 +56,13 @@ class RateList extends React.Component {
                 userId={auth && auth.userId}
               />
             </Col>
+            <Col xs="12"  sm="8" md="9">
+              <CardsRates
+                userId={auth && auth.userId}
+                rates={rates}
+                history={history}
+              />
+            </Col>
           </Row>
         </Container>
       </Layout>
@@ -69,23 +71,24 @@ class RateList extends React.Component {
 }
 
 RateList.propTypes = {
-  getCommonRates: PropTypes.func,
-  rateList: PropTypes.shape(),
+  getRatesPage: PropTypes.func,
+  rates: PropTypes.shape(),
   location: PropTypes.shape(),
   auth: PropTypes.shape(),
+  history: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {
   const {
     auth,
-    commonRate,
+    rate,
   } = state;
   return {
     auth,
-    rateList: commonRate,
+    rates: rate,
   };
 }
 
 export default injectSheet(style)(connect(mapStateToProps, {
-  getCommonRates,
+  getRatesPage,
 })(RateList));

@@ -55,15 +55,15 @@ class CardsRates extends React.Component {
   handleChangePagination = (increment) => {
     const incrementPage = increment ? increment : 0;
     const { getRatesPage, history, userId, getUsersByIds } = this.props;
-    const { page = 1, limit = 24 } = queryString.parse(location.search);
+    const { page = 1, limit = 24, ...moreParams } = queryString.parse(location.search);
     const { content: hash } = queryString.parse(history.location.hash);
-    const nexQueryParams = queryString.stringify({page: Number(page) + incrementPage, limit});
+    const nexQueryParams = queryString.stringify({ ...moreParams, page: Number(page) + incrementPage, limit});
     let userParams = { authorId: userId || this.userId };
     if (hash === 'subscribtion_rates') {
       userParams = { subscriptionsId: userId || this.userId}
     }
 
-    getRatesPage({page: Number(page) + incrementPage, limit, ...userParams})
+    getRatesPage({page: Number(page) + incrementPage, limit, ...moreParams, ...userParams})
     .then((action) => {
       if (action.status === 'SUCCESS' && action.response.docs.length) {
         getUsersByIds(action.response.docs.map(itm => itm.author || itm.authorId));
