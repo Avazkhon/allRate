@@ -24,7 +24,7 @@ exports.getRate = async (params, res) => {
       .then(result => handlier(sortByDate(result), res));
     } else if (params.page) {
       const query = await getAuthorIdOrAuthorIds({
-        authorId: params.userId,
+        authorId: params.authorId,
         subscriptionsId: params.subscriptionsId
       });
 
