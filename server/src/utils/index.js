@@ -25,3 +25,10 @@ exports.sortByDate = (array) => {
     }
   });
 }
+
+exports.getParamsForSearchDB = (params) => {
+  const _params = Object.assign({}, params);
+  delete _params.page;
+  delete _params.limit;
+  return _params
+}

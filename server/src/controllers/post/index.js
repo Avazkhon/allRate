@@ -1,6 +1,6 @@
 const postModels = require('../../models/post');
 const WriteToLog = require('../../utils/writeToLog');
-const { getAuthorIdOrAuthorIds } = require('../../utils');
+const { getAuthorIdOrAuthorIds, getParamsForSearchDB } = require('../../utils');
 const subscriptionModels = require('../../models/subscriptions');
 
 
@@ -39,6 +39,7 @@ exports.put = async (req, res) => {
 exports.get = async (req, res) => {
   try {
     const {
+      query: params,
       query: {
         postId,
         limit,
@@ -51,7 +52,8 @@ exports.get = async (req, res) => {
     if (postId) {
       post = await postModels.findOne({ _id: postId });
     } else {
-      const query = await getAuthorIdOrAuthorIds({ authorId, subscriptionsId });
+      let query = await getAuthorIdOrAuthorIds({ authorId, subscriptionsId });
+      query = { ...getParamsForSearchDB(params),...query };
 
       const options = {
         sort: { createTime: -1 },
@@ -64,7 +66,7 @@ exports.get = async (req, res) => {
     res.status(200).json(post);
   } catch (error) {
     writeToLog.write(error, 'get_post.error');
-    res.status(500).json(error);
+    res.status(500).json(error.toString());
   };
 };
 

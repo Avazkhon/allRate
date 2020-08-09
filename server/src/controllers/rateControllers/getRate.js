@@ -1,6 +1,6 @@
 const rateModels = require('../../models/rate');
 const WriteToLog = require('../../utils/writeToLog');
-const { sortByDate, getAuthorIdOrAuthorIds } = require('../../utils');
+const { sortByDate, getAuthorIdOrAuthorIds, getParamsForSearchDB } = require('../../utils');
 const subscriptionModels = require('../../models/subscriptions');
 
 const writeToLog = new WriteToLog();
@@ -23,10 +23,12 @@ exports.getRate = async (params, res) => {
       rateModels.getByProps({ authorId: params.userId })
       .then(result => handlier(sortByDate(result), res));
     } else if (params.page) {
-      const query = await getAuthorIdOrAuthorIds({
+      let query = await getAuthorIdOrAuthorIds({
         authorId: params.authorId,
         subscriptionsId: params.subscriptionsId
       });
+
+      query = { ...getParamsForSearchDB(params),...query };
 
       const options = {
         sort: { createTime: -1 },
@@ -41,6 +43,6 @@ exports.getRate = async (params, res) => {
     }
   } catch(err) {
       writeToLog.write(err, 'request.err');
-      return res.sendStatus(500);
+      res.status(500).json(err.toString());
   }
 }
