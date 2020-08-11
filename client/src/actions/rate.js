@@ -10,6 +10,10 @@ import {
   GET_RATES_PAGE,
 } from '../constants';
 
+import {
+  getPramsAndTranformToQueryUrl,
+} from 'utils';
+
 export function creteNewRate (data) {
   const fullDtat = { ...data, localTime: new Date() }
   return dispatch => dispatch({
@@ -95,12 +99,12 @@ export function addCountViewsRate (rateId) {
   });
 }
 
-export function getRatesPage ({ page, limit, authorId, subscriptionsId }) {
+export function getRatesPage (props) {
   return dispatch => dispatch({
     type: GET_RATES_PAGE,
     meta: {
       method: 'GET',
-      endpoint:`rate/?page=${page}&limit=${limit}${authorId ? '&authorId=' + authorId : '' }${subscriptionsId ? '&subscriptionsId=' + subscriptionsId : '' }`,
+      endpoint:`rate/${getPramsAndTranformToQueryUrl(props)}`,
     }
   });
 }

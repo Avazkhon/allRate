@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
 
 
 import {
@@ -31,7 +32,7 @@ class Home extends React.Component {
       getRatesPage,
     } = this.props;
     getPostsPage({ page: 1, limit: 6 });
-    getRatesPage({ page: 1, limit: 6 });
+    getRatesPage({ page: 1, limit: 6, statusLife: 'active' });
   }
 
   render() {
@@ -85,7 +86,7 @@ class Home extends React.Component {
                       />
 
                       <Carousel.Caption>
-                        <h3>{itm.title}</h3>
+                        <Link to={`/make-rate?rateId=${itm._id}`}><h3>{itm.title}</h3></Link>
                         <p>{itm.description}</p>
                       </Carousel.Caption>
                     </Carousel.Item>
@@ -105,8 +106,8 @@ Home.propTypes = {
   getRatesPage: PropTypes.func,
   getPostsPage: PropTypes.func,
   auth: PropTypes.shape(),
-  posts: PropTypes.shape({}),
-  rate: PropTypes.shape({}),
+  posts: PropTypes.shape(),
+  rate: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {

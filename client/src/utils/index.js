@@ -117,3 +117,14 @@ export function getMonth(index) {
 
   return month.find((month, i) => i === index);
 }
+
+export function getPramsAndTranformToQueryUrl (params) {
+  let allQuery = '?';
+  const keys = Object.keys(params);
+  keys.forEach((currentValue, key, arr) => {
+    const query = `${currentValue}=${params[currentValue]}${(arr.length !== key + 1) ? '&' : ''}`;
+    allQuery = allQuery + query;
+  });
+
+  return allQuery;
+}
