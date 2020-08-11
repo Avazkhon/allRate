@@ -32,7 +32,7 @@ class Home extends React.Component {
       getRatesPage,
     } = this.props;
     getPostsPage({ page: 1, limit: 6 });
-    getRatesPage({ page: 1, limit: 6, statusLife: 'active' });
+    getRatesPage({ page: 1, limit: 6, statusLife: ['active', 'new'] });
   }
 
   render() {

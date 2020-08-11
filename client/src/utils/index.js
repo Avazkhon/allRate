@@ -121,9 +121,26 @@ export function getMonth(index) {
 export function getPramsAndTranformToQueryUrl (params) {
   let allQuery = '?';
   const keys = Object.keys(params);
-  keys.forEach((currentValue, key, arr) => {
-    const query = `${currentValue}=${params[currentValue]}${(arr.length !== key + 1) ? '&' : ''}`;
-    allQuery = allQuery + query;
+  keys.forEach((currentValueExternal, keyExternal, arrExternal) => {
+    if (Array.isArray(params[currentValueExternal])) {
+      params[currentValueExternal].forEach((currentValueInner, keyInner, arrInner) => {
+        const isEnd = (() => {
+          if  (arrInner.length !== keyInner + 1) {
+            return '&';
+          }  else if ((arrExternal.length === keyExternal + 1) && arrInner.length === keyInner + 1) {
+            return '';
+          } else {
+            return '';
+          }
+        })();
+
+        const query = `${currentValueExternal}=${currentValueInner}${isEnd}`;
+        allQuery = allQuery + query;
+      })
+    } else {
+      const query = `${currentValueExternal}=${params[currentValueExternal]}${(arrExternal.length !== keyExternal + 1) ? '&' : ''}`;
+      allQuery = allQuery + query;
+    }
   });
 
   return allQuery;
