@@ -53,7 +53,7 @@ exports.get = async (req, res) => {
       post = await postModels.findOne({ _id: postId });
     } else {
       let query = await getAuthorIdOrAuthorIds({ authorId, subscriptionsId });
-      query = { ...getParamsForSearchDB(params),...query };
+      query = { ...getParamsForSearchDB(params, ['page', 'limit', 'subscriptionsId' ]), ...query };
 
       const options = {
         sort: { createTime: -1 },

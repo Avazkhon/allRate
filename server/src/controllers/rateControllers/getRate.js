@@ -28,7 +28,7 @@ exports.getRate = async (params, res) => {
         subscriptionsId: params.subscriptionsId
       });
 
-      query = { ...getParamsForSearchDB(params),...query };
+      query = { ...getParamsForSearchDB(params, ['page', 'limit', 'subscriptionsId' ]), ...query };
 
       const options = {
         sort: { createTime: -1 },
