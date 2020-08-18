@@ -5,7 +5,7 @@ const writeToLog = new WriteToLog();
 
 exports.authIn = (req, res) => {
   const { email, password } = req.body;
-  userModels.findOne({ email }, { password: true })
+  userModels.findOne({ email }, { password: true, email: true })
   .then((user) => {
     if (user
       && user.email === email
