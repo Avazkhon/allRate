@@ -9,12 +9,6 @@ import {
   Button,
 } from 'react-bootstrap';
 
-import {
-  getMyList,
-  getMyNews,
-  getAllNews,
-} from 'actions';
-
 const ratingText = {
   negative: { RU: 'Негативный отзыв', EN: 'Negative feedback' },
   positively: { RU: 'Положительный отзыв', EN: 'Positively feedback' },
@@ -35,9 +29,6 @@ class Rating extends React.Component {
     const { action } = e.currentTarget.dataset;
     const {
       changeRating,
-      getMyList,
-      getMyNews,
-      getAllNews,
       getUserById,
       getCommonRates,
       auth: {
@@ -45,20 +36,10 @@ class Rating extends React.Component {
         userData: { _id }
       },
       postId,
-      myList,
     } = this.props;
     changeRating({ userId, makeTime: new Date() }, postId, action)
     .then((action) => {
       if (action.status === 'SUCCESS') {
-        if (myList.list === 'myList') {
-          getMyList(userId);
-        }
-        if (myList.list === 'myNews') {
-          getMyNews(userId);
-        }
-        if (myList.list === 'allNews') {
-          getAllNews();
-        }
         if (getUserById) {
           getUserById(_id);
         }
@@ -135,14 +116,10 @@ class Rating extends React.Component {
 };
 
 Rating.propTypes = {
-  getMyList: PropTypes.func,
-  getMyNews: PropTypes.func,
-  getAllNews: PropTypes.func,
   getUserById: PropTypes.func,
   getCommonRates: PropTypes.func,
   changeRating: PropTypes.func,
   rating: PropTypes.shape({}),
-  myList: PropTypes.shape({}),
   postId: PropTypes.string,
   isShow: PropTypes.bool,
 };
@@ -151,19 +128,13 @@ function mapStateToProps (state) {
   const {
     lang,
     auth,
-    myList,
   } = state;
   return {
     lang,
     auth,
-    myList
   };
 }
 export default connect(
   mapStateToProps,
-  {
-    getMyList,
-    getMyNews,
-    getAllNews,
-  }
+  {}
 )(Rating);

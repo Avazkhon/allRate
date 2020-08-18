@@ -1,25 +1,34 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
+import injectSheet from 'react-jss';
+import {
+  AiOutlineFileProtect,
+  AiOutlineFileSearch,
+  AiOutlineForm,
+  AiOutlineFile,
+} from "react-icons/ai";
+import { RiFileSearchLine } from "react-icons/ri";
 
 import {
   Nav,
   Modal,
+  ListGroup,
+  Row,
+  Col,
 } from 'react-bootstrap';
 
-import {
-  getMyNews,
-  getMyList,
-} from 'actions';
-
 import PostForm from 'components/PostForm';
+
+import style from './style';
 
 class UserBtnGroup extends Component {
   constructor(props) {
     super(props);
+    this.size = 17;
     this.state = {
       isCreatePost: false,
-      isShowMyNews: false,
     }
   }
 
@@ -29,58 +38,68 @@ class UserBtnGroup extends Component {
     }))
   }
 
-  handleShowlist = () => {
+  renderLink = () => {
     const {
-      isShowMyNews,
-    } = this.state;
-    const {
-      getMyNews,
-      getMyList,
-      auth: { auth }
+      classes,
     } = this.props;
-    if (auth && auth.userId) {
-      if (!isShowMyNews) {
-        getMyNews(auth.userId)
-        .then((actions) => {
-          if (actions.status === 'SUCCESS') {
-            this.setState((prevState) => ({
-              isShowMyNews: !prevState.isShowMyNews
-            }))
-          }
-        })
-      } else {
-        getMyList(auth.userId)
-        .then((actions) => {
-          if (actions.status === 'SUCCESS') {
-            this.setState((prevState) => ({
-              isShowMyNews: !prevState.isShowMyNews
-            }))
-          }
-        })
-      }
-    }
+    return (
+      <ListGroup horizontal>
+        <ListGroup.Item
+          className={classes.btn}
+          onClick={this.handleCreatePost}
+        >
+          <AiOutlineForm size={this.size} title="Создать пост" />
+        </ListGroup.Item>
+        <ListGroup.Item>
+          <Link
+            className={classes.btn}
+            to='/me/?page=1&limit=24#content=my_posts'
+          >
+            <AiOutlineFileProtect size={this.size} title="мои посты" />
+          </Link>
+        </ListGroup.Item>
+        <ListGroup.Item>
+          <Link
+            className={classes.btn}
+            to='/me/?page=1&limit=24#content=subscribtion_posts'
+          >
+            <AiOutlineFileSearch size={this.size} title="мои новости" />
+          </Link>
+        </ListGroup.Item>
+        <ListGroup.Item>
+          <Link
+            className={classes.btn}
+            to='/me/?page=1&limit=24#content=my_rates'
+          >
+            <AiOutlineFile size={this.size} title="мой ставки"/>
+          </Link>
+        </ListGroup.Item>
+        <ListGroup.Item>
+          <Link
+            className={classes.btn}
+            to='/me/?page=1&limit=24#content=subscribtion_rates'
+          >
+            <RiFileSearchLine size={this.size} title="подписка на ставки" />
+          </Link>
+        </ListGroup.Item>
+      </ListGroup>
+    )
   }
 
   render() {
     const {
       isCreatePost,
-      isShowMyNews,
     } = this.state;
 
     return (
       <>
-        <Nav>
-          <Nav.Item>
-            <Nav.Link onClick={this.handleCreatePost}>Создать пост</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link
-              onClick={this.handleShowlist}
-            >
-              {isShowMyNews ? 'мой лист': 'мои новости'}
-            </Nav.Link>
-          </Nav.Item>
-        </Nav>
+        <Row>
+          <Col lg={{ offset: 4 }} md={{ offset: 3 }} sm={{ offset: 1 }} >
+            {
+              this.renderLink()
+            }
+          </Col>
+        </Row>
         <Modal show={isCreatePost} onHide={this.handleCreatePost}>
           <Modal.Header closeButton>
             <Modal.Title>Создание поста</Modal.Title>
@@ -95,8 +114,7 @@ class UserBtnGroup extends Component {
 }
 
 UserBtnGroup.propTypes = {
-  getMyNews: PropTypes.func.isRequired,
-  getMyList: PropTypes.func.isRequired,
+  classes: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {
@@ -108,7 +126,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
-  getMyNews,
-  getMyList,
-})(UserBtnGroup);
+export default injectSheet(style)(
+  connect(mapStateToProps, {})(UserBtnGroup)
+);

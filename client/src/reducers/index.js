@@ -7,7 +7,6 @@ import purse from './purse';
 import lang from './lang';
 import users from './users';
 import subscriptions from './subscriptions';
-import myList from './myList';
 import posts from './posts';
 
 export default combineReducers({
@@ -19,6 +18,5 @@ export default combineReducers({
   lang,
   users,
   subscriptions,
-  myList,
   posts,
 });

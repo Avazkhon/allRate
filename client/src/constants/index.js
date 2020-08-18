@@ -5,8 +5,8 @@ export const LOG_AUT = 'LOG_AUT';
 export const CREATE_NEW_USER = 'CREATE_NEW_USER';
 export const CHANGE_RATING_USER = 'CHANGE_RATING_USER';
 export const POST_UPDATE_USERS_BY_ID = 'POST_UPDATE_USERS_BY_ID';
+export const GET_USERS_PAGINATE = 'GET_USERS_PAGINATE';
 
-export const GET_USERS = 'GET_USERS';
 export const GET_USERS_BY_IDS = 'GET_USERS_BY_IDS';
 
 export const CREATE_NEW_RATE = 'CREATE_NEW_RATE';
@@ -34,10 +34,6 @@ export const CREATE_POST = 'CREATE_POST';
 export const ADD_COUNT_VIEWS_POST = 'ADD_COUNT_VIEWS_POST';
 export const CHANGE_RATING_POST = 'CHANGE_RATING_POST';
 export const GET_POSTS_PAGE = 'GET_POSTS_PAGE';
-
-export const GET_MY_LIST = 'GET_MY_LIST';
-export const GET_MY_NEWS = 'GET_MY_NEWS';
-export const GET_ALL_NEWS = 'GET_ALL_NEWS';
 
 export const CHANGE_RATING_RATE = 'CHANGE_RATING_RATE';
 export const ADD_COUNT_VIEWS_RATE = 'ADD_COUNT_VIEWS_RATE';

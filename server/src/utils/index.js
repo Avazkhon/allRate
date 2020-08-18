@@ -1,3 +1,17 @@
+const subscriptionModels = require('../models/subscriptions');
+exports.getAuthorIdOrAuthorIds = async function ({ authorId, subscriptionsId }) {
+  const query = {};
+  if (authorId) {
+    query.authorId = authorId;
+  }
+  if (subscriptionsId) {
+    let subscription = await subscriptionModels.findOne({ userId: subscriptionsId})
+    subscription = subscription.subscriptions.map((elem) => elem.userId )
+    query.authorId = subscription;
+  }
+  return query;
+}
+
 exports.sortByDate = (array) => {
   return array.sort((a, b) => {
     const aTime = a.createTime || a.serverTime || a.localTime;
@@ -10,4 +24,13 @@ exports.sortByDate = (array) => {
       return 0;
     }
   });
+}
+
+exports.getParamsForSearchDB = (params, delteParams) => {
+  const _params = Object.assign({}, params);
+  delteParams.forEach((currentValue) => {
+    delete _params[currentValue];
+  })
+
+  return _params;
 }

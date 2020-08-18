@@ -1,6 +1,6 @@
 import {
-  GET_USERS,
   GET_USERS_BY_IDS,
+  GET_USERS_PAGINATE,
 } from '../constants'
 
 import {
@@ -10,33 +10,60 @@ import {
 
 const initState = {
   isFetching: false,
-  data: null,
+  data: {
+    docs: [],
+  },
   error: null,
 };
 
 function changeState (_state, _action) {
   return createRequestReducer(_state, _action, {
-    SEND: (state, action) => ({
+    SEND: (state) => ({
       ...state,
       isFetching: true,
     }),
     SUCCESS: (state, action) => ({
       ...state,
       error: null,
-      data: action.response,
+      isFetching: false,
+      data: {
+        docs: [...state.data.docs, ...action.response]
+      },
     }),
     FAIL: (state, action) => ({
       ...state,
       error: action.error,
-      isFetching: true,
+      isFetching: false,
     }),
   })
 }
 
 export default createReducer(initState, {
-  [GET_USERS]: (_state, _action) =>
-  changeState(_state, _action),
 
   [GET_USERS_BY_IDS]: (_state, _action) =>
   changeState(_state, _action),
+
+  [GET_USERS_PAGINATE]: (_state, _action) => (
+    createRequestReducer(_state, _action, {
+      SEND: (state) => ({
+        ...state,
+        isFetching: true,
+      }),
+      SUCCESS: (state, action) => ({
+        ...state,
+        isFetching: false,
+        error: null,
+        data: {
+          ...action.response,
+          docs: [...state.data.docs, ...action.response.docs],
+        },
+      }),
+      FAIL: (state, action) => ({
+        ...state,
+        error: action.error,
+        isFetching: false,
+      }),
+    })
+  )
+
 })

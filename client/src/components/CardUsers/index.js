@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FiUsers } from 'react-icons/fi';
-
+import queryString from 'query-string';
 
 import {
   Row,
@@ -15,9 +15,11 @@ import {
   addSubscription,
   deleteSubscriptions,
   changeRatingUser,
+  userPaginate,
 } from 'actions';
 
 import Rating from 'widgets/Rating';
+import NexLoadPage from 'widgets/NexLoadPage';
 import SiteBar from 'components/SiteBar';
 import Messages from 'components/Messages';
 
@@ -31,7 +33,6 @@ const userCardText = {
 class CardUser extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       errors: [],
       warnings: [],
@@ -180,18 +181,23 @@ class CardUser extends React.Component {
       },
       users: {
         data: users,
+        isFetchings: isFetchingsLoadUsers,
       },
       subscriptions: {
         data: subscriptions
       },
       lang: { lang },
       changeRatingUser,
+      history,
+      userPaginate,
     } = this.props;
+
+
     return (
       <>
         {
-          users &&
-          users.map((user) => {
+          users && users.docs &&
+          users.docs.map((user) => {
             const isSubscription = subscriptions &&
               subscriptions.subscriptions.find((subscription) => {
                 return subscription.userId === user._id;
@@ -251,7 +257,7 @@ class CardUser extends React.Component {
                   />
                 </Col>
                 <Col>
-                  <Card.Link href={auth && auth.userId !== user._id ? `profile/${user._id}` : '/me'}>
+                  <Card.Link href={auth && auth.userId !== user._id ? `/profile/${user._id}` : '/me'}>
                     {userCardText.follow[lang]}
                   </Card.Link>
                 </Col>
@@ -265,6 +271,14 @@ class CardUser extends React.Component {
             )
           })
         }
+
+        <NexLoadPage
+          isFetching={isFetchingsLoadUsers}
+          hasNextPage={users && users.hasNextPage}
+          actionForLoad={userPaginate}
+          history={history}
+        />
+
       </>
     );
   }
@@ -273,9 +287,11 @@ class CardUser extends React.Component {
 CardUser.propTypes = {
   addSubscription: PropTypes.func,
   deleteSubscriptions: PropTypes.func,
+  userPaginate: PropTypes.func,
   users: PropTypes.shape({}),
   auth: PropTypes.shape({}),
   subscriptions: PropTypes.shape({}),
+  history: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {
@@ -297,4 +313,5 @@ export default connect(mapStateToProps, {
   addSubscription,
   deleteSubscriptions,
   changeRatingUser,
+  userPaginate,
 })(CardUser);

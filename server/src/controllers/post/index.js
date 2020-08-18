@@ -1,5 +1,8 @@
 const postModels = require('../../models/post');
 const WriteToLog = require('../../utils/writeToLog');
+const { getAuthorIdOrAuthorIds, getParamsForSearchDB } = require('../../utils');
+const subscriptionModels = require('../../models/subscriptions');
+
 
 const writeToLog = new WriteToLog();
 
@@ -36,27 +39,34 @@ exports.put = async (req, res) => {
 exports.get = async (req, res) => {
   try {
     const {
+      query: params,
       query: {
         postId,
         limit,
         page,
+        authorId,
+        subscriptionsId,
       },
     } = req;
     let post = null;
     if (postId) {
       post = await postModels.findOne({ _id: postId });
     } else {
+      let query = await getAuthorIdOrAuthorIds({ authorId, subscriptionsId });
+      query = { ...getParamsForSearchDB(params, ['page', 'limit', 'subscriptionsId' ]), ...query };
+
       const options = {
         sort: { createTime: -1 },
         limit,
         page,
       }
-      post = await postModels.paginate({}, options);
+
+      post = await postModels.paginate(query, options);
     }
     res.status(200).json(post);
   } catch (error) {
     writeToLog.write(error, 'get_post.error');
-    res.status(500).json(error);
+    res.status(500).json(error.toString());
   };
 };
 

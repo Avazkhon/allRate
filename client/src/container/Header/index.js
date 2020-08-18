@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
 import injectSheet from 'react-jss';
+import { Link } from "react-router-dom";
 
 import {
   Navbar,
@@ -164,9 +164,7 @@ class Header extends React.Component {
                 return
               }
               return (
-                <Nav.Link key={itm.id} href={itm.url}>
-                  <span>{itm.name[lang]}</span>
-                </Nav.Link>
+                <Link className={classes['nav-link']}to={itm.url} key={itm.id} ><span>{itm.name[lang]}</span></Link>
               )
             })}
           </Nav>

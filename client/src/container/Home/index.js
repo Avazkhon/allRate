@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
 
 
 import {
@@ -11,12 +12,10 @@ import {
 } from 'react-bootstrap';
 
 import {
-  getAllNews,
   getPostsPage,
   getRatesPage,
 } from 'actions';
 
-import MyList from 'components/MyList';
 import SiteBar from 'components/SiteBar';
 import Layout from '../Layout';
 
@@ -29,13 +28,11 @@ class Home extends React.Component {
 
   componentDidMount() {
     const {
-      getAllNews,
       getPostsPage,
       getRatesPage,
     } = this.props;
     getPostsPage({ page: 1, limit: 6 });
-    getRatesPage({ page: 1, limit: 6 });
-    getAllNews();
+    getRatesPage({ page: 1, limit: 6, statusLife: ['active', 'new'] });
   }
 
   render() {
@@ -43,7 +40,6 @@ class Home extends React.Component {
       auth: {
         auth
       },
-      myList,
       posts,
       rate,
     } = this.props;
@@ -90,7 +86,7 @@ class Home extends React.Component {
                       />
 
                       <Carousel.Caption>
-                        <h3>{itm.title}</h3>
+                        <Link to={`/make-rate?rateId=${itm._id}`}><h3>{itm.title}</h3></Link>
                         <p>{itm.description}</p>
                       </Carousel.Caption>
                     </Carousel.Item>
@@ -98,9 +94,6 @@ class Home extends React.Component {
                 })
               }
             </Carousel>
-            <MyList
-              myList={myList}
-            />
           </Col>
         </Row>
       </Container>
@@ -110,32 +103,27 @@ class Home extends React.Component {
 }
 
 Home.propTypes = {
-  getAllNews: PropTypes.func,
   getRatesPage: PropTypes.func,
   getPostsPage: PropTypes.func,
   auth: PropTypes.shape(),
-  myList: PropTypes.shape({}),
-  posts: PropTypes.shape({}),
-  rate: PropTypes.shape({}),
+  posts: PropTypes.shape(),
+  rate: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {
   const {
     auth,
-    myList,
     posts,
     rate,
   } = state;
   return {
     auth,
-    myList,
     posts,
     rate,
   };
 }
 
 export default connect(mapStateToProps, {
-  getAllNews,
   getPostsPage,
   getRatesPage,
 })(Home);

@@ -9,12 +9,12 @@ const purseControllers = require('../purse');
 
 const writeToLog = new WriteToLog();
 exports.getUser = (req, res) => {
-  const { id, ids, userName, all } = req.query;
+  const { id, ids, userName, all, page } = req.query;
   const params =
   (id && {id}) ||
   (ids && {ids}) ||
   (userName && {userName}) ||
-  (all === 'true' && {all});
+  ( page && { ...req.query });
 
   if (params) {
     return getUser.getOne(params, res); // эта функция сама определяет какой тип параметра

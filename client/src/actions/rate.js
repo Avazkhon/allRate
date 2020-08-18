@@ -5,11 +5,14 @@ import {
   PUT_RATE,
   PUT_RATE_LIVE,
   PUT_RATE_SELECT_VICTORY,
-  CHANGE_RATING_POST,
   CHANGE_RATING_RATE,
   ADD_COUNT_VIEWS_RATE,
   GET_RATES_PAGE,
 } from '../constants';
+
+import {
+  getPramsAndTranformToQueryUrl,
+} from 'utils';
 
 export function creteNewRate (data) {
   const fullDtat = { ...data, localTime: new Date() }
@@ -96,12 +99,12 @@ export function addCountViewsRate (rateId) {
   });
 }
 
-export function getRatesPage ({ page, limit }) {
+export function getRatesPage (props) {
   return dispatch => dispatch({
     type: GET_RATES_PAGE,
     meta: {
       method: 'GET',
-      endpoint:`rate/?page=${page}&limit=${limit}`,
+      endpoint:`rate/${getPramsAndTranformToQueryUrl(props)}`,
     }
   });
 }

@@ -38,8 +38,8 @@ export {
 } from './language';
 
 export {
-  getUsers,
   getUsersByIds,
+  userPaginate,
 } from './user';
 
 export {
@@ -54,12 +54,6 @@ export {
   addCountViewsPost,
   getPostsPage,
 } from './post';
-
-export {
-  getMyList,
-  getMyNews,
-  getAllNews,
-} from './myList';
 
 export {
   changeImg,
