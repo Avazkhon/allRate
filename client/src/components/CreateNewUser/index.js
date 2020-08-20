@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-
 import PropTypes from 'prop-types';
 
 import Messages from 'components/Messages';
@@ -39,6 +38,13 @@ const optionsYear = (() => {
   return year;
 })();
 
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    border: '1px solid red',
+  }),
+}
+
 class CreateNewUser extends Component {
   constructor(props) {
 		super(props);
@@ -54,6 +60,7 @@ class CreateNewUser extends Component {
           year: '',
         }
       },
+      valid: {},
       isFetching: false,
       error: '',
 		}
@@ -73,7 +80,7 @@ class CreateNewUser extends Component {
         ...this.state.data,
         [name]: value
       }
-    })
+    });
   }
 
   handleChangeDay = day => {
@@ -118,6 +125,33 @@ class CreateNewUser extends Component {
     });
   };
 
+  validateEmail = (email) => {
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
+  }
+
+  checkLength = (string, length, warning) => (string.length < length && warning);
+
+  checkValidPhone = (phone) => {
+    const re = /\+7\d{10}/;
+    return re.test(String(phone).toLowerCase());
+  }
+
+  checkValid = () => {
+    const { data } = this.state;
+    const status = {
+      email: !this.validateEmail(data.email) && 'не коректно заполнено поле',
+      password: this.checkLength(data.password, 6, 'не коректно заполнено поле'),
+      userName: this.checkLength(data.userName, 2, 'не коректно заполнено поле'),
+      phone: !this.checkValidPhone(data.phone) && 'не коректно заполнено поле',
+      month: this.checkLength(data.age.month, 1, 'не заполненно'),
+      day: this.checkLength(data.age.day, 1, 'не заполненно'),
+      year: this.checkLength(data.age.year, 1, 'не заполненно'),
+    };
+    this.setState({ valid: status });
+    return Object.values(status).some(status => typeof status === 'string');
+  }
+
   handleSubmitCreateNewUser = () => {
     const {
       data,
@@ -130,21 +164,28 @@ class CreateNewUser extends Component {
     this.setState({
       isFetching: true,
       error: '',
-    })
-    createNewUser(data)
-    .then((action) => {
-      if (action.status === 'SUCCESS') {
-        this.setState({
-          isFetching: false,
-        })
-        handleCreateNewUser();
-      } else {
-        this.setState({
-          isFetching: false,
-          error: action.error,
-        })
-      }
     });
+    if (!this.checkValid()) {
+      createNewUser(data)
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          this.setState({
+            isFetching: false,
+          })
+          handleCreateNewUser();
+        } else {
+          this.setState({
+            isFetching: false,
+            error: action.error,
+          })
+        }
+      });
+    } else {
+      this.setState({
+        isFetching: false,
+        error: 'Не все поля заполнены',
+      })
+    }
   }
 
   render() {
@@ -164,6 +205,7 @@ class CreateNewUser extends Component {
         userName,
         phone,
       },
+      valid,
       isFetching,
       error,
     } = this.state;
@@ -176,7 +218,7 @@ class CreateNewUser extends Component {
           <div className="login_title" >Регистрация</div>
           <div>
             <label className="login__label">
-              <span className="login__label-value">Электронная почта</span>
+              <span className="login__label-value">Электронная почта {valid.email && <span className="login__label-error">{valid.email}</span>}</span>
               <input
                 value={email}
                 onChange={this.handleChange}
@@ -189,7 +231,7 @@ class CreateNewUser extends Component {
             </label>
 
             <label className="login__label">
-                <span className="login__label-value">Моб.телефон</span>
+              <span className="login__label-value">Моб.телефон {valid.phone && <span className="login__label-error">{valid.phone}</span>}</span>
               <input
                 value={phone}
                 onChange={this.handleChange}
@@ -202,7 +244,7 @@ class CreateNewUser extends Component {
             </label>
 
             <label className="login__label">
-              <span className="login__label-value">Пароль</span>
+              <span className="login__label-value">Пароль {valid.password && <span className="login__label-error">{valid.password}</span>}</span>
               <input
                 value={password}
                 onChange={this.handleChange}
@@ -215,7 +257,7 @@ class CreateNewUser extends Component {
             </label>
 
             <label className="login__label">
-              <span className="login__label-value">Имя</span>
+              <span className="login__label-value">Имя {valid.userName && <span className="login__label-error">{valid.userName}</span>}</span>
               <input
                 value={userName}
                 onChange={this.handleChange}
@@ -231,6 +273,7 @@ class CreateNewUser extends Component {
               <label className="login__label">
                 <span className="login__label-value">День</span>
                   <Select
+                    styles={valid.day && customStyles}
                     placeholder="Выбрать"
                     value={{ ...optionsDay.find(option => option.value === day) }}
                     onChange={this.handleChangeDay}
@@ -240,6 +283,7 @@ class CreateNewUser extends Component {
               <label className="login__label">
                 <span className="login__label-value">Месяц</span>
                 <Select
+                  styles={valid.month && customStyles}
                   placeholder="Выбрать"
                   value={{ ...optionsMonth.find(option => option.value === month) }}
                   onChange={this.handleChangeMonth}
@@ -249,6 +293,7 @@ class CreateNewUser extends Component {
               <label className="login__label">
                 <span className="login__label-value">Год</span>
                 <Select
+                  styles={valid.year && customStyles}
                   placeholder="Выбрать"
                   value={{ ...optionsYear.find(option => option.value === year) }}
                   onChange={this.handleChangeYear}
@@ -262,6 +307,7 @@ class CreateNewUser extends Component {
               className="login__btn"
               type="button"
               value="Зарегистрирлваться"
+              disabled={isFetching}
               onClick={this.handleSubmitCreateNewUser}
             />
             <input
