@@ -15,7 +15,7 @@ exports.getOne = (params, res) => {
   if (params.id) {
     userModels.findOne({ _id: params.id })
     .then(result => handlier(result, res));
-  } else if (Array.isArray(params.ids)) {
+  } else if (params.ids) {
     userModels.getByProps({ _id: params.ids  })
     .then(result => handlier(result, res));
   } else if (params.userName) {
