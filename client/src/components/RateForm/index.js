@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
-
-import {
-  Row,
-  Col,
-  Form,
-  Button,
-} from 'react-bootstrap';
+import injectSheet from 'react-jss';
 
 import Messages from 'components/Messages';
 
@@ -21,6 +15,8 @@ import {
 
 import MainProps from './MainProps';
 import Party from './Party';
+
+import style from './style';
 
 class RateForm extends Component {
   constructor(props) {
@@ -176,15 +172,12 @@ class RateForm extends Component {
   }
 
 
-  handleDeleteDateFinisOrAlert = () => {
+  handleDeleteDateFinisOrAlert = (e) => {
+    const { name } = e.currentTarget;
+    const elseName = name === 'dateFinish' ? 'dateAlert' : 'dateFinish'
     const { data } = this.state;
-    if (data.dateFinish) {
-      delete data.dateFinish;
-      data.dateAlert = new Date();
-    } else {
-      delete data.dateAlert;
-      data.dateFinish = new Date();
-    }
+    delete data[elseName];
+    data[name] = new Date();
     this.setState({ data });
   }
 
@@ -287,6 +280,7 @@ class RateForm extends Component {
       getRateByID,
       putRateLiveByID,
       titleFrom,
+      classes,
       rate: {
         error,
         isFetching,
@@ -331,66 +325,56 @@ class RateForm extends Component {
           />
         }
 
-        <Row>
+        <div className={classes['btn-group']}>
         {
           creteNewRate &&
-          <Col>
-            <Button
-              disabled={isFetching}
-              onClick={this.handleCreateSubmit}
-            >
-              Создать
-            </Button>
-          </Col>
+          <button
+            disabled={isFetching}
+            onClick={this.handleCreateSubmit}
+          >
+            Создать
+          </button>
         }
         {
           getRateByID && !isArchive && !isFinish &&
-          <Col>
-            <Button
-              onClick={this.handleChangeSubmit}
-              disabled={isFetching}
-            >
-              Изменить
-            </Button>
-          </Col>
+          <button
+            onClick={this.handleChangeSubmit}
+            disabled={isFetching}
+          >
+            Изменить
+          </button>
         }
         {
           (statusLife === rateStatusLive.active || statusLife === rateStatusLive.new) &&
-          <Col>
-            <Button
-              name={rateStatusLive.finish}
-              onClick={this.handleChangeRateLiveByID}
-              disabled={isFetching}
-            >
-              Завершить ставку
-            </Button>
-          </Col>
+          <button
+            name={rateStatusLive.finish}
+            onClick={this.handleChangeRateLiveByID}
+            disabled={isFetching}
+          >
+            Завершить ставку
+          </button>
         }
         {
           isFinish &&
-          <Col>
-            <Button
+            <button
               name={rateStatusLive.archive}
               onClick={this.handleChangeRateLiveByID}
               disabled={isFetching}
             >
               Добавить в архив
-            </Button>
-          </Col>
+            </button>
         }
         {
           !isArchive && isFinish && !mainBet.paymentMade &&
-          <Col>
-            <Button
-              name={rateStatusLive.archive}
-              onClick={this.handleChangeRateSelectVictory}
-              disabled={isFetching}
-            >
-              Сделать выплатить
-            </Button>
-          </Col>
+          <button
+            name={rateStatusLive.archive}
+            onClick={this.handleChangeRateSelectVictory}
+            disabled={isFetching}
+          >
+            Сделать выплатить
+          </button>
         }
-        </Row>
+        </div>
         <Messages
           error={error}
           warning={warning}
@@ -409,6 +393,7 @@ RateForm.propTypes = {
   putRateSelectVictory: PropTypes.func,
   changeImg: PropTypes.func,
   titleFrom: PropTypes.string,
+  classes: PropTypes.shape({}),
 }
 
-export default RateForm;
+export default injectSheet(style)(RateForm);
