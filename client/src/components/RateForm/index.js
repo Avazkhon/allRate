@@ -65,6 +65,14 @@ class RateForm extends Component {
         dateFinish: new Date(),
         differenceTime: 0,
       },
+
+      validatinos: {
+        title: '',
+        description: '',
+        party: [],
+        file: ''
+      },
+
       file: '',
       warning: '',
 		}
@@ -75,6 +83,35 @@ class RateForm extends Component {
     if (!prevProps.rate.data && data) {
       this.setState({ data: data });
     };
+  }
+
+  checkLength = (string, warning, lengthMin, lengthMax) => {
+    let message = warning || 'Обезательное поле';
+    if (string.length < lengthMin) {
+      message += `(минимальная длина ${lengthMin})`;
+    } else if (lengthMax && string.length > lengthMax) {
+      message += `(максимальная длина ${lengthMax})`;
+    } else {
+      message = '';
+    }
+    return message;
+  };
+
+  checkValid = () => {
+    const { data, validatinos, file } = this.state;
+    const { checkLength } = this;
+    const newValidatinos = {
+      ...validatinos,
+      title: checkLength(data.title, '', 3, 50),
+      description: checkLength(data.description, '', 10, 500),
+      party: data.party.map((itm) => ({
+        ...itm,
+        participator: checkLength(itm.participator, '', 3, 50),
+        description: checkLength(itm.description, '', 10, 2000)
+      })),
+      file: file ? '' : 'Выберете изображения'
+    }
+    this.setState({validatinos: newValidatinos});
   }
 
   changeState = (action) => {
@@ -182,6 +219,7 @@ class RateForm extends Component {
   }
 
   handleCreateSubmit = () => {
+    this.checkValid()
     const { data, file } = this.state;
     data.createTime = new Date();
     const { creteNewRate, changeImg } = this.props;
@@ -272,6 +310,7 @@ class RateForm extends Component {
         dateAlert,
         statusLife,
       },
+      validatinos,
       warning,
     } = this.state;
 
@@ -292,6 +331,7 @@ class RateForm extends Component {
       <>
         <h4>{titleFrom}</h4>
         <MainProps
+          validatinos={validatinos}
           disabled={isArchive}
           title={title}
           description={description}
@@ -318,6 +358,7 @@ class RateForm extends Component {
         {
           creteNewRate &&
           <input
+            className={validatinos.file && classes.isNotFilled}
             accept=".jpeg, .jpg"
             type="file"
             name="post"

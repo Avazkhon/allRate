@@ -3,6 +3,7 @@ const {
   WHITE,
   MEDIUM_BLUE,
   NAVY,
+  ORANGE_RED,
 } = colorLib;
 
 export default {
@@ -23,4 +24,7 @@ export default {
       },
     },
   },
+  isNotFilled: {
+    border: `1px solid ${ORANGE_RED}`,
+  }
 }

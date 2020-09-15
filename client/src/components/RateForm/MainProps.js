@@ -21,6 +21,12 @@ const timeZone = (() => {
   return array;
 })();
 
+function isValid (props) {
+  if (props) {
+    return  {border: '1px solid red'};
+  }
+}
+
 const MainProps = ({
   title,
   description,
@@ -35,9 +41,11 @@ const MainProps = ({
   handleDeleteDateFinisOrAlert,
   disabled,
   classes,
+  validatinos,
 }) => (
   <>
     <Form.Control
+      style={isValid(validatinos.title)}
       value={title}
       onChange={handleChange}
       placeholder="Ввидите заголовок"
@@ -46,6 +54,7 @@ const MainProps = ({
     />
     <Form.Control
       as="textarea"
+      style={isValid(validatinos.description)}
       value={description}
       onChange={handleChange}
       placeholder="Ввидите описание"
@@ -139,6 +148,7 @@ MainProps.propTypes = {
   handleChangeDifferenceTime: PropTypes.func,
   disabled: PropTypes.bool,
   classes: PropTypes.shape(),
+  validatinos: PropTypes.shape(),
 }
 
 export default injectSheet(style)(MainProps);
