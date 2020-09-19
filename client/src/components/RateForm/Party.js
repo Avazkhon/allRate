@@ -34,6 +34,8 @@ const Party = ({
             const id = itm.id|| itm._id;
             const isDraw = id === 3;
             const isChecked = +id === +idPartyVictory;
+            const isValidDescription = validatinos[i] && validatinos[i].description;
+            const isValidParticipator = validatinos[i] && validatinos[i].participator;
             return (
               <ListGroup.Item key={id}>
                 <Row>
@@ -51,7 +53,8 @@ const Party = ({
                   <Col sm="11">
                     <Form.Control
                       value={itm.participator}
-                      style={validatinos[i] && isValid(validatinos[i].participator)}
+                      style={isValid(isValidParticipator)}
+                      title={isValidParticipator}
                       onChange={handleChangeRate}
                       placeholder="Ввидите сторону участника"
                       type="text"
@@ -65,7 +68,8 @@ const Party = ({
                   !isDraw &&
                   <Form.Control
                     as="textarea"
-                    style={validatinos[i] && isValid(validatinos[i].description)}
+                    style={isValid(isValidDescription)}
+                    title={isValidDescription}
                     value={itm.description}
                     onChange={handleChangeRate}
                     placeholder="Ввидите описание"

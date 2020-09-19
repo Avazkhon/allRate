@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import injectSheet from 'react-jss';
 
+import {
+  ListGroup,
+} from 'react-bootstrap';
+
 import Messages from 'components/Messages';
 
 import {
@@ -339,6 +343,7 @@ class RateForm extends Component {
     } = this.props;
     const isArchive = rateStatusLive.archive === statusLife;
     const isFinish = rateStatusLive.finish === statusLife;
+
     return(
       <>
         <h4>{titleFrom}</h4>
@@ -370,13 +375,18 @@ class RateForm extends Component {
         />
         {
           creteNewRate &&
-          <input
-            className={validatinos.file && classes.isNotFilled}
-            accept=".jpeg, .jpg"
-            type="file"
-            name="post"
-            onChange={this.selectFile}
-          />
+          <ListGroup>
+            <ListGroup.Item>
+              <input
+                className={validatinos.file && classes.isNotFilled}
+                title={validatinos.file}
+                accept=".jpeg, .jpg"
+                type="file"
+                name="post"
+                onChange={this.selectFile}
+              />
+            </ListGroup.Item>
+          </ListGroup>
         }
 
         <div className={classes['btn-group']}>

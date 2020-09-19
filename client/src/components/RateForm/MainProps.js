@@ -46,6 +46,7 @@ const MainProps = ({
   <>
     <Form.Control
       style={isValid(validatinos.title)}
+      title={validatinos.title}
       value={title}
       onChange={handleChange}
       placeholder="Ввидите заголовок"
@@ -55,6 +56,7 @@ const MainProps = ({
     <Form.Control
       as="textarea"
       style={isValid(validatinos.description)}
+      title={validatinos.description}
       value={description}
       onChange={handleChange}
       placeholder="Ввидите описание"
