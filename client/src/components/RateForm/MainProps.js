@@ -138,7 +138,7 @@ MainProps.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   differenceTime: PropTypes.number,
-  dateStart: PropTypes.string,
+  dateStart: PropTypes.shape(),
   dateFinish: PropTypes.shape(),
   dateAlert: PropTypes.shape(),
   handleChange: PropTypes.func,

@@ -9,6 +9,12 @@ import {
   Button,
 } from 'react-bootstrap';
 
+function isValid (props) {
+  if (props) {
+    return  {border: '1px solid red'};
+  }
+}
+
 const Party = ({
   party,
   handleChangeRate,
@@ -18,12 +24,13 @@ const Party = ({
   idPartyVictory,
   isArchive,
   isPaymentMade,
+  validatinos,
 }) => (
   <>
     <Row>
       <Col>
         <ListGroup>
-          {party.map((itm) => {
+          {party.map((itm, i) => {
             const id = itm.id|| itm._id;
             const isDraw = id === 3;
             const isChecked = +id === +idPartyVictory;
@@ -44,6 +51,7 @@ const Party = ({
                   <Col sm="11">
                     <Form.Control
                       value={itm.participator}
+                      style={validatinos[i] && isValid(validatinos[i].participator)}
                       onChange={handleChangeRate}
                       placeholder="Ввидите сторону участника"
                       type="text"
@@ -57,6 +65,7 @@ const Party = ({
                   !isDraw &&
                   <Form.Control
                     as="textarea"
+                    style={validatinos[i] && isValid(validatinos[i].description)}
                     value={itm.description}
                     onChange={handleChangeRate}
                     placeholder="Ввидите описание"
@@ -92,6 +101,7 @@ Party.propTypes = {
   isArchive: PropTypes.bool,
   isPaymentMade: PropTypes.bool,
   idPartyVictory: PropTypes.number,
+  validatinos: PropTypes.arrayOf(PropTypes.shape()),
 };
 
 
