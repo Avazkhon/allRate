@@ -85,11 +85,13 @@ class RateForm extends Component {
     };
   }
 
-  checkLength = (string, warning, lengthMin, lengthMax) => {
+  checkLength = (string, warning, lengthMin, lengthMax, isNotValidArray) => {
     let message = warning || 'Обезательное поле';
     if (string.length < lengthMin) {
       message += `(минимальная длина ${lengthMin})`;
+      isNotValidArray.push(false);
     } else if (lengthMax && string.length > lengthMax) {
+      isNotValidArray.push(false);
       message += `(максимальная длина ${lengthMax})`;
     } else {
       message = '';
@@ -97,21 +99,30 @@ class RateForm extends Component {
     return message;
   };
 
+
   checkValid = () => {
     const { data, validatinos, file } = this.state;
     const { checkLength } = this;
+    let isNotValidArray = [];
     const newValidatinos = {
       ...validatinos,
-      title: checkLength(data.title, '', 3, 50),
-      description: checkLength(data.description, '', 10, 500),
+      title: checkLength(data.title, '', 3, 50, isNotValidArray),
+      description: checkLength(data.description, '', 10, 500, isNotValidArray),
       party: data.party.map((itm) => ({
         ...itm,
-        participator: checkLength(itm.participator, '', 3, 50),
-        description: checkLength(itm.description, '', 10, 2000)
+        participator: checkLength(itm.participator, '', 3, 50, isNotValidArray),
+        description: checkLength(itm.description, '', 10, 2000, isNotValidArray)
       })),
       file: file ? '' : 'Выберете изображения'
     }
     this.setState({validatinos: newValidatinos});
+    return isNotValidArray.some(isValid => {
+      if (!!isValid) {
+        return  false;
+      } else {
+        return true;
+      }
+    });
   }
 
   changeState = (action) => {
@@ -219,7 +230,8 @@ class RateForm extends Component {
   }
 
   handleCreateSubmit = () => {
-    this.checkValid()
+    if (!!this.checkValid()) return;
+
     const { data, file } = this.state;
     data.createTime = new Date();
     const { creteNewRate, changeImg } = this.props;
@@ -346,6 +358,7 @@ class RateForm extends Component {
           handleDeleteDateFinisOrAlert={this.handleDeleteDateFinisOrAlert}
         />
         <Party
+          validatinos={validatinos.party}
           isArchive={isArchive}
           isPaymentMade={mainBet.paymentMade}
           isFinish={isFinish}
