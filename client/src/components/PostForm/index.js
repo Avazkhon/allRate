@@ -12,6 +12,10 @@ import {
   changeImg,
 } from 'actions';
 
+import {
+  checkLength,
+} from 'utils';
+
 import Messages from 'components/Messages';
 
 
@@ -56,28 +60,15 @@ class PostFrom extends React.Component {
     })
   }
 
-  checkLength = (string, warning, lengthMin, lengthMax, isNotValidArray) => {
-    let message = warning || 'Обезательное поле';
-    if (string.length < lengthMin) {
-      message += `(минимальная длина ${lengthMin})`;
-      isNotValidArray.push(false);
-    } else if (lengthMax && string.length > lengthMax) {
-      isNotValidArray.push(false);
-      message += `(максимальная длина ${lengthMax})`;
-    } else {
-      message = '';
-    }
-    return message;
-  };
-
   checkValid() {
     const { title, text, file } = this.state;
     const isNotValidArray = [];
     const newValid = {
-      title: this.checkLength(title, '', 3, 30, isNotValidArray),
-      text: this.checkLength(text, '', 10, 2000, isNotValidArray),
+      title: checkLength(title, '', 3, 30, isNotValidArray),
+      text: checkLength(text, '', 10, 2000, isNotValidArray),
       file: !file && 'Выберите изображения',
     };
+
     this.setState({valid: newValid});
     return isNotValidArray.some(isValid => !!isValid ? false : true) || newValid.file;
   }
@@ -128,6 +119,7 @@ class PostFrom extends React.Component {
       isFetching,
       valid,
     } = this.state;
+
     return (
       <Form>
         <Form.Group controlId="formBasicEmail">

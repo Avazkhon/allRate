@@ -11,6 +11,7 @@ import Messages from 'components/Messages';
 
 import {
   isFunction,
+  checkLength,
 } from 'utils';
 
 import {
@@ -89,24 +90,9 @@ class RateForm extends Component {
     };
   }
 
-  checkLength = (string, warning, lengthMin, lengthMax, isNotValidArray) => {
-    let message = warning || 'Обезательное поле';
-    if (string.length < lengthMin) {
-      message += `(минимальная длина ${lengthMin})`;
-      isNotValidArray.push(false);
-    } else if (lengthMax && string.length > lengthMax) {
-      isNotValidArray.push(false);
-      message += `(максимальная длина ${lengthMax})`;
-    } else {
-      message = '';
-    }
-    return message;
-  };
-
 
   checkValid = () => {
     const { data, validatinos, file } = this.state;
-    const { checkLength } = this;
     let isNotValidArray = [];
     const newValidatinos = {
       ...validatinos,
@@ -120,13 +106,7 @@ class RateForm extends Component {
       file: file ? '' : 'Выберете изображения'
     }
     this.setState({validatinos: newValidatinos});
-    return isNotValidArray.some(isValid => {
-      if (!!isValid) {
-        return  false;
-      } else {
-        return true;
-      }
-    });
+    return isNotValidArray.some(isValid => !!isValid ? false : true) || newValidatinos.file;
   }
 
   changeState = (action) => {

@@ -145,3 +145,18 @@ export function getPramsAndTranformToQueryUrl (params) {
 
   return allQuery;
 }
+
+
+export function checkLength (string, warning, lengthMin, lengthMax, isNotValidArray) {
+  let message = warning || 'Обезательное поле';
+  if (string.length < lengthMin) {
+    message += `(минимальная длина ${lengthMin})`;
+    isNotValidArray.push(false);
+  } else if (lengthMax && string.length > lengthMax) {
+    isNotValidArray.push(false);
+    message += `(максимальная длина ${lengthMax})`;
+  } else {
+    message = '';
+  }
+  return message;
+}
