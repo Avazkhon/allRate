@@ -14,6 +14,13 @@ import {
 
 import Messages from 'components/Messages';
 
+
+function isValid (props) {
+  if (props) {
+    return  {border: '1px solid red'};
+  }
+}
+
 class PostFrom extends React.Component {
   constructor(props) {
     super(props);
@@ -21,6 +28,12 @@ class PostFrom extends React.Component {
       title: '',
       text: '',
       file: null,
+
+      valid: {
+        title: '',
+        text: '',
+        file: '',
+      },
 
       warning: '',
       error: '',
@@ -43,6 +56,32 @@ class PostFrom extends React.Component {
     })
   }
 
+  checkLength = (string, warning, lengthMin, lengthMax, isNotValidArray) => {
+    let message = warning || 'Обезательное поле';
+    if (string.length < lengthMin) {
+      message += `(минимальная длина ${lengthMin})`;
+      isNotValidArray.push(false);
+    } else if (lengthMax && string.length > lengthMax) {
+      isNotValidArray.push(false);
+      message += `(максимальная длина ${lengthMax})`;
+    } else {
+      message = '';
+    }
+    return message;
+  };
+
+  checkValid() {
+    const { title, text, file } = this.state;
+    const isNotValidArray = [];
+    const newValid = {
+      title: this.checkLength(title, '', 3, 30, isNotValidArray),
+      text: this.checkLength(text, '', 10, 2000, isNotValidArray),
+      file: !file && 'Выберите изображения',
+    };
+    this.setState({valid: newValid});
+    return isNotValidArray.some(isValid => !!isValid ? false : true) || newValid.file;
+  }
+
   handleSubmit = () => {
     const { title, text, file } = this.state;
     const { auth: { auth }, createPost, changeImg } = this.props;
@@ -52,6 +91,8 @@ class PostFrom extends React.Component {
       authorId: auth.userId,
       createTime: new Date(),
     };
+
+    if(!!this.checkValid()) return;
 
     this.makeState();
 
@@ -85,6 +126,7 @@ class PostFrom extends React.Component {
       warning,
       error,
       isFetching,
+      valid,
     } = this.state;
     return (
       <Form>
@@ -96,6 +138,8 @@ class PostFrom extends React.Component {
             value={title}
             name="title"
             onChange={this.handleChange}
+            style={isValid(valid.title)}
+            title={valid.title}
           />
         </Form.Group>
 
@@ -107,10 +151,18 @@ class PostFrom extends React.Component {
             value={text}
             name="text"
             onChange={this.handleChange}
+            style={isValid(valid.text)}
+            title={valid.text}
           />
         </Form.Group>
 
-        <input accept=".jpeg, .jpg" type="file" name="post" onChange={this.selectFile}/>
+        <input
+          accept=".jpeg, .jpg"
+          type="file" name="post"
+          onChange={this.selectFile}
+          style={isValid(valid.file)}
+          title={valid.file}
+        />
         <Button variant="primary" onClick={this.handleSubmit}>
           Submit
         </Button>
