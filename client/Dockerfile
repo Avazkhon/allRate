@@ -1,15 +1,16 @@
 FROM node:12
 
 WORKDIR /usr/src/app
-VOLUME /usr/src/app/var/log
 
-COPY package*.json ./
+#COPY package*.json ./
+COPY . ./
 
 RUN npm install
+RUN npm run build
 # Если вы создаете сборку для продакшн
 # RUN npm ci --only=production
 
-COPY . .
 
-# EXPOSE 3000:3000
-CMD [ "npm", "start" ]
+EXPOSE 3000:3000
+EXPOSE 3001:3001
+CMD [ "npm", "run", "start:prod" ]

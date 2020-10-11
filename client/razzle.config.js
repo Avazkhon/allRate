@@ -1,6 +1,6 @@
 const path = require('path');
 const autoprefixer = require('autoprefixer');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   modify(config, { target, dev }, webpack) {
@@ -39,24 +39,23 @@ module.exports = {
             postCssLoader,
             sassLoader,
           ]
-          : ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: [
+          : [
+            {
+              loader: MiniCssExtractPlugin.loader,
+            },
               {
                 loader: 'css-loader',
                 options: { importLoaders: 1 },
               },
-              postCssLoader,
-              sassLoader,
-            ],
-          }),
+            postCssLoader,
+            sassLoader,
+          ]
     });
 
     if (!isServer && !dev) {
       config.plugins.push(
-        new ExtractTextPlugin({
-          filename: 'static/css/[name].[contenthash:8].css',
-          allChunks: true,
+        new MiniCssExtractPlugin({
+          filename: `components/[name].css`
         }),
       );
     }

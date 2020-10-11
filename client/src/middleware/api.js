@@ -126,7 +126,7 @@ function makeOptions(req, store, timezone, date) {
   }
 
   return {
-    apiRoot: `http://127.250.250.250/api/`,
+    apiRoot: `http://localhost:8080/api/`,
     headers
   };
 }
