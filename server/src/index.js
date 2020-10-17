@@ -50,7 +50,7 @@ app.use(session({
 app.use(fileUpload());
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://127.250.250.250");
+  res.header("Access-Control-Allow-Origin", "http://localhost:9090");
   res.header('Access-Control-Allow-Methods', ['POST', 'PUT', 'PATCH', 'DELETE']);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header("Access-Control-Allow-Credentials", true);
