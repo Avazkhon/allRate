@@ -21,10 +21,11 @@ const store = configureStore(preloadedState);
 const sheets = new SheetsRegistry()
 
 ensureReady(routes).then((data) => {
-  const ssStyles = document.getElementById('server-side-styles');
-  if (ssStyles && ssStyles.parentNode) {
-    ssStyles.parentNode.removeChild(ssStyles);
-  }
+  // что то с этим не корректно работает стили удаляя нужные стили для ссылкок
+  // const ssStyles = document.getElementById('server-side-styles');
+  // if (ssStyles && ssStyles.parentNode) {
+  //   ssStyles.parentNode.removeChild(ssStyles);
+  // }
   return hydrate(
     <Provider store={store}>
       <JssProvider

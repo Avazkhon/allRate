@@ -9,6 +9,10 @@ import {
 } from 'react-bootstrap';
 
 import {
+  getDataUserFromLocalStorag,
+} from 'utils';
+
+import {
   changeRatingRate,
   addCountViewsRate,
   getCommonRates,
@@ -29,8 +33,10 @@ class CardsRates extends React.Component {
   }
 
   componentDidMount() {
-    const { userId } = JSON.parse(localStorage.getItem('userData'));
-    this.userId = userId;
+    const user= getDataUserFromLocalStorag();
+    if (user) {
+      this.userId = user.userId;
+    }
     this.handleChangePagination();
   }
 

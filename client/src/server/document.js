@@ -6,7 +6,7 @@ import {
   SheetsRegistry,
 } from 'react-jss';
 
-import reset from './reset.css';
+// import reset from './reset.css';
 import initStyle from './style.css';
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -33,7 +33,6 @@ const CustomDocumentHOC = (store) => {
         data,
         css,
       } = this.props;
-
       const htmlAttrs = helmet.htmlAttributes.toComponent();
       const bodyAttrs = helmet.bodyAttributes.toComponent();
 
@@ -42,7 +41,7 @@ const CustomDocumentHOC = (store) => {
           <head>
             <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
             <meta charSet="utf-8" />
-            <title>All Rate</title>
+            <title>Face Betting</title>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             {helmet.title.toComponent()}
             {helmet.meta.toComponent()}
