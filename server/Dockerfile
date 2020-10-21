@@ -2,6 +2,7 @@ FROM node:12
 
 WORKDIR /usr/src/app
 VOLUME /usr/src/app/var/log
+VOLUME /usr/src/app/var/image
 
 COPY package*.json ./
 

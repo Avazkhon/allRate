@@ -126,7 +126,7 @@ function makeOptions(req, store, timezone, date) {
   }
 
   return {
-    apiRoot: `http://localhost:9090/api/`,
+    apiRoot: process.env.NODE_ENV === 'production' ? `http://facebetting.ru/api/` : 'http://localhost:8080/api/',
     headers
   };
 }
