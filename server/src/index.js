@@ -50,7 +50,7 @@ app.use(session({
 app.use(fileUpload());
 
 app.use((req, res, next) => {
-  ['http://facebetting.ru', "http://localhost:3000"].map(domain => {
+  ['https://facebetting.ru', "http://localhost:3000"].map(domain => {
   res.header("Access-Control-Allow-Origin", domain);
 });
   // res.header("Access-Control-Allow-Origin", "http://facebetting.ru");
