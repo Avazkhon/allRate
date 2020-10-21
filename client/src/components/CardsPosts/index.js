@@ -3,10 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 
+
 import {
   Form,
   Button,
 } from 'react-bootstrap';
+
+import {
+  getDataUserFromLocalStorag,
+} from 'utils';
 
 import {
   addCountViewsPost,
@@ -27,8 +32,10 @@ class CardsPosts extends React.Component {
   }
 
   componentDidMount() {
-    const { userId } = JSON.parse(localStorage.getItem('userData'));
-    this.userId = userId;
+    const user = getDataUserFromLocalStorag();
+    if (user) {
+      this.userId = user.userId;
+    }
     this.handleChangePagination()
   }
 
