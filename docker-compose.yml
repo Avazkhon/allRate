@@ -29,8 +29,11 @@ services:
     image: nginx
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - /etc/ssl/facebetting.ru.crt:/etc/ssl/facebetting.ru.crt
+      - /etc/ssl/facebetting.ru.key:/etc/ssl/facebetting.ru.key
     ports:
-      - '80:9090'
+      - '80:80'
+      - '443:443'
     links:
       - web_server
     restart: always
