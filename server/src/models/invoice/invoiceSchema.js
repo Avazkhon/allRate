@@ -19,6 +19,7 @@ exports.invoiceSchema = new Schema(
     createTime: { type: Date, required: true },
     authorId: { type: ObjectID, required: true },
     invoiceId: { type: String, required: true },
+    status: {type: String}
   },
   { collection: 'Invoice' }
 );

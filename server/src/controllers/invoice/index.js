@@ -3,6 +3,7 @@ const invoiceModel = require('../../models/invoice');
 const purseModel = require('../../models/purse');
 const rateModel = require('../../models/rate');
 const WriteToLog = require('../../utils/writeToLog');
+const Yandex = require('../yndex');
 const {
   basisForPayment: {
     accountReplenishment,
@@ -20,6 +21,13 @@ class InvoiceController {
     this.minus = 'minus';
     this.plus = 'plus';
     this.SUCCESS = 'SUCCESS';
+  }
+
+
+  async makeInvoicYandex({amount_due}) {
+    const yandex = new Yandex();
+    const transfer = await yandex.makeInvoic({amount_due});
+    return {url_redirect: `${transfer.acs_uri}/?${yandex.formBody({...transfer.acs_params})}`, status: transfer.status};
   }
 
   createAmount (prevAmount, changeAmount, action) {
@@ -108,7 +116,22 @@ class InvoiceController {
     }
     const invoice = await invoiceModel.create(body);
     if (body.basisForPayment === accountReplenishment) {
-      await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.plus);
+      return this.makeInvoicYandex({amount_due: invoice.amount})
+        .then(async (transfer)=> {
+          if (transfer.status === 'ext_auth_required') {
+            await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.plus);
+            await invoiceModel.findByIdAndUpdate({_id: invoice.id}, {status: transfer.status})
+            return res.status(200).json({
+                message: 'Перевод на внешнюю страницу',
+                url_redirect: transfer.url_redirect,
+              });
+          } else {
+            await invoiceModel.findByIdAndUpdate({_id: invoice.id}, {status: transfer.status})
+            return res.status(423).json({
+                message: transfer.status
+              });
+          }
+        })
     } else if (body.basisForPayment === withdrawal) {
       await this.changePurse(invoice, invoice.requisites.src, body.basisForPayment, this.minus);
     } else {
@@ -118,7 +141,7 @@ class InvoiceController {
       await this.changeRate(body.rate.id, body.rate.partyNumber, body.rate.participant, invoice.amount);
     }
       res.status(201).json(invoice);
-    } catch(err) {
+  } catch(err) {
       writeToLog.write(err, 'create_invoice.err');
       res.status(500).json({ message: 'Не все операции успешно выполнены!', err});
     }
