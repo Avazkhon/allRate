@@ -85,7 +85,7 @@ class ModalInvoice extends Component {
       auth,
       basisForPayment,
       getPurse,
-      requisiteName
+      requisiteName,
     } = this.props;
 
     this.setState({isFetching: true});
@@ -98,6 +98,10 @@ class ModalInvoice extends Component {
       data.createTime = new Date();
       postInvoice(data).then((action) => {
         if (action.status === 'SUCCESS') {
+          if(action.response.url_redirect) {
+            return location.replace(action.response.url_redirect);
+          }
+
           this.setState({
             isFetching: false,
             warning: 'Счет успешно обновлен!'
