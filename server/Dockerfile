@@ -13,4 +13,4 @@ RUN npm install
 COPY . .
 
 # EXPOSE 8080:8080
-CMD [ "node", "./src/index.js" ]
+CMD [ "npm", "start" ]

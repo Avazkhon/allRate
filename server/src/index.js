@@ -9,6 +9,8 @@ const fileUpload = require('express-fileupload');
 const WriteToLog = require('./utils/writeToLog');
 const InnerTask = require('./innerTask');
 
+require('./server.conf.js').addConf();
+
 const db = require('./db');
 
 const rateControllers = require('./controllers/rateControllers');
