@@ -27,6 +27,9 @@ class Yandex {
         .then((res) => {
           console.log('method in instanceId', res);
           return res.instance_id;
+        })
+        .catch((err)=> {
+          console.log(err)
         });
   }
 
@@ -50,6 +53,9 @@ class Yandex {
         .then((res) => {
           console.log('method in getInvoice', res);
           return { ...res, instance_id: details.instance_id };
+        })
+        .catch((err)=> {
+          console.log(err);
         });
   }
 
@@ -65,16 +71,11 @@ class Yandex {
       instance_id,
     } = await this.getInvoice({amount_due});
 
-    if (status !== 'success') {
-      console.log('method in makeInvoic', status);
-      return status;
-    }
-
-    const details = {
+    let details = {
       request_id,
       instance_id,
-      ext_auth_success_uri: 'https://facebetting.ru/successful-translation',
-      ext_auth_fail_uri: 'https://facebetting.ru/fail-translation',
+      ext_auth_success_uri: `${process.env.MAIN_URL}/successful-translation`,
+      ext_auth_fail_uri: `${process.env.MAIN_URL}/fail-translation`,
       // test_payment: true,
       // test_result: 'success',
     };
@@ -85,9 +86,29 @@ class Yandex {
           body: this.formBody(details),
       })
         .then(res => res.json())
-        .then((res) => {
-          console.log('method in makeInvoic', res);
-          return res;
+        .then((result) => {
+          console.log('method in makeInvoic', result);
+          return {result, details};
+        })
+        .catch((err)=> {
+          console.log(err)
+        });
+  }
+
+  async checkInvoic({prevDetalis}) {
+
+    return fetch('https://money.yandex.ru/api/process-external-payment', {
+          method: 'post',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: this.formBody(prevDetalis),
+      })
+        .then(res => res.json())
+        .then((result) => {
+          console.log('method in checkInvoic', result);
+          return {result, prevDetalis};
+        })
+        .catch((err)=> {
+          console.log(err)
         });
   }
 

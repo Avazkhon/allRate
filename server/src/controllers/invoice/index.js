@@ -21,14 +21,36 @@ class InvoiceController {
     this.minus = 'minus';
     this.plus = 'plus';
     this.SUCCESS = 'SUCCESS';
+    this.yandex = new Yandex();
   }
 
 
   async makeInvoicYandex({amount_due}) {
-    const yandex = new Yandex();
-    const transfer = await yandex.makeInvoic({amount_due});
-    return {url_redirect: `${transfer.acs_uri}/?${yandex.formBody({...transfer.acs_params})}`, status: transfer.status};
+    const transfer = await this.yandex.makeInvoic({amount_due});
+    return {url_redirect: `${transfer.result.acs_uri}/?${this.yandex.formBody({...transfer.result.acs_params})}`, ...transfer};
   }
+
+  async timeOutMakeInvoicYandex(prevDetalis, timeOut = 5000, count = 0) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        this.yandex.checkInvoic({prevDetalis})
+          .then(res => resolve(res))
+          .catch(err => reject(err))
+      }, timeOut);
+
+    }).then((res) => {
+      if(count === 24) {
+        return 'dont action';
+      } else if (res.result.status === 'in_progress' || res.result.status === 'ext_auth_required') {
+          return this.timeOutMakeInvoicYandex(prevDetalis, timeOut, ++count)
+        } else {
+          return res.result;
+        }
+    })
+    .catch((error) => {
+      return {status: error}
+    })
+  };
 
   createAmount (prevAmount, changeAmount, action) {
     if (action === this.plus) {
@@ -118,20 +140,28 @@ class InvoiceController {
     if (body.basisForPayment === accountReplenishment) {
       return this.makeInvoicYandex({amount_due: invoice.amount})
         .then(async (transfer)=> {
-          if (transfer.status === 'ext_auth_required') {
-            await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.plus);
-            await invoiceModel.findByIdAndUpdate({_id: invoice.id}, {status: transfer.status})
-            return res.status(200).json({
+          if (transfer.result.status === 'ext_auth_required') {
+            res.status(200).json({
                 message: 'Перевод на внешнюю страницу',
                 url_redirect: transfer.url_redirect,
               });
           } else {
-            await invoiceModel.findByIdAndUpdate({_id: invoice.id}, {status: transfer.status})
-            return res.status(423).json({
-                message: transfer.status
+            res.status(423).json({
+                message: transfer.result.status
               });
           }
+          return transfer;
         })
+        .then(async (transfer)=> {
+          this.timeOutMakeInvoicYandex(transfer.details)
+            .then((result) => {
+              if (result.status === 'success') {
+                this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.plus);
+              }
+              invoiceModel.findByIdAndUpdate({_id: invoice.id}, {status: result.status})
+            })
+        })
+
     } else if (body.basisForPayment === withdrawal) {
       await this.changePurse(invoice, invoice.requisites.src, body.basisForPayment, this.minus);
     } else {
@@ -143,7 +173,7 @@ class InvoiceController {
       res.status(201).json(invoice);
   } catch(err) {
       writeToLog.write(err, 'create_invoice.err');
-      res.status(500).json({ message: 'Не все операции успешно выполнены!', err});
+      res.status(500).json({ message: 'Не все операции успешно выполнены!', err: err.toString()});
     }
   }
 
