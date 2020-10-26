@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
 import { Link } from "react-router-dom";
+import { IoIosAlert } from "react-icons/io";
 
 import {
   Navbar,
@@ -30,7 +31,7 @@ import {
 
 const navBar = [
   { id: 1, name: { EN: 'Home', RU: 'Главная' }, url: '/'},
-  { id: 3, name: { EN: 'Me page', RU: 'Моя стриница' }, url: '/me'},
+  { id: 3, name: { EN: 'Me page', RU: 'Моя страница' }, url: '/me'},
   { id: 4, name: { EN: 'Help', RU: 'Помощь' }, url: '/help'},
 ];
 const loginText = {
@@ -41,6 +42,10 @@ const loginText = {
   Login: {
     EN: 'Login',
     RU: 'Войти'
+  },
+  alert: {
+    EN: 'The service is in development mode',
+    RU: 'Сервис работает в режиме разработки'
   }
 };
 
@@ -158,13 +163,14 @@ class Header extends React.Component {
         <Navbar.Brand href="/">All Rate</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
+          <IoIosAlert size="21" color="red" title={loginText.alert[lang]}/>
           <Nav className="mr-auto">
             {navBar.map((itm) => {
               if (!isLogin && itm.url === '/me') {
                 return
               }
               return (
-                <Link className={classes['nav-link']}to={itm.url} key={itm.id} ><span>{itm.name[lang]}</span></Link>
+                <Link className={classes['nav-link']} to={itm.url} key={itm.id} ><span>{itm.name[lang]}</span></Link>
               )
             })}
           </Nav>
