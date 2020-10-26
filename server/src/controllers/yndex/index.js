@@ -1,5 +1,8 @@
 const fetch = require('node-fetch');
 const passwords = require('../../../password');
+const WriteToLog = require('../../utils/writeToLog');
+
+const writeToLog = new WriteToLog();
 
 class Yandex {
 
@@ -29,7 +32,7 @@ class Yandex {
           return res.instance_id;
         })
         .catch((err)=> {
-          console.log(err)
+          writeToLog.write(err, 'yndex.err');
         });
   }
 
@@ -55,7 +58,7 @@ class Yandex {
           return { ...res, instance_id: details.instance_id };
         })
         .catch((err)=> {
-          console.log(err);
+          writeToLog.write(err, 'yndex.err');
         });
   }
 
@@ -91,7 +94,7 @@ class Yandex {
           return {result, details};
         })
         .catch((err)=> {
-          console.log(err)
+          writeToLog.write(err, 'yndex.err');
         });
   }
 
@@ -108,7 +111,7 @@ class Yandex {
           return {result, prevDetalis};
         })
         .catch((err)=> {
-          console.log(err)
+          writeToLog.write(err, 'yndex.err');
         });
   }
 
