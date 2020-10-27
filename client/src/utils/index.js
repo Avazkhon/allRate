@@ -112,10 +112,11 @@ export function getMonth(index) {
     'Август',
     'Сентябрь',
     'Ноябрь',
+    'Октябрь',
     'Декабрь',
   ];
 
-  return month.find((month, i) => i === index);
+  return month.find((month, i) => i === index + 1);
 }
 
 export function getPramsAndTranformToQueryUrl (params) {
