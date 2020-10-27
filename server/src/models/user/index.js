@@ -3,20 +3,8 @@ const CreateModel = require('../CreateModel');
 
 class UserModal extends CreateModel {
 
-  checkPassword = (getParams = {}) => {
-    // эта функция позволяет защитить пароли и не выдает их без потребности
-    // let params = {};
-    // if (getParams.password) {
-    //   delete getParams.password;
-    //   params = { ...getParams };
-    // } else {
-    //   params = { ...getParams, password: 0 };
-    // }
-    return getParams
-  }
-
   async findOne (searchParams, getParams) {
-    return super.findOne(searchParams, this.checkPassword(getParams));
+    return super.findOne(searchParams, getParams);
   }
 
   // async findByIdAndUpdate (searchParams, data, addParms) {
@@ -28,7 +16,7 @@ class UserModal extends CreateModel {
   // }
 
   async getByProps (props, params) {
-    return super.getByProps(props, this.checkPassword(params))
+    return super.getByProps(props, getParams)
   }
 
   async paginate (props, params) {

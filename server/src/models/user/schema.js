@@ -5,7 +5,7 @@ exports.userSchema = new Schema(
   {
     userName: { type: String, required: true },
     avatar: { type: String },
-    password: { type: String, required: true },
+    password: { type: String, required: true, select: false  },
     phone: { type: String, required: true },
     purseId: { type: mongoose.ObjectId },
     email: { type: String, required: true, unique: true },
