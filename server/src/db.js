@@ -2,6 +2,10 @@ const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 
 const passwords = require('../password');
+const WriteToLog = require('./utils/writeToLog');
+
+const writeToLog = new WriteToLog();
+
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -20,6 +24,7 @@ async function connect(done) {
       done();
   })
   .catch((e) => {
+    writeToLog.write(e, 'connectDB.err');
     console.log(e);
   });
 }

@@ -28,7 +28,6 @@ class Yandex {
       })
         .then(res => res.json())
         .then((res) => {
-          console.log('method in instanceId', res);
           return res.instance_id;
         })
         .catch((err)=> {
@@ -54,7 +53,6 @@ class Yandex {
       })
         .then(res => res.json())
         .then((res) => {
-          console.log('method in getInvoice', res);
           return { ...res, instance_id: details.instance_id };
         })
         .catch((err)=> {
@@ -90,7 +88,6 @@ class Yandex {
       })
         .then(res => res.json())
         .then((result) => {
-          console.log('method in makeInvoic', result);
           return {result, details};
         })
         .catch((err)=> {
@@ -107,7 +104,6 @@ class Yandex {
       })
         .then(res => res.json())
         .then((result) => {
-          console.log('method in checkInvoic', result);
           return {result, prevDetalis};
         })
         .catch((err)=> {

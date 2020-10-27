@@ -24,7 +24,6 @@ exports.authIn = (req, res) => {
     return res.status(401).send('Не правельный email или пароль!');
   })
   .catch((error) => {
-    console.log(error);
     writeToLog.write(error, 'request.err');
     res.status(500).json(error);
   })
