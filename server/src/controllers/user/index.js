@@ -48,7 +48,7 @@ exports.craeteUser = async (req, res) => {
         <div>
           <h3>Hello, ${user.userName}</h3>
           <p>
-            To confirm the mail, follow the link http://127.250.250.250/auth/?mail_confirmation=${token}
+            To confirm the mail, follow the link ${process.env.MAIN_URL}/auth/?mail_confirmation=${token}
           </p>
         <div/>
       `,
