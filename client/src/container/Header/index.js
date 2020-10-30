@@ -9,6 +9,7 @@ import {
   Navbar,
   Nav,
   Button,
+  Modal,
 } from 'react-bootstrap';
 
 import Language from 'widgets/Language';
@@ -73,38 +74,13 @@ class Header extends React.Component {
     if (user && user.userId) {
       getUserById(user.userId);
     }
-   if (isBrowser()) {
-    document.addEventListener('mousedown', this.leaveByClick, false);
-   }
  }
 
- componentWillUnmount() {
-  const { isMobileVersion, indexMenu } = this.props;
-  if (isBrowser()) {
-    document.removeEventListener('mousedown', this.leaveByClick);
+  showModal = () => {
+    this.setState((prevState) => ({
+      isAuth: !prevState.isAuth
+    }));
   }
-}
-
-  leaveByClick = (event) => {
-    const { classes } = this.props;
-    const navBlock = this.headerAauth;
-    const searchPanel = document.getElementsByClassName(classes.header__auth)[0];
-    const path = event.path || (event.composedPath && event.composedPath());
-    if (path
-      && path.includes
-      && !path.includes(navBlock)
-      && (!searchPanel
-        || !path.includes(searchPanel)
-        || event.target.classList.contains(classes.header__auth)
-      )
-    ) {
-      if (this.state.isAuth) {
-        this.setState({
-          isAuth: false
-        });
-      }
-    }
-  };
 
 
   handleChange = (e) => {
@@ -183,15 +159,19 @@ class Header extends React.Component {
             >
               {isLogin ? loginText.Logout[lang] :  loginText.Login[lang]}
             </Button>
-            {
-              isAuth &&
-              <Auth
-                isHeader
-                handleChange={this.handleChange}
-                handleAuth={this.handleSubmitAuth}
-                error={auth.error}
-              />
-            }
+            <Modal show={isAuth} onHide={this.showModal} backdropClassName="black">
+              <Modal.Header closeButton>
+                <Modal.Title>Авторизация</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Auth
+                  isHeader
+                  handleChange={this.handleChange}
+                  handleAuth={this.handleSubmitAuth}
+                  error={auth.error}
+                />
+              </Modal.Body>
+            </Modal>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
