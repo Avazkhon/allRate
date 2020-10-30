@@ -17,7 +17,8 @@ services:
     ports:
       - '8080-8084:8080'
     volumes:
-      - ./server/var:/usr/src/app/var/
+      - ./server/var/log:/usr/src/app/var/log/
+      - ./server/var/image:/usr/src/app/var/image/
     links:
       - redis
     restart: always
