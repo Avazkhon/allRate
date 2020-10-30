@@ -20,7 +20,7 @@ class UserModal extends CreateModel {
   }
 
   async paginate (props, params) {
-    return super.paginate(this.checkPassword(props), params)
+    return super.paginate(props, params)
   }
 }
 
