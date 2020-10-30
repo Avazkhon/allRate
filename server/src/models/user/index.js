@@ -16,7 +16,7 @@ class UserModal extends CreateModel {
   // }
 
   async getByProps (props, params) {
-    return super.getByProps(props, getParams)
+    return super.getByProps(props, params)
   }
 
   async paginate (props, params) {

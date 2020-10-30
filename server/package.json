@@ -1,7 +1,7 @@
 {
-  "name": "all-rate",
+  "name": "facebetting",
   "version": "1.0.0",
-  "description": "",
+  "description": "the my service",
   "main": "./src/index.js",
   "scripts": {
     "start-dev": "NODE_ENV=development nodemon ./src/index.js",
