@@ -6,7 +6,6 @@ import {
   SheetsRegistry,
 } from 'react-jss';
 
-// import reset from './reset.css';
 import initStyle from './style.css';
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
 
