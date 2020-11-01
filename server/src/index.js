@@ -23,6 +23,7 @@ const purseControllers = require('./controllers/purse');
 const subscriptionsControllers = require('./controllers/subscriptions');
 const ratingControllers = require('./controllers/rating');
 const viewsControllers = require('./controllers/views');
+const withdrawalRequest = require('./controllers/withdrawalRequest');
 const InvoiceControllers = require('./controllers/invoice');
 const AlbumFolder = require('./controllers/albumFolder');
 const passwords = require('../password');
@@ -120,6 +121,11 @@ app.route('/api/image')
   .post(albumFolder.addImage)
 
 app.get('/api/img', albumFolder.getImg);
+
+app.route('/api/withdrawal-request')
+  .get(withdrawalRequest.get)
+  .post(withdrawalRequest.create)
+  .patch(withdrawalRequest.patch);
 
 db.connect((err) => {
   if (err) {
