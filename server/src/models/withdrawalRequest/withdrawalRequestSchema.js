@@ -9,14 +9,14 @@ exports.withdrawalRequest = new Schema(
       type: Number,
       required: true,
       default: 0,
-      min: 0,
+      min: 100,
     },
-    commission: {
+    amount_due: {
       type: Number,
       required: true,
-      default: 0,
-      min: 0,
+      min: 48,
     },
+    target: { type: String, required: true },
     create: { type: Date, default: new Date() },
     update: { type: Date, default: new Date() },
     description: { type: String },
