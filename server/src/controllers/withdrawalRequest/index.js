@@ -1,18 +1,78 @@
+const InvoiceControllers = require('../invoice');
 const purseModel = require('../../models/purse');
 const userModel = require('../../models/user');
 const withdrawalRequest = require('../../models/withdrawalRequest');
 const WriteToLog = require('../../utils/writeToLog');
+const utils = require('../../utils');
+const {
+  basisForPayment: {
+    withdrawal,
+  },
+  superAdmin,
+} = require('../../constants');
 
+const invoiceControllers = new InvoiceControllers();
 const writeToLog = new WriteToLog();
 
-exports.get = (rec, res) => {
+exports.get = (req, res) => {
+  const { user } = req.session;
+  if (!user || user && !user.userId) {
+    return res.status(401).json({ message: 'Пользователь не авторизован!'});
+  }
   res.status(200).json({messages: 'full get-ok'});
 }
 
-exports.create = (rec, res) => {
-  res.status(200).json({messages: 'full create-ok'});
+exports.create = async (req, res) => {
+  const { user } = req.session;
+  if (!user || user && !user.userId) {
+    return res.status(401).json({ message: 'Пользователь не авторизован!'});
+  }
+  if (req.body.amount < 100) {
+    return res.status(423 ).json({ message: 'Минимальная сумма снятия 100 рублей!'});
+  }
+
+  if (!req.body.target) {
+    return res.status(400).json({ message: 'Не указан номер карты!'});
+  }
+
+  const userData = await userModel.findOne({_id: user.userId});
+  const purseData = await purseModel.findOne({_id: userData.purseId});
+
+  if (purseData.amount < req.body.amount) {
+    return res.status(423 ).json({ message: 'Не достаточно средств на счету!'});
+  }
+
+  const dataWR = {
+    amount: req.body.amount,
+    amount_due: utils.yndexAmountDue(req.body.amount),
+    userId: user.userId,
+    target: req.body.target,
+  }
+
+  const dataInvoice = {
+    authorId: user.userId,
+    amount: dataWR.amount_due,
+    requisites: { src: purseData._id, target: req.body.target},
+    basisForPayment: withdrawal,
+    createTime: new Date(),
+  };
+
+  invoiceControllers.createInvoiceForWithdrawal(dataInvoice);
+
+  withdrawalRequest.create(dataWR)
+    .then((newWithdrawalRequest) => {
+      res.status(201).json(newWithdrawalRequest);
+    })
+    .catch((error) => {
+      writeToLog.write(error, 'create_withdrawal_request.error')
+      res.status(500).json(error.toString());
+    })
 }
 
-exports.patch = (rec, res) => {
-    res.status(200).json({messages: 'full patch-ok'});
+exports.patch = (req, res) => {
+  const { user } = req.session;
+  if (!user || user && !user.userId) {
+    return res.status(401).json({ message: 'Пользователь не авторизован!'});
+  }
+    res.status(501).json({messages: 'full patch-ok'});
 }
