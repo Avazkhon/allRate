@@ -14,12 +14,30 @@ const {
 const invoiceControllers = new InvoiceControllers();
 const writeToLog = new WriteToLog();
 
-exports.get = (req, res) => {
+exports.get = async (req, res) => {
   const { user } = req.session;
+  const params = req.query;
   if (!user || user && !user.userId) {
     return res.status(401).json({ message: 'Пользователь не авторизован!'});
   }
-  res.status(200).json({messages: 'full get-ok'});
+  const options = {
+    limit: +params.limit || 24,
+    page: +params.page,
+  };
+  const userData = await userModel.findOne({_id: user.userId});
+  const data = {};
+  if (!userData.isAdmin) { // если не админ доступны только свои заявки
+    data.userId = user.userId;
+  }
+
+  withdrawalRequest.paginate(data, options)
+    .then((WR) => {
+      res.status(200).send(WR);
+    })
+    .catch((error) => {
+      writeToLog.write(error, 'get_withdrawal_request.error')
+      res.status(500).json(error.toString());
+    })
 }
 
 exports.create = async (req, res) => {
