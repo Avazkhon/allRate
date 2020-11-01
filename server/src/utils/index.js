@@ -34,3 +34,8 @@ exports.getParamsForSearchDB = (params, delteParams) => {
 
   return _params;
 }
+
+exports.yndexAmountDue = (amount) => {
+  // вычесляет какой будет процент изходя из суммы снятия
+  return amount + amount * 0.03 + 45;
+}
