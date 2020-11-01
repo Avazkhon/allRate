@@ -127,17 +127,20 @@ class InvoiceController {
     if (!user || user && !user.userId) {
       return res.status(401).json({ message: 'Пользователь не авторизован!'});
     };
-    const { body } = req;
+    const { body, body: { basisForPayment } } = req;
+    if (basisForPayment !== 'accountReplenishment' || basisForPayment !== 'makeRate' || basisForPayment !== 'win') {
+      return res.status(400).json({ message: 'Основания для операции не верна!'});
+    }
     body.authorId = user.userId;
     body.invoiceId = uuidv4();
-    if (body.basisForPayment !== accountReplenishment) {
+    if (basisForPayment !== accountReplenishment) {
       const purse = await purseModel.findOne({_id: body.requisites.src});
       if (purse.amount < body.amount) {
         return res.status(402).json({ message: 'Недостаточно средств!'});
       }
     }
     const invoice = await invoiceModel.create(body);
-    if (body.basisForPayment === accountReplenishment) {
+    if (basisForPayment === accountReplenishment) {
       return this.makeInvoicYandex({amount_due: invoice.amount})
         .then(async (transfer)=> {
           if (transfer.result.status === 'ext_auth_required') {
@@ -156,17 +159,15 @@ class InvoiceController {
           this.timeOutMakeInvoicYandex(transfer.details)
             .then((result) => {
               if (result.status === 'success') {
-                this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.plus);
+                this.changePurse(invoice, invoice.requisites.target, basisForPayment, this.plus);
               }
               invoiceModel.findByIdAndUpdate({_id: invoice.id}, {status: result.status})
             })
         })
 
-    } else if (body.basisForPayment === withdrawal) {
-      await this.changePurse(invoice, invoice.requisites.src, body.basisForPayment, this.minus);
     } else {
-      await this.changePurse(invoice, invoice.requisites.target, body.basisForPayment, this.plus);
-      await this.changePurse(invoice, invoice.requisites.src, body.basisForPayment, this.minus);
+      await this.changePurse(invoice, invoice.requisites.target, basisForPayment, this.plus);
+      await this.changePurse(invoice, invoice.requisites.src, basisForPayment, this.minus);
       body.rate.participant.purseId = user.purseId;
       await this.changeRate(body.rate.id, body.rate.partyNumber, body.rate.participant, invoice.amount);
     }
@@ -184,6 +185,14 @@ class InvoiceController {
     const invoice = await invoiceModel.create(data);
     await this.changePurse(invoice, invoice.requisites.src, data.basisForPayment, this.minus);
     await this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus);
+    return invoice;
+  }
+
+  async createInvoiceForWithdrawal (data) {
+    data.invoiceId = uuidv4();
+    const purse = await purseModel.findOne({_id: data.requisites.src});
+    const invoice = await invoiceModel.create(data);
+    await this.changePurse(invoice, invoice.requisites.src, data.basisForPayment, this.minus);
     return invoice;
   }
 
