@@ -8,6 +8,7 @@ import lang from './lang';
 import users from './users';
 import subscriptions from './subscriptions';
 import posts from './posts';
+import withdrawalRequest from './withdrawalRequest';
 
 export default combineReducers({
   auth,
@@ -19,4 +20,5 @@ export default combineReducers({
   users,
   subscriptions,
   posts,
+  withdrawalRequest,
 });

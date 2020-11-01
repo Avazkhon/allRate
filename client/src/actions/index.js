@@ -58,3 +58,7 @@ export {
 export {
   changeImg,
 } from './image';
+
+export {
+  getWithdrawalRequest,
+} from './withdrawalRequest';

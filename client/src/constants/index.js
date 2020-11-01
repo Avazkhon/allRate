@@ -40,6 +40,10 @@ export const ADD_COUNT_VIEWS_RATE = 'ADD_COUNT_VIEWS_RATE';
 
 export const CHANGE_IMG = 'CHANGE_IMG';
 
+export const GET_WITHDRAWALR_REQUEST = 'GET_WITHDRAWALR_REQUEST';
+export const POST_WITHDRAWALR_REQUEST = 'POST_WITHDRAWALR_REQUEST';
+export const PATCH_WITHDRAWALR_REQUEST = 'PATCH_WITHDRAWALR_REQUEST';
+
 export const basisForPayment = {
   accountReplenishment: 'accountReplenishment',
   withdrawal: 'withdrawal',
