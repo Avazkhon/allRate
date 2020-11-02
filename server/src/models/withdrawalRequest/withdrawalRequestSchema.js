@@ -20,7 +20,7 @@ exports.withdrawalRequest = new Schema(
     create: { type: Date, default: new Date() },
     update: { type: Date, default: new Date() },
     description: { type: String },
-    status: { type: String, default: 'inprogress', required: true }, // inprogress // successfully // renouncement
+    status: { type: String, default: 'inprogress', required: true }, // inprogress // successfully // refused
     userId: { type: ObjectID, required: true },
     adminID: { type: ObjectID },
     currency: { type: String, default: 'RUB' },
