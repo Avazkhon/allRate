@@ -97,7 +97,7 @@ exports.patch = async (req, res) => {
   if ((status !== 'successfully' && status !== 'refused') || !id) {
     return res.status(400).json({ message: 'Запрос не корректен!'});
   }
-  if (!user || user && !user.userId) {
+  if (!user || (user && !user.userId)) {
     return res.status(401).json({ message: 'Пользователь не авторизован!'});
   }
 
@@ -113,7 +113,7 @@ exports.patch = async (req, res) => {
     adminID: userData._id,
   }
 
-  withdrawalRequest.findByIdAndUpdate({_id: id },dataWR)
+  withdrawalRequest.findByIdAndUpdate({_id: id }, dataWR)
     .then((newWithdrawalRequest) => {
       res.status(200).json(newWithdrawalRequest);
     })

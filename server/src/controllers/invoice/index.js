@@ -128,7 +128,7 @@ class InvoiceController {
       return res.status(401).json({ message: 'Пользователь не авторизован!'});
     };
     const { body, body: { basisForPayment } } = req;
-    if (basisForPayment !== 'accountReplenishment' || basisForPayment !== 'makeRate' || basisForPayment !== 'win') {
+    if (basisForPayment !== 'accountReplenishment' && basisForPayment !== 'makeRate' && basisForPayment !== 'win') {
       return res.status(400).json({ message: 'Основания для операции не верна!'});
     }
     body.authorId = user.userId;
