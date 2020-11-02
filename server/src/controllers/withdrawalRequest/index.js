@@ -87,10 +87,38 @@ exports.create = async (req, res) => {
     })
 }
 
-exports.patch = (req, res) => {
+exports.patch = async (req, res) => {
   const { user } = req.session;
+  const {
+    description,
+    status,
+  } = req.body;
+  const { id } = req.query;
+  if ((status !== 'successfully' && status !== 'refused') || !id) {
+    return res.status(400).json({ message: 'Запрос не корректен!'});
+  }
   if (!user || user && !user.userId) {
     return res.status(401).json({ message: 'Пользователь не авторизован!'});
   }
-    res.status(501).json({messages: 'full patch-ok'});
+
+  const userData = await userModel.findOne({_id: user.userId});
+  if(!userData.isAdmin) {
+    return res.status(403).json({ message: 'Нет прав!'});
+  }
+
+  const dataWR = {
+    description,
+    status,
+    update: new Date(),
+    adminID: userData._id,
+  }
+
+  withdrawalRequest.findByIdAndUpdate({_id: id },dataWR)
+    .then((newWithdrawalRequest) => {
+      res.status(200).json(newWithdrawalRequest);
+    })
+    .catch((error) => {
+      writeToLog.write(error, 'update_withdrawal_request.error')
+      res.status(500).json(error.toString());
+    })
 }
