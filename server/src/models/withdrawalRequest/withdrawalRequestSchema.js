@@ -17,7 +17,7 @@ exports.withdrawalRequest = new Schema(
       min: 48,
     },
     target: { type: String, required: true },
-    create: { type: Date, default: new Date() },
+    createTime: { type: Date, default: new Date() },
     update: { type: Date, default: new Date() },
     description: { type: String },
     status: { type: String, default: 'inprogress', required: true }, // inprogress // successfully // refused

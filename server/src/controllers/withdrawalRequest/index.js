@@ -53,11 +53,15 @@ exports.create = async (req, res) => {
     return res.status(400).json({ message: 'Не указан номер карты!'});
   }
 
+  if (!req.body.createTime) {
+    return res.status(400).json({ message: 'Не указано время!'});
+  }
+
   const userData = await userModel.findOne({_id: user.userId});
   const purseData = await purseModel.findOne({_id: userData.purseId});
 
   if (purseData.amount < req.body.amount) {
-    return res.status(423 ).json({ message: 'Не достаточно средств на счету!'});
+    return res.status(400).json({ message: 'Не достаточно средств на счету!'});
   }
 
   const dataWR = {
@@ -65,6 +69,7 @@ exports.create = async (req, res) => {
     amount_due: utils.yndexAmountDue(req.body.amount),
     userId: user.userId,
     target: req.body.target,
+    createTime: req.body.createTime
   }
 
   const dataInvoice = {
@@ -72,7 +77,7 @@ exports.create = async (req, res) => {
     amount: dataWR.amount_due,
     requisites: { src: purseData._id, target: req.body.target},
     basisForPayment: withdrawal,
-    createTime: new Date(),
+    createTime: req.body.createTime,
   };
 
   invoiceControllers.createInvoiceForWithdrawal(dataInvoice);
