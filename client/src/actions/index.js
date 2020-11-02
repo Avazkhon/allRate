@@ -61,4 +61,6 @@ export {
 
 export {
   getWithdrawalRequest,
+  postWithdrawalRequest,
+  patchWithdrawalRequest,
 } from './withdrawalRequest';

@@ -11,6 +11,7 @@ import {
 import {
   postInvoice,
   getPurse,
+  postWithdrawalRequest,
 } from 'actions';
 
 import Messages from 'components/Messages';
@@ -82,9 +83,9 @@ class ModalInvoice extends Component {
   handleSubmit = () => {
     const {
       postInvoice,
+      postWithdrawalRequest,
       auth,
       basisForPayment,
-      getPurse,
       requisiteName,
     } = this.props;
 
@@ -93,27 +94,40 @@ class ModalInvoice extends Component {
     if (auth.userData) {
       const { data } = this.state;
       const name = requisiteName === 'src' ? 'target' : 'src';
-      data.requisites[name] = auth.userData.purseId;
-      data.basisForPayment = basisForPayment;
-      data.createTime = new Date();
-      postInvoice(data).then((action) => {
-        if (action.status === 'SUCCESS') {
-          if(action.response.url_redirect) {
-            return location.replace(action.response.url_redirect);
-          }
+      if(name == 'target') {
+        data.requisites[name] = auth.userData.purseId;
+        data.basisForPayment = basisForPayment;
+        data.createTime = new Date();
+        postInvoice(data).then(this.afterRequest);
+      }
+      if (name === 'src') {
+        const dataWR = {
+          amount: data.amount,
+          target: data.requisites.target,
+          createTime: new Date()
+        }
+        postWithdrawalRequest(dataWR).then(this.afterRequest);
+      }
 
-          this.setState({
-            isFetching: false,
-            warning: 'Счет успешно обновлен!'
-          });
-          getPurse();
-        };
-        this.setState({
-          isFetching: false,
-          error: action.error
-        });
-      });
     }
+  }
+
+  afterRequest = (action) => {
+    if (action.status === 'SUCCESS') {
+      if(action.response.url_redirect) {
+        return location.replace(action.response.url_redirect);
+      }
+
+      this.setState({
+        isFetching: false,
+        warning: 'Счет успешно обновлен!',
+      });
+      this.props.getPurse();
+    };
+    this.setState({
+      isFetching: false,
+      error: action.error
+    });
   }
 
   handleClose = () => {
@@ -190,6 +204,7 @@ ModalInvoice.propTypes = {
   requisiteName: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,
+  postWithdrawalRequest: PropTypes.func.isRequired,
   auth: PropTypes.shape({}),
   lang: PropTypes.shape({}),
 };
@@ -210,6 +225,7 @@ export default connect(
   {
     postInvoice,
     getPurse,
+    postWithdrawalRequest,
   }
 )
 (ModalInvoice);
