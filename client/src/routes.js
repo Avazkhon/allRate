@@ -84,6 +84,14 @@ export default [
     }),
   },
   {
+    path: '/admin/withdrawal-request',
+    exact: true,
+    component: asyncComponent({
+      loader: () => import('./container/WithdrawalRequest'),
+      Placeholder: () => <div>...LOADING...</div>,
+    }),
+  },
+  {
     path: '*',
     component: asyncComponent({
       loader: () => import('./container/NotFound'),
