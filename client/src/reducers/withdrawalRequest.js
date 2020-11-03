@@ -30,7 +30,7 @@ export default createReducer(initState, {
       error: null,
       isFetching: false,
       data: {
-        docs: action.response,
+        ...action.response,
       }
     }),
     FAIL: (state, action) => ({
@@ -51,14 +51,12 @@ export default createReducer(initState, {
       error: null,
       isFetching: false,
       data: {
+        ...state.data,
         withdrawalRequest: action.response,
       }
     }),
     FAIL: (state, action) => ({
       ...state,
-      data: {
-        withdrawalRequest: action.response,
-      },
       isFetching: false,
       error: action.error,
     }),
