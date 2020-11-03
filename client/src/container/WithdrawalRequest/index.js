@@ -7,11 +7,13 @@ import {
   Row,
   Col,
   Button,
+  Dropdown,
   Table,
 } from 'react-bootstrap';
 
 import {
-  getWithdrawalRequest
+  getWithdrawalRequest,
+  patchWithdrawalRequest,
 } from 'actions'
 
 import Layout from '../Layout';
@@ -19,14 +21,49 @@ import Layout from '../Layout';
 class Purse extends Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+      id: null,
+      description: '',
+    }
   }
 
   componentDidMount() {
     this.props.getWithdrawalRequest({page: 1, limit: 24})
   }
 
+  submitWR = (description, status, id) => {
+    this.setState({ id })
+    this.props.patchWithdrawalRequest(
+      id,
+      {
+        description,
+        status,
+      },
+    )
+    .then((action) => {
+      if (action.status === 'SUCCESS') {
+        alert('Статус успешно изменен')
+      } else {
+        alert(`Статус не изменен: ${action.error.message}`)
+      }
+      this.setState({ id: null })
+    })
+  }
+
+
+  handleMake = (e) => {
+    const id = e.currentTarget.dataset.id;
+    const { name } = e.currentTarget;
+    const {
+      description,
+    } = this.state;
+    this.submitWR(description, name, id);
+  }
+
   render() {
+    const {
+      id,
+    } = this.state;
     const {
       auth: {
         auth,
@@ -48,7 +85,7 @@ class Purse extends Component {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>ID Пользователя</th>
+                  <th>Номер карты</th>
                   <th>Сумма перевод</th>
                   <th>Сумма перевода с учетом коммисии</th>
                   <th>Статус</th>
@@ -61,11 +98,22 @@ class Purse extends Component {
                     return (
                       <tr key={WR._id}>
                         <td>{i + 1}</td>
-                        <td>{WR.userId}</td>
+                        <td>{WR.target}</td>
                         <td>{WR.amount}</td>
                         <td>{WR.amount_due}</td>
-                        <td>{WR.status}</td>
-                        <td><Button variant="primary">Просмотр</Button></td>
+                        <td>{WR._id === id ? 'Загрузка' : WR.status}</td>
+                        <td>
+                          <Dropdown>
+                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                              Действия
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                              <Dropdown.Item><Button variant="primary" data-id={WR._id} name="successfully" onClick={this.handleMake}>Успешный перевод</Button></Dropdown.Item>
+                              <Dropdown.Item><Button variant="primary" data-id={WR._id} name="refused" onClick={this.handleMake}>Не успешный перевод</Button></Dropdown.Item>
+                            </Dropdown.Menu>
+                          </Dropdown>
+                        </td>
                       </tr>
                       )
                   })
@@ -84,6 +132,7 @@ Purse.propTypes = {
   auth: PropTypes.shape(),
   withdrawalRequest: PropTypes.shape(),
   getWithdrawalRequest: PropTypes.func,
+  patchWithdrawalRequest: PropTypes.func,
 };
 
 function mapStateToProps(state) {
@@ -98,5 +147,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  getWithdrawalRequest
+  getWithdrawalRequest,
+  patchWithdrawalRequest,
 })(Purse);

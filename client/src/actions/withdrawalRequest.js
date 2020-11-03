@@ -25,12 +25,12 @@ export function postWithdrawalRequest (data) {
   });
 }
 
-export function patchWithdrawalRequest (data) {
+export function patchWithdrawalRequest (id, data) {
   return dispatch => dispatch({
     type: PATCH_WITHDRAWALR_REQUEST,
     meta: {
       method: 'PATCH',
-      endpoint: 'withdrawal-request',
+      endpoint: `withdrawal-request?id=${id}`,
       data,
     }
   });
