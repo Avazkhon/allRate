@@ -22,6 +22,7 @@ exports.withdrawalRequest = new Schema(
     description: { type: String },
     status: { type: String, default: 'inprogress', required: true }, // inprogress // successfully // refused
     userId: { type: ObjectID, required: true },
+    purseId: { type: ObjectID, required: true },
     adminID: { type: ObjectID },
     currency: { type: String, default: 'RUB' },
   },

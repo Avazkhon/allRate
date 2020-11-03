@@ -5,6 +5,7 @@ exports.basisForPayment = {
   win: 'win',
   percentage: 'percentage',
   stalemateSituation: 'stalemateSituation',
+  returnMoney: 'returnMoney',
 };
 
 exports.rateStatusLive = {

@@ -4,9 +4,11 @@ const userModel = require('../../models/user');
 const withdrawalRequest = require('../../models/withdrawalRequest');
 const WriteToLog = require('../../utils/writeToLog');
 const utils = require('../../utils');
+
 const {
   basisForPayment: {
     withdrawal,
+    returnMoney,
   },
   superAdmin,
 } = require('../../constants');
@@ -69,12 +71,14 @@ exports.create = async (req, res) => {
     amount_due: utils.yndexAmountDue(req.body.amount),
     userId: user.userId,
     target: req.body.target,
+    purseId: userData.purseId,
     createTime: req.body.createTime
   }
 
   const dataInvoice = {
     authorId: user.userId,
     amount: dataWR.amount_due,
+    purseId: userData.purseId,
     requisites: { src: purseData._id, target: req.body.target},
     basisForPayment: withdrawal,
     createTime: req.body.createTime,
@@ -118,7 +122,8 @@ exports.patch = async (req, res) => {
     adminID: userData._id,
   }
 
-  withdrawalRequest.findByIdAndUpdate({_id: id }, dataWR)
+  if(status === 'successfully') {
+    withdrawalRequest.findByIdAndUpdate({_id: id }, dataWR)
     .then((newWithdrawalRequest) => {
       res.status(200).json(newWithdrawalRequest);
     })
@@ -126,4 +131,27 @@ exports.patch = async (req, res) => {
       writeToLog.write(error, 'update_withdrawal_request.error')
       res.status(500).json(error.toString());
     })
+  } else {
+    const data = await withdrawalRequest.findOne({ _id: id });
+    const dataInvoice = {
+      amount: data.amount_due,
+      createTime: new Date(),
+      authorId: user.userId,
+      basisForPayment: returnMoney,
+      requisites: {
+        src: 'yoomoney',
+        target: data.purseId,
+      }
+    }
+
+    invoiceControllers.createInvoiceForReturnMoney(dataInvoice);
+    withdrawalRequest.findByIdAndUpdate({_id: id }, dataWR)
+    .then((newWithdrawalRequest) => {
+      res.status(200).json(newWithdrawalRequest);
+    })
+    .catch((error) => {
+      writeToLog.write(error, 'update_withdrawal_request.error')
+      res.status(500).json(error.toString());
+    })
+  }
 }

@@ -10,6 +10,7 @@ const {
     withdrawal,
     makeRate,
     win,
+    returnMoney,
   },
   superAdmin,
 } = require('../../constants');
@@ -185,7 +186,6 @@ class InvoiceController {
   async createInvoiceForWin (data) {
     data.authorId = superAdmin.userId;
     data.invoiceId = uuidv4();
-    const purse = await purseModel.findOne({_id: data.requisites.src});
     const invoice = await invoiceModel.create(data);
     await this.changePurse(invoice, invoice.requisites.src, data.basisForPayment, this.minus);
     await this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus);
@@ -194,9 +194,15 @@ class InvoiceController {
 
   async createInvoiceForWithdrawal (data) {
     data.invoiceId = uuidv4();
-    const purse = await purseModel.findOne({_id: data.requisites.src});
     const invoice = await invoiceModel.create(data);
     await this.changePurse(invoice, invoice.requisites.src, data.basisForPayment, this.minus);
+    return invoice;
+  }
+
+  async createInvoiceForReturnMoney (data) {
+    data.invoiceId = uuidv4();
+    const invoice = await invoiceModel.create(data);
+    await this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus);
     return invoice;
   }
 
