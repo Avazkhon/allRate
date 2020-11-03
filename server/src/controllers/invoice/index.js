@@ -26,8 +26,8 @@ class InvoiceController {
 
 
   async makeInvoicYandex({amount_due}) {
-    const transfer = await this.yandex.makeInvoic({amount_due});
-    return {url_redirect: `${transfer.result.acs_uri}/?${this.yandex.formBody({...transfer.result.acs_params})}`, ...transfer};
+    return this.yandex.makeInvoic({amount_due})
+      .then(transfer => ({url_redirect: `${transfer.result.acs_uri}/?${this.yandex.formBody({...transfer.result.acs_params})}`, ...transfer}))
   }
 
   async timeOutMakeInvoicYandex(prevDetalis, timeOut = 5000, count = 0) {
@@ -159,10 +159,14 @@ class InvoiceController {
           this.timeOutMakeInvoicYandex(transfer.details)
             .then((result) => {
               if (result.status === 'success') {
-                this.changePurse(invoice, invoice.requisites.target, basisForPayment, this.plus);
+                this.changePurse(invoice, invoice.requisites.src, basisForPayment, this.plus);
               }
               invoiceModel.findByIdAndUpdate({_id: invoice.id}, {status: result.status})
             })
+        })
+        .catch((err)=> {
+          writeToLog.write(err, 'create_invoice.err');
+          res.status(500).json({ message: 'Не все операции успешно выполнены!', err: err.toString()});
         })
 
     } else {
