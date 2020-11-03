@@ -21,6 +21,7 @@ const {
   win,
   percentage,
   stalemateSituation,
+  returnMoney,
 } = basisForPayment;
 
 const keyBasisForPayment = {
@@ -30,6 +31,7 @@ const keyBasisForPayment = {
   [win]: { RU: 'выигрыш', EN: 'win'},
   [percentage]: { RU: 'заработок', EN: 'percentage'},
   [stalemateSituation]: { RU: 'патовая ситуация', EN: 'stalemate situation' },
+  [returnMoney]: { RU: 'возврат средств', EN: 'refunds' },
 };
 
 const historyText = {

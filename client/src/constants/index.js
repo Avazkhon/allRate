@@ -51,6 +51,7 @@ export const basisForPayment = {
   win: 'win',
   percentage: 'percentage',
   stalemateSituation: 'stalemateSituation',
+  returnMoney: 'returnMoney',
 };
 
 export const rateStatusLive = {
