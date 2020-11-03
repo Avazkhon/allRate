@@ -93,14 +93,15 @@ class ModalInvoice extends Component {
 
     if (auth.userData) {
       const { data } = this.state;
-      const name = requisiteName === 'src' ? 'target' : 'src';
-      if(name == 'target') {
-        data.requisites[name] = auth.userData.purseId;
+      const requisites = requisiteName === 'src' ? 'target' : 'src';
+      if(requisites == 'target') {
+        data.requisites.src = auth.userData.purseId;
+        data.requisites.target = 'card';
         data.basisForPayment = basisForPayment;
         data.createTime = new Date();
         postInvoice(data).then(this.afterRequest);
       }
-      if (name === 'src') {
+      if (requisites === 'src') {
         const dataWR = {
           amount: data.amount,
           target: data.requisites.target,
@@ -168,13 +169,16 @@ class ModalInvoice extends Component {
           onChange={this.handleChangeAmount}
         />
         <br />
-        <Form.Control
+        {
+          requisiteName === 'target' &&
+          <Form.Control
           type="text"
           placeholder={placeholder.card[lang]}
           name={requisiteName}
           value={data.requisites[requisiteName]}
           onChange={this.handleChangeSRC}
-        />
+          />
+        }
         </Form.Group>
       </Modal.Body>
       <Modal.Footer>
