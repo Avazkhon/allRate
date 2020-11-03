@@ -28,7 +28,7 @@ exports.get = async (req, res) => {
   };
   const userData = await userModel.findOne({_id: user.userId});
   const data = {};
-  if (!userData.isAdmin) { // если не админ доступны только свои заявки
+  if (!userData.isAdmin && superAdmin.userId !== user.userId) { // если не админ доступны только свои заявки
     data.userId = user.userId;
   }
 
@@ -111,8 +111,12 @@ exports.patch = async (req, res) => {
   }
 
   const userData = await userModel.findOne({_id: user.userId});
-  if(!userData.isAdmin) {
+  const beforeDataWR = await withdrawalRequest.findOne({ _id: id });
+  if((!userData.isAdmin && superAdmin.userId !== user.userId)) {
     return res.status(403).json({ message: 'Нет прав!'});
+  }
+  if (beforeDataWR.status === 'refused' || beforeDataWR.status === 'successfully') {
+    return res.status(400).json({ message: 'Запрос на вывод средств не редактируемый'});
   }
 
   const dataWR = {
@@ -132,15 +136,14 @@ exports.patch = async (req, res) => {
       res.status(500).json(error.toString());
     })
   } else {
-    const data = await withdrawalRequest.findOne({ _id: id });
     const dataInvoice = {
-      amount: data.amount_due,
+      amount: beforeDataWR.amount_due,
       createTime: new Date(),
       authorId: user.userId,
       basisForPayment: returnMoney,
       requisites: {
         src: 'yoomoney',
-        target: data.purseId,
+        target: beforeDataWR.purseId,
       }
     }
 
