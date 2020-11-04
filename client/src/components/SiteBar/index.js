@@ -13,7 +13,10 @@ const Sitebar = ({
   <div className={classes['sitebar']}>
     <aside className={classes['sitebar-links']}>
       { userId &&
-        <p className={classes['sitebar-link']}><Link to='/create-rate'><span>Создать ставку</span></Link></p>
+        <>
+          <p className={classes['sitebar-link']}><Link to='/create-rate'><span>Создать ставку</span></Link></p>
+          <p className={classes['sitebar-link']}><Link to='/admin/withdrawal-request'><span>Запросы на переводы</span></Link></p>
+        </>
       }
       {
         userId &&
