@@ -36,12 +36,12 @@ class ProfileUser extends React.Component {
 
   componentDidMount() {
     const { getUserById, profileId } = this.props;
-    // let { auth } = this.props;
-    // auth = auth && auth.auth || null;
+    let { auth } = this.props;
+    auth = auth && auth.auth || {};
     // if (auth && auth.userId) {
     //   getUserById(profileId || auth.userId)
     // }
-    getUserById(profileId);
+    getUserById(profileId || auth.userId);
   }
 
   // componentDidUpdate(prevProps, prevState, snapshot) {
