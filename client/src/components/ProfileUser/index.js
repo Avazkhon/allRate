@@ -36,29 +36,30 @@ class ProfileUser extends React.Component {
 
   componentDidMount() {
     const { getUserById, profileId } = this.props;
-    let { auth } = this.props;
-    auth = auth && auth.auth || null;
-    if (auth && auth.userId) {
-      getUserById(profileId || auth.userId)
-    }
+    // let { auth } = this.props;
+    // auth = auth && auth.auth || null;
+    // if (auth && auth.userId) {
+    //   getUserById(profileId || auth.userId)
+    // }
+    getUserById(profileId);
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const { getUserById } = prevProps;
-    let { auth } = prevProps;
-    let { auth: userId, profileId } = this.props;
-
-    userId = userId && userId.auth && userId.auth.userId
-    auth = auth && auth.auth || null;
-    if (
-      (auth && userId
-      && userId
-      && auth.userId !== userId)
-      || (!auth && userId)
-    ) {
-      getUserById(profileId || userId);
-    }
-  }
+  // componentDidUpdate(prevProps, prevState, snapshot) {
+  //   const { getUserById } = prevProps;
+  //   let { auth } = prevProps;
+  //   let { auth: userId, profileId } = this.props;
+  //
+  //   userId = userId && userId.auth && userId.auth.userId
+  //   auth = auth && auth.auth || null;
+  //   if (
+  //     (auth && userId
+  //     && userId
+  //     && auth.userId !== userId)
+  //     || (!auth && userId)
+  //   ) {
+  //     getUserById(profileId || userId);
+  //   }
+  // }
 
   handleUploded = (fileUploaded, files) => {
     const {
