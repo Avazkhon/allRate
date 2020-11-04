@@ -37,7 +37,7 @@ class ProfileUser extends React.Component {
   componentDidMount() {
     const { getUserById, profileId } = this.props;
     let { auth } = this.props;
-    auth = auth && auth.auth || {};
+    auth = auth && auth.auth || null;
     if (auth && auth.userId) {
       getUserById(profileId || auth.userId)
     }
