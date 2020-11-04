@@ -169,6 +169,15 @@ class CardUser extends React.Component {
     }
   }
 
+  getUrlForUserPage(auth, user) {
+    let urlForUserPage = '';
+    if (auth) {
+      if (auth.userId === user._id) { urlForUserPage = '/me' }
+      else { urlForUserPage = `/profile/${user._id}`}
+    } else { urlForUserPage = `/profile/${user._id}`}
+    return urlForUserPage;
+  }
+
   render() {
     const {
       errors,
@@ -206,7 +215,9 @@ class CardUser extends React.Component {
               return isFetching.id === user._id && isFetching.isFetching;
             });
             const errorUser = errors.find(error => error.id === user._id);
-            const warningUser = warnings.find(warning => warning.id === user._id)
+            const warningUser = warnings.find(warning => warning.id === user._id);
+            let urlForUserPage = this.getUrlForUserPage(auth, user);
+
             return (
               <Card key={user._id}>
                 <Card.Header>{user.userName}</Card.Header>
@@ -257,7 +268,7 @@ class CardUser extends React.Component {
                   />
                 </Col>
                 <Col>
-                  <Card.Link href={auth && auth.userId !== user._id ? `/profile/${user._id}` : '/me'}>
+                  <Card.Link href={urlForUserPage}>
                     {userCardText.follow[lang]}
                   </Card.Link>
                 </Col>
