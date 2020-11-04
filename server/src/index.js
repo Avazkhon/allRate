@@ -26,6 +26,8 @@ const viewsControllers = require('./controllers/views');
 const withdrawalRequest = require('./controllers/withdrawalRequest');
 const InvoiceControllers = require('./controllers/invoice');
 const AlbumFolder = require('./controllers/albumFolder');
+const withdrawalRequestAdmin = require('./controllers/withdrawalRequest/withdrawalRequestAdmin');
+
 const passwords = require('../password');
 
 const app = express();
@@ -125,7 +127,10 @@ app.get('/api/img', albumFolder.getImg);
 app.route('/api/withdrawal-request')
   .get(withdrawalRequest.get)
   .post(withdrawalRequest.create)
-  .patch(withdrawalRequest.patch);
+
+app.route('/api/admin/withdrawal-request')
+  .get(withdrawalRequestAdmin.get)
+  .patch(withdrawalRequestAdmin.patch);
 
 db.connect((err) => {
   if (err) {
