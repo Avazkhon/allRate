@@ -44,6 +44,9 @@ export const GET_WITHDRAWALR_REQUEST = 'GET_WITHDRAWALR_REQUEST';
 export const POST_WITHDRAWALR_REQUEST = 'POST_WITHDRAWALR_REQUEST';
 export const PATCH_WITHDRAWALR_REQUEST = 'PATCH_WITHDRAWALR_REQUEST';
 
+export const GET_WITHDRAWALR_REQUEST_ADMIN = 'GET_WITHDRAWALR_REQUEST_ADMIN';
+export const PATCH_WITHDRAWALR_REQUEST_ADMIN = 'PATCH_WITHDRAWALR_REQUEST_ADMIN';
+
 export const basisForPayment = {
   accountReplenishment: 'accountReplenishment',
   withdrawal: 'withdrawal',

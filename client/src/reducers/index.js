@@ -9,8 +9,10 @@ import users from './users';
 import subscriptions from './subscriptions';
 import posts from './posts';
 import withdrawalRequest from './withdrawalRequest';
+import withdrawalRequestAdmin from './admin/withdrawalRequestAdmin';
 
 export default combineReducers({
+  withdrawalRequestAdmin,
   auth,
   rate,
   selectRate,

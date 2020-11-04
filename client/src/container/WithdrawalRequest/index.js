@@ -15,9 +15,9 @@ import {
 } from 'react-bootstrap';
 
 import {
-  getWithdrawalRequest,
-  patchWithdrawalRequest,
-} from 'actions'
+  getWithdrawalRequestAdmin,
+  patchWithdrawalRequestAdmin,
+} from 'actions/admin'
 
 import Layout from '../Layout';
 
@@ -32,12 +32,12 @@ class Purse extends Component {
   }
 
   componentDidMount() {
-    this.props.getWithdrawalRequest({page: 1, limit: 24})
+    this.props.getWithdrawalRequestAdmin({page: 1, limit: 24})
   }
 
   submitWR = (description, status, id) => {
     this.setState({ id })
-    this.props.patchWithdrawalRequest(
+    this.props.patchWithdrawalRequestAdmin(
       id,
       {
         description,
@@ -86,7 +86,7 @@ class Purse extends Component {
       auth: {
         auth,
       },
-      withdrawalRequest: {
+      withdrawalRequestAdmin: {
         data: {
           docs,
         }
@@ -168,23 +168,23 @@ class Purse extends Component {
 
 Purse.propTypes = {
   auth: PropTypes.shape(),
-  withdrawalRequest: PropTypes.shape(),
-  getWithdrawalRequest: PropTypes.func,
-  patchWithdrawalRequest: PropTypes.func,
+  withdrawalRequestAdmin: PropTypes.shape(),
+  getWithdrawalRequestAdmin: PropTypes.func,
+  patchWithdrawalRequestAdmin: PropTypes.func,
 };
 
 function mapStateToProps(state) {
   const {
     auth,
-    withdrawalRequest,
+    withdrawalRequestAdmin,
   } = state;
   return {
     auth,
-    withdrawalRequest,
+    withdrawalRequestAdmin,
   };
 }
 
 export default connect(mapStateToProps, {
-  getWithdrawalRequest,
-  patchWithdrawalRequest,
+  getWithdrawalRequestAdmin,
+  patchWithdrawalRequestAdmin,
 })(Purse);
