@@ -136,7 +136,7 @@ class Header extends React.Component {
 
     return (
       <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
-        <Navbar.Brand href="/">All Rate</Navbar.Brand>
+        <Navbar.Brand href="/">Face Betting</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <IoIosAlert size="21" color="red" title={loginText.alert[lang]}/>

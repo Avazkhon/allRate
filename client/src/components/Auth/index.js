@@ -28,7 +28,7 @@ const Auth = ({
           <Form.Label>Э-почта</Form.Label>
           <Form.Control
               onChange={handleChange}
-              placeholder="Ввидите электонную почту"
+              placeholder="Введите электронную почту"
               type="email"
               name="email"
             />
@@ -41,7 +41,7 @@ const Auth = ({
           <Form.Label>Пароль</Form.Label>
           <Form.Control
             onChange={handleChange}
-            placeholder="Ввидите пароль"
+            placeholder="Введите пароль"
             type="password"
             name="password"
           />

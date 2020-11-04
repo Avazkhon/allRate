@@ -222,7 +222,7 @@ class CreateNewUser extends Component {
               <input
                 value={email}
                 onChange={this.handleChange}
-                placeholder="Ввидите электронная почту"
+                placeholder="Введите электронная почту"
                 className="login__input"
                 type="email"
                 name="email"
@@ -235,7 +235,7 @@ class CreateNewUser extends Component {
               <input
                 value={phone}
                 onChange={this.handleChange}
-                placeholder="Ввидите мобильный телефон"
+                placeholder="Введите мобильный телефон"
                 className="login__input"
                 type="text"
                 name="phone"
@@ -248,7 +248,7 @@ class CreateNewUser extends Component {
               <input
                 value={password}
                 onChange={this.handleChange}
-                placeholder="Ввидите пароль"
+                placeholder="Введите пароль"
                 className="login__input"
                 type="password"
                 name="password"
@@ -261,7 +261,7 @@ class CreateNewUser extends Component {
               <input
                 value={userName}
                 onChange={this.handleChange}
-                placeholder="Ввидите имя"
+                placeholder="Введите имя"
                 className="login__input"
                 type="text"
                 name="userName"
@@ -306,7 +306,7 @@ class CreateNewUser extends Component {
             <input
               className="login__btn"
               type="button"
-              value="Зарегистрирлваться"
+              value="Зарегистрироваться"
               disabled={isFetching}
               onClick={this.handleSubmitCreateNewUser}
             />

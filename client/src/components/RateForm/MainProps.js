@@ -49,7 +49,7 @@ const MainProps = ({
       title={validatinos.title}
       value={title}
       onChange={handleChange}
-      placeholder="Ввидите заголовок"
+      placeholder="Введите заголовок"
       name="title"
       disabled={disabled}
     />
@@ -59,7 +59,7 @@ const MainProps = ({
       title={validatinos.description}
       value={description}
       onChange={handleChange}
-      placeholder="Ввидите описание"
+      placeholder="Введите описание"
       name="description"
       disabled={disabled}
     />

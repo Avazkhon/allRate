@@ -59,7 +59,7 @@ const ReasonForBettingCard = ({
         <FormControl
           value={summMany}
           onChange={handleChangeMany}
-          placeholder="Ввидите сумму"
+          placeholder="Введите сумму"
           aria-label="Amount (to the nearest dollar)"
         />
         <InputGroup.Prepend>

@@ -150,7 +150,7 @@ class Purse extends Component {
                     })
                   }
                   <Form.Group>
-                    <Form.Control size="lg" type="text" placeholder="Ввидите описания" value={description} onChange={this.handleChange}/>
+                    <Form.Control size="lg" type="text" placeholder="Введите описания" value={description} onChange={this.handleChange}/>
                   </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
