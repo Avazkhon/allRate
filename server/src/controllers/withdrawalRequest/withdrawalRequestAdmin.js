@@ -21,7 +21,7 @@ exports.get = async (req, res) => {
   }
   const userData = await userModel.findOne({_id: user.userId});
 
-  if(userData._id !== superAdmin.userId) {
+  if(userData._id != superAdmin.userId) {
     return res.status(403).json({ message: 'Пользователя нет прав!'});
   }
   const options = {
@@ -29,7 +29,7 @@ exports.get = async (req, res) => {
     page: +params.page,
   };
   const data = {};
-  if (!userData.isAdmin && superAdmin.userId !== user.userId) { // если не админ доступны только свои заявки
+  if (!userData.isAdmin && superAdmin.userId != user.userId) { // если не админ доступны только свои заявки
     data.userId = user.userId;
   }
 
@@ -59,7 +59,7 @@ exports.patch = async (req, res) => {
 
   const userData = await userModel.findOne({_id: user.userId});
   const beforeDataWR = await withdrawalRequest.findOne({ _id: id });
-  if((!userData.isAdmin && superAdmin.userId !== user.userId)) {
+  if((!userData.isAdmin && superAdmin.userId != user.userId)) {
     return res.status(403).json({ message: 'Нет прав!'});
   }
   if (beforeDataWR.status === 'refused' || beforeDataWR.status === 'successfully') {
