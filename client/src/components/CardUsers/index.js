@@ -188,7 +188,7 @@ class CardUser extends React.Component {
       auth: {
         auth
       },
-      users: {
+      usersPages: {
         data: users,
         isFetchings: isFetchingsLoadUsers,
       },
@@ -297,7 +297,7 @@ CardUser.propTypes = {
   addSubscription: PropTypes.func,
   deleteSubscriptions: PropTypes.func,
   userPaginate: PropTypes.func,
-  users: PropTypes.shape({}),
+  usersPages: PropTypes.shape({}),
   auth: PropTypes.shape({}),
   subscriptions: PropTypes.shape({}),
   history: PropTypes.shape(),
@@ -306,13 +306,13 @@ CardUser.propTypes = {
 function mapStateToProps(state) {
   const {
     auth,
-    users,
+    usersPages,
     subscriptions,
     lang,
   } = state;
   return {
     auth,
-    users,
+    usersPages,
     subscriptions,
     lang,
   };
