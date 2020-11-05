@@ -18,7 +18,7 @@ class Profile extends React.Component {
     const {
       auth,
     } = this.props;
-    const userId = auth.auth && auth.auth.userId;
+
     const { match: { params: { id } } } = this.props;
     return (
       <Layout>
@@ -26,7 +26,7 @@ class Profile extends React.Component {
           <Row>
             <Col xs="12"  sm="4" md="3">
               <SiteBar
-                userId={userId}
+                userData={auth.userData}
               />
             </Col>
             <Col xs="12" sm="8" md="9">

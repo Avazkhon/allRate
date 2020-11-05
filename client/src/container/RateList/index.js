@@ -53,7 +53,7 @@ class RateList extends React.Component {
           <Row>
             <Col xs="12"  sm="4" md="3">
               <SiteBar
-                userId={auth && auth.userId}
+                userData={auth.userData}
               />
             </Col>
             <Col xs="12"  sm="8" md="9">

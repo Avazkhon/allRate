@@ -22,7 +22,7 @@ class Purse extends Component {
   render() {
     const {
       auth: {
-        auth,
+        userData,
       },
     } = this.props;
     return (
@@ -31,7 +31,7 @@ class Purse extends Component {
           <Row>
             <Col xs="12"  sm="4" md="3">
               <SiteBar
-                userId={auth && auth.userId}
+                userData={userData}
               />
             </Col>
             <Col xs="12" sm="8" md="9">

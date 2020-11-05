@@ -174,7 +174,7 @@ class MakeRateComponent extends Component {
           <Row>
             <Col xs="12" sm="3" >
               <SiteBar
-                userId={auth.userId}
+                userData={auth.userData}
               />
             </Col>
             <Col xs="12" sm="9">

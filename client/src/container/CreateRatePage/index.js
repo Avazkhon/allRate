@@ -28,18 +28,20 @@ class CreateRatePAge extends React.Component {
   render() {
     const {
       creteNewRate,
-      auth,
+      auth: {
+        userData
+      },
       selectRate,
       changeImg,
     } = this.props;
-    const { userId } = auth.auth ? auth.auth : {};
+
     return (
       <Layout>
         <Container>
           <Row>
             <Col xs="12" sm="3">
               <SiteBar
-                userId={userId}
+                userData={userData}
               />
             </Col>
             <Col xs="12" sm="9">

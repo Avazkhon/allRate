@@ -40,7 +40,7 @@ class UsersList extends React.Component {
   render() {
     const {
       auth: {
-        auth
+        userData,
       },
       history,
     } = this.props;
@@ -51,7 +51,7 @@ class UsersList extends React.Component {
         <Row>
           <Col xs="12"  sm="4" md="3">
             <SiteBar
-              userId={auth && auth.userId}
+              userData={userData}
             />
           </Col>
           <Col xs="12" sm="8" md="9">
