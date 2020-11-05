@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const ObjectID = require('mongodb').ObjectID;
 
 const Schema = mongoose.Schema;
-const urlImages = 'https://cdn.sm-news.ru/wp-content/uploads/2019/08/22/esport-1.jpg'
+const urlImages = 'https://www.sportsdaily.ru/s/image/116934.jpg';
 
 exports.postSchema = new Schema(
   {
