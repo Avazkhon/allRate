@@ -125,7 +125,7 @@ app.route('/api/image')
 app.get('/api/img', albumFolder.getImg);
 
 app.route('/api/withdrawal-request')
-  .get(withdrawalRequest.get)
+  // .get(withdrawalRequest.get)
   .post(withdrawalRequest.create)
 
 app.route('/api/admin/withdrawal-request')

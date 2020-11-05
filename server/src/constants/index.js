@@ -16,6 +16,6 @@ exports.rateStatusLive = {
 };
 
 exports.superAdmin = {
-  userId: '5eb05391b6d21977c526ed2e',
-  purseId: '5eb05391b6d21977c526ed2f',
+  userId: '5f98666292dcf00012e6d993',
+  purseId: '5f98666292dcf00012e6d994',
 };

@@ -85,6 +85,7 @@ class Purse extends Component {
     const {
       auth: {
         auth,
+        userData,
       },
       withdrawalRequestAdmin: {
         data: {
@@ -98,37 +99,40 @@ class Purse extends Component {
         <Container>
           <Row>
             <Col xs="12" sm="8" md="9">
-            <h1>Страница вывода средств</h1>
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Номер карты</th>
-                  <th>Сумма перевод</th>
-                  <th>Сумма перевода с учетом коммисии</th>
-                  <th>Статус</th>
-                  <th>Действия</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  docs.map((WR, i) => {
-                    return (
-                      <tr key={WR._id}>
-                        <td>{i + 1}</td>
-                        <td>{WR.target}</td>
-                        <td>{WR.amount}</td>
-                        <td>{WR.amount_due}</td>
-                        <td>{WR._id === id ? 'Загрузка' : WR.status}</td>
-                        <td>
-                          <Button variant="primary" data-id={WR._id} onClick={this.handleShow}>Выполнить</Button>
-                        </td>
-                      </tr>
-                      )
-                  })
-                }
-              </tbody>
-            </Table>
+              <h1>Страница вывода средств</h1>
+              {
+                userData && userData.isAdmin &&
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Номер карты</th>
+                      <th>Сумма перевод</th>
+                      <th>Сумма перевода с учетом коммисии</th>
+                      <th>Статус</th>
+                      <th>Действия</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      docs.map((WR, i) => {
+                        return (
+                          <tr key={WR._id}>
+                            <td>{i + 1}</td>
+                            <td>{WR.target}</td>
+                            <td>{WR.amount}</td>
+                            <td>{WR.amount_due}</td>
+                            <td>{WR._id === id ? 'Загрузка' : WR.status}</td>
+                            <td>
+                              <Button variant="primary" data-id={WR._id} onClick={this.handleShow}>Выполнить</Button>
+                            </td>
+                          </tr>
+                          )
+                      })
+                    }
+                  </tbody>
+                </Table>
+              }
               <Modal show={!!isShowModal} onHide={this.handleClose}>
                 <Modal.Header closeButton>
                   <Modal.Title>Выберите действия</Modal.Title>
@@ -168,6 +172,7 @@ class Purse extends Component {
 
 Purse.propTypes = {
   auth: PropTypes.shape(),
+  userData: PropTypes.shape(),
   withdrawalRequestAdmin: PropTypes.shape(),
   getWithdrawalRequestAdmin: PropTypes.func,
   patchWithdrawalRequestAdmin: PropTypes.func,
@@ -176,10 +181,12 @@ Purse.propTypes = {
 function mapStateToProps(state) {
   const {
     auth,
+    userData,
     withdrawalRequestAdmin,
   } = state;
   return {
     auth,
+    userData,
     withdrawalRequestAdmin,
   };
 }
