@@ -43,22 +43,23 @@ class ProfileUser extends React.Component {
     }
   }
 
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   const { getUserById } = prevProps;
-  //   let { auth } = prevProps;
-  //   let { auth: userId, profileId } = this.props;
-  //
-  //   userId = userId && userId.auth && userId.auth.userId
-  //   auth = auth && auth.auth || null;
-  //   if (
-  //     (auth && userId
-  //     && userId
-  //     && auth.userId !== userId)
-  //     || (!auth && userId)
-  //   ) {
-  //     getUserById(profileId || userId);
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // это штука не всегда хорошо работает но без нее нельзя
+    const { getUserById } = prevProps;
+    let { auth } = prevProps;
+    let { auth: userId, profileId } = this.props;
+
+    userId = userId && userId.auth && userId.auth.userId
+    auth = auth && auth.auth || null;
+    if (
+      (auth && userId
+      && userId
+      && auth.userId !== userId)
+      || (!auth && userId)
+    ) {
+      getUserById(profileId || userId);
+    }
+  }
 
   handleUploded = (fileUploaded, files) => {
     const {
