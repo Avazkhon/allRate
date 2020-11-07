@@ -11,6 +11,7 @@ const {
     returnMoney,
   },
   superAdmin,
+  checkCardReg,
 } = require('../../constants');
 
 const invoiceControllers = new InvoiceControllers();
@@ -51,8 +52,12 @@ exports.create = async (req, res) => {
     return res.status(423 ).json({ message: 'Минимальная сумма снятия 100 рублей!'});
   }
 
-  if (!req.body.target) {
-    return res.status(400).json({ message: 'Не указан номер карты!'});
+  if (
+      !Object.values(checkCardReg).some((card) => {
+        return card.test(req.body.target);
+      })
+  ) {
+    return res.status(400).json({ message: 'Не верно указан номер карты!'});
   }
 
   if (!req.body.createTime) {
@@ -95,4 +100,36 @@ exports.create = async (req, res) => {
       writeToLog.write(error, 'create_withdrawal_request.error')
       res.status(500).json(error.toString());
     })
+}
+
+exports.checkParamsWR = async (req, res) => {
+  const { user } = req.session;
+  if (!user || user && !user.userId) {
+    return res.status(401).json({ message: 'Пользователь не авторизован!'});
+  }
+  if (req.body.amount < 100) {
+    return res.status(423 ).json({ message: 'Минимальная сумма снятия 100 рублей!'});
+  }
+
+  if (
+      !Object.values(checkCardReg).some((card) => {
+        return card.test(req.body.target);
+      })
+  ) {
+    return res.status(400).json({ message: 'Не верно указан номер карты!'});
+  }
+
+  if (!req.body.createTime) {
+    return res.status(400).json({ message: 'Не указано время!'});
+  }
+
+  const userData = await userModel.findOne({_id: user.userId});
+  const purseData = await purseModel.findOne({_id: userData.purseId});
+  const amount_due = utils.yndexAmountDue(req.body.amount)
+
+  if (purseData.amount < amount_due) {
+    return res.status(400).json({ message: 'Не достаточно средств на счету!'});
+  }
+
+  return res.status(200).json({ message: 'Переданные данные верны', amount_due});
 }
