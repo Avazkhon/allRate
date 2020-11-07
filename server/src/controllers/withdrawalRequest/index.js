@@ -61,14 +61,15 @@ exports.create = async (req, res) => {
 
   const userData = await userModel.findOne({_id: user.userId});
   const purseData = await purseModel.findOne({_id: userData.purseId});
+  const amount_due = utils.yndexAmountDue(req.body.amount)
 
-  if (purseData.amount < req.body.amount) {
+  if (purseData.amount < amount_due) {
     return res.status(400).json({ message: 'Не достаточно средств на счету!'});
   }
 
   const dataWR = {
     amount: req.body.amount,
-    amount_due: utils.yndexAmountDue(req.body.amount),
+    amount_due,
     userId: user.userId,
     target: req.body.target,
     purseId: userData.purseId,
