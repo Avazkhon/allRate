@@ -48,13 +48,14 @@ export const GET_WITHDRAWALR_REQUEST_ADMIN = 'GET_WITHDRAWALR_REQUEST_ADMIN';
 export const PATCH_WITHDRAWALR_REQUEST_ADMIN = 'PATCH_WITHDRAWALR_REQUEST_ADMIN';
 
 export const basisForPayment = {
-  accountReplenishment: 'accountReplenishment',
-  withdrawal: 'withdrawal',
-  makeRate: 'makeRate',
-  win: 'win',
-  percentage: 'percentage',
-  stalemateSituation: 'stalemateSituation',
-  returnMoney: 'returnMoney',
+  accountReplenishment: 'accountReplenishment', // Пополнение счета
+  withdrawal: 'withdrawal', // вывод
+  makeRate: 'makeRate', // makeRate
+  win: 'win', // выиграть
+  percentage: 'percentage', // процент
+  stalemateSituation: 'stalemateSituation', // патовая ситуация
+  returnMoney: 'returnMoney', // вернуть деньги
+  leftovers: 'leftovers', // вернуть деньги
 };
 
 export const rateStatusLive = {
