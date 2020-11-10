@@ -2,6 +2,7 @@ const uuidv4 = require('uuid').v4;
 const invoiceModel = require('../../models/invoice');
 const purseModel = require('../../models/purse');
 const rateModel = require('../../models/rate');
+const userModel = require('../../models/user');
 const WriteToLog = require('../../utils/writeToLog');
 const Yandex = require('../yndex');
 const {
@@ -11,6 +12,9 @@ const {
     makeRate,
     win,
     returnMoney,
+    stalemateSituation,
+    percentage,
+    leftovers,
   },
   superAdmin,
 } = require('../../constants');
@@ -171,9 +175,10 @@ class InvoiceController {
         })
 
     } else {
-      await this.changePurse(invoice, invoice.requisites.target, basisForPayment, this.plus);
       await this.changePurse(invoice, invoice.requisites.src, basisForPayment, this.minus);
-      body.rate.participant.purseId = user.purseId;
+      await this.changePurse(invoice, invoice.requisites.target, basisForPayment, this.plus);
+      const userDate = await userModel.findOne({_id: user.userId})
+      body.rate.participant.purseId = userDate.purseId;
       await this.changeRate(body.rate.id, body.rate.partyNumber, body.rate.participant, invoice.amount);
     }
       res.status(201).json(invoice);
@@ -183,12 +188,23 @@ class InvoiceController {
     }
   }
 
+  async createInvoiceForLeftovers (data) {
+    data.authorId = superAdmin.userId;
+    data.invoiceId = uuidv4();
+    data.basisForPayment = leftovers;
+    const invoice = await invoiceModel.create(data);
+    await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus);
+    await this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus);
+    return invoice;
+  }
+
   async createInvoiceForWin (data) {
     data.authorId = superAdmin.userId;
     data.invoiceId = uuidv4();
+    data.basisForPayment = win;
     const invoice = await invoiceModel.create(data);
-    await this.changePurse(invoice, invoice.requisites.src, data.basisForPayment, this.minus);
-    await this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus);
+    await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus);
+    await this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus);
     return invoice;
   }
 
@@ -206,12 +222,23 @@ class InvoiceController {
     return invoice;
   }
 
-  async createInvoiceForPercentage (data) {
+  async createInvoiceForStalemateSituation (data) {
     data.authorId = superAdmin.userId;
     data.invoiceId = uuidv4();
+    data.basisForPayment = stalemateSituation;
     const invoice = await invoiceModel.create(data);
-    await this.changePurse(invoice, invoice.requisites.src, data.basisForPayment, this.minus);
-    await this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus);
+    await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus);
+    await this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus);
+    return invoice;
+  }
+
+  async createInvoiceForPercentage (data) {
+    data.authorId = superAdmin.userId;
+    data.basisForPayment = percentage;
+    data.invoiceId = uuidv4();
+    const invoice = await invoiceModel.create(data);
+    await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus);
+    await this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus);
     return invoice;
   }
 

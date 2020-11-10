@@ -1,16 +1,18 @@
 exports.basisForPayment = {
-  accountReplenishment: 'accountReplenishment',
-  withdrawal: 'withdrawal',
-  makeRate: 'makeRate',
-  win: 'win',
-  percentage: 'percentage',
-  stalemateSituation: 'stalemateSituation',
-  returnMoney: 'returnMoney',
+  accountReplenishment: 'accountReplenishment', // Пополнение счета
+  withdrawal: 'withdrawal', // вывод
+  makeRate: 'makeRate', // makeRate
+  win: 'win', // выиграть
+  percentage: 'percentage', // процент
+  stalemateSituation: 'stalemateSituation', // патовая ситуация
+  returnMoney: 'returnMoney', // вернуть деньги
+  leftovers: 'leftovers', // вернуть деньги
 };
 
 exports.rateStatusLive = {
   new: 'new',
   active: 'active',
+  in_progress: 'in_progress',
   finish: 'finish',
   archive: 'archive',
 };

@@ -36,6 +36,7 @@ exports.rateSchema = new Schema(
             meny: { type: Number, required: true, min: 50, max: 500 },
             serverTime: { type: Date, default: new Date() },
             localTime: { type: Date, required: true },
+            paymentMade: { type: Boolean, default: false },
           }
         ],
       },
@@ -51,6 +52,7 @@ exports.rateSchema = new Schema(
             meny: { type: Number, min: 50, max: 500 },
             serverTime: { type: Date },
             localTime: { type: Date },
+            paymentMade: { type: Boolean, default: false },
           }
         ],
       },
