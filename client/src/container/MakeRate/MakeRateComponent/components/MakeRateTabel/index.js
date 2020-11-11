@@ -47,12 +47,12 @@ class MakeRateTabel extends Component {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>П1 | К- {partyOne.coefficient}</th>
+            <th>П1 | К- {partyOne.coefficient < 1 ? '' : partyOne.coefficient}</th>
             {
               partyDraw.idParty &&
-              <th>Х | К- {partyDraw.coefficient}</th>
+              <th>Х | К- {partyDraw.coefficient < 1 ? '' : partyDraw.coefficient}</th>
             }
-            <th>П2 | К- {partyTwo.coefficient}</th>
+            <th>П2 | К- {partyTwo.coefficient < 1 ? '' : partyTwo.coefficient}</th>
             <th>Уч.</th>
           </tr>
         </thead>
@@ -62,7 +62,6 @@ class MakeRateTabel extends Component {
             <td
               onClick={handleModal}
               data-partynumber='partyOne'
-              onClick={handleModal}
             >
               {partyOne.terms}
             </td>
@@ -71,7 +70,6 @@ class MakeRateTabel extends Component {
               <td
                 onClick={handleModal}
                 data-partynumber='partyDraw'
-                onClick={handleModal}
               >
                 {partyDraw.terms}
               </td>
@@ -79,7 +77,6 @@ class MakeRateTabel extends Component {
             <td
               onClick={handleModal}
               data-partynumber='partyTwo'
-              onClick={handleModal}
             >
               {partyTwo.terms}
             </td>
