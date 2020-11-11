@@ -12,6 +12,7 @@ const {
   },
   superAdmin,
   checkCardReg,
+  money,
 } = require('../../constants');
 
 const invoiceControllers = new InvoiceControllers();
@@ -48,8 +49,11 @@ exports.create = async (req, res) => {
   if (!user || user && !user.userId) {
     return res.status(401).json({ message: 'Пользователь не авторизован!'});
   }
-  if (req.body.amount < 100) {
-    return res.status(423 ).json({ message: 'Минимальная сумма снятия 100 рублей!'});
+  if (req.body.amount < money.minAccountReplenishment) {
+    return res.status(423).json({ message: `Минимальная сумма снятия ${money.minAccountReplenishment} рублей!`});
+  }
+  if (req.body.amount > money.maxWithdrawal) {
+    return res.status(423).json({ message: `Максимальная сумма снятия ${money.maxWithdrawal} рублей!`});
   }
 
   if (
@@ -107,8 +111,11 @@ exports.checkParamsWR = async (req, res) => {
   if (!user || user && !user.userId) {
     return res.status(401).json({ message: 'Пользователь не авторизован!'});
   }
-  if (req.body.amount < 100) {
-    return res.status(423 ).json({ message: 'Минимальная сумма снятия 100 рублей!'});
+  if (req.body.amount < money.minAccountReplenishment) {
+    return res.status(423).json({ message: `Минимальная сумма снятия ${money.minAccountReplenishment} рублей!`});
+  }
+  if (req.body.amount > money.maxWithdrawal) {
+    return res.status(423).json({ message: `Максимальная сумма снятия ${money.maxWithdrawal} рублей!`});
   }
 
   if (
