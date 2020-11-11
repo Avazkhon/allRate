@@ -17,6 +17,7 @@ const {
     leftovers,
   },
   superAdmin,
+  interest,
 } = require('../../constants');
 
 const writeToLog = new WriteToLog();
@@ -26,6 +27,7 @@ class InvoiceController {
     this.minus = 'minus';
     this.plus = 'plus';
     this.SUCCESS = 'SUCCESS';
+    this.FAIL = 'FAIL';
     this.yandex = new Yandex();
   }
 
@@ -105,12 +107,12 @@ class InvoiceController {
     let allAmount = partyOne.amount + partyTwo.amount;
     allAmount = partyDraw.idParty ? allAmount + partyDraw.amount : allAmount;
     const data = {
-      'mainBet.partyOne.coefficient': (allAmount / partyOne.amount * 0.94).toFixed(2),
-      'mainBet.partyTwo.coefficient': (allAmount / partyTwo.amount * 0.94).toFixed(2),
+      'mainBet.partyOne.coefficient': (allAmount / partyOne.amount * interest.winPercentage).toFixed(2),
+      'mainBet.partyTwo.coefficient': (allAmount / partyTwo.amount * interest.winPercentage).toFixed(2),
       [`mainBet.${[partyNumber]}.amount`]: mainBet[partyNumber].amount,
     };
     if (partyDraw.idParty) {
-      data['mainBet.partyDraw.coefficient'] = (allAmount / partyDraw.amount * 0.94).toFixed(2);
+      data['mainBet.partyDraw.coefficient'] = (allAmount / partyDraw.amount * interest.winPercentage).toFixed(2);
     }
     return data;
   }
@@ -175,8 +177,10 @@ class InvoiceController {
         })
 
     } else {
-      await this.changePurse(invoice, invoice.requisites.src, basisForPayment, this.minus);
-      await this.changePurse(invoice, invoice.requisites.target, basisForPayment, this.plus);
+      await this.changePurse(invoice, invoice.requisites.src, basisForPayment, this.minus)
+       // надо сначала убедиться что вычет из кшшелька произошло успешно
+        .then(() => this.changePurse(invoice, invoice.requisites.target, basisForPayment, this.plus));
+
       const userDate = await userModel.findOne({_id: user.userId})
       body.rate.participant.purseId = userDate.purseId;
       await this.changeRate(body.rate.id, body.rate.partyNumber, body.rate.participant, invoice.amount);
@@ -193,8 +197,8 @@ class InvoiceController {
     data.invoiceId = uuidv4();
     data.basisForPayment = leftovers;
     const invoice = await invoiceModel.create(data);
-    await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus);
-    await this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus);
+    await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
+      .then(() => this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
     return invoice;
   }
 
@@ -203,8 +207,8 @@ class InvoiceController {
     data.invoiceId = uuidv4();
     data.basisForPayment = win;
     const invoice = await invoiceModel.create(data);
-    await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus);
-    await this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus);
+    await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
+      .then(() => this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
     return invoice;
   }
 
@@ -227,8 +231,8 @@ class InvoiceController {
     data.invoiceId = uuidv4();
     data.basisForPayment = stalemateSituation;
     const invoice = await invoiceModel.create(data);
-    await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus);
-    await this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus);
+    await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
+      .then(() => this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
     return invoice;
   }
 
@@ -237,8 +241,8 @@ class InvoiceController {
     data.basisForPayment = percentage;
     data.invoiceId = uuidv4();
     const invoice = await invoiceModel.create(data);
-    await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus);
-    await this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus);
+    await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
+      .then(() => this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
     return invoice;
   }
 
