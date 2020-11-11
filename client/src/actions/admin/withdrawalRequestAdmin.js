@@ -3,12 +3,13 @@ import {
   PATCH_WITHDRAWALR_REQUEST_ADMIN,
 } from '../../constants';
 
-export function getWithdrawalRequestAdmin ({page, limit}) {
+export function getWithdrawalRequestAdmin (queryParams) {
   return dispatch => dispatch({
     type: GET_WITHDRAWALR_REQUEST_ADMIN,
     meta: {
       method: 'GET',
-      endpoint: `admin/withdrawal-request/?page=${page}&limit=${limit}`,
+      endpoint: `admin/withdrawal-request`,
+      queryParams
     }
   });
 }

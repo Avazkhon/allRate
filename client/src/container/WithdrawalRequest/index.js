@@ -32,7 +32,7 @@ class Purse extends Component {
   }
 
   componentDidMount() {
-    this.props.getWithdrawalRequestAdmin({page: 1, limit: 24})
+    this.props.getWithdrawalRequestAdmin({page: 1, limit: 24, status: 'inprogress'})
   }
 
   submitWR = (description, status, id) => {
