@@ -28,7 +28,9 @@ exports.get = async (req, res) => {
     limit: +params.limit || 24,
     page: +params.page,
   };
-  const data = {};
+  delete params.limit;
+  delete params.page;
+  const data = {...params};
   if (!userData.isAdmin && superAdmin.userId != user.userId) { // если не админ доступны только свои заявки
     data.userId = user.userId;
   }
