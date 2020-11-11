@@ -6,6 +6,7 @@ const {
   rateStatusLive,
   basisForPayment,
   superAdmin,
+  interest,
 } = require('../../../constants');
 const InvoiceControllers = require('../../invoice');
 
@@ -38,7 +39,7 @@ const makePay = async (rate, partyName, src, index = 0, sumMoney = 0) => {
     return {status: 'finish', message: 'Ставка не сотоялась так как нет ни одной сделаной ставки', sumMoney}
   } else if (!participant && index === 0) {
     // если никто не сделал ставку на победителя
-    const meny = (mainBet.partyOne.amount + mainBet.partyTwo.amount + mainBet.partyDraw.amount) * 0.94
+    const meny = (mainBet.partyOne.amount + mainBet.partyTwo.amount + mainBet.partyDraw.amount) * interest.stalemateSituationPercentage
     const dataInvoice = {
       amount: +(meny).toFixed(2),
       requisites: { src, target: superAdmin.purseId },
@@ -64,10 +65,14 @@ const makePay = async (rate, partyName, src, index = 0, sumMoney = 0) => {
     return invoiceControllers.createInvoiceForWin(dataInvoice)
       .then(() => chengePaymentMade(rate._id, participant._id, partyName))
       .then(() => {
+        // сначала нужно установить выплачанную сумму пречжде чем завершить
+        // использования participant.meny объясняеться тем что
+        // нужна в будущем правильно вычеслить проценты
+        // для superAdmin и автора ставок
+        sumMoney += participant.meny;
         if (participantsLength === index + 1) {  // если это все итерации прошли то закончить операции по оплате
           return {status: 'finish', message: 'Выплаты завершины', sumMoney}
         } else {
-          sumMoney += dataInvoice.amount;
           return makePay(rate, partyName, src, ++index, sumMoney);
         }
       })
@@ -114,8 +119,8 @@ exports.rateLive  = async (req, res)  => {
       await makePay(rate, mainBet, purse._id)
       .then(async (status) => {
         if (status.sumMoney) { // перевести проценты только если были сделаны выплаты победителям
-          await makePayPercentage(status.sumMoney * 0.03, purse._id, author.purseId)
-          await makePayPercentage(status.sumMoney * 0.03, purse._id, superAdmin.purseId)
+          await makePayPercentage(status.sumMoney * interest.percentage, purse._id, author.purseId)
+          await makePayPercentage(status.sumMoney * interest.percentage, purse._id, superAdmin.purseId)
         }
         return status;
       })
@@ -143,9 +148,7 @@ exports.rateLive  = async (req, res)  => {
           }
         );
       })
-      .then(() => {
-        return rateModels.findOne({ _id: id });
-      })
+      .then(() => rateModels.findOne({ _id: id }))
       .then((data) => {
         res.status(200).send(data);
       })
