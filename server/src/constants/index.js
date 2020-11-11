@@ -1,12 +1,12 @@
 exports.basisForPayment = {
   accountReplenishment: 'accountReplenishment', // Пополнение счета
   withdrawal: 'withdrawal', // вывод
-  makeRate: 'makeRate', // makeRate
+  makeRate: 'makeRate', // сделать ставки
   win: 'win', // выиграть
   percentage: 'percentage', // процент
   stalemateSituation: 'stalemateSituation', // патовая ситуация
   returnMoney: 'returnMoney', // вернуть деньги
-  leftovers: 'leftovers', // вернуть деньги
+  leftovers: 'leftovers', // зачисления остатков
 };
 
 exports.rateStatusLive = {
@@ -27,4 +27,16 @@ exports.checkCardReg = {
   mastercardRegEx: /^(?:5[1-5][0-9]{14})$/,
   amexpRegEx: /^(?:3[47][0-9]{13})$/,
   discovRegEx: /^(?:6(?:011|5[0-9][0-9])[0-9]{12})$/,
+}
+
+exports.interest = {
+  // .05 это проценты для получения supperAdmin или автора ставок
+  // 2 это значит получить проценты и за тех кто проиграл
+  // в итоге получиться что supperAdmin и автора ставок получит
+  // по 5% от всех сделанных ставок
+  percentage: 0.05 * 2,
+  // процент который получит supperAdmin если никто не выиграет
+  stalemateSituationPercentage: 0.9,
+  // процент который получит победитель в ставках
+  winPercentage: 0.9,
 }
