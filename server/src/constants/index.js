@@ -40,3 +40,8 @@ exports.interest = {
   // процент который получит победитель в ставках
   winPercentage: 0.9,
 }
+
+exports.money = {
+  minAccountReplenishment: 100,
+  maxWithdrawal: 15000,
+}
