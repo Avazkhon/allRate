@@ -135,7 +135,7 @@ ProfileUser.propTypes = {
   auth: PropTypes.shape(),
   lang: PropTypes.shape(),
   userPage: PropTypes.shape(),
-  profileId: PropTypes.number,
+  profileId: PropTypes.string,
   isPageAuth: PropTypes.bool,
 }
 

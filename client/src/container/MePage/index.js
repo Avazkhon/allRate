@@ -39,7 +39,7 @@ function MePage ({
               profileId={userId}
               isPageAuth
             />
-            <UserBtnGroup />
+            <UserBtnGroup isPageAuth />
             {
               (content === 'my_posts' || !content) &&
               <CardsPosts
