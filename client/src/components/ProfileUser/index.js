@@ -60,7 +60,7 @@ class ProfileUser extends React.Component {
 
   render() {
     const {
-      auth: { userData },
+      userPage: { data: userData },
       lang: { lang },
       classes,
       profileId,
@@ -137,8 +137,9 @@ ProfileUser.propTypes = {
   getUserById: PropTypes.func,
   changeImg: PropTypes.func,
   changeRatingUser: PropTypes.func,
-  auth: PropTypes.shape({}),
-  lang: PropTypes.shape({}),
+  auth: PropTypes.shape(),
+  lang: PropTypes.shape(),
+  userPage: PropTypes.shape(),
   profileId: PropTypes.number,
   isPageAuth: PropTypes.bool,
 }
@@ -146,10 +147,12 @@ ProfileUser.propTypes = {
 function mapStateToProps(state) {
   const {
     auth,
+    userPage,
     lang,
   } = state;
   return {
     auth,
+    userPage,
     lang,
   };
 }
