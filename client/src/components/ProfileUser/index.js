@@ -35,30 +35,8 @@ const profileText = {
 class ProfileUser extends React.Component {
 
   componentDidMount() {
-    const { getUserById, profileId } = this.props;
-    let { auth } = this.props;
-    auth = auth && auth.auth || null;
-    if (auth && auth.userId) {
-      getUserById(profileId || auth.userId)
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    // это штука не всегда хорошо работает но без нее нельзя
-    const { getUserById } = prevProps;
-    let { auth } = prevProps;
-    let { auth: userId, profileId } = this.props;
-
-    userId = userId && userId.auth && userId.auth.userId
-    auth = auth && auth.auth || null;
-    if (
-      (auth && userId
-      && userId
-      && auth.userId !== userId)
-      || (!auth && userId)
-    ) {
-      getUserById(profileId || userId);
-    }
+    const { getUserById, profileId, userId } = this.props;
+    getUserById(profileId)
   }
 
   handleUploded = (fileUploaded, files) => {
@@ -84,6 +62,7 @@ class ProfileUser extends React.Component {
       lang: { lang },
       classes,
       profileId,
+      isPageAuth,
       changeRatingUser,
       getUserById,
     } = this.props;
@@ -109,7 +88,7 @@ class ProfileUser extends React.Component {
           <Col xs="12" sm="6" md="2">
             <Image style={{ height: '190px',  width: '18rem' }} src={userData && userData.avatar || srcImage} thumbnail alt="Avatar" />
             {
-              !profileId &&
+              isPageAuth &&
               <ImageUploded
                 lang={lang}
                 changeImg={this.handleUploded}
@@ -118,7 +97,7 @@ class ProfileUser extends React.Component {
           </Col>
           <Col xs="12" sm="6" md="5">
             <ListGroup>
-              { !profileId && <PurseWidget />}
+              { isPageAuth && <PurseWidget />}
               <ListGroup.Item>
                 <FiUsers title={profileText.titleCountSubscribers[lang]}/> {" "}
                 { userData && userData.subscribersCount || 0 }
@@ -128,7 +107,7 @@ class ProfileUser extends React.Component {
                 { userData && userData.subscriptionsCount || 0 }
               </ListGroup.Item>
               {
-                profileId &&
+                !isPageAuth &&
                 <ListGroup.Item>
                   <Rating
                     changeRating={changeRatingUser}
@@ -159,6 +138,7 @@ ProfileUser.propTypes = {
   auth: PropTypes.shape({}),
   lang: PropTypes.shape({}),
   profileId: PropTypes.number,
+  isPageAuth: PropTypes.bool,
 }
 
 function mapStateToProps(state) {

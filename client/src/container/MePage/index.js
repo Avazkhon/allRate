@@ -35,7 +35,10 @@ function MePage ({
             />
           </Col>
           <Col xs="12" sm="8" md="9">
-            <ProfileUser />
+            <ProfileUser
+              profileId={userId}
+              isPageAuth
+            />
             <UserBtnGroup />
             {
               (content === 'my_posts' || !content) &&
