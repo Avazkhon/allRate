@@ -15,7 +15,6 @@ import {
 
 import {
   changeImg,
-  getUserById,
   getUserForPageById,
   changeRatingUser,
 } from 'actions';
@@ -36,23 +35,20 @@ const profileText = {
 class ProfileUser extends React.Component {
 
   componentDidMount() {
-    const { getUserById, getUserForPageById, profileId, userId } = this.props;
+    const {getUserForPageById, profileId } = this.props;
     getUserForPageById(profileId);
-    // getUserById(profileId)
   }
 
   handleUploded = (fileUploaded, files) => {
     const {
       changeImg,
-      getUserById,
-      auth: {
-        auth
-      }
+      getUserForPageById,
+      profileId,
     } = this.props;
     return changeImg(fileUploaded, files)
     .then((action) => {
-      if (auth.userId && action.status === 'SUCCESS') {
-        getUserById(auth.userId)
+      if (action.status === 'SUCCESS') {
+        getUserForPageById(profileId)
       }
       return action;
     })
@@ -66,7 +62,7 @@ class ProfileUser extends React.Component {
       profileId,
       isPageAuth,
       changeRatingUser,
-      getUserById,
+      getUserForPageById,
     } = this.props;
 
     let userProps = [];
@@ -113,7 +109,7 @@ class ProfileUser extends React.Component {
                 <ListGroup.Item>
                   <Rating
                     changeRating={changeRatingUser}
-                    getUserById={getUserById}
+                    getUserById={getUserForPageById}
                     rating={userData && userData.rating}
                     postId={userData && userData._id}
                     isShow
@@ -134,7 +130,6 @@ class ProfileUser extends React.Component {
 };
 
 ProfileUser.propTypes = {
-  getUserById: PropTypes.func,
   changeImg: PropTypes.func,
   changeRatingUser: PropTypes.func,
   auth: PropTypes.shape(),
@@ -159,7 +154,6 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   changeImg,
-  getUserById,
   getUserForPageById,
   changeRatingUser,
 })(ProfileUser);
