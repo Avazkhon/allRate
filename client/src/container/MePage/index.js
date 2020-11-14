@@ -31,7 +31,7 @@ function MePage ({
     userId = auth.auth.userId;
   } else {
     const userFromLocalStage = getDataUserFromLocalStorag();
-    userId = userFromLocalStage.userId;
+    userId = userFromLocalStage && userFromLocalStage.userId;
   }
   const { content } = queryString.parse(history.location.hash);
   return (
