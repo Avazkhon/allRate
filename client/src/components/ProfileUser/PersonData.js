@@ -58,7 +58,7 @@ class PersonData extends React.Component {
                     {icon}
                   </span>
                 )}{" "}
-                {(!itm.hidden || isShow) && itm.name}
+                {(!itm.hidden || isShow) ? itm.name : '........'}
               </ListGroup.Item>
             )
           })
