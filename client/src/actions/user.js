@@ -1,6 +1,7 @@
 import {
   GET_USERS_BY_IDS,
   GET_USERS_PAGINATE,
+  GET_USER_FOR_PAGE_BY_ID,
 } from '../constants';
 
 export function getUsersByIds (arr) {
@@ -22,5 +23,17 @@ export function userPaginate (page, limit) {
       endpoint:`user/?page=${page}&limit=${limit}`
     }
   });
+}
 
+export function getUserForPageById (userId) {
+  return dispatch => dispatch({
+    type: GET_USER_FOR_PAGE_BY_ID,
+    meta: {
+      method: 'GET',
+      endpoint: 'user',
+      queryParams: {
+        id: userId
+      }
+    }
+  });
 }

@@ -16,6 +16,7 @@ import {
 import {
   changeImg,
   getUserById,
+  getUserForPageById,
   changeRatingUser,
 } from 'actions';
 
@@ -35,8 +36,9 @@ const profileText = {
 class ProfileUser extends React.Component {
 
   componentDidMount() {
-    const { getUserById, profileId, userId } = this.props;
-    getUserById(profileId)
+    const { getUserById, getUserForPageById, profileId, userId } = this.props;
+    getUserForPageById(profileId);
+    // getUserById(profileId)
   }
 
   handleUploded = (fileUploaded, files) => {
@@ -155,5 +157,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   changeImg,
   getUserById,
+  getUserForPageById,
   changeRatingUser,
 })(ProfileUser);
