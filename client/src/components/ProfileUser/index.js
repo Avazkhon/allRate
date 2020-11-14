@@ -30,6 +30,10 @@ const srcImage = 'https://img.favpng.com/8/0/5/computer-icons-user-profile-avata
 const profileText = {
   titleCountSubscribers: { RU: 'Количестко подписччиков', EN: 'Number of subscribers' },
   titleCountSubscriptions: { RU: 'Количестко подписок', EN: 'Number of subscriptions' },
+  userName: { RU: 'Имя', EN: 'Name' },
+  email: { RU: 'эл. Почта', EN: 'Email' },
+  phone: { RU: 'Телефон', EN: 'Phone' },
+  titleHiddenOrShow: { RU: 'Нажмите для отображения или скрытия', EN: 'Click to show or hide' },
 }
 
 class ProfileUser extends React.Component {
@@ -54,6 +58,20 @@ class ProfileUser extends React.Component {
     })
   }
 
+  getUserProps = (userData, profileText, lang) => {
+    const {
+      email,
+      userName,
+      phone,
+    } = userData;
+    const titlForUserProps = profileText.titleHiddenOrShow[lang];
+    return [
+      { name: userName, type: 'userName', label: profileText.userName[lang], title: titlForUserProps, hidden: false },
+      { name: email, type: 'email', label: profileText.email[lang], title: titlForUserProps, hidden: true },
+      { name: phone, type: 'phone', label: profileText.phone[lang], title: titlForUserProps, hidden: true },
+    ]
+  }
+
   render() {
     const {
       userPage: { data: userData },
@@ -67,17 +85,7 @@ class ProfileUser extends React.Component {
 
     let userProps = [];
     if (userData && userData._id) {
-      const {
-        email,
-        userName,
-        phone,
-      } = userData;
-
-      userProps = [
-        { name: email },
-        { name: userName },
-        { name: phone },
-      ];
+      userProps = this.getUserProps(userData, profileText, lang);
     }
 
     return (
@@ -99,8 +107,7 @@ class ProfileUser extends React.Component {
               <ListGroup.Item>
                 <FiUsers title={profileText.titleCountSubscribers[lang]}/> {" "}
                 { userData && userData.subscribersCount || 0 }
-              </ListGroup.Item>
-              <ListGroup.Item>
+                {" "}
                 <RiUserVoiceLine title={profileText.titleCountSubscriptions[lang]}/> {" "}
                 { userData && userData.subscriptionsCount || 0 }
               </ListGroup.Item>
