@@ -8,13 +8,11 @@ import {
 class PersonData extends React.Component {
   constructor(props) {
     super(props);
-
   }
   render() {
     const {
       userProps
     } = this.props;
-
     return (
       <ListGroup>
         {

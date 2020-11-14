@@ -9,6 +9,10 @@ import {
   Col,
 } from 'react-bootstrap';
 
+import {
+  getDataUserFromLocalStorag,
+} from 'utils';
+
 import Layout from 'container/Layout';
 import ProfileUser from 'components/ProfileUser';
 import SiteBar from 'components/SiteBar';
@@ -22,9 +26,14 @@ function MePage ({
   rates,
   history,
 }) {
-  const userId = auth.auth && auth.auth.userId;
+  let userId = '';
+  if (auth.auth && auth.auth.userId) {
+    userId = auth.auth.userId;
+  } else {
+    const userFromLocalStage = getDataUserFromLocalStorag();
+    userId = userFromLocalStage.userId;
+  }
   const { content } = queryString.parse(history.location.hash);
-
   return (
     <Layout>
       <Container>

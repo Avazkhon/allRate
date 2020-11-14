@@ -95,7 +95,7 @@ class ProfileUser extends React.Component {
           </Col>
           <Col xs="12" sm="6" md="5">
             <ListGroup>
-              { isPageAuth && <PurseWidget />}
+              { isPageAuth && <PurseWidget /> }
               <ListGroup.Item>
                 <FiUsers title={profileText.titleCountSubscribers[lang]}/> {" "}
                 { userData && userData.subscribersCount || 0 }
