@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
 import {
   ListGroup,
@@ -8,9 +9,27 @@ import {
 class PersonData extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isShows: {}
+    }
+  }
 
+  handleShow = (e) => {
+    const { name } = e.currentTarget.dataset;
+    this.setState((prevState) => {
+      return {
+        isShows: {
+          ...prevState.isShows,
+          [name]: !prevState.isShows[name]
+        }
+      }
+    })
   }
   render() {
+    const {
+      isShows
+    } = this.state;
+
     const {
       userProps
     } = this.props;
@@ -18,9 +37,31 @@ class PersonData extends React.Component {
     return (
       <ListGroup>
         {
-          userProps.map((itm) => (
-            <ListGroup.Item key={itm.name}>{itm.name}</ListGroup.Item>
-          ))
+          userProps.map((itm) => {
+            const  isShow = isShows[itm.type];
+            let icon = '';
+            if (isShow) {
+              icon = <AiFillEye/>
+            } else {
+              icon = <AiFillEyeInvisible/>
+            }
+            return (
+              <ListGroup.Item key={itm.name}>
+                {itm.label}{": "}
+                {itm.hidden && (
+                  <span
+                    style={{cursor: 'pointer'}}
+                    title={itm.title}
+                    data-name={itm.type}
+                    onClick={this.handleShow}
+                  >
+                    {icon}
+                  </span>
+                )}{" "}
+                {(!itm.hidden || isShow) ? itm.name : '........'}
+              </ListGroup.Item>
+            )
+          })
         }
       </ListGroup>
     );
@@ -28,6 +69,11 @@ class PersonData extends React.Component {
 }
 
 PersonData.propTypes = {
-  userProps: PropTypes.arrayOf(PropTypes.shape()),
+  userProps: PropTypes.arrayOf({
+    name: PropTypes.string,
+    label: PropTypes.string,
+    title: PropTypes.string,
+    hidden: PropTypes.bool,
+  }),
 }
 export default PersonData;

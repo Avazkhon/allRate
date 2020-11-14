@@ -15,7 +15,7 @@ import {
 
 import {
   changeImg,
-  getUserById,
+  getUserForPageById,
   changeRatingUser,
 } from 'actions';
 
@@ -30,55 +30,62 @@ const srcImage = 'https://img.favpng.com/8/0/5/computer-icons-user-profile-avata
 const profileText = {
   titleCountSubscribers: { RU: 'Количестко подписччиков', EN: 'Number of subscribers' },
   titleCountSubscriptions: { RU: 'Количестко подписок', EN: 'Number of subscriptions' },
+  userName: { RU: 'Имя', EN: 'Name' },
+  email: { RU: 'эл. Почта', EN: 'Email' },
+  phone: { RU: 'Телефон', EN: 'Phone' },
+  titleHiddenOrShow: { RU: 'Нажмите для отображения или скрытия', EN: 'Click to show or hide' },
 }
 
 class ProfileUser extends React.Component {
 
   componentDidMount() {
-    const { getUserById, profileId } = this.props;
-    getUserById(profileId)
+    const {getUserForPageById, profileId } = this.props;
+    getUserForPageById(profileId);
   }
 
   handleUploded = (fileUploaded, files) => {
     const {
       changeImg,
-      getUserById,
-      auth: {
-        auth
-      }
+      getUserForPageById,
+      profileId,
     } = this.props;
     return changeImg(fileUploaded, files)
     .then((action) => {
-      if (auth.userId && action.status === 'SUCCESS') {
-        getUserById(auth.userId)
+      if (action.status === 'SUCCESS') {
+        getUserForPageById(profileId)
       }
       return action;
     })
   }
 
+  getUserProps = (userData, profileText, lang) => {
+    const {
+      email,
+      userName,
+      phone,
+    } = userData;
+    const titlForUserProps = profileText.titleHiddenOrShow[lang];
+    return [
+      { name: userName, type: 'userName', label: profileText.userName[lang], title: titlForUserProps, hidden: false },
+      { name: email, type: 'email', label: profileText.email[lang], title: titlForUserProps, hidden: true },
+      { name: phone, type: 'phone', label: profileText.phone[lang], title: titlForUserProps, hidden: true },
+    ]
+  }
+
   render() {
     const {
-      auth: { userData },
+      userPage: { data: userData },
       lang: { lang },
       classes,
       profileId,
+      isPageAuth,
       changeRatingUser,
-      getUserById,
+      getUserForPageById,
     } = this.props;
 
     let userProps = [];
     if (userData && userData._id) {
-      const {
-        email,
-        userName,
-        phone,
-      } = userData;
-
-      userProps = [
-        { name: email },
-        { name: userName },
-        { name: phone },
-      ];
+      userProps = this.getUserProps(userData, profileText, lang);
     }
 
     return (
@@ -87,7 +94,7 @@ class ProfileUser extends React.Component {
           <Col xs="12" sm="6" md="2">
             <Image style={{ height: '190px',  width: '18rem' }} src={userData && userData.avatar || srcImage} thumbnail alt="Avatar" />
             {
-              !profileId &&
+              isPageAuth &&
               <ImageUploded
                 lang={lang}
                 changeImg={this.handleUploded}
@@ -96,21 +103,20 @@ class ProfileUser extends React.Component {
           </Col>
           <Col xs="12" sm="6" md="5">
             <ListGroup>
-              { !profileId && <PurseWidget />}
+              { isPageAuth && <PurseWidget /> }
               <ListGroup.Item>
                 <FiUsers title={profileText.titleCountSubscribers[lang]}/> {" "}
                 { userData && userData.subscribersCount || 0 }
-              </ListGroup.Item>
-              <ListGroup.Item>
+                {" "}
                 <RiUserVoiceLine title={profileText.titleCountSubscriptions[lang]}/> {" "}
                 { userData && userData.subscriptionsCount || 0 }
               </ListGroup.Item>
               {
-                profileId &&
+                !isPageAuth &&
                 <ListGroup.Item>
                   <Rating
                     changeRating={changeRatingUser}
-                    getUserById={getUserById}
+                    getUserById={getUserForPageById}
                     rating={userData && userData.rating}
                     postId={userData && userData._id}
                     isShow
@@ -131,27 +137,30 @@ class ProfileUser extends React.Component {
 };
 
 ProfileUser.propTypes = {
-  getUserById: PropTypes.func,
   changeImg: PropTypes.func,
   changeRatingUser: PropTypes.func,
-  auth: PropTypes.shape({}),
-  lang: PropTypes.shape({}),
-  profileId: PropTypes.number,
+  auth: PropTypes.shape(),
+  lang: PropTypes.shape(),
+  userPage: PropTypes.shape(),
+  profileId: PropTypes.string,
+  isPageAuth: PropTypes.bool,
 }
 
 function mapStateToProps(state) {
   const {
     auth,
+    userPage,
     lang,
   } = state;
   return {
     auth,
+    userPage,
     lang,
   };
 }
 
 export default connect(mapStateToProps, {
   changeImg,
-  getUserById,
+  getUserForPageById,
   changeRatingUser,
 })(ProfileUser);

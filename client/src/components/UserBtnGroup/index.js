@@ -41,19 +41,22 @@ class UserBtnGroup extends Component {
   renderLink = () => {
     const {
       classes,
+      isPageAuth,
     } = this.props;
     return (
       <ListGroup horizontal>
-        <ListGroup.Item
-          className={classes.btn}
-          onClick={this.handleCreatePost}
-        >
-          <AiOutlineForm size={this.size} title="Создать пост" />
-        </ListGroup.Item>
+        { isPageAuth &&
+          <ListGroup.Item
+            className={classes.btn}
+            onClick={this.handleCreatePost}
+          >
+            <AiOutlineForm size={this.size} title="Создать пост" />
+          </ListGroup.Item>
+        }
         <ListGroup.Item>
           <Link
             className={classes.btn}
-            to='/me/?page=1&limit=24#content=my_posts'
+            to='?page=1&limit=24#content=my_posts'
           >
             <AiOutlineFileProtect size={this.size} title="мои посты" />
           </Link>
@@ -61,7 +64,7 @@ class UserBtnGroup extends Component {
         <ListGroup.Item>
           <Link
             className={classes.btn}
-            to='/me/?page=1&limit=24#content=subscribtion_posts'
+            to='?page=1&limit=24#content=subscribtion_posts'
           >
             <AiOutlineFileSearch size={this.size} title="мои новости" />
           </Link>
@@ -69,7 +72,7 @@ class UserBtnGroup extends Component {
         <ListGroup.Item>
           <Link
             className={classes.btn}
-            to='/me/?page=1&limit=24#content=my_rates'
+            to='?page=1&limit=24#content=my_rates'
           >
             <AiOutlineFile size={this.size} title="мой ставки"/>
           </Link>
@@ -77,7 +80,7 @@ class UserBtnGroup extends Component {
         <ListGroup.Item>
           <Link
             className={classes.btn}
-            to='/me/?page=1&limit=24#content=subscribtion_rates'
+            to='?page=1&limit=24#content=subscribtion_rates'
           >
             <RiFileSearchLine size={this.size} title="подписка на ставки" />
           </Link>
@@ -115,6 +118,7 @@ class UserBtnGroup extends Component {
 
 UserBtnGroup.propTypes = {
   classes: PropTypes.shape(),
+  isPageAuth: PropTypes.bool,
 }
 
 function mapStateToProps(state) {
