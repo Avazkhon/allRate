@@ -103,11 +103,11 @@ exports.deleteOne = (req, res) => {
   })
 }
 
-exports.passwordRecovery = async (req, res) => {
+exports.passwordRecoveryStart = async (req, res) => {
   const userFromSession = req.session.user;
   if (userFromSession && userFromSession.userId) {
     const token = uuidv4();
-    const userData = await userModels.findByIdAndUpdate({_id: userFromSession.userId}, {passwordRecovery: token})
+    const userData = await userModels.findByIdAndUpdate({_id: userFromSession.userId}, {recoveryId: token});
     transporter.sendMail({
       to: userData.email,
       subject: "Face Betting", // Subject line
@@ -119,7 +119,7 @@ exports.passwordRecovery = async (req, res) => {
             Вы оставили запрос на восстановления пароля.
           </p>
           <p>
-             Для восстановления пароля перейдите по этой ссылке ${process.env.MAIN_URL}/password-recovery?user-password=${token}
+             Для восстановления пароля перейдите по этой ссылке ${process.env.MAIN_URL}/password-recovery?recoveryId=${token}
           </p>
           <p>
             Если вы не запрашивали новый пароль проигнорируете это письмо.
@@ -131,4 +131,26 @@ exports.passwordRecovery = async (req, res) => {
     return res.status(200).json(userData);
   }
   return res.status(401).json({messages: 'Пользователь не авторизован'})
+}
+
+exports.passwordRecoveryFinish = async (req, res) => {
+  const userFromSession = req.session.user;
+  const { recoveryId } = req.query;
+  const { password } = req.body;
+
+  if (recoveryId && password) {
+    const userDataBefore = await userModels.findOne({recoveryId}, {recoveryId: true} )
+    if (userDataBefore && userDataBefore.recoveryId === recoveryId) {
+      const userDataAfter = await userModels.findByIdAndUpdate(
+        {_id: userDataBefore._id},
+        { recoveryId: '', password },
+        { new: true, recoveryId: true }
+      );
+      return res.status(200).json({messages: 'Пароль успешно обновлен'});
+    } else {
+      return res.status(400).json({messages: 'Переданный токен не верен'});
+    }
+  } else {
+    return res.status(400).json({messages: 'Не хватает данных'});
+  }
 }
