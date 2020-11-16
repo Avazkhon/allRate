@@ -102,3 +102,33 @@ exports.deleteOne = (req, res) => {
     return res.status(500).json(error);
   })
 }
+
+exports.passwordRecovery = async (req, res) => {
+  const userFromSession = req.session.user;
+  if (userFromSession && userFromSession.userId) {
+    const token = uuidv4();
+    const userData = await userModels.findByIdAndUpdate({_id: userFromSession.userId}, {passwordRecovery: token})
+    transporter.sendMail({
+      to: userData.email,
+      subject: "Face Betting", // Subject line
+      text: "Востановления пароля", // plain text body
+      html: `
+        <div>
+          <h3>Добрый день, ${userData.userName}</h3>
+          <p>
+            Вы оставили запрос на восстановления пароля.
+          </p>
+          <p>
+             Для восстановления пароля перейдите по этой ссылке ${process.env.MAIN_URL}/password-recovery?user-password=${token}
+          </p>
+          <p>
+            Если вы не запрашивали новый пароль проигнорируете это письмо.
+          </p>
+        <div/>
+      `,
+    });
+
+    return res.status(200).json(userData);
+  }
+  return res.status(401).json({messages: 'Пользователь не авторизован'})
+}

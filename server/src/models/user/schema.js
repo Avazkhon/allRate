@@ -12,6 +12,7 @@ exports.userSchema = new Schema(
     isAdmin: { type: Boolean },
     dateCreate: { type: Date, required: true },
     mailConfirmation: { type: 'Mixed' },
+    passwordRecovery: { type: String, select: false },
     age: {
       day: { type: String, required: true },
       month: { type: String, required: true },
