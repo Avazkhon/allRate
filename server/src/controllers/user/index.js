@@ -146,6 +146,25 @@ exports.passwordRecoveryFinish = async (req, res) => {
         { recoveryId: '', password },
         { new: true, recoveryId: true }
       );
+      transporter.sendMail({
+        to: userData.email,
+        subject: "Face Betting", // Subject line
+        text: "Ваш пароль успешно обновлен", // plain text body
+        html: `
+          <div>
+            <h3>Добрый день, ${userData.userName}</h3>
+            <p>
+              Ваш пароль успешно сброшен.
+            </p>
+            <p>
+                <a href="${process.env.MAIN_URL}/password-recovery?recoveryId=${token}" >
+                  Face Betting
+                </a>
+            </p>
+          <div/>
+        `,
+      });
+
       return res.status(200).json({messages: 'Пароль успешно обновлен'});
     } else {
       return res.status(400).json({messages: 'Переданный токен не верен'});
