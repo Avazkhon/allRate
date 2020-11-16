@@ -147,20 +147,18 @@ exports.passwordRecoveryFinish = async (req, res) => {
         { new: true, recoveryId: true }
       );
       transporter.sendMail({
-        to: userData.email,
+        to: userDataAfter.email,
         subject: "Face Betting", // Subject line
         text: "Ваш пароль успешно обновлен", // plain text body
         html: `
           <div>
-            <h3>Добрый день, ${userData.userName}</h3>
+            <h3>Добрый день, ${userDataAfter.userName}</h3>
             <p>
               Ваш пароль успешно сброшен.
             </p>
-            <p>
-                <a href="${process.env.MAIN_URL}/password-recovery?recoveryId=${token}" >
-                  Face Betting
-                </a>
-            </p>
+            <a href="${process.env.MAIN_URL}" style="text-decoration: none" >
+              Face Betting
+            </a>
           <div/>
         `,
       });
