@@ -84,6 +84,14 @@ export default [
     }),
   },
   {
+    path: '/password-recovery/',
+    exact: true,
+    component: asyncComponent({
+      loader: () => import('./container/PasswordRecovery'),
+      Placeholder: () => <div>...LOADING...</div>,
+    }),
+  },
+  {
     path: '/admin/withdrawal-request',
     exact: true,
     component: asyncComponent({
