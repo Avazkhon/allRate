@@ -65,3 +65,7 @@ export {
   postWithdrawalRequest,
   patchWithdrawalRequest,
 } from './withdrawalRequest';
+
+export {
+  passwordRecoveryStart,
+} from './passwordRecovery';

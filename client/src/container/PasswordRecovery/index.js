@@ -14,6 +14,11 @@ import {
 
 import Layout from 'container/Layout';
 import SiteBar from 'components/SiteBar';
+import Messages from 'components/Messages';
+
+import {
+  passwordRecoveryStart
+} from 'actions';
 
 import style from './style';
 
@@ -22,6 +27,9 @@ class PasswordRecovery extends Component {
     super(props);
     this.state = {
       email: '',
+      warning: '',
+      error: '',
+      isFetching: '',
     }
   }
 
@@ -34,10 +42,26 @@ class PasswordRecovery extends Component {
   }
 
   handleSubmit = () => {
-    console.log(this.state.email);
+    const { passwordRecoveryStart } = this.props;
+    const { email } = this.state;
+    this.setState({ isFetching: true, warning: '', error: '' })
+    passwordRecoveryStart(email)
+      .then((action) => {
+        this.setState({ isFetching: false })
+        if (action.status === 'SUCCESS') {
+          this.setState({ warning: 'Запрос успешно принят. На вашу почту отправлено письмо.' })
+        } else {
+          this.setState({ error: action.error.messages || action.error.toString()})
+        }
+      })
   }
 
   render() {
+    const {
+      warning,
+      error,
+      isFetching,
+    } = this.state;
     const {
       userData,
       classes,
@@ -64,6 +88,13 @@ class PasswordRecovery extends Component {
                 </Form.Group>
               </Col>
               <Col>
+                <Messages
+                  warning={warning}
+                  error={error}
+                  isFetching={isFetching}
+                />
+              </Col>
+              <Col>
                 <Button onClick={this.handleSubmit} >Отправить</Button>
               </Col>
             </div>
@@ -81,6 +112,7 @@ PasswordRecovery.propTypes = {
   classes: PropTypes.shape(),
   history: PropTypes.shape(),
   match: PropTypes.shape(),
+  passwordRecoveryStart: PropTypes.func,
 }
 
 function mapStateToProps(state) {
@@ -92,4 +124,12 @@ function mapStateToProps(state) {
   };
 }
 
-export default injectSheet(style)(connect(mapStateToProps, {})(PasswordRecovery));
+export default injectSheet(style)(
+  connect(
+    mapStateToProps,
+    {
+      passwordRecoveryStart
+    }
+  )
+  (PasswordRecovery)
+);

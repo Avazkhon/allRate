@@ -48,6 +48,8 @@ export const PATCH_WITHDRAWALR_REQUEST = 'PATCH_WITHDRAWALR_REQUEST';
 export const GET_WITHDRAWALR_REQUEST_ADMIN = 'GET_WITHDRAWALR_REQUEST_ADMIN';
 export const PATCH_WITHDRAWALR_REQUEST_ADMIN = 'PATCH_WITHDRAWALR_REQUEST_ADMIN';
 
+export const POSRT_PASSWORD_RECOVERY = 'POSRT_PASSWORD_RECOVERY';
+
 export const basisForPayment = {
   accountReplenishment: 'accountReplenishment', // Пополнение счета
   withdrawal: 'withdrawal', // вывод

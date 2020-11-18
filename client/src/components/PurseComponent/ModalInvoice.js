@@ -172,11 +172,11 @@ class ModalInvoice extends Component {
         {
           requisiteName === 'target' &&
           <Form.Control
-          type="text"
-          placeholder={placeholder.card[lang]}
-          name={requisiteName}
-          value={data.requisites[requisiteName]}
-          onChange={this.handleChangeSRC}
+            type="text"
+            placeholder={placeholder.card[lang]}
+            name={requisiteName}
+            value={data.requisites[requisiteName]}
+            onChange={this.handleChangeSRC}
           />
         }
         </Form.Group>
