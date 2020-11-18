@@ -104,10 +104,10 @@ exports.deleteOne = (req, res) => {
 }
 
 exports.passwordRecoveryStart = async (req, res) => {
-  const userFromSession = req.session.user;
-  if (userFromSession && userFromSession.userId) {
+  const { email } = req.body;
+  if (email) {
     const token = uuidv4();
-    const userData = await userModels.findByIdAndUpdate({_id: userFromSession.userId}, {recoveryId: token});
+    const userData = await userModels.findOneAndUpdate({ email }, {recoveryId: token});
     transporter.sendMail({
       to: userData.email,
       subject: "Face Betting", // Subject line
@@ -130,7 +130,7 @@ exports.passwordRecoveryStart = async (req, res) => {
 
     return res.status(200).json(userData);
   }
-  return res.status(401).json({messages: 'Пользователь не авторизован'})
+  return res.status(400).json({messages: 'Переданные данные не верны'})
 }
 
 exports.passwordRecoveryFinish = async (req, res) => {
