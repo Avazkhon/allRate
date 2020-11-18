@@ -104,33 +104,38 @@ exports.deleteOne = (req, res) => {
 }
 
 exports.passwordRecoveryStart = async (req, res) => {
-  const { email } = req.body;
-  if (email) {
-    const token = uuidv4();
-    const userData = await userModels.findOneAndUpdate({ email }, {recoveryId: token});
-    transporter.sendMail({
-      to: userData.email,
-      subject: "Face Betting", // Subject line
-      text: "Востановления пароля", // plain text body
-      html: `
-        <div>
-          <h3>Добрый день, ${userData.userName}</h3>
-          <p>
-            Вы оставили запрос на восстановления пароля.
-          </p>
-          <p>
-             Для восстановления пароля перейдите по этой ссылке ${process.env.MAIN_URL}/password-recovery?recoveryId=${token}
-          </p>
-          <p>
-            Если вы не запрашивали новый пароль проигнорируете это письмо.
-          </p>
-        <div/>
-      `,
-    });
+  try {
+    const { email } = req.body;
+    if (email) {
+      const token = uuidv4();
+      const userData = await userModels.findOneAndUpdate({ email }, {recoveryId: token});
+      transporter.sendMail({
+        to: userData.email,
+        subject: "Face Betting", // Subject line
+        text: "Востановления пароля", // plain text body
+        html: `
+          <div>
+            <h3>Добрый день, ${userData.userName}</h3>
+            <p>
+              Вы оставили запрос на восстановления пароля.
+            </p>
+            <p>
+               Для восстановления пароля перейдите по этой ссылке ${process.env.MAIN_URL}/password-recovery?recoveryId=${token}
+            </p>
+            <p>
+              Если вы не запрашивали новый пароль проигнорируете это письмо.
+            </p>
+          <div/>
+        `,
+      });
 
-    return res.status(200).json(userData);
+      return res.status(200).json(userData);
+    }
+    return res.status(400).json({messages: 'Переданные данные не верны'})
   }
-  return res.status(400).json({messages: 'Переданные данные не верны'})
+  catch (error) {
+    return res.status(500).json({messages: error.toString()})
+  }
 }
 
 exports.passwordRecoveryFinish = async (req, res) => {
