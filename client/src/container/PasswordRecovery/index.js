@@ -18,7 +18,8 @@ import SiteBar from 'components/SiteBar';
 import Messages from 'components/Messages';
 
 import {
-  passwordRecoveryStart
+  passwordRecoveryStart,
+  passwordRecoveryFinish,
 } from 'actions';
 
 import {
@@ -81,20 +82,38 @@ class PasswordRecovery extends Component {
     this.setState({ isFetching: true, warning: '', error: '' })
     if (password === 'userPassword') {
       passwordRecoveryStart(email)
-        .then(this.afterSubmit);
+        .then((action) => this.afterSubmit(action, 'Запрос успешно принят. На вашу почту отправлено письмо.'))
     } else if (password === 'pursePassword') {
 
     }
   }
 
   handleSubmitPassword = () => {
-    console.log('handleSubmitPassword');
+    const { password } = this.state;
+    const {
+      passwordRecoveryFinish,
+      match: {
+        params: {
+          password: passwordParams
+        }
+      },
+      history,
+    } = this.props;
+    const {
+      recoveryId
+    } = queryString.parse(history.location.search)
+    if (passwordParams === 'userPassword') {
+      passwordRecoveryFinish({password, recoveryId})
+      .then((action) => this.afterSubmit(action, 'Ваш пароль успешно обновлен'))
+    } else if (passwordParams === 'pursePassword') {
+
+    }
   }
 
-  afterSubmit = (action) => {
+  afterSubmit = (action, warning) => {
     this.setState({ isFetching: false })
     if (action.status === 'SUCCESS') {
-      this.setState({ warning: 'Запрос успешно принят. На вашу почту отправлено письмо.' })
+      this.setState({ warning })
     } else {
       this.setState({ error: action.error.messages || action.error.toString()})
     }
@@ -148,6 +167,7 @@ class PasswordRecovery extends Component {
                         placeholder="Введите электронную почту"
                         type="email"
                         name="email"
+                        disabled={warning}
                       />
                   </Form.Group>
                 }
@@ -160,6 +180,7 @@ class PasswordRecovery extends Component {
                         placeholder="Введите новый пароль"
                         type="password"
                         name="password"
+                        disabled={warning}
                       />
                   </Form.Group>
                 }
@@ -174,11 +195,11 @@ class PasswordRecovery extends Component {
               <Col>
               {
                 !recoveryId &&
-                <Button disabled={!isValidEmail} onClick={this.handleSubmitEmail} >Отправить</Button>
+                <Button disabled={!isValidEmail || warning} onClick={this.handleSubmitEmail} >Отправить</Button>
               }
               {
                 recoveryId &&
-                <Button disabled={!isValidPassword} onClick={this.handleSubmitPassword} >Отправить</Button>
+                <Button disabled={!isValidPassword || warning} onClick={this.handleSubmitPassword} >Отправить</Button>
               }
               </Col>
             </div>
@@ -197,6 +218,7 @@ PasswordRecovery.propTypes = {
   history: PropTypes.shape(),
   match: PropTypes.shape(),
   passwordRecoveryStart: PropTypes.func,
+  passwordRecoveryFinish: PropTypes.func,
 }
 
 function mapStateToProps(state) {
@@ -212,7 +234,8 @@ export default injectSheet(style)(
   connect(
     mapStateToProps,
     {
-      passwordRecoveryStart
+      passwordRecoveryStart,
+      passwordRecoveryFinish,
     }
   )
   (PasswordRecovery)
