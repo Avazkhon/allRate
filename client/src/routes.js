@@ -84,7 +84,7 @@ export default [
     }),
   },
   {
-    path: '/password-recovery/',
+    path: '/password-recovery/:password',
     exact: true,
     component: asyncComponent({
       loader: () => import('./container/PasswordRecovery'),

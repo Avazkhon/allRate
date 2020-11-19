@@ -76,7 +76,7 @@ const Auth = ({
         !isHeader &&
         <Col xs="12" sm="4">
           <div>
-            <Link to='/password-recovery/?refresh=userPassword'>
+            <Link to='/password-recovery/userPassword'>
               <span>Забыли пароль?</span>
             </Link>
           </div>
