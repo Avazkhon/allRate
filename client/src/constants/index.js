@@ -49,6 +49,7 @@ export const GET_WITHDRAWALR_REQUEST_ADMIN = 'GET_WITHDRAWALR_REQUEST_ADMIN';
 export const PATCH_WITHDRAWALR_REQUEST_ADMIN = 'PATCH_WITHDRAWALR_REQUEST_ADMIN';
 
 export const POSRT_PASSWORD_RECOVERY = 'POSRT_PASSWORD_RECOVERY';
+export const PUT_PASSWORD_RECOVERY = 'PUT_PASSWORD_RECOVERY';
 
 export const basisForPayment = {
   accountReplenishment: 'accountReplenishment', // Пополнение счета

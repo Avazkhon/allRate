@@ -68,4 +68,5 @@ export {
 
 export {
   passwordRecoveryStart,
+  passwordRecoveryFinish,
 } from './passwordRecovery';
