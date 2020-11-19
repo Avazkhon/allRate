@@ -132,7 +132,7 @@ app.route('/api/admin/withdrawal-request')
   .get(withdrawalRequestAdmin.get)
   .patch(withdrawalRequestAdmin.patch);
 
-app.route('/api/password-recovery/')
+app.route('/api/password-recovery/userPassword')
   .post(userControllers.passwordRecoveryStart)
   .put(userControllers.passwordRecoveryFinish)
 
