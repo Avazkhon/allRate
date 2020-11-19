@@ -72,16 +72,13 @@ const Auth = ({
           <Button onClick={handleCreateNewUser} >Регистрация </Button>
         </Col>
       }
-      {
-        !isHeader &&
-        <Col xs="12" sm="4">
-          <div>
-            <Link to='/password-recovery/userPassword'>
-              <span>Забыли пароль?</span>
-            </Link>
-          </div>
-        </Col>
-      }
+      <Col xs="12" sm="4">
+        <div>
+          <Link to='/password-recovery/userPassword'>
+            <span>Забыли пароль?</span>
+          </Link>
+        </div>
+      </Col>
     </Row>
     {
       error &&
