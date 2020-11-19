@@ -120,7 +120,7 @@ exports.passwordRecoveryStart = async (req, res) => {
               Вы оставили запрос на восстановления пароля.
             </p>
             <p>
-               Для восстановления пароля перейдите по этой ссылке ${process.env.MAIN_URL}/password-recovery?recoveryId=${token}
+               Для восстановления пароля перейдите по этой ссылке ${process.env.MAIN_URL}/password-recovery/userPassword?recoveryId=${token}
             </p>
             <p>
               Если вы не запрашивали новый пароль проигнорируете это письмо.
