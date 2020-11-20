@@ -1,3 +1,4 @@
+const moment = require('moment-timezone');
 const rateModels = require('../models/rate');
 const WriteToLog = require('../utils/writeToLog');
 
@@ -31,9 +32,8 @@ class InnerTask {
   async checkIsNew () {
     // в объектах указано в часовом поясе 0.
     // поэтому ищем с этим соотвествием
-    const zeroZone = new Date(new Date() + '+00:00');
     // находим обекты до указанного времени + минута для погрешности
-    const dateStart = { $lte: new Date(new Date(zeroZone).setMinutes(1)) };
+    const dateStart = { $lte: moment().utc().add(1, 'minutes').format()};
     const data = await (
       rateModels.getByProps(
         { statusLife: this.new , dateStart },
@@ -52,8 +52,7 @@ class InnerTask {
   }
 
   async checkIsActive () {
-    const zeroZone = await new Date(new Date() + '+00:00');
-    const dateFinish = await { $lte: new Date(new Date(zeroZone).setMinutes(1)) };
+    const dateFinish = await { $lte: moment().utc().add(1, 'minutes').format() };
     await (rateModels.getByProps(
       {
         statusLife: this.active,

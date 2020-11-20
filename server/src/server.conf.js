@@ -1,5 +1,10 @@
 const fs = require('fs');
 const dotenv = require('dotenv');
+const moment = require('moment-timezone');
+
+function addTime() {
+  process.env.TZ = moment().utc().format();
+}
 
 function addEnv() {
   const NODE_ENV = process.env.NODE_ENV || 'development';
@@ -20,6 +25,7 @@ function addEnv() {
 
 function addConf() {
   addEnv();
+  addTime();
 }
 module.exports = {
   addConf,

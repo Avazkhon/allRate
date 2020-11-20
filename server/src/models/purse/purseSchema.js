@@ -11,7 +11,7 @@ exports.purseSchema = new Schema(
       default: 0,
       min: 0,
     },
-    create: { type: Date, default: new Date() },
+    create: { type: Date, default: process.env.TZ },
     userId: { type: ObjectID, required: true },
     mainBetId: { type: ObjectID },
     currency: { type: String, default: 'RUB' },

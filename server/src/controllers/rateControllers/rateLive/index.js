@@ -43,7 +43,7 @@ const makePay = async (rate, partyName, src, index = 0, sumMoney = 0) => {
     const dataInvoice = {
       amount: +(meny).toFixed(2),
       requisites: { src, target: superAdmin.purseId },
-      createTime: new Date(),
+      createTime: process.env.TZ,
     };
 
     return invoiceControllers.createInvoiceForStalemateSituation(dataInvoice)
@@ -60,7 +60,7 @@ const makePay = async (rate, partyName, src, index = 0, sumMoney = 0) => {
     const dataInvoice = {
       amount: +(participant.meny * mainBet[partyName].coefficient).toFixed(2),
       requisites: { src, target: participant.purseId},
-      createTime: new Date(),
+      createTime: process.env.TZ,
     };
     return invoiceControllers.createInvoiceForWin(dataInvoice)
       .then(() => chengePaymentMade(rate._id, participant._id, partyName))
@@ -86,7 +86,7 @@ const makePayPercentage = (amount, src, purseId) => (
       amount: amount.toFixed(2),
       requisites: { src, target: purseId},
       basisForPayment: basisForPayment.percentage,
-      createTime: new Date(),
+      createTime: process.env.TZ,
     }
     return invoiceControllers.createInvoiceForPercentage(dataInvoice)
     .then(() => resolve('SUCCESS'))
@@ -133,7 +133,7 @@ exports.rateLive  = async (req, res)  => {
           const dataInvoice = {
             amount: purseAfterPaymentMade.amount,
             requisites: { src: purseAfterPaymentMade._id, target: superAdmin.purseId},
-            createTime: new Date(),
+            createTime: process.env.TZ,
           }
           invoiceControllers.createInvoiceForLeftovers(dataInvoice);
         }

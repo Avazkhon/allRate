@@ -21,7 +21,7 @@ function WriteToLog () {
     }
     count++;
 
-    fs.appendFile(folder + fileName, `\n${new Date}: ${data}`, (err) => {
+    fs.appendFile(folder + fileName, `\n${process.env.TZ}: ${data}`, (err) => {
       if (err) {
         this.write(err, 'error_write.err');
       };

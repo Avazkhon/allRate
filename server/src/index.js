@@ -19,7 +19,7 @@ const passwords = require('../password');
 const app = express();
 const writeToLog = new WriteToLog();
 const innerTask = new InnerTask();
-
+app.use(fileUpload());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
@@ -35,7 +35,6 @@ app.use(session({
     ttl: 1000 * 60 * 60 * 24 * 3
   }),
 }));
-app.use(fileUpload());
 
 app.use((req, res, next) => {
   ['https://facebetting.ru', "http://localhost:3000"].map(domain => {

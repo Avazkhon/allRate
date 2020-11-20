@@ -9,7 +9,7 @@ exports.rateSchema = new Schema(
     title: { type: String, required: true, min: 3, max: 50 },
     authorId: { type: mongoose.ObjectId, required: true },
     description: { type: String, required: true, min: 10, max: 500 },
-    serverTime: { type: Date, default: new Date() },
+    serverTime: { type: Date, default: process.env.TZ },
     differenceTime: { type: Number, required: true },
     localTime: { type: Date, required: true },
     createTime: { type: Date, required: true },
@@ -34,7 +34,7 @@ exports.rateSchema = new Schema(
             userId: { type: mongoose.ObjectId, required: true },
             purseId: { type: mongoose.ObjectId, required: true },
             meny: { type: Number, required: true, min: 50, max: 500 },
-            serverTime: { type: Date, default: new Date() },
+            serverTime: { type: Date, default: process.env.TZ },
             localTime: { type: Date, required: true },
             paymentMade: { type: Boolean, default: false },
           }
@@ -66,7 +66,7 @@ exports.rateSchema = new Schema(
             userId: { type: mongoose.ObjectId, required: true },
             purseId: { type: mongoose.ObjectId, required: true },
             meny: { type: Number, required: true, min: 50, max: 500 },
-            serverTime: { type: Date, default: new Date() },
+            serverTime: { type: Date, default: process.env.TZ },
             localTime: { type: Date, required: true },
             paymentMade: { type: Boolean, default: false },
           }

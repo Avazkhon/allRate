@@ -71,7 +71,7 @@ exports.patch = async (req, res) => {
   const dataWR = {
     description,
     status,
-    update: new Date(),
+    update: process.env.TZ,
     adminID: userData._id,
   }
 
@@ -87,7 +87,7 @@ exports.patch = async (req, res) => {
   } else {
     const dataInvoice = {
       amount: beforeDataWR.amount_due,
-      createTime: new Date(),
+      createTime: process.env.TZ,
       authorId: user.userId,
       basisForPayment: returnMoney,
       requisites: {
