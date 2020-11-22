@@ -41,7 +41,7 @@ const makePay = async (rate, partyName, src, index = 0) => {
     // если никто не сделал ставку на победителя
     const meny = (mainBet.partyOne.amount + mainBet.partyTwo.amount + mainBet.partyDraw.amount) * interest.stalemateSituationPercentage
     const dataInvoice = {
-      amount: +(meny).toFixed(2),
+      amount: Math.floor(meny),
       requisites: { src, target: superAdmin.purseId },
       createTime: process.env.TZ,
     };
@@ -58,7 +58,7 @@ const makePay = async (rate, partyName, src, index = 0) => {
     }
   } else { // выполения оплаты за победу
     const dataInvoice = {
-      amount: +(participant.meny * mainBet[partyName].coefficient).toFixed(2),
+      amount: Math.floor(participant.meny * mainBet[partyName].coefficient),
       requisites: { src, target: participant.purseId},
       createTime: process.env.TZ,
     };
@@ -78,7 +78,7 @@ const makePay = async (rate, partyName, src, index = 0) => {
 const makePayPercentage = (amount, src, purseId) => (
   new Promise((resolve, reject) => {
     const dataInvoice = {
-      amount: amount.toFixed(2),
+      amount: Math.floor(amount),
       requisites: { src, target: purseId},
       basisForPayment: basisForPayment.percentage,
       createTime: process.env.TZ,
