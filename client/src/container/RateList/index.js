@@ -58,7 +58,6 @@ class RateList extends React.Component {
             </Col>
             <Col xs="12"  sm="8" md="9">
               <CardsRates
-                userId={auth && auth.userId}
                 rates={rates}
                 history={history}
               />

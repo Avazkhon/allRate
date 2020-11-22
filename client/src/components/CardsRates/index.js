@@ -68,8 +68,12 @@ class CardsRates extends React.Component {
     if (hash === 'subscribtion_rates') {
       userParams = { subscriptionsId: userId || this.userId}
     }
+    let data = { page: Number(page) + incrementPage, limit, ...moreParams}
+    if (userId && this.userId) {
+      data = {...data, ...userParams}
+    }
 
-    getRatesPage({page: Number(page) + incrementPage, limit, ...moreParams, ...userParams})
+    getRatesPage(data)
     .then((action) => {
       if (action.status === 'SUCCESS' && action.response.docs.length) {
         getUsersByIds(action.response.docs.map(itm => itm.author || itm.authorId));
