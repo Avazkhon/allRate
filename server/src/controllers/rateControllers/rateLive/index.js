@@ -28,7 +28,7 @@ const chengePaymentMade = (idDocument, participantId, partyName) => {
 }
 
 
-const makePay = async (rate, partyName, src, index = 0, sumMoney = 0) => {
+const makePay = async (rate, partyName, src, index = 0) => {
   const mainBet = rate.mainBet;
   const participant = mainBet[partyName].participants[index];
   const participantsLength = mainBet[partyName].participants.length;
@@ -36,7 +36,7 @@ const makePay = async (rate, partyName, src, index = 0, sumMoney = 0) => {
       (!mainBet.partyOne.participants.length || !mainBet.partyTwo.participants.length)
       && (mainBet.partyDraw.idParty ? !mainBet.partyDraw.participants.length : false)
     ) {
-    return {status: 'finish', message: 'Ставка не сотоялась так как нет ни одной сделаной ставки', sumMoney}
+    return {status: 'finish', message: 'Ставка не сотоялась так как нет ни одной сделаной ставки'}
   } else if (!participant && index === 0) {
     // если никто не сделал ставку на победителя
     const meny = (mainBet.partyOne.amount + mainBet.partyTwo.amount + mainBet.partyDraw.amount) * interest.stalemateSituationPercentage
@@ -48,13 +48,13 @@ const makePay = async (rate, partyName, src, index = 0, sumMoney = 0) => {
 
     return invoiceControllers.createInvoiceForStalemateSituation(dataInvoice)
       .then(() => {
-        return {status: 'finish', message: 'Ни одна из сторон не выйиграла', sumMoney}
+        return {status: 'finish', message: 'Ни одна из сторон не выйиграла'}
       });
   } else if (participant.paymentMade) { // если уже было оплачено пропустить оплату
     if (participantsLength === index + 1) { // если это все итерации прошли то закончить операции по оплате
-      return {status: 'finish', message: 'Выплаты завершины', sumMoney}
+      return {status: 'finish', message: 'Выплаты завершины'}
     } else {
-      return makePay(rate, partyName, src, ++index, sumMoney);
+      return makePay(rate, partyName, src, ++index);
     }
   } else { // выполения оплаты за победу
     const dataInvoice = {
@@ -65,15 +65,10 @@ const makePay = async (rate, partyName, src, index = 0, sumMoney = 0) => {
     return invoiceControllers.createInvoiceForWin(dataInvoice)
       .then(() => chengePaymentMade(rate._id, participant._id, partyName))
       .then(() => {
-        // сначала нужно установить выплачанную сумму пречжде чем завершить
-        // использования participant.meny объясняеться тем что
-        // нужна в будущем правильно вычеслить проценты
-        // для superAdmin и автора ставок
-        sumMoney += participant.meny;
         if (participantsLength === index + 1) {  // если это все итерации прошли то закончить операции по оплате
-          return {status: 'finish', message: 'Выплаты завершины', sumMoney}
+          return {status: 'finish', message: 'Выплаты завершины'}
         } else {
-          return makePay(rate, partyName, src, ++index, sumMoney);
+          return makePay(rate, partyName, src, ++index);
         }
       })
   }
@@ -118,9 +113,11 @@ exports.rateLive  = async (req, res)  => {
       const purse = await purseModel.findOne({ _id: rate.mainBet.purseId });
       await makePay(rate, mainBet, purse._id)
       .then(async (status) => {
-        if (status.sumMoney) { // перевести проценты только если были сделаны выплаты победителям
-          await makePayPercentage(status.sumMoney * interest.percentage, purse._id, author.purseId)
-          await makePayPercentage(status.sumMoney * interest.percentage, purse._id, superAdmin.purseId)
+        const {partyOne, partyDraw, partyTwo} = rate.mainBet;
+        const amount = partyOne.amount + partyDraw.amount + partyTwo.amount;
+        if (status) { // перевести проценты только если были сделаны выплаты победителям
+          await makePayPercentage(amount * interest.percentage, purse._id, author.purseId)
+          await makePayPercentage(amount * interest.percentage, purse._id, superAdmin.purseId)
         }
         return status;
       })
