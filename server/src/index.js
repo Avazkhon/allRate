@@ -6,11 +6,10 @@ const MongoStore = require('connect-mongo')(session);
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
 
+require('./server.conf.js').addConf(); // сначало добавления конфига - это важно
 const routes = require('./routes');
 const WriteToLog = require('./utils/writeToLog');
 const InnerTask = require('./innerTask');
-
-require('./server.conf.js').addConf();
 
 const db = require('./db');
 
