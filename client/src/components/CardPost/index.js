@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import { AiFillEye } from "react-icons/ai";
+import moment from 'moment';
 
 
 import {
@@ -14,6 +15,9 @@ import {
 import Rating from 'widgets/Rating';
 
 import styleCardPost from './styleCardPost';
+import {
+  formatDateTime,
+} from '../../constants';
 
 const cardPostText = {
   show: { RU: 'Просмотреть', EN: 'show' },
@@ -29,6 +33,7 @@ const CardComponent = ({
     img,
     views,
     rating,
+    crateDate,
   },
   handleShow,
   handleHidden,
@@ -47,6 +52,9 @@ const CardComponent = ({
           isShow &&
           <Card.Text>{text}</Card.Text>
         }
+        <Row>
+          Создан: {moment(crateDate).format(formatDateTime)}
+        </Row>
         <Row>
           <Col ms="4">
             <Card.Img
@@ -101,6 +109,7 @@ CardComponent.propTypes = {
   post: PropTypes.shape({
     title: PropTypes.string,
     text: PropTypes.string,
+    crateDate: PropTypes.string,
     _id: PropTypes.string,
     img: PropTypes.shape({
       url: PropTypes.string,
