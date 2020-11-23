@@ -16,7 +16,7 @@ exports.invoiceSchema = new Schema(
     },
     // основание
     basisForPayment: { type: String, required: true },
-    createTime: { type: Date, required: true },
+    createDate: { type: Date, default: process.env.TZ },
     authorId: { type: ObjectID, required: true },
     invoiceId: { type: String, required: true },
     status: {type: String}

@@ -11,14 +11,14 @@ exports.purseSchema = new Schema(
       default: 0,
       min: 0,
     },
-    create: { type: Date, default: process.env.TZ },
+    createDate: { type: Date, default: process.env.TZ },
     userId: { type: ObjectID, required: true },
     mainBetId: { type: ObjectID },
     currency: { type: String, default: 'RUB' },
     history: [ // история ставок
       {
         invoiceId: { type: ObjectID, required: true },
-        createTime: { type: Date, required: true },
+        createDate: { type: Date, default: process.env.TZ },
         amount: { type: Number, required: true, min: 10 },
         basisForPayment: { type: String, required: true },
         action: { type: String, required: true },

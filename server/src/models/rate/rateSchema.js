@@ -9,10 +9,8 @@ exports.rateSchema = new Schema(
     title: { type: String, required: true, min: 3, max: 50 },
     authorId: { type: mongoose.ObjectId, required: true },
     description: { type: String, required: true, min: 10, max: 500 },
-    serverTime: { type: Date, default: process.env.TZ },
-    differenceTime: { type: Number, required: true },
     localTime: { type: Date, required: true },
-    createTime: { type: Date, required: true },
+    createDate: { type: Date, default: process.env.TZ },
     dateStart: { type: Date, required: true },
     dateFinish: { type: Date },
     dateAlert: { type: Date },
@@ -37,6 +35,7 @@ exports.rateSchema = new Schema(
             serverTime: { type: Date, default: process.env.TZ },
             localTime: { type: Date, required: true },
             paymentMade: { type: Boolean, default: false },
+            createDate: { type: Date, default: process.env.TZ },
           }
         ],
       },
@@ -53,6 +52,7 @@ exports.rateSchema = new Schema(
             serverTime: { type: Date },
             localTime: { type: Date },
             paymentMade: { type: Boolean, default: false },
+            createDate: { type: Date, default: process.env.TZ },
           }
         ],
       },
@@ -69,6 +69,7 @@ exports.rateSchema = new Schema(
             serverTime: { type: Date, default: process.env.TZ },
             localTime: { type: Date, required: true },
             paymentMade: { type: Boolean, default: false },
+            createDate: { type: Date, default: process.env.TZ },
           }
         ],
       },
@@ -83,13 +84,13 @@ exports.rateSchema = new Schema(
       positively: [
         {
           userId: { type: mongoose.ObjectId, required: true },
-          makeTime: { type: Date, required: true }
+          makeTime: { type: Date, default: process.env.TZ },
         }
       ],
       negative: [
         {
           userId: { type: mongoose.ObjectId, required: true },
-          makeTime: { type: Date, required: true }
+          makeTime: { type: Date, default: process.env.TZ },
         }
       ],
     }
