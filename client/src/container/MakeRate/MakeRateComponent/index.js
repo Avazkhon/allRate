@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import { AiFillEye } from "react-icons/ai";
+import moment from 'moment';
 import {
   Container,
   Row,
   Col,
   Card,
   Image,
+  ListGroup,
+  ListGroupItem,
 } from 'react-bootstrap';
 
 import Rating from 'widgets/Rating';
@@ -23,6 +26,7 @@ const url = 'https://sun9-39.userapi.com/c852216/v852216813/1239e2/VZL0QayR6E4.j
 
 import {
   basisForPayment,
+  formatDateTime,
 } from '../../../constants';
 
 class MakeRateComponent extends Component {
@@ -211,6 +215,14 @@ class MakeRateComponent extends Component {
                   </Card.Body>
                   <Card.Footer className="text-muted">
                     <Card.Text>{rate.description}</Card.Text>
+                    <Row>
+                      <Col>
+                        <ListGroup className="list-group-flush">
+                          <ListGroupItem>Начало: {moment(rate.dateStart).format(formatDateTime)}</ListGroupItem>
+                          <ListGroupItem>Конец: {moment(rate.dateFinish).format(formatDateTime)}</ListGroupItem>
+                        </ListGroup>
+                      </Col>
+                    </Row>
                   </Card.Footer>
                 </Card>
               }

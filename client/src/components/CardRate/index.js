@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { AiFillEye } from "react-icons/ai";
+import moment from 'moment';
 
 
 import {
@@ -15,6 +16,9 @@ import {
 
 import Rating from 'widgets/Rating';
 import PartyList from './PartyList';
+import {
+  formatDateTime,
+} from '../../constants';
 
 const CardComponent = ({
   rate: {
@@ -57,8 +61,8 @@ const CardComponent = ({
         </Card.Body>
       }
       <ListGroup className="list-group-flush">
-        <ListGroupItem>{dateStart}</ListGroupItem>
-        <ListGroupItem>{dateFinish}</ListGroupItem>
+        <ListGroupItem>Начало: {moment(dateStart).format(formatDateTime)}</ListGroupItem>
+        <ListGroupItem>Конец: {moment(dateFinish).format(formatDateTime)}</ListGroupItem>
       </ListGroup>
       <Card.Body as={Row}>
         <Col ms="4">
