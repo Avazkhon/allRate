@@ -100,25 +100,6 @@ export function changeStateBattery (_state, _action) {
   })
 }
 
-export function getMonth(index) {
-  const month = [
-    'Январь',
-    'Февраль',
-    'Март',
-    'Апрель',
-    'Май',
-    'Июнь',
-    'Июль',
-    'Август',
-    'Сентябрь',
-    'Ноябрь',
-    'Октябрь',
-    'Декабрь',
-  ];
-
-  return month.find((month, i) => i === index + 1);
-}
-
 export function getPramsAndTranformToQueryUrl (params) {
   let allQuery = '?';
   const keys = Object.keys(params);
