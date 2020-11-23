@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
+import moment from 'moment';
 
 import Messages from 'components/Messages';
 
 import {
   basisForPayment,
+  formatDateTime,
 } from '../../constants';
-
-import {
-  getMonth,
-} from '../../utils';
 
 import historyStyle from './historyStyle';
 
@@ -130,12 +128,7 @@ class HistoryPurse extends Component {
                 createTime,
                 basisForPayment
               } = invoice;
-              const newDate = new Date(createTime);
-              const date = `
-                ${newDate.getDate()}
-                ${getMonth(newDate.getMonth())}
-                ${newDate.getHours()}:${newDate.getMinutes()}
-                `;
+
               return (
                 <tr key={_id}>
                   <td> {index} </td>
@@ -144,7 +137,7 @@ class HistoryPurse extends Component {
                     {amount}
                   </td>
                   <td>{keyBasisForPayment[basisForPayment][lang]}</td>
-                  <td>{date}</td>
+                  <td>{moment(createTime).format(formatDateTime)}</td>
                 </tr>
               )
             })
