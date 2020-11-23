@@ -65,7 +65,7 @@ class MakeRateComponent extends Component {
 
   handleChangeMany = (e) => {
     const { value } = e.target;
-    this.setState({summMany: value})
+    this.setState({summMany: Number(value)})
   }
 
   submitRFB = () => {
