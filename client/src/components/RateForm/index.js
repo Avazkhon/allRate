@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import injectSheet from 'react-jss';
+import moment from 'moment-timezone';
 
 import {
   ListGroup,
@@ -66,9 +67,8 @@ class RateForm extends Component {
             coefficient: 1, // сервер по умочанию не устанавливает коэффициент
           },
         },
-        dateStart: new Date(),
-        dateFinish: new Date(),
-        differenceTime: 0,
+        dateStart: moment().utc().format(),
+        dateFinish: moment().utc().format(),
       },
 
       validatinos: {
@@ -131,34 +131,10 @@ class RateForm extends Component {
   }
 
   handleChangeDateStart = (res) => {
-    const { differenceTime } = this.state.data;
-    const value = new Date(new Date(res[0]).setMilliseconds(differenceTime *60*60*1000));
     this.setState((prevState) => ({
       data: {
         ...prevState.data,
-        dateStart: value,
-      }
-    }))
-  }
-
-  handleChangeDateFinisOrAlert = (res) => {
-    const { differenceTime, dateAlert, dateFinish } = this.state.data;
-    const value = new Date(new Date(res[0]).setMilliseconds(differenceTime *60*60*1000));
-    const nameProps = dateAlert && 'dateAlert' || dateFinish && 'dateFinish';
-    this.setState((prevState) => ({
-      data: {
-        ...prevState.data,
-        [nameProps]: value,
-      }
-    }))
-  }
-
-  handleChangeDifferenceTime = (event) => {
-    const { value } = event.currentTarget;
-    this.setState((prevState) => ({
-      data: {
-        ...prevState.data,
-        differenceTime: value,
+        dateStart: moment(res[0]).utc().format(),
       }
     }))
   }
@@ -204,20 +180,19 @@ class RateForm extends Component {
   }
 
 
-  handleDeleteDateFinisOrAlert = (e) => {
-    const { name } = e.currentTarget;
-    const elseName = name === 'dateFinish' ? 'dateAlert' : 'dateFinish'
-    const { data } = this.state;
-    delete data[elseName];
-    data[name] = new Date();
-    this.setState({ data });
+  handleChangeDateFinis = (res) => {
+    this.setState((prevState) => ({
+      data: {
+        ...prevState.data,
+        dateFinish: moment(res[0]).utc().format(),
+      }
+    }))
   }
 
   handleCreateSubmit = () => {
     if (!!this.checkValid()) return;
 
     const { data, file } = this.state;
-    data.createTime = new Date();
     const { creteNewRate, changeImg } = this.props;
     this.setState({ warning: '' });
     if (typeof creteNewRate === "function") {
@@ -300,10 +275,8 @@ class RateForm extends Component {
         description,
         dateStart,
         dateFinish,
-        differenceTime,
         party,
         mainBet,
-        dateAlert,
         statusLife,
       },
       validatinos,
@@ -336,11 +309,7 @@ class RateForm extends Component {
           dateStart={dateStart}
           handleChangeDateStart={this.handleChangeDateStart}
           dateFinish={dateFinish}
-          dateAlert={dateAlert}
-          differenceTime={differenceTime}
-          handleChangeDateFinisOrAlert={this.handleChangeDateFinisOrAlert}
-          handleChangeDifferenceTime={this.handleChangeDifferenceTime}
-          handleDeleteDateFinisOrAlert={this.handleDeleteDateFinisOrAlert}
+          handleChangeDateFinis={this.handleChangeDateFinis}
         />
         <Party
           validatinos={validatinos.party}
