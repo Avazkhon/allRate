@@ -68,3 +68,5 @@ export const rateStatusLive = {
   finish: 'finish',
   archive: 'archive',
 }
+
+export const formatDateTime = 'YYYY.MM.DD HH:MM';
