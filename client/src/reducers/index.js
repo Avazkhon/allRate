@@ -9,6 +9,7 @@ import users from './users';
 import usersPages from './usersPages';
 import subscriptions from './subscriptions';
 import posts from './posts';
+import postPage from './postPage';
 import withdrawalRequest from './withdrawalRequest';
 import withdrawalRequestAdmin from './admin/withdrawalRequestAdmin';
 import userPage from './userPage';
@@ -26,5 +27,6 @@ export default combineReducers({
   usersPages,
   subscriptions,
   posts,
+  postPage,
   withdrawalRequest,
 });
