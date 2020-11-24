@@ -29,21 +29,33 @@ class CardPostPage extends React.Component {
   }
   componentDidMount() {
     const {
-      getPostById,
       addCountViewsPost,
       getUsersByIds,
       match: { params: { id: postId } }
     } = this.props;
-    getPostById(postId)
-      .then((action) => {
-        if (action.status === 'SUCCESS') {
-          getUsersByIds([action.response.author || action.response.authorId]);
-        }
-      });
+    this.getPostById(postId)
     addCountViewsPost(postId)
   }
 
+  getPostById = (postId) => {
+    this.props.getPostById(postId)
+    .then((action) => {
+      if (action.status === 'SUCCESS') {
+        getUsersByIds([action.response.author || action.response.authorId]);
+      }
+    });
+  }
+
   getAuthor = (users, itm) => users.find(user => user._id === itm.author || user._id === itm.authorId)
+
+  handleChangeRating = (data, postId, action) => {
+    const { changeRatingPost } = this.props;
+    return changeRatingPost(data, postId, action)
+      .then((action) => {
+        this.getPostById(postId)
+        return action;
+      })
+  }
 
   render() {
     const {
@@ -51,7 +63,6 @@ class CardPostPage extends React.Component {
         userData,
       },
       postPage,
-      changeRatingPost,
       lang,
       users,
     } = this.props;
@@ -68,10 +79,8 @@ class CardPostPage extends React.Component {
             <Col xs="12" sm="8" md="9">
             { postPage.data._id &&
               <CardPost
-                changeRating={changeRatingPost}
+                changeRating={this.handleChangeRating}
                 post={postPage.data}
-                // handleShow={this.handleShow}
-                // handleHidden={this.handleHidden}
                 isPage
                 user={users.data && this.getAuthor(users.data, postPage.data)}
                 lang={lang}

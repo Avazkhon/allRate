@@ -37,7 +37,8 @@ class Rating extends React.Component {
       },
       postId,
     } = this.props;
-    changeRating({ userId, makeTime: new Date() }, postId, action)
+
+    changeRating({ userId,  makeTime: new Date() }, postId, action)
     .then((action) => {
       if (action.status === 'SUCCESS') {
         if (getUserById) {
@@ -47,6 +48,7 @@ class Rating extends React.Component {
           getCommonRates(userId);
         }
       }
+      return action
     });
   }
 
@@ -95,7 +97,7 @@ class Rating extends React.Component {
         >
           <ProgressBar
             now={ratingUser}
-            label={`${ratingUser.toFixed(2)} %`}
+            label={`${ratingUser.toFixed()} %`}
           />
         </Button>
           {
