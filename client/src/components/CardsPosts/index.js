@@ -43,11 +43,11 @@ class CardsPosts extends React.Component {
     }
 
     getPostsPage({page: Number(page) + incrementPage, limit, ...userParams})
-    .then((action) => {
-      if (action.status === 'SUCCESS' && action.response.docs.length) {
-        getUsersByIds(action.response.docs.map(itm => itm.author || itm.authorId));
-      }
-    });
+      .then((action) => {
+        if (action.status === 'SUCCESS' && action.response.docs.length) {
+          getUsersByIds(action.response.docs.map(itm => itm.author || itm.authorId));
+        }
+      });
     history.push({
       search: nexQueryParams,
       hash: history.location.hash

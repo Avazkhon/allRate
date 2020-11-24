@@ -21,6 +21,7 @@ import {
 
 const cardPostText = {
   show: { RU: 'Просмотреть', EN: 'show' },
+  goTo: { RU: 'Перейти', EN: 'Go to' },
   hidden: { RU: 'Скрыть', EN: 'Hidden' },
   views: { RU: 'Просмотры', EN: 'Views' }
 };
@@ -42,6 +43,7 @@ const CardComponent = ({
   classes,
   lang,
   user,
+  isPage,
 }) => {
   return (
     <Card>
@@ -49,7 +51,7 @@ const CardComponent = ({
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         {
-          isShow &&
+          (isShow || isPage) &&
           <Card.Text>{text}</Card.Text>
         }
         <Row>
@@ -71,14 +73,24 @@ const CardComponent = ({
           <Col>
             <AiFillEye title={cardPostText.views[lang]}/> {views}
           </Col>
-          <Col ms="2">
+          {
+            !isPage &&
+            <Col ms="2">
+              <Card.Link
+                onClick={isShow ? handleHidden : handleShow}
+                data-id={_id}
+                data-actionname="post"
+                className={classes.btn}
+              >
+              {isShow ? cardPostText.hidden[lang] : cardPostText.show[lang]}
+              </Card.Link>
+            </Col>
+          }
+          <Col>
             <Card.Link
-              onClick={isShow ? handleHidden : handleShow}
-              data-id={_id}
-              data-actionname="post"
-              className={classes.btn}
+              href={`/post/${_id}`}
             >
-            {isShow ? cardPostText.hidden[lang] : cardPostText.show[lang]}
+              {cardPostText.goTo[lang]}
             </Card.Link>
           </Col>
           <Col>
@@ -86,7 +98,7 @@ const CardComponent = ({
               changeRating={changeRating}
               rating={rating}
               postId={_id}
-              isShow={isShow}
+              isShow={isShow || isPage}
             />
           </Col>
         </Row>
@@ -105,6 +117,7 @@ CardComponent.propTypes = {
   changeRating: PropTypes.func,
   handleHidden: PropTypes.func,
   isShow: PropTypes.bool,
+  isPage: PropTypes.bool,
   lang: PropTypes.string,
   post: PropTypes.shape({
     title: PropTypes.string,
@@ -128,8 +141,9 @@ const CardRate = ({
   classes,
   lang,
   user,
+  isPage,
 }) => {
-  if (!isShow) {
+  if (!isShow || isPage) {
     return (
       <CardComponent
         post={post}
@@ -139,6 +153,7 @@ const CardRate = ({
         classes={classes}
         lang={lang}
         user={user}
+        isPage={isPage}
       />
     )
   } else {
@@ -170,6 +185,7 @@ CardRate.propTypes = {
   handleShow: PropTypes.func,
   changeRating: PropTypes.func,
   handleHidden: PropTypes.func,
+  isPage: PropTypes.bool,
   isShow: PropTypes.bool,
   lang: PropTypes.string,
   post: PropTypes.shape({

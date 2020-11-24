@@ -9,33 +9,15 @@ import {
   Col,
 } from 'react-bootstrap';
 
-// import {
-//   getSubscriptions,
-// } from 'actions';
-
 import SiteBar from 'components/SiteBar';
 import CardsPosts from 'components/CardsPosts';
 import Layout from '../Layout';
-
-// import {
-//   getDataUserFromLocalStorag,
-// } from 'utils';
 
 class PostList extends React.Component {
   constructor(props) {
     super(props);
 
   }
-
-  // componentDidMount() {
-  //   const {
-  //     getSubscriptions,
-  //   } = this.props;
-  //   const user = getDataUserFromLocalStorag();
-  //   if (user && user.userId) {
-  //     getSubscriptions(user.userId);
-  //   }
-  // }
 
   render() {
     const {
@@ -56,10 +38,10 @@ class PostList extends React.Component {
             />
           </Col>
           <Col xs="12" sm="8" md="9">
-          <CardsPosts
-            posts={posts}
-            history={history}
-          />
+            <CardsPosts
+              posts={posts}
+              history={history}
+            />
           </Col>
         </Row>
       </Container>
@@ -69,7 +51,6 @@ class PostList extends React.Component {
 }
 
 PostList.propTypes = {
-  // getSubscriptions: PropTypes.func,
   users: PropTypes.shape(),
   auth: PropTypes.shape(),
   history: PropTypes.shape(),
@@ -87,6 +68,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
-  // getSubscriptions,
-})(PostList);
+export default connect(mapStateToProps, {})(PostList);
