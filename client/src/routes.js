@@ -44,6 +44,14 @@ export default [
     }),
   },
   {
+    path: '/post/:id',
+    exact: true,
+    component: asyncComponent({
+      loader: () => import('./container/CardPost'),
+      Placeholder: () => <div>...LOADING...</div>,
+    }),
+  },
+  {
     path: '/me',
     exact: true,
     component: asyncComponent({
