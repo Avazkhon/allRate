@@ -54,6 +54,7 @@ export {
   changeRatingPost,
   addCountViewsPost,
   getPostsPage,
+  getPostById,
 } from './post';
 
 export {

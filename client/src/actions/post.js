@@ -4,6 +4,7 @@ import {
   CHANGE_RATING_POST,
   ADD_COUNT_VIEWS_POST,
   GET_POSTS_PAGE,
+  GET_POST_BY_ID,
 } from '../constants';
 
 export function createPost (data) {
@@ -44,6 +45,19 @@ export function getPostsPage ({ page, limit, authorId, subscriptionsId }) {
     meta: {
       method: 'GET',
       endpoint:`post/?page=${page}&limit=${limit}${authorId ? '&authorId=' + authorId : '' }${subscriptionsId ? '&subscriptionsId=' + subscriptionsId : '' }`,
+    }
+  });
+}
+
+export function getPostById (postId) {
+  return dispatch => dispatch({
+    type: GET_POST_BY_ID,
+    meta: {
+      method: 'GET',
+      endpoint:`post/`,
+      queryParams: {
+        postId
+      }
     }
   });
 }
