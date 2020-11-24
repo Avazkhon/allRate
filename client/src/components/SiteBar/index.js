@@ -23,6 +23,7 @@ const Sitebar = ({
         <p className={classes['sitebar-link']}><Link to='/admin/withdrawal-request'><span>Запросы на переводы</span></Link></p>
       }
       <p className={classes['sitebar-link']}><Link to='/rate-list?page=1&limit=24'><span>Список ставок</span></Link></p>
+      <p className={classes['sitebar-link']}><Link to='/posts/'><span>Посты</span></Link></p>
       <p className={classes['sitebar-link']}><Link to='/users/?page=1&limit=24'><span>Люди</span></Link></p>
     </aside>
   </div>

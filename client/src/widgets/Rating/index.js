@@ -85,7 +85,7 @@ class Rating extends React.Component {
             variant="secondary"
             onClick={this.handleChangeRating}
             data-action="negative"
-            disabled={isMakeNegative}
+            disabled={isMakeNegative || !auth}
             title={ratingText.negative[lang]}
           >
             <AiFillMinusCircle color={ isMakeNegative ? 'green' : ''} fontSize="20px" />
@@ -106,7 +106,7 @@ class Rating extends React.Component {
               variant="secondary"
               onClick={this.handleChangeRating}
               data-action="positively"
-              disabled={isMakePositively}
+              disabled={isMakePositively || !auth}
               title={ratingText.positively[lang]}
             >
               <AiFillPlusCircle color={ isMakePositively ? 'green' : ''} fontSize="20px"/>
