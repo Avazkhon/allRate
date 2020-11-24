@@ -10,10 +10,6 @@ import {
 } from 'react-bootstrap';
 
 import {
-  getDataUserFromLocalStorag,
-} from 'utils';
-
-import {
   addCountViewsPost,
   changeRatingPost,
   getUsersByIds,
@@ -32,10 +28,6 @@ class CardsPosts extends React.Component {
   }
 
   componentDidMount() {
-    const user = getDataUserFromLocalStorag();
-    if (user) {
-      this.userId = user.userId;
-    }
     this.handleChangePagination()
   }
 

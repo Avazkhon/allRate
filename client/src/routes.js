@@ -36,6 +36,14 @@ export default [
     }),
   },
   {
+    path: '/posts/',
+    exact: true,
+    component: asyncComponent({
+      loader: () => import('./container/PostList'),
+      Placeholder: () => <div>...LOADING...</div>,
+    }),
+  },
+  {
     path: '/me',
     exact: true,
     component: asyncComponent({
