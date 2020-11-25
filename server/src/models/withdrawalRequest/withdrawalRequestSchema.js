@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const ObjectID = require('mongodb').ObjectID;
+const moment = require('moment-timezone');
 
 const Schema = mongoose.Schema;
 
@@ -17,8 +18,8 @@ exports.withdrawalRequest = new Schema(
       min: 48,
     },
     target: { type: String, required: true },
-    createTime: { type: Date, default: process.env.TZ },
-    update: { type: Date, default: process.env.TZ },
+    createTime: { type: Date, default: moment().utc().format() },
+    update: { type: Date, default: moment().utc().format() },
     description: { type: String },
     status: { type: String, default: 'inprogress', required: true }, // inprogress // successfully // refused
     userId: { type: ObjectID, required: true },

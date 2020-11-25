@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const moment = require('moment-timezone');
 
 const urlParty = 'https://sun9-39.userapi.com/c852216/v852216813/1239e2/VZL0QayR6E4.jpg?ava=1';
 const urlMain = 'https://betrating.ru/wp-content/uploads/2018/10/BETREYT-314.jpg';
@@ -9,8 +10,7 @@ exports.rateSchema = new Schema(
     title: { type: String, required: true, min: 3, max: 50 },
     authorId: { type: mongoose.ObjectId, required: true },
     description: { type: String, required: true, min: 10, max: 500 },
-    localTime: { type: Date, required: true },
-    createDate: { type: Date, default: process.env.TZ },
+    createDate: { type: Date, default: moment().utc().format() },
     dateStart: { type: Date, required: true },
     dateFinish: { type: Date },
     dateAlert: { type: Date },
@@ -32,10 +32,8 @@ exports.rateSchema = new Schema(
             userId: { type: mongoose.ObjectId, required: true },
             purseId: { type: mongoose.ObjectId, required: true },
             meny: { type: Number, required: true, min: 50, max: 500 },
-            serverTime: { type: Date, default: process.env.TZ },
-            localTime: { type: Date, required: true },
             paymentMade: { type: Boolean, default: false },
-            createDate: { type: Date, default: process.env.TZ },
+            createDate: { type: Date, default: moment().utc().format() },
           }
         ],
       },
@@ -49,10 +47,8 @@ exports.rateSchema = new Schema(
             userId: { type: mongoose.ObjectId },
             purseId: { type: mongoose.ObjectId, required: true },
             meny: { type: Number, min: 50, max: 500 },
-            serverTime: { type: Date },
-            localTime: { type: Date },
             paymentMade: { type: Boolean, default: false },
-            createDate: { type: Date, default: process.env.TZ },
+            createDate: { type: Date, default: moment().utc().format() },
           }
         ],
       },
@@ -66,10 +62,8 @@ exports.rateSchema = new Schema(
             userId: { type: mongoose.ObjectId, required: true },
             purseId: { type: mongoose.ObjectId, required: true },
             meny: { type: Number, required: true, min: 50, max: 500 },
-            serverTime: { type: Date, default: process.env.TZ },
-            localTime: { type: Date, required: true },
             paymentMade: { type: Boolean, default: false },
-            createDate: { type: Date, default: process.env.TZ },
+            createDate: { type: Date, default: moment().utc().format() },
           }
         ],
       },
@@ -84,13 +78,13 @@ exports.rateSchema = new Schema(
       positively: [
         {
           userId: { type: mongoose.ObjectId, required: true },
-          makeTime: { type: Date, default: process.env.TZ },
+          makeTime: { type: Date, default: moment().utc().format() },
         }
       ],
       negative: [
         {
           userId: { type: mongoose.ObjectId, required: true },
-          makeTime: { type: Date, default: process.env.TZ },
+          makeTime: { type: Date, default: moment().utc().format() },
         }
       ],
     }

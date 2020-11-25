@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const ObjectID = require('mongodb').ObjectID;
+const moment = require('moment-timezone');
 
 const Schema = mongoose.Schema;
 
@@ -16,7 +17,7 @@ exports.invoiceSchema = new Schema(
     },
     // основание
     basisForPayment: { type: String, required: true },
-    createDate: { type: Date, default: process.env.TZ },
+    createDate: { type: Date, default: moment().utc().format() },
     authorId: { type: ObjectID, required: true },
     invoiceId: { type: String, required: true },
     status: {type: String}

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const moment = require('moment-timezone');
 
 exports.userSchema = new Schema(
   {
@@ -10,7 +11,7 @@ exports.userSchema = new Schema(
     purseId: { type: mongoose.ObjectId },
     email: { type: String, required: true, unique: true },
     isAdmin: { type: Boolean },
-    dateCreate: { type: Date, required: true },
+    dateCreate: { type: Date, default: moment().utc().format() },
     mailConfirmation: { type: 'Mixed' },
     recoveryId: { type: String, select: false },
     age: {
@@ -28,13 +29,13 @@ exports.userSchema = new Schema(
       positively: [
         {
           userId: { type: mongoose.ObjectId, required: true },
-          makeTime: { type: Date, required: true }
+          makeTime: { type: Date, default: moment().utc().format() }
         }
       ],
       negative: [
         {
           userId: { type: mongoose.ObjectId, required: true },
-          makeTime: { type: Date, required: true }
+          makeTime: { type: Date, default: moment().utc().format() }
         }
       ],
     }
