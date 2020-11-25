@@ -88,6 +88,9 @@ class CardsPosts extends React.Component {
       changeRatingPost,
       users,
       history,
+      auth: {
+        auth
+      },
     } = this.props;
     return (
       <div>
@@ -102,6 +105,7 @@ class CardsPosts extends React.Component {
                 isShow={idOpenItm === itm._id}
                 user={users.data && this.getAuthor(users.data, itm)}
                 lang={lang}
+                auth={auth}
               />
             )
           })
@@ -129,9 +133,11 @@ function mapStateToProps(state) {
   const {
     lang,
     users,
+    auth,
   } = state;
   return {
     lang,
+    auth,
     users: {
       data: users.data.docs,
     }

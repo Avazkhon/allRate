@@ -43,6 +43,7 @@ const CardComponent = ({
   classes,
   lang,
   user,
+  auth,
   isPage,
 }) => {
   return (
@@ -58,18 +59,21 @@ const CardComponent = ({
           Создан: {moment(crateDate).format(formatDateTime)}
         </Row>
         <Row>
-          <Col ms="4">
-            <Card.Img
-              src="https://html5css.ru/w3css/img_avatar3.png"
-              alt="Card image"
-              style={{ width: '2rem' }}
-            />
-            <Card.Link
-              href={`/profile/${user && user._id}`}
-            >
-              {' '}{user && user.userName}
-            </Card.Link>
-          </Col>
+          {
+            user &&
+            <Col ms="4">
+              <Card.Img
+                src="https://html5css.ru/w3css/img_avatar3.png"
+                alt="Card image"
+                style={{ width: '2rem' }}
+              />
+                <Card.Link
+                  href={(auth && user._id === auth.userId)  ?`/me/` : `/profile/${user._id}`}
+                >
+                  {' '}{user.userName}
+                </Card.Link>
+            </Col>
+          }
           <Col>
             <AiFillEye title={cardPostText.views[lang]}/> {views}
           </Col>
@@ -109,6 +113,7 @@ const CardComponent = ({
 
 CardComponent.propTypes = {
   classes: PropTypes.shape(),
+  auth: PropTypes.shape(),
   user: PropTypes.shape({
     _id: PropTypes.string,
     userName: PropTypes.string,
@@ -142,6 +147,7 @@ const CardRate = ({
   lang,
   user,
   isPage,
+  auth,
 }) => {
   if (!isShow || isPage) {
     return (
@@ -154,6 +160,7 @@ const CardRate = ({
         lang={lang}
         user={user}
         isPage={isPage}
+        auth={auth}
       />
     )
   } else {
@@ -171,6 +178,7 @@ const CardRate = ({
             classes={classes}
             lang={lang}
             user={user}
+            auth={auth}
             isShow
           />
         </Modal.Body>
@@ -180,8 +188,9 @@ const CardRate = ({
 }
 
 CardRate.propTypes = {
-  classes: PropTypes.shape({}),
-  user: PropTypes.shape({}),
+  classes: PropTypes.shape(),
+  auth: PropTypes.shape(),
+  user: PropTypes.shape(),
   handleShow: PropTypes.func,
   changeRating: PropTypes.func,
   handleHidden: PropTypes.func,
