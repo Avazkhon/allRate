@@ -29,7 +29,6 @@ exports.craeteUser = async (req, res) => {
     let user = await userModels.create(req.body)
     const token = uuidv4();
     await purseControllers.createPurse({
-      createTime: req.body.dateCreate,
       userId: user._id
     });
     const subscription = await subscriptionsModels.create({

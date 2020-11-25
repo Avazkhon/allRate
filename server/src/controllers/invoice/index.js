@@ -80,7 +80,6 @@ class InvoiceController {
             invoiceId: invoice._id,
             amount: invoice.amount,
             basisForPayment,
-            createTime: invoice.createTime,
             action,
           }
         },

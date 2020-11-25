@@ -9,7 +9,6 @@ exports.rating = async (req, res) => {
     const {
       body: {
         userId,
-        makeTime,
       },
       query: {
         postId,
@@ -20,11 +19,10 @@ exports.rating = async (req, res) => {
     } = req;
     const positively = 'positively';
     const negative = 'negative';
-    if (!userId || !makeTime || !action) {
+    if (!userId || !action) {
       return res.status(400).json({
         message: 'не хватате данных',
         userId: `required-${userId}`,
-        makeTime: `required-${makeTime}`,
         action: `required-${action}`,
       });
     };
@@ -57,7 +55,7 @@ exports.rating = async (req, res) => {
       searchById,
       {
         $push: {
-          [`rating.${action}`]: { userId, makeTime }
+          [`rating.${action}`]: { userId }
         },
         $pull: {
           [`rating.${ action === positively ? negative : positively}`]: { userId }
