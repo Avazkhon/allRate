@@ -11,7 +11,7 @@ exports.postSchema = new Schema(
     authorId: { type: ObjectID, required: true },
     title: { type: String, required: true, minlength: 3, maxlength: 30 },
     text: { type: String, required: true, minlength: 10, maxlength: 2000 },
-    createTime: { type: Date, default: moment().utc().format() },
+    createDate: { type: Date, default: moment().utc().format() },
     img: {
       url: { type: String, default: urlImages },
     },

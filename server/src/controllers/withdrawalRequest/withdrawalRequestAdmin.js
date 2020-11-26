@@ -87,7 +87,6 @@ exports.patch = async (req, res) => {
   } else {
     const dataInvoice = {
       amount: beforeDataWR.amount_due,
-      createTime: process.env.TZ,
       authorId: user.userId,
       basisForPayment: returnMoney,
       requisites: {
