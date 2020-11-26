@@ -34,7 +34,7 @@ const CardComponent = ({
     img,
     views,
     rating,
-    crateDate,
+    createDate,
   },
   handleShow,
   handleHidden,
@@ -56,7 +56,7 @@ const CardComponent = ({
           <Card.Text>{text}</Card.Text>
         }
         <Row>
-          Создан: {moment(crateDate).format(formatDateTime)}
+          Создан: {moment(createDate).format(formatDateTime)}
         </Row>
         <Row>
           {
