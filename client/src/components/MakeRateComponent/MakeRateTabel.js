@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import injectSheet from 'react-jss';
+import classnames from 'classnames';
+
 import {
   Table,
 } from 'react-bootstrap';
+
+import {
+  rateStatusLive
+} from '../../constants';
+
+import style from './styleMakeRate'
 
 class MakeRateTabel extends Component {
   constructor(props) {
@@ -28,13 +37,19 @@ class MakeRateTabel extends Component {
 
   render() {
     const {
-      mainBet: {
-        partyOne,
-        partyTwo,
-        partyDraw,
+      rate,
+      rate: {
+        mainBet: {
+          partyOne,
+          partyTwo,
+          partyDraw,
+          idPartyVictory,
+        },
+        party,
+        statusLife,
       },
-      party,
       handleModal,
+      classes,
     } = this.props;
     let countParticipants = party && (
       partyOne.participants.length +
@@ -43,6 +58,13 @@ class MakeRateTabel extends Component {
     if (partyDraw.participants.length) {
       countParticipants = countParticipants + partyDraw.participants.length
     }
+
+    const isDisabled = (
+      (statusLife === rateStatusLive.in_progress)
+      || (statusLife === rateStatusLive.finish)
+      || (statusLife === rateStatusLive.archive)
+    )
+
     return (
       <Table striped bordered hover>
         <thead>
@@ -59,26 +81,56 @@ class MakeRateTabel extends Component {
         <tbody>
           <tr
           >
-            <td
-              onClick={handleModal}
-              data-partynumber='partyOne'
-            >
-              {partyOne.terms}
+            <td>
+              <button
+                disabled={isDisabled}
+                onClick={handleModal}
+                data-partynumber='partyOne'
+                className={classnames(
+                  classes['make-btn'],
+                  {
+                    [classes['make-win']]: idPartyVictory === Number(partyOne.idParty)
+                  }
+                )}
+                title={idPartyVictory === Number(partyOne.idParty) ? 'Эта ставка выиграла' : ''}
+              >
+                {partyOne.terms}
+              </button>
             </td>
             {
               partyDraw.idParty &&
-              <td
-                onClick={handleModal}
-                data-partynumber='partyDraw'
-              >
-                {partyDraw.terms}
+              <td>
+                <button
+                  disabled={isDisabled}
+                  onClick={handleModal}
+                  data-partynumber='partyDraw'
+                  className={classnames(
+                    classes['make-btn'],
+                    {
+                      [classes['make-win']]: idPartyVictory === Number(partyDraw.idParty)
+                    }
+                  )}
+                  title={idPartyVictory === Number(partyDraw.idParty) ? 'Эта ставка выиграла' : ''}
+                >
+                  {partyDraw.terms}
+                </button>
               </td>
             }
-            <td
-              onClick={handleModal}
-              data-partynumber='partyTwo'
-            >
-              {partyTwo.terms}
+            <td>
+              <button
+                disabled={isDisabled}
+                onClick={handleModal}
+                data-partynumber='partyTwo'
+                className={classnames(
+                  classes['make-btn'],
+                  {
+                    [classes['make-win']]: idPartyVictory === Number(partyTwo.idParty)
+                  }
+                )}
+                title={idPartyVictory === Number(partyTwo.idParty) ? 'Эта ставка выиграла' : ''}
+              >
+                {partyTwo.terms}
+              </button>
             </td>
             <td>
               {countParticipants}
@@ -91,9 +143,9 @@ class MakeRateTabel extends Component {
 }
 
 MakeRateTabel.propTypes = {
-  mainBet: PropTypes.arrayOf({}),
-  party: PropTypes.arrayOf({}),
+  rate: PropTypes.arrayOf(),
+  classes: PropTypes.arrayOf(),
   handleModal: PropTypes.func,
 }
 
-export default MakeRateTabel;
+export default injectSheet(style)(MakeRateTabel);

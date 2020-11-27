@@ -230,8 +230,7 @@ class MakeRateComponent extends Component {
                 rate &&
                 <MakeRateTabel
                   handleModal={this.handleModal}
-                  mainBet={rate.mainBet}
-                  party={rate.party}
+                  rate={rate}
                 />
               }
               {
