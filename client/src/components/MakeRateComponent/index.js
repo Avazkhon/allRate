@@ -27,6 +27,7 @@ const url = 'https://sun9-39.userapi.com/c852216/v852216813/1239e2/VZL0QayR6E4.j
 import {
   basisForPayment,
   formatDateTime,
+  rateStatusLive,
 } from '../../constants';
 
 class MakeRateComponent extends Component {
@@ -152,6 +153,12 @@ class MakeRateComponent extends Component {
       getRateByID,
     } = this.props;
 
+    const isDisabled = rate && (
+      (rate.statusLife === rateStatusLive.in_progress)
+      || (rate.statusLife === rateStatusLive.finish)
+      || (rate.statusLife === rateStatusLive.archive)
+    )
+
     return (
       <div
         className={classes['make-rate']}
@@ -218,7 +225,10 @@ class MakeRateComponent extends Component {
                     <Row>
                       <Col>
                         <ListGroup className="list-group-flush">
-                          <ListGroupItem>Начало: {moment(rate.dateStart).format(formatDateTime)}</ListGroupItem>
+                          {
+                            !isDisabled &&
+                            <ListGroupItem>Начало: {moment(rate.dateStart).format(formatDateTime)}</ListGroupItem>
+                          }
                           <ListGroupItem>Конец: {moment(rate.dateFinish).format(formatDateTime)}</ListGroupItem>
                         </ListGroup>
                       </Col>
@@ -231,6 +241,7 @@ class MakeRateComponent extends Component {
                 <MakeRateTabel
                   handleModal={this.handleModal}
                   rate={rate}
+                  isDisabled={isDisabled}
                 />
               }
               {
@@ -258,9 +269,9 @@ class MakeRateComponent extends Component {
 }
 
 MakeRateComponent.propTypes = {
-  rate: PropTypes.shape({}),
-  purse: PropTypes.shape({}),
-  classes: PropTypes.shape({}),
+  rate: PropTypes.shape(),
+  purse: PropTypes.shape(),
+  classes: PropTypes.shape(),
   postInvoice: PropTypes.func,
   getRateByID: PropTypes.func,
   getPurse: PropTypes.func,
