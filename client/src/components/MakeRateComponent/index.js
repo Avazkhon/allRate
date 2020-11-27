@@ -17,8 +17,8 @@ import Rating from 'widgets/Rating';
 import CommonModal from 'widgets/CommonModal';
 import Messages from 'components/Messages';
 import SiteBar from 'components/SiteBar';
-import MakeRateTabel from './components/MakeRateTabel';
-import ReasonForBettingCard from './components/ReasonForBettingCard';
+import MakeRateTabel from './MakeRateTabel';
+import ReasonForBettingCard from './ReasonForBettingCard';
 
 import style from './style';
 
@@ -27,7 +27,7 @@ const url = 'https://sun9-39.userapi.com/c852216/v852216813/1239e2/VZL0QayR6E4.j
 import {
   basisForPayment,
   formatDateTime,
-} from '../../../constants';
+} from '../../constants';
 
 class MakeRateComponent extends Component {
   constructor(props) {

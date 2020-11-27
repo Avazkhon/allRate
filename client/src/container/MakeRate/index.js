@@ -13,7 +13,7 @@ import {
 
 import Layout from '../Layout';
 
-import MakeRateComponent from './MakeRateComponent';
+import MakeRateComponent from 'components/MakeRateComponent';
 
 class MakeRate extends Component {
   constructor(props) {
