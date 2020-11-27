@@ -89,9 +89,9 @@ ReasonForBettingCard.propTypes = {
     img: PropTypes.string,
     terms: PropTypes.string,
     coefficient: PropTypes.number,
-    participants: PropTypes.arrayOf()
+    participants: PropTypes.string
   }),
-  participant: PropTypes.shape(PropTypes.string),
+  participant: PropTypes.shape(),
   purse: PropTypes.shape({
     purse: PropTypes.shape({
       amount: PropTypes.number,

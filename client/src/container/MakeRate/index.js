@@ -65,11 +65,11 @@ MakeRate.propTypes = {
   location: PropTypes.shape(),
   selectRate: PropTypes.shape({}),
   purse: PropTypes.shape({}),
-  getRateByID: PropTypes.finc,
-  postInvoice: PropTypes.finc,
-  getPurse: PropTypes.finc,
-  addCountViewsRate: PropTypes.finc,
-  changeRatingRate: PropTypes.finc,
+  getRateByID: PropTypes.func,
+  postInvoice: PropTypes.func,
+  getPurse: PropTypes.func,
+  addCountViewsRate: PropTypes.func,
+  changeRatingRate: PropTypes.func,
 }
 
 function mapStateToProps(state) {

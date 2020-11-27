@@ -69,11 +69,13 @@ class PersonData extends React.Component {
 }
 
 PersonData.propTypes = {
-  userProps: PropTypes.arrayOf({
-    name: PropTypes.string,
-    label: PropTypes.string,
-    title: PropTypes.string,
-    hidden: PropTypes.bool,
-  }),
+  userProps: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      label: PropTypes.string,
+      title: PropTypes.string,
+      hidden: PropTypes.bool,
+    })
+  ),
 }
 export default PersonData;
