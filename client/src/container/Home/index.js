@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
+import injectSheet from 'react-jss';
 
 
 import {
@@ -17,6 +18,9 @@ import {
 } from 'actions';
 
 import SiteBar from 'components/SiteBar';
+
+import style from './style';
+
 import Layout from '../Layout';
 
 
@@ -42,6 +46,7 @@ class Home extends React.Component {
       },
       posts,
       rate,
+      classes,
     } = this.props;
 
     return (
@@ -54,46 +59,56 @@ class Home extends React.Component {
             />
           </Col>
           <Col xs="12" sm="8" md="9">
-            <Carousel>
-              {
-                posts.data && posts.data.docs && posts.data.docs.map((itm) => {
-                  return (
-                    <Carousel.Item key={itm._id}>
-                      <img
-                        className="d-block w-100"
-                        src={itm.img.url}
-                        alt={itm.title}
-                      />
+            {
+              posts.data && posts.data.docs && !!posts.data.docs.length &&
+              <Carousel className={classes.carousel}>
+                {
+                  posts.data.docs.map((itm) => {
+                    return (
+                      <Carousel.Item key={itm._id}>
+                        <Link to={`/post/${itm._id}`}>
+                          <img
+                            style={{filter: 'brightness(50%)'}}
+                            className="d-block w-100"
+                            src={itm.img.url}
+                            alt={itm.title}
+                          />
 
-                      <Carousel.Caption>
-                        <h3>{itm.title}</h3>
-                        <p>{itm.text}</p>
-                      </Carousel.Caption>
-                    </Carousel.Item>
-                  )
-                })
-              }
-            </Carousel>
-            <Carousel>
-              {
-                rate.data && rate.data.docs && rate.data.docs.map((itm) => {
-                  return (
-                    <Carousel.Item key={itm._id}>
-                      <img
-                        className="d-block w-100"
-                        src={itm.img}
-                        alt={itm.title}
-                      />
+                          <Carousel.Caption>
+                            <h3>{itm.title}</h3>
+                          </Carousel.Caption>
+                        </Link>
+                      </Carousel.Item>
+                    )
+                  })
+                }
+              </Carousel>
+            }
+            {
+              rate.data && rate.data.docs && !!rate.data.docs.length &&
+              <Carousel className={classes.carousel}>
+                {
+                  rate.data.docs.map((itm) => {
+                    return (
+                      <Carousel.Item key={itm._id}>
+                        <Link to={`/make-rate?rateId=${itm._id}`}>
+                          <img
+                            style={{filter: 'brightness(50%)'}}
+                            className="d-block w-100"
+                            src={itm.img}
+                            alt={itm.title}
+                          />
 
-                      <Carousel.Caption>
-                        <Link to={`/make-rate?rateId=${itm._id}`}><h3>{itm.title}</h3></Link>
-                        <p>{itm.description}</p>
-                      </Carousel.Caption>
-                    </Carousel.Item>
-                  )
-                })
-              }
-            </Carousel>
+                          <Carousel.Caption>
+                            <p>{itm.title}</p>
+                          </Carousel.Caption>
+                        </Link>
+                      </Carousel.Item>
+                    )
+                  })
+                }
+              </Carousel>
+            }
           </Col>
         </Row>
       </Container>
@@ -108,6 +123,7 @@ Home.propTypes = {
   auth: PropTypes.shape(),
   posts: PropTypes.shape(),
   rate: PropTypes.shape(),
+  classes: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {
@@ -123,7 +139,11 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
-  getPostsPage,
-  getRatesPage,
-})(Home);
+
+export default injectSheet(style)
+(
+  connect(mapStateToProps, {
+    getPostsPage,
+    getRatesPage,
+  })(Home)
+)
