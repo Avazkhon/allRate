@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
+import injectSheet from 'react-jss';
 
 import {
   Form,
@@ -23,6 +24,8 @@ import {
 import Messages from 'components/Messages';
 import CardRate from 'components/CardRate';
 import NexLoadPage from 'widgets/NexLoadPage';
+
+import style from './style';
 
 class CardsRates extends React.Component {
   constructor(props) {
@@ -105,10 +108,11 @@ class CardsRates extends React.Component {
       isRateList,
       users,
       history,
+      classes,
     } = this.props;
 
     return (
-      <div>
+      <div className={classes['bett-list']}>
       {
         rates.data && rates.data.docs.map((itm) => {
           return (
@@ -138,6 +142,7 @@ class CardsRates extends React.Component {
 CardsRates.propTypes = {
   rates: PropTypes.shape(),
   users: PropTypes.shape(),
+  classes: PropTypes.shape(),
   changeRatingRate: PropTypes.func,
   addCountViewsRate: PropTypes.func,
   getCommonRates: PropTypes.func,
@@ -159,10 +164,13 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
-  changeRatingRate,
-  addCountViewsRate,
-  getCommonRates,
-  getUsersByIds,
-  getRatesPage,
-})(CardsRates);
+export default injectSheet(style)
+(
+  connect(mapStateToProps, {
+    changeRatingRate,
+    addCountViewsRate,
+    getCommonRates,
+    getUsersByIds,
+    getRatesPage,
+  })(CardsRates)
+)
