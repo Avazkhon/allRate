@@ -129,6 +129,7 @@ CardComponent.propTypes = {
     text: PropTypes.string,
     crateDate: PropTypes.string,
     _id: PropTypes.string,
+    createDate: PropTypes.string,
     img: PropTypes.shape({
       url: PropTypes.string,
     }),

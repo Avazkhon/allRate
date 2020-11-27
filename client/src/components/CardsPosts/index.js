@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
+import injectSheet from 'react-jss';
 
 
 import {
@@ -18,6 +19,8 @@ import {
 
 import Messages from 'components/Messages';
 import CardPost from 'components/CardPost';
+
+import style from './style';
 
 class CardsPosts extends React.Component {
   constructor(props) {
@@ -91,9 +94,10 @@ class CardsPosts extends React.Component {
       auth: {
         auth
       },
+      classes,
     } = this.props;
     return (
-      <div>
+      <div className={classes['posts-list']}>
         {
           posts.data && posts.data.docs.map((itm) => {
             return (
@@ -123,6 +127,7 @@ CardsPosts.propTypes = {
   posts: PropTypes.shape(),
   users: PropTypes.shape(),
   history: PropTypes.shape(),
+  classes: PropTypes.shape(),
   addCountViewsPost: PropTypes.func,
   changeRatingPost: PropTypes.func,
   getPostsPage: PropTypes.func,
@@ -144,9 +149,12 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {
-  addCountViewsPost,
-  changeRatingPost,
-  getUsersByIds,
-  getPostsPage,
-})(CardsPosts);
+export default injectSheet(style)
+(
+  connect(mapStateToProps, {
+    addCountViewsPost,
+    changeRatingPost,
+    getUsersByIds,
+    getPostsPage,
+  })(CardsPosts)
+)
