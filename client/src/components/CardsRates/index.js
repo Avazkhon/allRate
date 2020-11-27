@@ -136,8 +136,8 @@ class CardsRates extends React.Component {
 }
 
 CardsRates.propTypes = {
-  rates: PropTypes.shape({}),
-  users: PropTypes.shape({}),
+  rates: PropTypes.shape(),
+  users: PropTypes.shape(),
   changeRatingRate: PropTypes.func,
   addCountViewsRate: PropTypes.func,
   getCommonRates: PropTypes.func,
