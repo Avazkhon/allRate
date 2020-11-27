@@ -83,7 +83,7 @@ class CardPostPage extends React.Component {
                 post={postPage.data}
                 isPage
                 user={users.data && this.getAuthor(users.data, postPage.data)}
-                lang={lang}
+                lang={lang.lang}
               />
             }
             </Col>
@@ -95,7 +95,7 @@ class CardPostPage extends React.Component {
 }
 
 CardPostPage.propTypes = {
-  lang: PropTypes.string,
+  lang: PropTypes.shape(),
   users: PropTypes.shape(),
   auth: PropTypes.shape(),
   postPage: PropTypes.shape(),
