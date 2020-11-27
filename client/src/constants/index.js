@@ -71,4 +71,4 @@ export const rateStatusLive = {
   in_progress: 'in_progress',
 }
 
-export const formatDateTime = 'YYYY.MM.DD HH:MM';
+export const formatDateTime = 'YYYY.MM.DD HH:mm';
