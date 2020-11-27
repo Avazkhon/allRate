@@ -68,6 +68,7 @@ export const rateStatusLive = {
   active: 'active',
   finish: 'finish',
   archive: 'archive',
+  in_progress: 'in_progress',
 }
 
 export const formatDateTime = 'YYYY.MM.DD HH:MM';
