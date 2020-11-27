@@ -7,10 +7,6 @@ import {
   Table,
 } from 'react-bootstrap';
 
-import {
-  rateStatusLive
-} from '../../constants';
-
 import style from './styleMakeRate'
 
 class MakeRateTabel extends Component {
@@ -37,7 +33,6 @@ class MakeRateTabel extends Component {
 
   render() {
     const {
-      rate,
       rate: {
         mainBet: {
           partyOne,
@@ -46,10 +41,10 @@ class MakeRateTabel extends Component {
           idPartyVictory,
         },
         party,
-        statusLife,
       },
       handleModal,
       classes,
+      isDisabled,
     } = this.props;
     let countParticipants = party && (
       partyOne.participants.length +
@@ -58,12 +53,6 @@ class MakeRateTabel extends Component {
     if (partyDraw.participants.length) {
       countParticipants = countParticipants + partyDraw.participants.length
     }
-
-    const isDisabled = (
-      (statusLife === rateStatusLive.in_progress)
-      || (statusLife === rateStatusLive.finish)
-      || (statusLife === rateStatusLive.archive)
-    )
 
     return (
       <Table striped bordered hover>
@@ -143,8 +132,9 @@ class MakeRateTabel extends Component {
 }
 
 MakeRateTabel.propTypes = {
-  rate: PropTypes.arrayOf(),
-  classes: PropTypes.arrayOf(),
+  rate: PropTypes.shape(),
+  isDisabled: PropTypes.bool,
+  classes: PropTypes.shape(),
   handleModal: PropTypes.func,
 }
 
