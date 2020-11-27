@@ -229,7 +229,7 @@ class MakeRateComponent extends Component {
                             !isDisabled &&
                             <ListGroupItem>Начало: {moment(rate.dateStart).format(formatDateTime)}</ListGroupItem>
                           }
-                          <ListGroupItem>Конец: {moment(rate.dateFinish).format(formatDateTime)}</ListGroupItem>
+                          <ListGroupItem>{isDisabled ? 'Завершен' : 'Завершения'}: {moment(rate.dateFinish).format(formatDateTime)}</ListGroupItem>
                         </ListGroup>
                       </Col>
                     </Row>

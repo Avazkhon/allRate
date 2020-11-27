@@ -18,6 +18,7 @@ import Rating from 'widgets/Rating';
 import PartyList from './PartyList';
 import {
   formatDateTime,
+  rateStatusLive,
 } from '../../constants';
 
 const CardComponent = ({
@@ -32,6 +33,7 @@ const CardComponent = ({
     rating,
     views,
     authorId,
+    statusLife,
   },
   auth: {
     auth
@@ -43,6 +45,13 @@ const CardComponent = ({
   getCommonRates,
   user,
 }) => {
+
+  const isDisabled = (
+    (statusLife === rateStatusLive.in_progress)
+    || (statusLife === rateStatusLive.finish)
+    || (statusLife === rateStatusLive.archive)
+  )
+
   return (
     <Card>
       <Card.Img variant="top" src={img} />
@@ -61,8 +70,11 @@ const CardComponent = ({
         </Card.Body>
       }
       <ListGroup className="list-group-flush">
-        <ListGroupItem>Начало: {moment(dateStart).format(formatDateTime)}</ListGroupItem>
-        <ListGroupItem>Конец: {moment(dateFinish).format(formatDateTime)}</ListGroupItem>
+        {
+          !isDisabled &&
+          <ListGroupItem>Начало: {moment(dateStart).format(formatDateTime)}</ListGroupItem>
+        }
+        <ListGroupItem>{isDisabled ? 'Завершен' : 'Завершения'}: {moment(dateFinish).format(formatDateTime)}</ListGroupItem>
       </ListGroup>
       <Card.Body as={Row}>
         <Col ms="4">
@@ -127,6 +139,7 @@ CardComponent.propTypes = {
     dateFinish: PropTypes.string,
     _id: PropTypes.string,
     authorId: PropTypes.string,
+    statusLife: PropTypes.string,
     party: PropTypes.arrayOf(PropTypes.shape()),
     rating: PropTypes.shape(),
     views: PropTypes.number,
