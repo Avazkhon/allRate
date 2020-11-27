@@ -56,7 +56,7 @@ const CardComponent = ({
       { isShow &&
         <Card.Body>
         <PartyList
-        party={party}
+          party={party}
         />
         </Card.Body>
       }
@@ -127,7 +127,7 @@ CardComponent.propTypes = {
     dateFinish: PropTypes.string,
     _id: PropTypes.string,
     authorId: PropTypes.string,
-    party: PropTypes.arrayOf(),
+    party: PropTypes.arrayOf(PropTypes.shape()),
     rating: PropTypes.shape(),
     views: PropTypes.number,
   }),
@@ -140,7 +140,7 @@ CardComponent.propTypes = {
   getCommonRates: PropTypes.func,
 }
 
-const CardPost = ({
+const CardRate = ({
   rate,
   auth,
   changeRating,
@@ -185,7 +185,7 @@ const CardPost = ({
   }
 }
 
-CardPost.propTypes = {
+CardRate.propTypes = {
   rate: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,
@@ -193,7 +193,7 @@ CardPost.propTypes = {
     dateStart: PropTypes.string,
     dateFinish: PropTypes.string,
     _id: PropTypes.string,
-    party: PropTypes.arrayOf(),
+    party: PropTypes.arrayOf(PropTypes.shape()),
   }),
   user: PropTypes.shape(),
   auth: PropTypes.shape(),
@@ -212,4 +212,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, {})(CardPost)
+export default connect(mapStateToProps, {})(CardRate)
