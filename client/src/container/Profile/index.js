@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
+import injectSheet from 'react-jss';
 
 import {
   Container,
   Row,
   Col,
+  Spinner,
 } from 'react-bootstrap';
 
 import Layout from 'container/Layout';
@@ -16,14 +18,18 @@ import UserBtnGroup from 'components/UserBtnGroup';
 import CardsPosts from 'components/CardsPosts';
 import CardsRates from 'components/CardsRates';
 
+import style from './style';
+
 function MePage ({
   auth,
   posts,
   rates,
   history,
-  match: { params: { id: userId } }
+  match: { params: { id: userId } },
+  classes,
 }) {
   const { content } = queryString.parse(history.location.hash);
+  const isFetching = posts.isFetching || rates.isFetching;
 
   return (
     <Layout>
@@ -39,6 +45,22 @@ function MePage ({
               profileId={userId}
             />
             <UserBtnGroup />
+
+            {
+              ((content === 'my_posts' || !content) && <h3 className={classes['title-list']}>Посты пользователя</h3>)
+              || (content === 'subscribtion_posts' && <h3 className={classes['title-list']}>Подписки на посты</h3>)
+              || (content === 'subscribtion_rates' && <h3 className={classes['title-list']}>Ставки пользователя</h3>)
+              || (content === 'my_rates' && <h3 className={classes['title-list']}>Подписки на ставки</h3>)
+            }
+
+            { isFetching &&
+              <Row className="justify-content-md-center">
+                <Col xs={{ span: 6, offset: 5 }} sm={{ span: 8, offset: 5 }} md={{ span: 9, offset: 8 }}>
+                  <Spinner animation="border" variant="primary" />
+                </Col>
+              </Row>
+            }
+
             {
               (content === 'my_posts' || !content) &&
               <CardsPosts
@@ -84,6 +106,7 @@ MePage.propTypes = {
   rates: PropTypes.shape(),
   history: PropTypes.shape(),
   match: PropTypes.shape(),
+  classes: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {
@@ -99,4 +122,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {})(MePage);
+export default injectSheet(style)(
+  connect(mapStateToProps, {})(MePage)
+)
