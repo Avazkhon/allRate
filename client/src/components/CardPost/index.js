@@ -56,7 +56,9 @@ const CardComponent = ({
           <Card.Text>{text}</Card.Text>
         }
         <Row>
-          Создан: {moment(createDate).format(formatDateTime)}
+          <Col>
+            Создан: {moment(createDate).format(formatDateTime)}
+          </Col>
         </Row>
         <Row>
           {
