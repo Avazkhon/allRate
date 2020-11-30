@@ -108,6 +108,14 @@ export default [
     }),
   },
   {
+    path: '/translation/:status/',
+    exact: true,
+    component: asyncComponent({
+      loader: () => import('./container/Translation'),
+      Placeholder: () => <div>...LOADING...</div>,
+    }),
+  },
+  {
     path: '/admin/withdrawal-request',
     exact: true,
     component: asyncComponent({

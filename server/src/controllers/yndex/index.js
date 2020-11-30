@@ -75,8 +75,8 @@ class Yandex {
     let details = {
       request_id,
       instance_id,
-      ext_auth_success_uri: `${process.env.MAIN_URL}/successful-translation`,
-      ext_auth_fail_uri: `${process.env.MAIN_URL}/fail-translation`,
+      ext_auth_success_uri: `${process.env.MAIN_URL}/translation/successful`,
+      ext_auth_fail_uri: `${process.env.MAIN_URL}/translation/fail`,
       // test_payment: true,
       // test_result: 'success',
     };
