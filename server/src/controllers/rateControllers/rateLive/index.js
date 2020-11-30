@@ -112,7 +112,7 @@ exports.rateLive  = async (req, res)  => {
       .then(async (status) => {
         const {partyOne, partyDraw, partyTwo} = rate.mainBet;
         const amount = partyOne.amount + partyDraw.amount + partyTwo.amount;
-        if (status) { // перевести проценты только если были сделаны выплаты победителям
+        if (status && amount) { // перевести проценты только если были сделаны выплаты победителям
           await makePayPercentage(amount * interest.percentage, purse._id, author.purseId)
           await makePayPercentage(amount * interest.percentage, purse._id, superAdmin.purseId)
         }
@@ -133,7 +133,7 @@ exports.rateLive  = async (req, res)  => {
         return rateModels.findByIdAndUpdate(
           { _id: id },
           {
-            statusLife: isNotAllPaymentMade ? rateStatusLive.active : rateStatusLive.finish,
+            statusLife: rateStatusLive.finish,
             $set: {
             [`mainBet.idPartyVictory`]: rate.mainBet[mainBet].idParty,
             [`mainBet.paymentMade`]: !isNotAllPaymentMade,
@@ -146,6 +146,17 @@ exports.rateLive  = async (req, res)  => {
         res.status(200).send(data);
       })
       .catch((err) => {
+
+        rateModels.findByIdAndUpdate(
+          { _id: id },
+          {
+            statusLife: rateStatusLive.finish,
+            $set: {
+              [`mainBet.paymentMade`]: true, // если произошла ошибка то это не даст производить оплату
+            }
+          }
+        )
+
         writeToLog.write(err, 'rate_live.err');
         res.status(402).send({ message: 'Ошибка!', err: err.toString()});
       });
