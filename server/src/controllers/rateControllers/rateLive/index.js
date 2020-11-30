@@ -1,3 +1,4 @@
+const moment = require('moment')
 const rateModels = require('../../../models/rate');
 const purseModel = require('../../../models/purse');
 const userModel = require('../../../models/user');
@@ -98,8 +99,14 @@ exports.rateLive  = async (req, res)  => {
     if (rateForCheck.statusLife === rateStatusLive.in_progress) {
       return res.status(425).json({ message: 'Предыдущий запрос еще не обработан!'})
     }
-    if (rateStatusLive.finish === live || rateStatusLive.archive === live) {
-      await rateModels.findByIdAndUpdate({ _id: id }, { statusLife: live })
+    if (rateStatusLive.finish === live) {
+      await rateModels.findByIdAndUpdate({ _id: id }, { statusLife: live, dateFinish: moment().utc().format() })
+      .then((result) => {
+        res.status(200).json(result)
+      })
+    }
+    if (rateStatusLive.archive === live) {
+      await rateModels.findByIdAndUpdate({ _id: id }, { statusLife: live, dateArchive: moment().utc().format() })
       .then((result) => {
         res.status(200).json(result)
       })
