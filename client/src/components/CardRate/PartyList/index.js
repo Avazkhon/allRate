@@ -27,7 +27,7 @@ const PartyList = ({ party }) => {
 };
 
 PartyList.propTypes = {
-  party: PropTypes.shape(),
+  party: PropTypes.arrayOf(),
   classes: PropTypes.shape()
 }
 
