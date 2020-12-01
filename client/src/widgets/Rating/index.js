@@ -29,8 +29,6 @@ class Rating extends React.Component {
     const { action } = e.currentTarget.dataset;
     const {
       changeRating,
-      getUserById,
-      getCommonRates,
       auth: {
         auth: { userId },
         userData: { _id }
@@ -38,18 +36,7 @@ class Rating extends React.Component {
       postId,
     } = this.props;
 
-    changeRating({ userId,  makeTime: new Date() }, postId, action)
-    .then((action) => {
-      if (action.status === 'SUCCESS') {
-        if (getUserById) {
-          getUserById(_id);
-        }
-        if (getCommonRates) {
-          getCommonRates(userId);
-        }
-      }
-      return action
-    });
+    changeRating({ userId }, postId, action)
   }
 
   render() {
@@ -118,8 +105,6 @@ class Rating extends React.Component {
 };
 
 Rating.propTypes = {
-  getUserById: PropTypes.func,
-  getCommonRates: PropTypes.func,
   changeRating: PropTypes.func,
   rating: PropTypes.shape({}),
   postId: PropTypes.string,

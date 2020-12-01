@@ -72,6 +72,17 @@ class ProfileUser extends React.Component {
     ]
   }
 
+  changeRatingUser = (data, objectId, action) => {
+    const {
+      changeRatingUser,
+      getUserForPageById,
+    } = this.props;
+    return changeRatingUser(data, objectId, action)
+      .then((action) => {
+        getUserForPageById(objectId)
+      })
+  }
+
   render() {
     const {
       userPage: { data: userData },
@@ -79,8 +90,6 @@ class ProfileUser extends React.Component {
       classes,
       profileId,
       isPageAuth,
-      changeRatingUser,
-      getUserForPageById,
     } = this.props;
 
     let userProps = [];
@@ -115,8 +124,7 @@ class ProfileUser extends React.Component {
                 !isPageAuth &&
                 <ListGroup.Item>
                   <Rating
-                    changeRating={changeRatingUser}
-                    getUserById={getUserForPageById}
+                    changeRating={this.changeRatingUser}
                     rating={userData && userData.rating}
                     postId={userData && userData._id}
                     isShow

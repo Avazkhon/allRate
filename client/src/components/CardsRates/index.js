@@ -16,7 +16,6 @@ import {
 import {
   changeRatingRate,
   addCountViewsRate,
-  getCommonRates,
   getUsersByIds,
   getRatesPage,
 } from 'actions';
@@ -104,7 +103,6 @@ class CardsRates extends React.Component {
         lang,
       },
       changeRatingRate,
-      getCommonRates,
       isRateList,
       users,
       history,
@@ -119,7 +117,6 @@ class CardsRates extends React.Component {
             <CardRate key={itm._id}
               rate={itm}
               changeRating={changeRatingRate}
-              getCommonRates={isRateList && getCommonRates}
               isShow={idOpenItm === itm._id}
               handleShow={this.handleShow}
               handleHidden={this.handleHidden}
@@ -145,7 +142,6 @@ CardsRates.propTypes = {
   classes: PropTypes.shape(),
   changeRatingRate: PropTypes.func,
   addCountViewsRate: PropTypes.func,
-  getCommonRates: PropTypes.func,
   getRatesPage: PropTypes.func,
   getUsersByIds: PropTypes.func,
   isRateList: PropTypes.bool,
@@ -169,7 +165,6 @@ export default injectSheet(style)
   connect(mapStateToProps, {
     changeRatingRate,
     addCountViewsRate,
-    getCommonRates,
     getUsersByIds,
     getRatesPage,
   })(CardsRates)

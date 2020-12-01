@@ -42,7 +42,6 @@ const CardComponent = ({
   isShow,
   handleHidden,
   handleShow,
-  getCommonRates,
   user,
 }) => {
 
@@ -119,7 +118,6 @@ const CardComponent = ({
         <Col>
           <Rating
             changeRating={changeRating}
-            getCommonRates={getCommonRates}
             rating={rating}
             postId={_id}
             isShow={isShow}
@@ -150,7 +148,6 @@ CardComponent.propTypes = {
   changeRating: PropTypes.func,
   handleShow: PropTypes.func,
   handleHidden: PropTypes.func,
-  getCommonRates: PropTypes.func,
 }
 
 const CardRate = ({
@@ -160,7 +157,6 @@ const CardRate = ({
   isShow,
   handleHidden,
   handleShow,
-  getCommonRates,
   user,
 }) => {
   if (!isShow) {
@@ -168,7 +164,6 @@ const CardRate = ({
       <CardComponent
         rate={rate}
         user={user}
-        getCommonRates={getCommonRates}
         handleShow={handleShow}
         handleHidden={handleHidden}
         changeRating={changeRating}
@@ -185,7 +180,6 @@ const CardRate = ({
           <CardComponent
             rate={rate}
             user={user}
-            getCommonRates={getCommonRates}
             handleShow={handleShow}
             handleHidden={handleHidden}
             changeRating={changeRating}
@@ -213,7 +207,6 @@ CardRate.propTypes = {
   changeRating: PropTypes.func,
   handleShow: PropTypes.func,
   handleHidden: PropTypes.func,
-  getCommonRates: PropTypes.func,
 }
 
 function mapStateToProps(state) {
