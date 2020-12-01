@@ -254,7 +254,7 @@ class MakeRateComponent extends Component {
                     <Rating
                       changeRating={changeRatingRate}
                       rating={rate.rating}
-                      postId={rate._id}
+                      objectId={rate._id}
                       isShow
                     />
                   </Col>

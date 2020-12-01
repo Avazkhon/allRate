@@ -119,7 +119,7 @@ const CardComponent = ({
           <Rating
             changeRating={changeRating}
             rating={rating}
-            postId={_id}
+            objectId={_id}
             isShow={isShow}
           />
         </Col>

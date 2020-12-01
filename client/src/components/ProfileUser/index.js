@@ -126,7 +126,7 @@ class ProfileUser extends React.Component {
                   <Rating
                     changeRating={this.changeRatingUser}
                     rating={userData && userData.rating}
-                    postId={userData && userData._id}
+                    objectId={userData && userData._id}
                     isShow
                   />
                 </ListGroup.Item>

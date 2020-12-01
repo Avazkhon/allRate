@@ -262,7 +262,7 @@ class CardUser extends React.Component {
                   <Rating
                     changeRating={changeRatingUser}
                     rating={user.rating}
-                    postId={user._id}
+                    objectId={user._id}
                   />
                 </Col>
                 <Col>

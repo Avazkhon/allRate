@@ -33,10 +33,10 @@ class Rating extends React.Component {
         auth: { userId },
         userData: { _id }
       },
-      postId,
+      objectId,
     } = this.props;
 
-    changeRating({ userId }, postId, action)
+    changeRating({ userId }, objectId, action)
   }
 
   render() {
@@ -47,7 +47,7 @@ class Rating extends React.Component {
       auth: {
         auth,
       },
-      postId,
+      objectId,
       isShow,
     } = this.props;
     let {
@@ -107,7 +107,7 @@ class Rating extends React.Component {
 Rating.propTypes = {
   changeRating: PropTypes.func,
   rating: PropTypes.shape({}),
-  postId: PropTypes.string,
+  objectId: PropTypes.string,
   isShow: PropTypes.bool,
 };
 
