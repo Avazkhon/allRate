@@ -15,6 +15,7 @@ import {
 
 import RateForm from 'components/RateForm';
 import SiteBar from 'components/SiteBar';
+import FormBlock from 'components/FormBlock';
 
 import Layout from '../Layout';
 
@@ -51,6 +52,7 @@ class CreateRatePAge extends React.Component {
                 creteNewRate={creteNewRate}
                 changeImg={changeImg}
               />
+              <FormBlock />
             </Col>
           </Row>
         </Container>
