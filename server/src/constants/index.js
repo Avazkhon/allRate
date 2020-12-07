@@ -42,3 +42,8 @@ exports.money = {
   minAccountReplenishment: 100,
   maxWithdrawal: 15000,
 }
+
+exports.typeBlock= {
+  boolean: 'boolean',
+  total: 'total'
+}

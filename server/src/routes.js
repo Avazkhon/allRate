@@ -15,6 +15,7 @@ const withdrawalRequest = require('./controllers/withdrawalRequest');
 const InvoiceControllers = require('./controllers/invoice');
 const AlbumFolder = require('./controllers/albumFolder');
 const withdrawalRequestAdmin = require('./controllers/withdrawalRequest/withdrawalRequestAdmin');
+const blockControllers = require('./controllers/block');
 
 const invoiceControllers = new InvoiceControllers();
 const albumFolder = new AlbumFolder();
@@ -90,4 +91,7 @@ module.exports = function (app) {
   app.route('/api/password-recovery/userPassword')
     .post(userControllers.passwordRecoveryStart)
     .put(userControllers.passwordRecoveryFinish)
+
+  app.route('/api/block')
+    .post(blockControllers.createBlock)
 };

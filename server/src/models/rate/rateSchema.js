@@ -16,58 +16,11 @@ exports.rateSchema = new Schema(
     dateArchive: { type: Date },
     statusLife: { type: String, default: 'new' },
     img: { type: String, default: urlMain },
+    purseId: { type: mongoose.ObjectId, required: true },
     views: { type: Number, required: true, min: 0, default: 0 },
-    mainBet: {
-      title: { type: String, default: 'Основная ставка' },
-      purseId: { type: mongoose.ObjectId },
-      idPartyVictory: { type: Number, default: 0 },
-      paymentMade: { type: Boolean, default: false },
-      partyOne: {
-        amount: { type: Number, default: 0 },
-        coefficient: { type: Number, default: 1, min: 1},
-        idParty: { type: String, required: true },
-        terms: { type: String, required: true },
-        participants: [
-          {
-            userId: { type: mongoose.ObjectId, required: true },
-            purseId: { type: mongoose.ObjectId, required: true },
-            meny: { type: Number, required: true, min: 50, max: 500 },
-            paymentMade: { type: Boolean, default: false },
-            createDate: { type: Date, default: moment().utc().format() },
-          }
-        ],
-      },
-      partyDraw: {
-        amount: { type: Number, default: 0 },
-        coefficient: { type: Number },
-        idParty: { type: String },
-        terms: { type: String }, // Условия
-        participants: [
-          {
-            userId: { type: mongoose.ObjectId },
-            purseId: { type: mongoose.ObjectId, required: true },
-            meny: { type: Number, min: 50, max: 500 },
-            paymentMade: { type: Boolean, default: false },
-            createDate: { type: Date, default: moment().utc().format() },
-          }
-        ],
-      },
-      partyTwo: {
-        amount: { type: Number, default: 0 },
-        coefficient: { type: Number, default: 1, min: 1},
-        idParty: { type: String, required: true },
-        terms: { type: String, required: true },
-        participants: [
-          {
-            userId: { type: mongoose.ObjectId, required: true },
-            purseId: { type: mongoose.ObjectId, required: true },
-            meny: { type: Number, required: true, min: 50, max: 500 },
-            paymentMade: { type: Boolean, default: false },
-            createDate: { type: Date, default: moment().utc().format() },
-          }
-        ],
-      },
-    },
+    block: [
+      { type: mongoose.ObjectId, required: true }
+    ],
     party: [{
       id: { type: String, required: true },
       participator: { type: String, required: true, min: 3, max: 50 },
