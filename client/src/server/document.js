@@ -1,5 +1,6 @@
 import React from 'react';
 import { AfterRoot, AfterData } from '@jaredpalmer/after';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 import {
   JssProvider,
@@ -8,6 +9,7 @@ import {
 
 import initStyle from './style.css';
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
+import { ThemeProvider } from '@material-ui/core/styles';
 
 const CustomDocumentHOC = (store) => {
   class CustomDocument extends React.Component {
@@ -18,7 +20,10 @@ const CustomDocumentHOC = (store) => {
           registry={sheets}
           id={process.env.RAZZLE_APP_MINIMIZE_CLASSES && {minify: true}}
         >
-          <App {...props} />
+          <ThemeProvider>
+            <CssBaseline />
+            <App {...props} />
+          </ThemeProvider>
         </JssProvider>
       );
       const css = sheets.toString();
