@@ -13,12 +13,14 @@ import postPage from './postPage';
 import withdrawalRequest from './withdrawalRequest';
 import withdrawalRequestAdmin from './admin/withdrawalRequestAdmin';
 import userPage from './userPage';
+import blocks from './blocks';
 
 export default combineReducers({
   userPage,
   withdrawalRequestAdmin,
   auth,
   rate,
+  blocks,
   selectRate,
   commonRate,
   purse,
