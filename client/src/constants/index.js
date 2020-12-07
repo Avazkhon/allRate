@@ -52,6 +52,8 @@ export const PATCH_WITHDRAWALR_REQUEST_ADMIN = 'PATCH_WITHDRAWALR_REQUEST_ADMIN'
 export const POSRT_PASSWORD_RECOVERY = 'POSRT_PASSWORD_RECOVERY';
 export const PUT_PASSWORD_RECOVERY = 'PUT_PASSWORD_RECOVERY';
 
+export const POST_BLOCK = 'POST_BLOCK';
+
 export const basisForPayment = {
   accountReplenishment: 'accountReplenishment', // Пополнение счета
   withdrawal: 'withdrawal', // вывод

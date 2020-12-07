@@ -71,3 +71,7 @@ export {
   passwordRecoveryStart,
   passwordRecoveryFinish,
 } from './passwordRecovery';
+
+export {
+  postBlock,
+} from './block';
