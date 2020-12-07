@@ -1,6 +1,5 @@
 import React from 'react';
 import { AfterRoot, AfterData } from '@jaredpalmer/after';
-import CssBaseline from '@material-ui/core/CssBaseline';
 
 import {
   JssProvider,
@@ -9,25 +8,29 @@ import {
 
 import initStyle from './style.css';
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
-import { ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, ServerStyleSheets } from '@material-ui/core/styles';
 
 const CustomDocumentHOC = (store) => {
   class CustomDocument extends React.Component {
     static async getInitialProps({ assets, data, renderPage }) {
       const sheets = new SheetsRegistry();
+      const sheetsMui = new ServerStyleSheets();
+
       const page = await renderPage(App => props =>
-        <JssProvider
-          registry={sheets}
-          id={process.env.RAZZLE_APP_MINIMIZE_CLASSES && {minify: true}}
-        >
-          <ThemeProvider>
-            <CssBaseline />
-            <App {...props} />
-          </ThemeProvider>
-        </JssProvider>
+        sheetsMui.collect(
+          <JssProvider
+            registry={sheets}
+            id={process.env.RAZZLE_APP_MINIMIZE_CLASSES && {minify: true}}
+          >
+            <ThemeProvider>
+              <App {...props} />
+            </ThemeProvider>
+          </JssProvider>
+        )
       );
       const css = sheets.toString();
-      return { assets, data, ...page, css };
+      const cssMui = sheetsMui.toString();
+      return { assets, data, ...page, css, cssMui };
     }
 
     render() {
@@ -36,6 +39,7 @@ const CustomDocumentHOC = (store) => {
         assets,
         data,
         css,
+        cssMui,
       } = this.props;
       const htmlAttrs = helmet.htmlAttributes.toComponent();
       const bodyAttrs = helmet.bodyAttributes.toComponent();
@@ -72,6 +76,9 @@ const CustomDocumentHOC = (store) => {
           </head>
           <style id="server-side-styles">
           {css}
+          </style>
+          <style id="jss-server-side">
+            {cssMui}
           </style>
           <style dangerouslySetInnerHTML={ { __html: initStyle} } />
           <style dangerouslySetInnerHTML={ { __html: bootstrap} } />
