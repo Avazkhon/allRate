@@ -74,3 +74,8 @@ export const rateStatusLive = {
 }
 
 export const formatDateTime = 'YYYY.MM.DD HH:mm';
+
+export const typeBlock = {
+  boolean: 'boolean',
+  total: 'total'
+}
