@@ -22,7 +22,7 @@ exports.blockSchema = new Schema({
         coefficient: { type: Number, min: 1},
         amount: { type: Number, default: 0 },
         win: { type: Boolean, default: false },
-        terms: { type: String, required: true },
+        condition: { type: String, required: true },
         createDate: { type: Date, default: moment().utc().format() },
         paymentMade: { type: Boolean, default: false },
         participants: [
