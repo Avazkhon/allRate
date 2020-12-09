@@ -19,7 +19,6 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import {
   Form,
-  // Button,
 } from 'react-bootstrap';
 
 import style from './style';
@@ -69,20 +68,27 @@ class FormBlock extends React.Component {
     const {
       lang,
       classes,
+      indexBlock,
+      handleChangeTextBets,
     } = this.props;
     return (
       <List component="nav" className={classes.root} aria-label="contacts">
         {
-          bets.map((bet) => {
+          bets.map((bet, betindex) => {
             return (
               <ListItem button key={bet.id}>
                 <Grid container>
                   <Grid item xs={12} sm={6}>
                     <TextField
-                      name="title"
+                      name="condition"
                       label={textLang.conditions[lang]}
                       id="standard-password-input"
                       defaultValue={bet.condition}
+                      inputProps={{
+                        'data-index': indexBlock,
+                        'data-betindex': betindex,
+                      }}
+                      onChange={handleChangeTextBets}
                       required
                     />
                   </Grid>
@@ -100,10 +106,12 @@ class FormBlock extends React.Component {
     )
   }
 
-  renderBoolTotal = (bets) => {
+  renderTotalType = (bets) => {
     const {
       lang,
       classes,
+      indexBlock,
+      handleChangeTextBets,
     } = this.props;
 
     return (
@@ -115,10 +123,15 @@ class FormBlock extends React.Component {
               <Grid container>
                 <Grid item xs={12} sm={6}>
                     <TextField
-                      name="title"
+                      name="condition"
                       label={textLang.conditions[lang]}
                       id="standard-password-input"
                       defaultValue={bet.condition}
+                      inputProps={{
+                        'data-index': indexBlock,
+                        'data-betindex': betindex,
+                      }}
+                      onChange={handleChangeTextBets}
                       required
                     />
                 </Grid>
@@ -139,12 +152,17 @@ class FormBlock extends React.Component {
     const {
       classes,
       lang,
-      bets,
       bets: {
         type,
         title,
         description,
-      }
+        bets,
+        _id
+      },
+      addBets,
+      indexBlock,
+
+      handleChangeTextBlock,
     } = this.props;
 
     return (
@@ -155,12 +173,20 @@ class FormBlock extends React.Component {
             label={textLang.title[lang]}
             id="standard-password-input"
             defaultValue={title.value}
+            inputProps={{
+              'data-index': indexBlock
+            }}
+            onChange={handleChangeTextBlock}
             required
           />
           <TextField
             name="description"
             label={textLang.description[lang]}
             defaultValue={description.value}
+            inputProps={{
+              'data-index': indexBlock
+            }}
+            onChange={handleChangeTextBlock}
             required
           />
           <FormControl className={classes.formControl}>
@@ -169,10 +195,10 @@ class FormBlock extends React.Component {
               native
               value={type}
               // onChange={handleChange}
-              inputProps={{
-                name: textLang.type[lang],
-                id: 'type-native-simple',
-              }}
+              // inputProps={{
+              //   name: textLang.type[lang],
+              //   id: 'type-native-simple',
+              // }}
             >
               {
                 Object.keys(typeBlock).map((key) => {
@@ -190,14 +216,14 @@ class FormBlock extends React.Component {
           </FormControl>
           <div>
             {
-              bets.type === typeBlock.boolean && this.renderBoolType(bets.bets)
+              type === typeBlock.boolean && this.renderBoolType(bets)
             }
             {
-              bets.type === typeBlock.total && this.renderBoolTotal(bets.bets)
+              type === typeBlock.total && this.renderTotalType(bets)
             }
           </div>
         </div>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary"  name={indexBlock} onClick={addBets}>
           <AddCircleIcon>add_circle</AddCircleIcon>
         </Button>
       </form>
@@ -206,27 +232,32 @@ class FormBlock extends React.Component {
 }
 
 FormBlock.propTypes = {
-  auth: PropTypes.shape(),
+  // auth: PropTypes.shape(),
   classes: PropTypes.shape(),
   bets: PropTypes.shape(),
+  addBets: PropTypes.func,
+  handleChangeTextBlock: PropTypes.func,
+  handleChangeTextBets: PropTypes.func,
+  indexBlock: PropTypes.string,
 }
 
-function mapStateToProps(state) {
-  const {
-    auth,
-    lang,
-  } = state;
-  return {
-    auth,
-    lang: lang.lang,
-  };
-}
+// function mapStateToProps(state) {
+//   const {
+//     auth,
+//     lang,
+//   } = state;
+//   return {
+//     auth,
+//     lang: lang.lang,
+//   };
+// }
 
-export default injectSheet(style)(
-  connect(
-    mapStateToProps,
-    {
-
-    }
-  )(FormBlock)
-)
+export default injectSheet(style)(FormBlock)
+// export default injectSheet(style)(
+//   connect(
+//     mapStateToProps,
+//     {
+//
+//     }
+//   )(FormBlock)
+// )

@@ -127,9 +127,17 @@ class FormBlocks extends React.Component {
     this.setState({block})
   }
 
+  handleChangeTextBets = (e) => {
+    const { index, betindex } = e.currentTarget.dataset;
+    const { value, name } = e.currentTarget;
+    const { block } = this.state;
+    block[index].bets[betindex][name] = value;
+    this.setState({block})
+  }
+
   handleChangeTextBlock = (e) => {
     const { index } = e.currentTarget.dataset;
-    const { value, name, id } = e.currentTarget;
+    const { value, name } = e.currentTarget;
     const { block } = this.state;
     block[index][name].value = value;
     this.setState({block})
@@ -156,6 +164,7 @@ class FormBlocks extends React.Component {
                 addBets={this.addBets}
                 indexBlock={indexBlock}
                 handleChangeTextBlock={this.handleChangeTextBlock}
+                handleChangeTextBets={this.handleChangeTextBets}
                 lang={lang}
               />
             )
