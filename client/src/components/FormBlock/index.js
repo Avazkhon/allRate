@@ -70,6 +70,7 @@ class FormBlock extends React.Component {
       classes,
       indexBlock,
       handleChangeTextBets,
+      deleteBets,
     } = this.props;
     return (
       <List component="nav" className={classes.root} aria-label="contacts">
@@ -95,7 +96,13 @@ class FormBlock extends React.Component {
                   <Grid item xs={12} sm={6}>
                     <Button variant="contained" disabled >{textLang.no[lang]}</Button>
                     <Button variant="contained" disabled >{textLang.yes[lang]}</Button>
-                    <Button variant="contained" color="secondary"><DeleteIcon /></Button>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={deleteBets}
+                      data-index={indexBlock}
+                      data-betindex={betindex}
+                    ><DeleteIcon /></Button>
                   </Grid>
                 </Grid>
               </ListItem>
@@ -112,12 +119,13 @@ class FormBlock extends React.Component {
       classes,
       indexBlock,
       handleChangeTextBets,
+      deleteBets,
     } = this.props;
 
     return (
       <List component="nav" className={classes.root} aria-label="contacts">
         {
-          bets.map((bet) => {
+          bets.map((bet, betindex) => {
             return (
               <ListItem button key={bet.id}>
               <Grid container>
@@ -137,7 +145,13 @@ class FormBlock extends React.Component {
                 </Grid>
                   <Grid item xs={12} sm={6}>
                     <Button variant="contained" disabled >{textLang.yes[lang]}</Button>
-                    <Button variant="contained" color="secondary"><DeleteIcon /></Button>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={deleteBets}
+                      data-index={indexBlock}
+                      data-betindex={betindex}
+                    ><DeleteIcon /></Button>
                   </Grid>
                 </Grid>
               </ListItem>
@@ -163,6 +177,7 @@ class FormBlock extends React.Component {
       indexBlock,
 
       handleChangeTextBlock,
+      deleteBlock,
     } = this.props;
 
     return (
@@ -224,7 +239,10 @@ class FormBlock extends React.Component {
           </div>
         </div>
         <Button variant="contained" color="primary"  name={indexBlock} onClick={addBets}>
-          <AddCircleIcon>add_circle</AddCircleIcon>
+          <AddCircleIcon />
+        </Button>
+        <Button variant="contained" color="secondary" data-index={indexBlock} onClick={deleteBlock}>
+          <DeleteIcon />
         </Button>
       </form>
     );
@@ -238,6 +256,8 @@ FormBlock.propTypes = {
   addBets: PropTypes.func,
   handleChangeTextBlock: PropTypes.func,
   handleChangeTextBets: PropTypes.func,
+  deleteBlock: PropTypes.func,
+  deleteBets: PropTypes.func,
   indexBlock: PropTypes.string,
 }
 

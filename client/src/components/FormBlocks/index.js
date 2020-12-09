@@ -13,6 +13,8 @@ import {
   Grid,
   Icon,
 } from '@material-ui/core';
+
+import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import {
@@ -143,6 +145,20 @@ class FormBlocks extends React.Component {
     this.setState({block})
   }
 
+  deleteBlock = (e) => {
+    const { index } = e.currentTarget.dataset;
+    const { block } = this.state;
+    block.splice(index, 1);
+    this.setState({block})
+  }
+
+  deleteBets = (e) => {
+    const { index, betindex } = e.currentTarget.dataset;
+    const { block } = this.state;
+    block[index].bets.splice(betindex, 1)
+    this.setState({block})
+  }
+
   render() {
     const {
       block,
@@ -165,6 +181,8 @@ class FormBlocks extends React.Component {
                 indexBlock={indexBlock}
                 handleChangeTextBlock={this.handleChangeTextBlock}
                 handleChangeTextBets={this.handleChangeTextBets}
+                deleteBlock={this.deleteBlock}
+                deleteBets={this.deleteBets}
                 lang={lang}
               />
             )
