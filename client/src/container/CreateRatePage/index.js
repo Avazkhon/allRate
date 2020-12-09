@@ -15,11 +15,11 @@ import {
 
 import RateForm from 'components/RateForm';
 import SiteBar from 'components/SiteBar';
-import FormBlock from 'components/FormBlock';
+import FormBlocks from 'components/FormBlocks';
 
 import Layout from '../Layout';
 
-class CreateRatePAge extends React.Component {
+class CreateRatePage extends React.Component {
   // constructor(props) {
   //   super(props);
   //   this.state = {
@@ -52,7 +52,7 @@ class CreateRatePAge extends React.Component {
                 creteNewRate={creteNewRate}
                 changeImg={changeImg}
               />
-              <FormBlock />
+              <FormBlocks />
             </Col>
           </Row>
         </Container>
@@ -61,7 +61,7 @@ class CreateRatePAge extends React.Component {
   }
 }
 
-CreateRatePAge.propTypes = {
+CreateRatePage.propTypes = {
   creteNewRate: PropTypes.func,
   changeImg: PropTypes.func,
   selectRate: PropTypes.shape(),
@@ -82,4 +82,4 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   creteNewRate,
   changeImg,
-})(CreateRatePAge);
+})(CreateRatePage);
