@@ -24,10 +24,6 @@ import {
 
 import style from './style';
 
-import {
-  postBlock,
-} from 'actions';
-
 const textLang = {
   title: {
     EN: 'Title',
@@ -67,58 +63,6 @@ import {
 class FormBlock extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data: {
-        title: {
-          value: "Ставка 1",
-          templateId: null
-        },
-        description: {
-          value: "Описания",
-          templateId: null
-        },
-        type: "boolean",
-        bets: [
-          {
-            id: 1,
-            condition: "а выиграет  2-0",
-            participants: []
-          },
-          {
-            id: 2,
-            condition: "a выиграет  2-1",
-            participants: []
-          },
-          {
-            id: 3,
-            condition: "b выиграет  2-0",
-            participants: []
-          },
-           {
-             id: 4,
-            condition: "b выиграет  2-0",
-            participants: []
-          }
-        ]
-      },
-
-
-    }
-  }
-
-  handlePostBlock = () => {
-    const {
-      data
-    } = this.state;
-
-    const {
-      postBlock
-    } = this.props;
-
-    postBlock(data, '5fc7c00d8db8b13ca0a60023')
-      .then((action) => {
-        console.log(action);
-      })
   }
 
   renderBoolType = (bets) => {
@@ -193,17 +137,14 @@ class FormBlock extends React.Component {
 
   render() {
     const {
-      data: {
+      classes,
+      lang,
+      bets,
+      bets: {
         type,
         title,
         description,
-        bets,
       }
-    } = this.state;
-
-    const {
-      classes,
-      lang,
     } = this.props;
 
     return (
@@ -249,18 +190,15 @@ class FormBlock extends React.Component {
           </FormControl>
           <div>
             {
-              type === typeBlock.boolean && this.renderBoolType(bets)
+              bets.type === typeBlock.boolean && this.renderBoolType(bets.bets)
             }
             {
-              type === typeBlock.total && this.renderBoolTotal(bets)
+              bets.type === typeBlock.total && this.renderBoolTotal(bets.bets)
             }
           </div>
         </div>
-        <Button variant="contained" onClick={this.handlePostBlock} color="primary">
+        <Button variant="contained" color="primary">
           <AddCircleIcon>add_circle</AddCircleIcon>
-        </Button>
-        <Button variant="contained" onClick={this.handlePostBlock} color="primary">
-          postBlock
         </Button>
       </form>
     );
@@ -270,7 +208,7 @@ class FormBlock extends React.Component {
 FormBlock.propTypes = {
   auth: PropTypes.shape(),
   classes: PropTypes.shape(),
-  postBlock: PropTypes.func,
+  bets: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {
@@ -288,7 +226,7 @@ export default injectSheet(style)(
   connect(
     mapStateToProps,
     {
-      postBlock
+
     }
   )(FormBlock)
 )
