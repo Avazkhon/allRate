@@ -20,9 +20,14 @@ import {
   // Button,
 } from 'react-bootstrap';
 
+import style from './style';
+
 import FormBlock from '../FormBlock';
 
-import style from './style';
+
+import {
+  typeBlock
+} from '../../constants';
 
 import {
   postBlock,
@@ -55,32 +60,8 @@ const textLang = {
   }
 }
 
-const betTemplate = {
-  id: 0,
-  condition: "",
-  participants: []
-}
-
-const blockTemplate = {
-  id: 1,
-  title: {
-    value: "",
-    templateId: null
-  },
-  description: {
-    value: "",
-    templateId: null
-  },
-  type: "boolean",
-  bets: []
-}
-
 // import {
 // } from 'utils';
-
-import {
-  typeBlock
-} from '../../constants';
 
 // import Messages from 'components/Messages';
 
@@ -107,12 +88,50 @@ class FormBlocks extends React.Component {
       })
   }
 
+  addBets = (e) => {
+    const indexBlock = e.currentTarget.name;
+    let {
+      block
+    } = this.state;
+    const betTemplate = {
+      id: block[indexBlock].bets.length + 1,
+      condition: "",
+      participants: []
+    }
+    block[indexBlock].bets.push(betTemplate);
+    this.setState({
+      block: [...block]
+    })
+  }
+
   addBlock = () => {
     const {
       block
     } = this.state;
 
-    block.push({...blockTemplate, id: blockTemplate.id + block.length })
+    const blockTemplate = {
+      _id: block.length + 1,
+      title: {
+        value: "",
+        templateId: null
+      },
+      description: {
+        value: "",
+        templateId: null
+      },
+      type: "boolean",
+      bets: []
+    }
+
+    block.push(blockTemplate)
+    this.setState({block})
+  }
+
+  handleChangeTextBlock = (e) => {
+    const { index } = e.currentTarget.dataset;
+    const { value, name, id } = e.currentTarget;
+    const { block } = this.state;
+    block[index][name].value = value;
     this.setState({block})
   }
 
@@ -126,13 +145,19 @@ class FormBlocks extends React.Component {
       lang,
     } = this.props
 
-    console.log(block);
     return (
       <div className={classes['card-block']} noValidate autoComplete="off">
         {
-          block.map((bets) => {
+          block.map((bets, indexBlock) => {
             return (
-              <FormBlock bets={bets} key={bets.id} />
+              <FormBlock
+                bets={bets}
+                key={bets._id}
+                addBets={this.addBets}
+                indexBlock={indexBlock}
+                handleChangeTextBlock={this.handleChangeTextBlock}
+                lang={lang}
+              />
             )
           })
         }
