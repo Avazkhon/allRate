@@ -13,7 +13,7 @@ import {
   changeImg,
 } from 'actions'
 
-import RateForm from 'components/RateForm';
+import FormRate from 'components/FormRate';
 import SiteBar from 'components/SiteBar';
 import FormBlocks from 'components/FormBlocks';
 
@@ -46,12 +46,7 @@ class CreateRatePage extends React.Component {
               />
             </Col>
             <Col xs="12" sm="9">
-              <RateForm
-                rate={selectRate}
-                titleFrom="Создание меню"
-                creteNewRate={creteNewRate}
-                changeImg={changeImg}
-              />
+              <FormRate/>
               <FormBlocks />
             </Col>
           </Row>
