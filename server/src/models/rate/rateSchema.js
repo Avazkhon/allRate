@@ -16,8 +16,9 @@ exports.rateSchema = new Schema(
     dateArchive: { type: Date },
     statusLife: { type: String, default: 'new' },
     img: { type: String, default: urlMain },
-    purseId: { type: mongoose.ObjectId, required: true },
+    purseId: { type: mongoose.ObjectId },
     views: { type: Number, required: true, min: 0, default: 0 },
+    paymentMade: { type: Boolean, required: false },
     block: [
       { type: mongoose.ObjectId, required: true }
     ],
@@ -26,6 +27,7 @@ exports.rateSchema = new Schema(
       participator: { type: String, required: true, min: 3, max: 50 },
       description: { type: String, required: true, min: 10, max: 200 },
       img: { type: String, default: urlParty },
+      win: { type: Boolean, required: true },
     }],
     rating: {
       positively: [
