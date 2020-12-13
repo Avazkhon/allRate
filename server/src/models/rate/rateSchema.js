@@ -27,7 +27,7 @@ exports.rateSchema = new Schema(
       participator: { type: String, required: true, min: 3, max: 50 },
       description: { type: String, required: true, min: 10, max: 200 },
       img: { type: String, default: urlParty },
-      win: { type: Boolean, required: true },
+      win: { type: Boolean, default: false },
     }],
     rating: {
       positively: [
