@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
 
 import {
   Row,
@@ -9,8 +10,9 @@ import {
 } from 'react-bootstrap';
 
 import {
-  creteNewRate,
+  // creteNewRate,
   changeImg,
+  getRateByID,
 } from 'actions'
 
 import FormRate from 'components/FormRate';
@@ -20,15 +22,31 @@ import FormBlocks from 'components/FormBlocks';
 import Layout from '../Layout';
 
 class CreateRatePage extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //   }
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      isShowRate: false,
+    }
+  }
+
+  componentDidMount() {
+    const {
+      history,
+      getRateByID,
+    } = this.props;
+    const { rateId } = queryString.parse(history.location.search);
+    if (rateId) {
+      getRateByID(rateId);
+      this.setState((prev) => ({isShowRate: true}))
+    }
+  }
 
   render() {
     const {
-      creteNewRate,
+      isShowRate,
+    } = this.state;
+    const {
+      // creteNewRate,
       auth: {
         userData
       },
@@ -46,7 +64,9 @@ class CreateRatePage extends React.Component {
               />
             </Col>
             <Col xs="12" sm="9">
-              <FormRate/>
+              <FormRate
+                selectRate={isShowRate && selectRate}
+              />
               <FormBlocks />
             </Col>
           </Row>
@@ -57,10 +77,12 @@ class CreateRatePage extends React.Component {
 }
 
 CreateRatePage.propTypes = {
-  creteNewRate: PropTypes.func,
+  // creteNewRate: PropTypes.func,
   changeImg: PropTypes.func,
+  getRateByID: PropTypes.func,
   selectRate: PropTypes.shape(),
   auth: PropTypes.shape(),
+  history: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {
@@ -75,6 +97,7 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  creteNewRate,
+  // creteNewRate,
   changeImg,
+  getRateByID,
 })(CreateRatePage);

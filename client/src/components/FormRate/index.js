@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
+import { useHistory } from "react-router-dom";
+
 import {
   Button,
   TextField,
@@ -24,15 +26,18 @@ import {
 } from 'actions'
 
 
-function randomNumber(min = 10000, max = 999999) {
+function randomNumber(min = 100000, max = 999999) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
 function FormRate (
   {
-    creteNewRate
+    creteNewRate,
+    selectRate,
   },
 ) {
+  let history = useHistory();
+
   const [rate, useChangeRate] = useState({
     title: '',
     description: '',
@@ -53,6 +58,21 @@ function FormRate (
     },
   ]))
 
+
+  useEffect(() => {
+    if (selectRate.data && selectRate.data._id) {
+      useChangeRate({
+        ...selectRate.data,
+        dateStart: moment(selectRate.data.dateStart).format('YYYY-MM-DDTHH:mm'),
+        dateFinish: moment(selectRate.data.dateFinish).format('YYYY-MM-DDTHH:mm'),
+      })
+      useChangeParty(selectRate.data.party)
+    }
+  }, [selectRate])
+
+
+
+
   function addParty() {
     useChangeParty([
       ...party,
@@ -66,7 +86,9 @@ function FormRate (
 
   function deleteParty (e) {
     const { id } = e.currentTarget.dataset;
-    useChangeParty(party.filter(part => part.id !== Number(id)))
+    useChangeParty(party.filter(part => {
+      return part.id !== Number(id)
+    }))
   }
 
   function changeTextParty (e) {
@@ -97,7 +119,6 @@ function FormRate (
   }
 
   function handleCreteNewRate(){
-    console.log(moment(rate.dateStart).utc().format());
     const data = {
       ...rate,
       dateStart: moment(rate.dateStart).utc().format(),
@@ -108,6 +129,7 @@ function FormRate (
     creteNewRate(data)
       .then((action) => {
         console.log(action);
+        history.push({search: `rateId=${action.response._id}`})
       })
   }
 
@@ -119,7 +141,7 @@ function FormRate (
             <TextField
               name="title"
               label="Заголовок"
-              defaultValue={rate.title}
+              value={rate.title}
               onChange={changeRateText}
               required
             />
@@ -129,7 +151,7 @@ function FormRate (
               name="description"
               label="Описания"
               multiline
-              defaultValue={rate.description}
+              value={rate.description}
               onChange={changeRateText}
               required
             />
@@ -139,7 +161,7 @@ function FormRate (
               id="datetime-local"
               type="datetime-local"
               label="Время начало"
-              defaultValue={rate.dateStart}
+              value={rate.dateStart}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -151,7 +173,7 @@ function FormRate (
               id="datetime-local"
               type="datetime-local"
               label="Время завершения"
-              defaultValue={rate.dateFinish}
+              value={rate.dateFinish}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -169,7 +191,7 @@ function FormRate (
                       <TextField
                         name="participator"
                         label="Названия команды"
-                        defaultValue={part.participator}
+                        value={part.participator}
                         inputProps={{
                           'data-id': part.id,
                         }}
@@ -182,7 +204,7 @@ function FormRate (
                           name="description"
                           label="Описания"
                           multiline
-                          defaultValue={part.description}
+                          value={part.description}
                           inputProps={{
                             'data-id': part.id,
                           }}
@@ -240,11 +262,9 @@ FormRate.propTypes = {
 function mapStateToProps(state) {
   const {
     auth,
-    selectRate,
   } = state;
   return {
     auth,
-    selectRate,
   };
 }
 
