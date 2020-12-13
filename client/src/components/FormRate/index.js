@@ -37,6 +37,24 @@ function FormRate () {
     },
   ])
 
+  function addParty() {
+    useChangeParty([
+      ...party,
+      {
+        id: party.length + 1,
+        participator: '',
+        description: '',
+      }
+    ])
+  }
+
+  function deleteParty (e) {
+    const { index } = e.currentTarget.dataset;
+    const newParty = [...party];
+    newParty.splice(index, 1)
+    useChangeParty(newParty)
+  }
+
   return (
     <>
       <form>
@@ -128,12 +146,17 @@ function FormRate () {
                       </Grid>
                     <Grid item xs={12} sm={6}>
                       <Button
+                        size="small"
                         variant="contained"
                         color="secondary"
-                        // onClick={deleteBets}
+                        onClick={deleteParty}
+                        data-index={partindex}
                         // data-index={indexBlock}
                         // data-betindex={betindex}
-                      ><DeleteIcon /></Button>
+                      >
+                        <DeleteIcon />
+                        Удалить участника
+                      </Button>
                     </Grid>
                   </Grid>
                 </ListItem>
@@ -142,14 +165,13 @@ function FormRate () {
           }
         </List>
         <Button
-        variant="contained"
-        color="primary"
+          variant="contained"
+          color="primary"
+          onClick={addParty}
         >
           <AddCircleIcon /> Добавить участника
         </Button>
       </form>
-      {JSON.stringify(data, null, 2)}
-      {JSON.stringify(party, null, 2)}
     </>
   )
 }
