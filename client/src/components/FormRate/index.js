@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
-import uuidV4 from 'uuid/v4';
-
 import {
   Button,
   TextField,
@@ -25,6 +23,11 @@ import {
   // changeImg,
 } from 'actions'
 
+
+function randomNumber(min = 10000, max = 999999) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
 function FormRate (
   {
     creteNewRate
@@ -39,12 +42,12 @@ function FormRate (
 
   const [party, useChangeParty] = useState(() => ([
     {
-      id: uuidV4(),
+      id: randomNumber(),
       participator: '',
       description: '',
     },
     {
-      id: uuidV4(),
+      id: randomNumber(),
       participator: '',
       description: '',
     },
@@ -54,7 +57,7 @@ function FormRate (
     useChangeParty([
       ...party,
       {
-        id: uuidV4(),
+        id: randomNumber(),
         participator: '',
         description: '',
       }
@@ -63,14 +66,14 @@ function FormRate (
 
   function deleteParty (e) {
     const { id } = e.currentTarget.dataset;
-    useChangeParty(party.filter(part => part.id !== id))
+    useChangeParty(party.filter(part => part.id !== Number(id)))
   }
 
   function changeTextParty (e) {
     const { id } = e.currentTarget.dataset;
     const { name, value } = e.currentTarget;
     const newParty = party.map((part) => {
-      if (part.id === id) {
+      if (part.id === Number(id)) {
         part[name] = value;
       }
       return part;
