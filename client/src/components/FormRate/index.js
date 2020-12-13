@@ -26,12 +26,12 @@ function FormRate () {
 
   const [party, useChangeParty] = useState([
     {
-      id: 1,
+      _id: 1,
       participator: '',
       description: '',
     },
     {
-      id: 2,
+      _id: 2,
       participator: '',
       description: '',
     },
@@ -41,7 +41,7 @@ function FormRate () {
     useChangeParty([
       ...party,
       {
-        id: party.length + 1,
+        _id: Date.now(),
         participator: '',
         description: '',
       }
@@ -49,9 +49,19 @@ function FormRate () {
   }
 
   function deleteParty (e) {
-    const { index } = e.currentTarget.dataset;
-    const newParty = [...party];
-    newParty.splice(index, 1)
+    const { id } = e.currentTarget.dataset;
+    useChangeParty(party.filter(part => part._id !== Number(id)))
+  }
+
+  function changeTextParty (e) {
+    const { id } = e.currentTarget.dataset;
+    const { name, value } = e.currentTarget;
+    const newParty = party.map((part) => {
+      if (part._id === Number(id)) {
+        part[name] = value;
+      }
+      return part;
+    })
     useChangeParty(newParty)
   }
 
@@ -111,21 +121,19 @@ function FormRate () {
         </Grid>
         <List component="nav" aria-label="contacts">
           {
-            party.map((part, partindex) => {
+            party.map((part) => {
               return (
-                <ListItem button key={part.id}>
+                <ListItem button key={part._id}>
                   <Grid container>
                     <Grid item xs={12}>
                       <TextField
                         name="participator"
                         label="Названия команды"
-                        // id="standard-password-input"
-                        // defaultValue={bet.condition}
-                        // inputProps={{
-                        //   'data-index': indexBlock,
-                        //   'data-betindex': betindex,
-                        // }}
-                        // onChange={handleChangeTextBets}
+                        defaultValue={part.participator}
+                        inputProps={{
+                          'data-id': part._id,
+                        }}
+                        onChange={changeTextParty}
                         required
                       />
                       </Grid>
@@ -134,13 +142,11 @@ function FormRate () {
                           name="description"
                           label="Описания"
                           multiline
-                          // id="standard-password-input"
-                          // defaultValue={bet.condition}
-                          // inputProps={{
-                          //   'data-index': indexBlock,
-                          //   'data-betindex': betindex,
-                          // }}
-                          // onChange={handleChangeTextBets}
+                          defaultValue={part.description}
+                          inputProps={{
+                            'data-id': part._id,
+                          }}
+                          onChange={changeTextParty}
                           required
                         />
                       </Grid>
@@ -150,7 +156,7 @@ function FormRate () {
                         variant="contained"
                         color="secondary"
                         onClick={deleteParty}
-                        data-index={partindex}
+                        data-id={part._id}
                         // data-index={indexBlock}
                         // data-betindex={betindex}
                       >
