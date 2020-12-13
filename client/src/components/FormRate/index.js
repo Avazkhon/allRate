@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
+import uuidV4 from 'uuid/v4';
 
 import {
   Button,
@@ -15,8 +18,18 @@ import {
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import SaveIcon from '@material-ui/icons/Save';
 
-function FormRate () {
+import {
+  creteNewRate,
+  // changeImg,
+} from 'actions'
+
+function FormRate (
+  {
+    creteNewRate
+  },
+) {
   const [rate, useChangeRate] = useState({
     title: '',
     description: '',
@@ -24,24 +37,24 @@ function FormRate () {
     dateFinish: '',
   })
 
-  const [party, useChangeParty] = useState([
+  const [party, useChangeParty] = useState(() => ([
     {
-      _id: 1,
+      id: uuidV4(),
       participator: '',
       description: '',
     },
     {
-      _id: 2,
+      id: uuidV4(),
       participator: '',
       description: '',
     },
-  ])
+  ]))
 
   function addParty() {
     useChangeParty([
       ...party,
       {
-        _id: Date.now(),
+        id: uuidV4(),
         participator: '',
         description: '',
       }
@@ -50,14 +63,14 @@ function FormRate () {
 
   function deleteParty (e) {
     const { id } = e.currentTarget.dataset;
-    useChangeParty(party.filter(part => part._id !== Number(id)))
+    useChangeParty(party.filter(part => part.id !== id))
   }
 
   function changeTextParty (e) {
     const { id } = e.currentTarget.dataset;
     const { name, value } = e.currentTarget;
     const newParty = party.map((part) => {
-      if (part._id === Number(id)) {
+      if (part.id === id) {
         part[name] = value;
       }
       return part;
@@ -70,12 +83,29 @@ function FormRate () {
     useChangeRate({...rate, [name]: value})
   }
 
-  function changeDateStart(dateStart) {
+  function changeDateStart(e) {
+    const dateStart = e.currentTarget.value;
     useChangeRate({...rate, dateStart})
   }
 
-  function changeDateFinish(dateFinish) {
+  function changeDateFinish(e) {
+    const dateFinish = e.currentTarget.value;
     useChangeRate({...rate, dateFinish})
+  }
+
+  function handleCreteNewRate(){
+    console.log(moment(rate.dateStart).utc().format());
+    const data = {
+      ...rate,
+      dateStart: moment(rate.dateStart).utc().format(),
+      dateFinish: moment(rate.dateFinish).utc().format(),
+      party
+    };
+
+    creteNewRate(data)
+      .then((action) => {
+        console.log(action);
+      })
   }
 
   return (
@@ -130,7 +160,7 @@ function FormRate () {
           {
             party.map((part) => {
               return (
-                <ListItem button key={part._id}>
+                <ListItem button key={part.id}>
                   <Grid container>
                     <Grid item xs={12}>
                       <TextField
@@ -138,7 +168,7 @@ function FormRate () {
                         label="Названия команды"
                         defaultValue={part.participator}
                         inputProps={{
-                          'data-id': part._id,
+                          'data-id': part.id,
                         }}
                         onChange={changeTextParty}
                         required
@@ -151,7 +181,7 @@ function FormRate () {
                           multiline
                           defaultValue={part.description}
                           inputProps={{
-                            'data-id': part._id,
+                            'data-id': part.id,
                           }}
                           onChange={changeTextParty}
                           required
@@ -163,7 +193,7 @@ function FormRate () {
                         variant="contained"
                         color="secondary"
                         onClick={deleteParty}
-                        data-id={part._id}
+                        data-id={part.id}
                         // data-index={indexBlock}
                         // data-betindex={betindex}
                       >
@@ -184,9 +214,40 @@ function FormRate () {
         >
           <AddCircleIcon /> Добавить участника
         </Button>
+
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleCreteNewRate}
+        >
+          <SaveIcon /> Создать ставку
+        </Button>
       </form>
     </>
   )
 }
 
-export default FormRate;
+FormRate.propTypes = {
+  creteNewRate: PropTypes.func,
+  changeImg: PropTypes.func,
+  selectRate: PropTypes.shape(),
+  auth: PropTypes.shape(),
+}
+
+function mapStateToProps(state) {
+  const {
+    auth,
+    selectRate,
+  } = state;
+  return {
+    auth,
+    selectRate,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  {
+    creteNewRate,
+  }
+)(FormRate);
