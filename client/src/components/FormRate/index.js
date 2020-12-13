@@ -17,7 +17,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 function FormRate () {
-  const [data, useChangeData] = useState({
+  const [rate, useChangeRate] = useState({
     title: '',
     description: '',
     dateStart: moment().utc().format(),
@@ -65,6 +65,11 @@ function FormRate () {
     useChangeParty(newParty)
   }
 
+  function changeRateText(e) {
+    const { name, value } = e.currentTarget;
+    useChangeRate({...rate, [name]: value})
+  }
+
   return (
     <>
       <form>
@@ -73,13 +78,8 @@ function FormRate () {
             <TextField
               name="title"
               label="Заголовок"
-              // id="standard-password-input"
-              // defaultValue={bet.condition}
-              // inputProps={{
-              //   'data-index': indexBlock,
-              //   'data-betindex': betindex,
-              // }}
-              // onChange={handleChangeTextBets}
+              defaultValue={rate.title}
+              onChange={changeRateText}
               required
             />
             </Grid>
@@ -88,13 +88,8 @@ function FormRate () {
               name="description"
               label="Описания"
               multiline
-              // id="standard-password-input"
-              // defaultValue={bet.condition}
-              // inputProps={{
-              //   'data-index': indexBlock,
-              //   'data-betindex': betindex,
-              // }}
-              // onChange={handleChangeTextBets}
+              defaultValue={rate.description}
+              onChange={changeRateText}
               required
             />
             </Grid>
