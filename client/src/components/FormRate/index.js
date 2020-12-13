@@ -20,8 +20,8 @@ function FormRate () {
   const [rate, useChangeRate] = useState({
     title: '',
     description: '',
-    dateStart: moment().utc().format(),
-    dateFinish: moment().utc().format(),
+    dateStart: '',
+    dateFinish: '',
   })
 
   const [party, useChangeParty] = useState([
@@ -70,6 +70,14 @@ function FormRate () {
     useChangeRate({...rate, [name]: value})
   }
 
+  function changeDateStart(dateStart) {
+    useChangeRate({...rate, dateStart})
+  }
+
+  function changeDateFinish(dateFinish) {
+    useChangeRate({...rate, dateFinish})
+  }
+
   return (
     <>
       <form>
@@ -96,21 +104,25 @@ function FormRate () {
           <Grid item xs={6}>
             <TextField
               id="datetime-local"
-              label="Время начало"
               type="datetime-local"
+              label="Время начало"
+              defaultValue={rate.dateStart}
               InputLabelProps={{
                 shrink: true,
               }}
+              onChange={changeDateStart}
             />
             </Grid>
           <Grid item xs={6}>
             <TextField
               id="datetime-local"
-              label="Время завершения"
               type="datetime-local"
+              label="Время завершения"
+              defaultValue={rate.dateFinish}
               InputLabelProps={{
                 shrink: true,
               }}
+              onChange={changeDateFinish}
             />
             </Grid>
         </Grid>
