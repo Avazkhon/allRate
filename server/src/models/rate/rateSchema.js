@@ -23,7 +23,7 @@ exports.rateSchema = new Schema(
       { type: mongoose.ObjectId, required: true }
     ],
     party: [{
-      id: { type: String, required: true },
+      id: { type: Number, required: true },
       participator: { type: String, required: true, min: 3, max: 50 },
       description: { type: String, required: true, min: 10, max: 200 },
       img: { type: String, default: urlParty },
