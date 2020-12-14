@@ -71,8 +71,21 @@ class FormBlocks extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      block: [],
+      block: {
+        blocks: []
+      },
     }
+  }
+
+  componentDidMount() {
+    const { blocks } = this.props;
+    if(blocks.data.id) {
+      this.setState({block: blocks.data})
+    }
+  }
+
+  randomNumber = (min = 100000, max = 999999) => {
+    return Math.floor(Math.random() * (max - min) + min);
   }
 
   handlePostBlock = () => {
@@ -91,19 +104,28 @@ class FormBlocks extends React.Component {
   }
 
   addBets = (e) => {
-    const indexBlock = e.currentTarget.name;
+    const { idblock } = e.currentTarget.dataset;
     let {
-      block
-    } = this.state;
-    const betTemplate = {
-      id: block[indexBlock].bets.length + 1,
-      condition: "",
-      participants: []
-    }
-    block[indexBlock].bets.push(betTemplate);
-    this.setState({
-      block: [...block]
+      blocks
+    } = this.state.block;
+    blocks = blocks.map((block) => {
+      if (block.id === Number(idblock)) {
+        const betTemplate = {
+          id: this.randomNumber(),
+          condition: "",
+          participants: []
+        }
+        block.bets.push(betTemplate)
+      }
+      return block;
     })
+
+    this.setState((prevState) => ({
+      block: {
+        ...prevState.block,
+        blocks,
+      }
+    }))
   }
 
   addBlock = () => {
@@ -112,7 +134,7 @@ class FormBlocks extends React.Component {
     } = this.state;
 
     const blockTemplate = {
-      _id: block.length + 1,
+      id: this.randomNumber(),
       title: {
         value: "",
         templateId: null
@@ -125,37 +147,70 @@ class FormBlocks extends React.Component {
       bets: []
     }
 
-    block.push(blockTemplate)
+    block.blocks.push(blockTemplate)
     this.setState({block})
   }
 
   handleChangeTextBets = (e) => {
-    const { index, betindex } = e.currentTarget.dataset;
+    const { idblock, idbet } = e.currentTarget.dataset;
     const { value, name } = e.currentTarget;
-    const { block } = this.state;
-    block[index].bets[betindex][name] = value;
-    this.setState({block})
+    let { blocks } = this.state.block;
+    blocks = blocks.map((block) => {
+      if (block.id === Number(idblock)) {
+        block.bets.map((bet) => {
+          if (bet.id === Number(idbet)) {
+            bet[name] = value;
+          }
+          return bet;
+        })
+      }
+      return block;
+    })
+    this.setState((prevState) => ({
+      block: {
+        ...prevState.block,
+        blocks,
+      }
+    }))
   }
 
   handleChangeTextBlock = (e) => {
-    const { index } = e.currentTarget.dataset;
+    const { idblock } = e.currentTarget.dataset;
     const { value, name } = e.currentTarget;
-    const { block } = this.state;
-    block[index][name].value = value;
-    this.setState({block})
+    let { blocks } = this.state.block;
+
+    blocks = blocks.map((block) => {
+      if (block.id === Number(idblock)) {
+        block[name].value = value;
+      }
+      return block;
+    })
+
+    this.setState((prevState) => ({
+      block: {
+        ...prevState.block,
+        blocks,
+      }
+    }))
   }
 
   deleteBlock = (e) => {
-    const { index } = e.currentTarget.dataset;
+    const { idblock } = e.currentTarget.dataset;
     const { block } = this.state;
-    block.splice(index, 1);
+    block.blocks = block.blocks.filter(block => block.id !== Number(idblock));
     this.setState({block})
   }
 
   deleteBets = (e) => {
-    const { index, betindex } = e.currentTarget.dataset;
+    const { idblock, idbet } = e.currentTarget.dataset;
     const { block } = this.state;
-    block[index].bets.splice(betindex, 1)
+    block.blocks.map((block) => {
+      if(block.id === Number(idblock)) {
+        block.bets = block.bets.filter(bet => bet.id !== Number(idbet))
+      }
+      return block;
+    })
+
     this.setState({block})
   }
 
@@ -169,16 +224,16 @@ class FormBlocks extends React.Component {
       lang,
     } = this.props
 
+    console.log(block);
     return (
       <div className={classes['card-block']} noValidate autoComplete="off">
         {
-          block.map((bets, indexBlock) => {
+          block.blocks.map((block) => {
             return (
               <FormBlock
-                bets={bets}
-                key={bets._id}
+                block={block}
+                key={block.id}
                 addBets={this.addBets}
-                indexBlock={indexBlock}
                 handleChangeTextBlock={this.handleChangeTextBlock}
                 handleChangeTextBets={this.handleChangeTextBets}
                 deleteBlock={this.deleteBlock}
@@ -201,6 +256,7 @@ class FormBlocks extends React.Component {
 FormBlocks.propTypes = {
   auth: PropTypes.shape(),
   classes: PropTypes.shape(),
+  blocks: PropTypes.shape(),
   postBlock: PropTypes.func,
 }
 

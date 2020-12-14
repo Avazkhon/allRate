@@ -13,6 +13,7 @@ import {
   // creteNewRate,
   changeImg,
   getRateByID,
+  getBlockById,
 } from 'actions'
 
 import FormRate from 'components/FormRate';
@@ -33,11 +34,19 @@ class CreateRatePage extends React.Component {
     const {
       history,
       getRateByID,
+      getBlockById,
     } = this.props;
     const { rateId } = queryString.parse(history.location.search);
     if (rateId) {
-      getRateByID(rateId);
-      this.setState((prev) => ({isShowRate: true}))
+      getRateByID(rateId)
+        .then((action) => {
+          if (action.status === 'SUCCESS') {
+            if (action.response.blockId) {
+              getBlockById(action.response.blockId)
+            }
+            this.setState({isShowRate: true})
+          }
+        });
     }
   }
 
@@ -52,6 +61,7 @@ class CreateRatePage extends React.Component {
       },
       selectRate,
       changeImg,
+      blocks,
     } = this.props;
 
     return (
@@ -67,7 +77,9 @@ class CreateRatePage extends React.Component {
               <FormRate
                 selectRate={isShowRate && selectRate}
               />
-              <FormBlocks />
+              <FormBlocks
+                blocks={blocks}
+              />
             </Col>
           </Row>
         </Container>
@@ -80,19 +92,23 @@ CreateRatePage.propTypes = {
   // creteNewRate: PropTypes.func,
   changeImg: PropTypes.func,
   getRateByID: PropTypes.func,
+  getBlockById: PropTypes.func,
   selectRate: PropTypes.shape(),
   auth: PropTypes.shape(),
   history: PropTypes.shape(),
+  blocks: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {
   const {
     auth,
     selectRate,
+    blocks
   } = state;
   return {
     auth,
     selectRate,
+    blocks,
   };
 }
 
@@ -100,4 +116,5 @@ export default connect(mapStateToProps, {
   // creteNewRate,
   changeImg,
   getRateByID,
+  getBlockById,
 })(CreateRatePage);

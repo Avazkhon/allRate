@@ -68,14 +68,16 @@ class FormBlock extends React.Component {
     const {
       lang,
       classes,
-      indexBlock,
       handleChangeTextBets,
       deleteBets,
+      block: {
+        id: idBlock
+      }
     } = this.props;
     return (
       <List component="nav" className={classes.root} aria-label="contacts">
         {
-          bets.map((bet, betindex) => {
+          bets.map((bet) => {
             return (
               <ListItem button key={bet.id}>
                 <Grid container>
@@ -86,8 +88,8 @@ class FormBlock extends React.Component {
                       id="standard-password-input"
                       defaultValue={bet.condition}
                       inputProps={{
-                        'data-index': indexBlock,
-                        'data-betindex': betindex,
+                        'data-idblock': idBlock,
+                        'data-idbet': bet.id,
                       }}
                       onChange={handleChangeTextBets}
                       required
@@ -100,8 +102,8 @@ class FormBlock extends React.Component {
                       variant="contained"
                       color="secondary"
                       onClick={deleteBets}
-                      data-index={indexBlock}
-                      data-betindex={betindex}
+                      data-idblock={idBlock}
+                      data-idbet={bet.id}
                     ><DeleteIcon /></Button>
                   </Grid>
                 </Grid>
@@ -117,15 +119,17 @@ class FormBlock extends React.Component {
     const {
       lang,
       classes,
-      indexBlock,
       handleChangeTextBets,
       deleteBets,
+      block: {
+        id: idBlock
+      }
     } = this.props;
 
     return (
       <List component="nav" className={classes.root} aria-label="contacts">
         {
-          bets.map((bet, betindex) => {
+          bets.map((bet) => {
             return (
               <ListItem button key={bet.id}>
               <Grid container>
@@ -136,8 +140,8 @@ class FormBlock extends React.Component {
                       id="standard-password-input"
                       defaultValue={bet.condition}
                       inputProps={{
-                        'data-index': indexBlock,
-                        'data-betindex': betindex,
+                        'data-idblock': idBlock,
+                        'data-idbet': bet.id,
                       }}
                       onChange={handleChangeTextBets}
                       required
@@ -149,8 +153,8 @@ class FormBlock extends React.Component {
                       variant="contained"
                       color="secondary"
                       onClick={deleteBets}
-                      data-index={indexBlock}
-                      data-betindex={betindex}
+                      data-idblock={idBlock}
+                      data-idbet={bet.id}
                     ><DeleteIcon /></Button>
                   </Grid>
                 </Grid>
@@ -166,15 +170,14 @@ class FormBlock extends React.Component {
     const {
       classes,
       lang,
-      bets: {
+      block: {
         type,
         title,
         description,
         bets,
-        _id
+        id: idBlock
       },
       addBets,
-      indexBlock,
 
       handleChangeTextBlock,
       deleteBlock,
@@ -189,7 +192,7 @@ class FormBlock extends React.Component {
             id="standard-password-input"
             defaultValue={title.value}
             inputProps={{
-              'data-index': indexBlock
+              'data-idblock': idBlock
             }}
             onChange={handleChangeTextBlock}
             required
@@ -199,7 +202,7 @@ class FormBlock extends React.Component {
             label={textLang.description[lang]}
             defaultValue={description.value}
             inputProps={{
-              'data-index': indexBlock
+              'data-idblock': idBlock
             }}
             onChange={handleChangeTextBlock}
             required
@@ -238,10 +241,10 @@ class FormBlock extends React.Component {
             }
           </div>
         </div>
-        <Button variant="contained" color="primary"  name={indexBlock} onClick={addBets}>
+        <Button variant="contained" color="primary"  data-idblock={idBlock} onClick={addBets}>
           <AddCircleIcon />
         </Button>
-        <Button variant="contained" color="secondary" data-index={indexBlock} onClick={deleteBlock}>
+        <Button variant="contained" color="secondary" data-idblock={idBlock} onClick={deleteBlock}>
           <DeleteIcon />
         </Button>
       </form>
@@ -252,13 +255,12 @@ class FormBlock extends React.Component {
 FormBlock.propTypes = {
   // auth: PropTypes.shape(),
   classes: PropTypes.shape(),
-  bets: PropTypes.shape(),
+  block: PropTypes.shape(),
   addBets: PropTypes.func,
   handleChangeTextBlock: PropTypes.func,
   handleChangeTextBets: PropTypes.func,
   deleteBlock: PropTypes.func,
   deleteBets: PropTypes.func,
-  indexBlock: PropTypes.string,
 }
 
 // function mapStateToProps(state) {
