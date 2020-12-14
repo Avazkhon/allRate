@@ -53,6 +53,7 @@ export const POSRT_PASSWORD_RECOVERY = 'POSRT_PASSWORD_RECOVERY';
 export const PUT_PASSWORD_RECOVERY = 'PUT_PASSWORD_RECOVERY';
 
 export const POST_BLOCK = 'POST_BLOCK';
+export const GET_BLOCK_BY_ID = 'GET_BLOCK_BY_ID';
 
 export const basisForPayment = {
   accountReplenishment: 'accountReplenishment', // Пополнение счета

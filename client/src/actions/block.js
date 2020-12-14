@@ -1,5 +1,6 @@
 import {
-  POST_BLOCK
+  POST_BLOCK,
+  GET_BLOCK_BY_ID,
 } from '../constants';
 
 export function postBlock (data, rateId) {
@@ -12,6 +13,19 @@ export function postBlock (data, rateId) {
         rateId
       },
       data,
+    }
+  });
+}
+
+export function getBlockById (rateId) {
+  return dispatch => dispatch({
+    type: GET_BLOCK_BY_ID,
+    meta: {
+      method: 'GET',
+      endpoint:`block`,
+      queryParams: {
+        rateId
+      },
     }
   });
 }
