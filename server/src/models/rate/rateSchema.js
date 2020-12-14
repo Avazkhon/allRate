@@ -19,9 +19,7 @@ exports.rateSchema = new Schema(
     purseId: { type: mongoose.ObjectId },
     views: { type: Number, required: true, min: 0, default: 0 },
     paymentMade: { type: Boolean, required: false },
-    block: [
-      { type: mongoose.ObjectId, required: true }
-    ],
+    blockId: { type: mongoose.ObjectId },
     party: [{
       id: { type: Number, required: true },
       participator: { type: String, required: true, min: 3, max: 50 },

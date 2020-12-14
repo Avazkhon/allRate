@@ -93,5 +93,6 @@ module.exports = function (app) {
     .put(userControllers.passwordRecoveryFinish)
 
   app.route('/api/block')
+    .get(blockControllers.findOne)
     .post(blockControllers.createBlock)
 };

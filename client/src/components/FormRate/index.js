@@ -45,18 +45,7 @@ function FormRate (
     dateFinish: '',
   })
 
-  const [party, useChangeParty] = useState(() => ([
-    {
-      id: randomNumber(),
-      participator: '',
-      description: '',
-    },
-    {
-      id: randomNumber(),
-      participator: '',
-      description: '',
-    },
-  ]))
+  const [party, useChangeParty] = useState(() => ([]))
 
 
   useEffect(() => {
