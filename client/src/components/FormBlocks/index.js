@@ -33,6 +33,7 @@ import {
 
 import {
   postBlock,
+  getBlockById,
 } from 'actions';
 
 const textLang = {
@@ -77,10 +78,16 @@ class FormBlocks extends React.Component {
     }
   }
 
-  componentDidMount() {
-    const { blocks } = this.props;
-    if(blocks.data.id) {
-      this.setState({block: blocks.data})
+  componentDidUpdate(prevProps){
+    const { blockId, getBlockById } = this.props;
+    const { blockId: prevtBlockId } = prevProps;
+    if(blockId && !prevtBlockId) {
+      getBlockById(blockId)
+        .then((action) => {
+          if (action.status === 'SUCCESS') {
+            this.setState({block: action.response})
+          }
+        })
     }
   }
 
@@ -90,16 +97,17 @@ class FormBlocks extends React.Component {
 
   handlePostBlock = () => {
     const {
-      data
+      block,
     } = this.state;
 
     const {
-      postBlock
+      postBlock,
+      rateId,
     } = this.props;
 
-    postBlock(data, '5fc7c00d8db8b13ca0a60023')
+    postBlock(block, rateId)
       .then((action) => {
-        console.log(action);
+        this.setState({block: action.response})
       })
   }
 
@@ -224,7 +232,6 @@ class FormBlocks extends React.Component {
       lang,
     } = this.props
 
-    console.log(block);
     return (
       <div className={classes['card-block']} noValidate autoComplete="off">
         {
@@ -245,7 +252,10 @@ class FormBlocks extends React.Component {
         }
         <div>
           <Button variant="contained" onClick={this.addBlock} color="primary">
-            <AddCircleIcon />
+            <AddCircleIcon /> Добавить блок
+          </Button>
+          <Button variant="contained" onClick={this.handlePostBlock} color="primary">
+            <AddCircleIcon /> Сохранить
           </Button>
         </div>
       </div>
@@ -256,8 +266,10 @@ class FormBlocks extends React.Component {
 FormBlocks.propTypes = {
   auth: PropTypes.shape(),
   classes: PropTypes.shape(),
-  blocks: PropTypes.shape(),
   postBlock: PropTypes.func,
+  getBlockById: PropTypes.func,
+  rateId: PropTypes.string,
+  blockId: PropTypes.string,
 }
 
 function mapStateToProps(state) {
@@ -275,7 +287,8 @@ export default injectSheet(style)(
   connect(
     mapStateToProps,
     {
-      postBlock
+      postBlock,
+      getBlockById,
     }
   )(FormBlocks)
 )

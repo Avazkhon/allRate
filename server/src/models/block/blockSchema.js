@@ -6,6 +6,7 @@ exports.blockSchema = new Schema({
     rateId: { type: mongoose.ObjectId },
     blocks: [
       {
+        id: { type: Number, required: true },
         title: {
           value: { type: String, required: true, min: 3, max: 50 },
           templateId: { type: mongoose.ObjectId }
@@ -21,6 +22,7 @@ exports.blockSchema = new Schema({
         amount: { type: Number, default: 0 },
         bets: [
           {
+            id: { type: Number, required: true },
             coefficient: { type: Number, min: 1},
             amount: { type: Number, default: 0 },
             win: { type: Boolean, default: false },

@@ -117,7 +117,6 @@ function FormRate (
 
     creteNewRate(data)
       .then((action) => {
-        console.log(action);
         history.push({search: `rateId=${action.response._id}`})
       })
   }
