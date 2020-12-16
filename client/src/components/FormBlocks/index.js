@@ -108,7 +108,9 @@ class FormBlocks extends React.Component {
 
     postBlock(block, rateId)
       .then((action) => {
-        this.setState({block: action.response})
+        if (action.status === 'SUCCESS') {
+          this.setState({block: action.response})
+        }
       })
   }
 
@@ -123,7 +125,9 @@ class FormBlocks extends React.Component {
 
     putBlockById(block)
       .then((action) => {
-        this.setState({block: action.response})
+        if (action.status === 'SUCCESS') {
+          this.setState({block: action.response})
+        }
       })
   }
 
