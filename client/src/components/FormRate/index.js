@@ -23,8 +23,13 @@ import SaveIcon from '@material-ui/icons/Save';
 import {
   creteNewRate,
   putRateByID,
+  putRateLiveByID,
   // changeImg,
 } from 'actions'
+
+import {
+  rateStatusLive,
+} from '../../constants';
 
 
 function randomNumber(min = 100000, max = 999999) {
@@ -36,6 +41,7 @@ function FormRate (
     creteNewRate,
     selectRate,
     putRateByID,
+    putRateLiveByID,
   },
 ) {
   let history = useHistory();
@@ -48,6 +54,7 @@ function FormRate (
   })
 
   const [party, setChangeParty] = useState(() => ([]))
+  const [isFetching, setStatusFinish] = useState(() => (false))
 
 
   useEffect(() => {
@@ -117,21 +124,48 @@ function FormRate (
       party
     };
 
+    setStatusFinish(true)
+
     creteNewRate(data)
       .then((action) => {
-        history.push({search: `rateId=${action.response._id}`})
+        setStatusFinish(false)
+        if (action.status === 'SUCCESS') {
+          setChangeRate(action.response)
+          history.push({search: `rateId=${action.response._id}`})
+        }
       })
   }
 
-  function handleChange () {
+  function handleChangeRate () {
     const data = {
       ...rate,
       dateStart: moment(rate.dateStart).utc().format(),
       dateFinish: moment(rate.dateFinish).utc().format(),
       party
     };
+    setStatusFinish(true)
     putRateByID(data)
+      .then((action) => {
+        setStatusFinish(false)
+        if (action.status === 'SUCCESS') {
+          setChangeRate(action.response)
+        }
+      })
   }
+
+  function handleChangeRateLiveByID (e) {
+    const { name } = e.currentTarget;
+    setStatusFinish(true)
+    putRateLiveByID(name, rate._id)
+      .then((action) => {
+        setStatusFinish(false)
+        if (action.status === 'SUCCESS') {
+          setChangeRate(action.response)
+        }
+      })
+  }
+
+  const isDisabledByLife = (rate.statusLife === rateStatusLive.finish) ||  (rate.statusLife === rateStatusLive.archive)
 
   return (
     <>
@@ -143,6 +177,7 @@ function FormRate (
               label="Заголовок"
               value={rate.title}
               onChange={changeRateText}
+              disabled={isFetching || isDisabledByLife}
               required
             />
             </Grid>
@@ -150,9 +185,10 @@ function FormRate (
             <TextField
               name="description"
               label="Описания"
-              multiline
               value={rate.description}
               onChange={changeRateText}
+              disabled={isFetching || isDisabledByLife}
+              multiline
               required
             />
             </Grid>
@@ -162,6 +198,7 @@ function FormRate (
               type="datetime-local"
               label="Время начало"
               value={rate.dateStart}
+              disabled={isFetching || isDisabledByLife}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -174,6 +211,7 @@ function FormRate (
               type="datetime-local"
               label="Время завершения"
               value={rate.dateFinish}
+              disabled={isFetching || isDisabledByLife}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -192,10 +230,11 @@ function FormRate (
                         name="participator"
                         label="Названия команды"
                         value={part.participator}
+                        onChange={changeTextParty}
                         inputProps={{
                           'data-id': part.id,
                         }}
-                        onChange={changeTextParty}
+                        disabled={isFetching || isDisabledByLife}
                         required
                       />
                       </Grid>
@@ -205,10 +244,11 @@ function FormRate (
                           label="Описания"
                           multiline
                           value={part.description}
+                          onChange={changeTextParty}
                           inputProps={{
                             'data-id': part.id,
                           }}
-                          onChange={changeTextParty}
+                          disabled={isFetching || isDisabledByLife}
                           required
                         />
                       </Grid>
@@ -219,8 +259,7 @@ function FormRate (
                         color="secondary"
                         onClick={deleteParty}
                         data-id={part.id}
-                        // data-index={indexBlock}
-                        // data-betindex={betindex}
+                        disabled={isFetching || isDisabledByLife}
                       >
                         <DeleteIcon />
                         Удалить участника
@@ -236,6 +275,7 @@ function FormRate (
           variant="contained"
           color="primary"
           onClick={addParty}
+          disabled={isFetching || isDisabledByLife}
         >
           <AddCircleIcon /> Добавить участника
         </Button>
@@ -243,10 +283,34 @@ function FormRate (
         <Button
           variant="contained"
           color="primary"
-          onClick={ rate._id ? handleChange : handleCreteNewRate}
+          disabled={isFetching || isDisabledByLife}
+          onClick={ rate._id ? handleChangeRate : handleCreteNewRate}
         >
           <SaveIcon /> {rate._id ? 'Сохранить ставку' : 'Создать ставку'}
         </Button>
+        {
+          (rate.statusLife === rateStatusLive.active || rate.statusLife === rateStatusLive.new) &&
+          <Button
+            variant="contained"
+            color="primary"
+            name={rateStatusLive.finish}
+            onClick={handleChangeRateLiveByID}
+            disabled={isFetching || isDisabledByLife}
+          >
+            <SaveIcon /> Завершить ставку
+          </Button>
+        }
+        {
+          rate.statusLife === rateStatusLive.finish &&
+            <Button
+              variant="contained"
+              color="primary"
+              name={rateStatusLive.archive}
+              onClick={handleChangeRateLiveByID}
+            >
+              <SaveIcon /> Добавить в архив
+            </Button>
+        }
       </form>
     </>
   )
@@ -256,6 +320,7 @@ FormRate.propTypes = {
   creteNewRate: PropTypes.func,
   changeImg: PropTypes.func,
   putRateByID: PropTypes.func,
+  putRateLiveByID: PropTypes.func,
   selectRate: PropTypes.shape(),
   auth: PropTypes.shape(),
 }
@@ -274,5 +339,6 @@ export default connect(
   {
     creteNewRate,
     putRateByID,
+    putRateLiveByID,
   }
 )(FormRate);
