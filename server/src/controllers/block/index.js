@@ -45,7 +45,7 @@ exports.updateOne = async (req, res) => {
     const {
       body
     } = req;
-    console.log(body);
+
     const block = await blockModels.findByIdAndUpdate({ _id: body._id}, body, { new: true })
     res.status(200).json(block);
   } catch (error) {

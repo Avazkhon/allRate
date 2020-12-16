@@ -242,6 +242,19 @@ class FormBlocks extends React.Component {
     this.setState({block})
   }
 
+  changeTypeBlock = (e) => {
+    const { idblock } = e.target.dataset;
+    const { value } = e.target;
+    const { block } = this.state;
+    block.blocks = block.blocks.map(block => {
+      if (block.id === Number(idblock)) {
+        block.type = value;
+      }
+      return block;
+    });
+    this.setState({block})
+  }
+
   render() {
     const {
       block,
@@ -266,6 +279,7 @@ class FormBlocks extends React.Component {
                 deleteBlock={this.deleteBlock}
                 deleteBets={this.deleteBets}
                 lang={lang}
+                changeTypeBlock={this.changeTypeBlock}
               />
             )
           })

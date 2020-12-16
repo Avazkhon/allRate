@@ -181,6 +181,7 @@ class FormBlock extends React.Component {
 
       handleChangeTextBlock,
       deleteBlock,
+      changeTypeBlock,
     } = this.props;
 
     return (
@@ -212,11 +213,10 @@ class FormBlock extends React.Component {
             <Select
               native
               value={type}
-              // onChange={handleChange}
-              // inputProps={{
-              //   name: textLang.type[lang],
-              //   id: 'type-native-simple',
-              // }}
+              onChange={changeTypeBlock}
+              inputProps={{
+                'data-idblock': idBlock,
+              }}
             >
               {
                 Object.keys(typeBlock).map((key) => {
@@ -261,6 +261,7 @@ FormBlock.propTypes = {
   handleChangeTextBets: PropTypes.func,
   deleteBlock: PropTypes.func,
   deleteBets: PropTypes.func,
+  changeTypeBlock: PropTypes.func,
 }
 
 // function mapStateToProps(state) {
