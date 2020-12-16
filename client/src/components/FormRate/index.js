@@ -22,6 +22,7 @@ import SaveIcon from '@material-ui/icons/Save';
 
 import {
   creteNewRate,
+  putRateByID,
   // changeImg,
 } from 'actions'
 
@@ -34,28 +35,29 @@ function FormRate (
   {
     creteNewRate,
     selectRate,
+    putRateByID,
   },
 ) {
   let history = useHistory();
 
-  const [rate, useChangeRate] = useState({
+  const [rate, setChangeRate] = useState({
     title: '',
     description: '',
     dateStart: '',
     dateFinish: '',
   })
 
-  const [party, useChangeParty] = useState(() => ([]))
+  const [party, setChangeParty] = useState(() => ([]))
 
 
   useEffect(() => {
     if (selectRate.data && selectRate.data._id) {
-      useChangeRate({
+      setChangeRate({
         ...selectRate.data,
         dateStart: moment(selectRate.data.dateStart).format('YYYY-MM-DDTHH:mm'),
         dateFinish: moment(selectRate.data.dateFinish).format('YYYY-MM-DDTHH:mm'),
       })
-      useChangeParty(selectRate.data.party)
+      setChangeParty(selectRate.data.party)
     }
   }, [selectRate])
 
@@ -63,7 +65,7 @@ function FormRate (
 
 
   function addParty() {
-    useChangeParty([
+    setChangeParty([
       ...party,
       {
         id: randomNumber(),
@@ -75,7 +77,7 @@ function FormRate (
 
   function deleteParty (e) {
     const { id } = e.currentTarget.dataset;
-    useChangeParty(party.filter(part => {
+    setChangeParty(party.filter(part => {
       return part.id !== Number(id)
     }))
   }
@@ -89,22 +91,22 @@ function FormRate (
       }
       return part;
     })
-    useChangeParty(newParty)
+    setChangeParty(newParty)
   }
 
   function changeRateText(e) {
     const { name, value } = e.currentTarget;
-    useChangeRate({...rate, [name]: value})
+    setChangeRate({...rate, [name]: value})
   }
 
   function changeDateStart(e) {
     const dateStart = e.currentTarget.value;
-    useChangeRate({...rate, dateStart})
+    setChangeRate({...rate, dateStart})
   }
 
   function changeDateFinish(e) {
     const dateFinish = e.currentTarget.value;
-    useChangeRate({...rate, dateFinish})
+    setChangeRate({...rate, dateFinish})
   }
 
   function handleCreteNewRate(){
@@ -119,6 +121,16 @@ function FormRate (
       .then((action) => {
         history.push({search: `rateId=${action.response._id}`})
       })
+  }
+
+  function handleChange () {
+    const data = {
+      ...rate,
+      dateStart: moment(rate.dateStart).utc().format(),
+      dateFinish: moment(rate.dateFinish).utc().format(),
+      party
+    };
+    putRateByID(data)
   }
 
   return (
@@ -231,9 +243,9 @@ function FormRate (
         <Button
           variant="contained"
           color="primary"
-          onClick={handleCreteNewRate}
+          onClick={ rate._id ? handleChange : handleCreteNewRate}
         >
-          <SaveIcon /> Создать ставку
+          <SaveIcon /> {rate._id ? 'Сохранить ставку' : 'Создать ставку'}
         </Button>
       </form>
     </>
@@ -243,6 +255,7 @@ function FormRate (
 FormRate.propTypes = {
   creteNewRate: PropTypes.func,
   changeImg: PropTypes.func,
+  putRateByID: PropTypes.func,
   selectRate: PropTypes.shape(),
   auth: PropTypes.shape(),
 }
@@ -260,5 +273,6 @@ export default connect(
   mapStateToProps,
   {
     creteNewRate,
+    putRateByID,
   }
 )(FormRate);
