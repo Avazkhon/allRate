@@ -1,6 +1,7 @@
 import {
   POST_BLOCK,
   GET_BLOCK_BY_ID,
+  PUT_BLOCK_BY_ID,
 } from '../constants'
 
 import {
@@ -19,5 +20,8 @@ export default createReducer(initState, {
   changeState(_state, _action),
 
   [GET_BLOCK_BY_ID]: (_state, _action) =>
+  changeState(_state, _action),
+
+  [PUT_BLOCK_BY_ID]: (_state, _action) =>
   changeState(_state, _action),
 });

@@ -75,4 +75,5 @@ export {
 export {
   postBlock,
   getBlockById,
+  putBlockById,
 } from './block';

@@ -28,12 +28,13 @@ import FormBlock from '../FormBlock';
 
 
 import {
-  typeBlock
+  typeBlock,
 } from '../../constants';
 
 import {
   postBlock,
   getBlockById,
+  putBlockById,
 } from 'actions';
 
 const textLang = {
@@ -106,6 +107,21 @@ class FormBlocks extends React.Component {
     } = this.props;
 
     postBlock(block, rateId)
+      .then((action) => {
+        this.setState({block: action.response})
+      })
+  }
+
+  handleChangeBlockById = () => {
+    const {
+      block,
+    } = this.state;
+
+    const {
+      putBlockById,
+    } = this.props;
+
+    putBlockById(block)
       .then((action) => {
         this.setState({block: action.response})
       })
@@ -254,8 +270,12 @@ class FormBlocks extends React.Component {
           <Button variant="contained" onClick={this.addBlock} color="primary">
             <AddCircleIcon /> Добавить блок
           </Button>
-          <Button variant="contained" onClick={this.handlePostBlock} color="primary">
-            <AddCircleIcon /> Сохранить
+          <Button
+            variant="contained"
+            onClick={block._id ? this.handleChangeBlockById : this.handlePostBlock}
+            color="primary"
+          >
+            <AddCircleIcon /> { block._id ? 'Обновить блоки' : 'Сохранить' }
           </Button>
         </div>
       </div>
@@ -268,6 +288,7 @@ FormBlocks.propTypes = {
   classes: PropTypes.shape(),
   postBlock: PropTypes.func,
   getBlockById: PropTypes.func,
+  putBlockById: PropTypes.func,
   rateId: PropTypes.string,
   blockId: PropTypes.string,
 }
@@ -289,6 +310,7 @@ export default injectSheet(style)(
     {
       postBlock,
       getBlockById,
+      putBlockById,
     }
   )(FormBlocks)
 )

@@ -1,6 +1,7 @@
 import {
   POST_BLOCK,
   GET_BLOCK_BY_ID,
+  PUT_BLOCK_BY_ID,
 } from '../constants';
 
 export function postBlock (data, rateId) {
@@ -26,6 +27,17 @@ export function getBlockById (rateId) {
       queryParams: {
         rateId
       },
+    }
+  });
+}
+
+export function putBlockById (data) {
+  return dispatch => dispatch({
+    type: PUT_BLOCK_BY_ID,
+    meta: {
+      method: 'PUT',
+      endpoint:`block`,
+      data,
     }
   });
 }
