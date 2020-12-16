@@ -94,5 +94,6 @@ module.exports = function (app) {
 
   app.route('/api/block')
     .get(blockControllers.findOne)
+    .put(blockControllers.updateOne)
     .post(blockControllers.createBlock)
 };

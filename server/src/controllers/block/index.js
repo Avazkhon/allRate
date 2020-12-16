@@ -36,6 +36,20 @@ exports.findOne = async (req, res) => {
     res.status(200).json(block);
   } catch (error) {
     writeToLog.write(error, 'get_block_by_id.error');
-    res.status(500).json({ message: 'Ошибка на сервере', error});
+    res.status(500).json({ message: 'Ошибка на сервере', error: error.toString()});
+  };
+};
+
+exports.updateOne = async (req, res) => {
+  try {
+    const {
+      body
+    } = req;
+    console.log(body);
+    const block = await blockModels.findByIdAndUpdate({ _id: body._id}, body, { new: true })
+    res.status(200).json(block);
+  } catch (error) {
+    writeToLog.write(error, 'put_block_by_id.error');
+    res.status(500).json({ message: 'Ошибка на сервере', error: error.toString()});
   };
 };
