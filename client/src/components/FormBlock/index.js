@@ -135,8 +135,8 @@ class FormBlock extends React.Component {
           bets.map((bet) => {
             return (
               <ListItem button key={bet.id}>
-              <Grid container>
-                <Grid item xs={12} sm={6}>
+                <Grid container>
+                  <Grid item xs={12} sm={6}>
                     <TextField
                       name="condition"
                       label={textLang.conditions[lang]}
