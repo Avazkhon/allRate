@@ -6,7 +6,6 @@ import {
   Button,
   TextField,
   FormControl,
-  InputLabel,
   Select,
   List,
   ListItem,
@@ -72,7 +71,8 @@ class FormBlock extends React.Component {
       deleteBets,
       block: {
         id: idBlock
-      }
+      },
+      isDisabledByLife,
     } = this.props;
     return (
       <List component="nav" className={classes.root} aria-label="contacts">
@@ -92,6 +92,7 @@ class FormBlock extends React.Component {
                         'data-idbet': bet.id,
                       }}
                       onChange={handleChangeTextBets}
+                      disabled={isDisabledByLife}
                       required
                     />
                   </Grid>
@@ -104,6 +105,7 @@ class FormBlock extends React.Component {
                       onClick={deleteBets}
                       data-idblock={idBlock}
                       data-idbet={bet.id}
+                      disabled={isDisabledByLife}
                     ><DeleteIcon /></Button>
                   </Grid>
                 </Grid>
@@ -123,7 +125,8 @@ class FormBlock extends React.Component {
       deleteBets,
       block: {
         id: idBlock
-      }
+      },
+      isDisabledByLife,
     } = this.props;
 
     return (
@@ -144,6 +147,7 @@ class FormBlock extends React.Component {
                         'data-idbet': bet.id,
                       }}
                       onChange={handleChangeTextBets}
+                      disabled={isDisabledByLife}
                       required
                     />
                 </Grid>
@@ -155,7 +159,10 @@ class FormBlock extends React.Component {
                       onClick={deleteBets}
                       data-idblock={idBlock}
                       data-idbet={bet.id}
-                    ><DeleteIcon /></Button>
+                      disabled={isDisabledByLife}
+                    >
+                      <DeleteIcon />
+                  </Button>
                   </Grid>
                 </Grid>
               </ListItem>
@@ -182,6 +189,7 @@ class FormBlock extends React.Component {
       handleChangeTextBlock,
       deleteBlock,
       changeTypeBlock,
+      isDisabledByLife,
     } = this.props;
 
     return (
@@ -192,24 +200,26 @@ class FormBlock extends React.Component {
             label={textLang.title[lang]}
             id="standard-password-input"
             defaultValue={title.value}
+            onChange={handleChangeTextBlock}
             inputProps={{
               'data-idblock': idBlock
             }}
-            onChange={handleChangeTextBlock}
+            disabled={isDisabledByLife}
             required
           />
           <TextField
             name="description"
             label={textLang.description[lang]}
             defaultValue={description.value}
+            onChange={handleChangeTextBlock}
             inputProps={{
               'data-idblock': idBlock
             }}
-            onChange={handleChangeTextBlock}
+            disabled={isDisabledByLife}
             required
           />
           <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="age-native-simple">{textLang.type[lang]}</InputLabel>
+            {textLang.type[lang]}
             <Select
               native
               value={type}
@@ -217,6 +227,7 @@ class FormBlock extends React.Component {
               inputProps={{
                 'data-idblock': idBlock,
               }}
+              disabled={isDisabledByLife}
             >
               {
                 Object.keys(typeBlock).map((key) => {
@@ -241,10 +252,22 @@ class FormBlock extends React.Component {
             }
           </div>
         </div>
-        <Button variant="contained" color="primary"  data-idblock={idBlock} onClick={addBets}>
+        <Button
+          variant="contained"
+          color="primary"
+          data-idblock={idBlock}
+          onClick={addBets}
+          disabled={isDisabledByLife}
+        >
           <AddCircleIcon />
         </Button>
-        <Button variant="contained" color="secondary" data-idblock={idBlock} onClick={deleteBlock}>
+        <Button
+          variant="contained"
+          color="secondary"
+          data-idblock={idBlock}
+          onClick={deleteBlock}
+          disabled={isDisabledByLife}
+        >
           <DeleteIcon />
         </Button>
       </form>
@@ -262,6 +285,7 @@ FormBlock.propTypes = {
   deleteBlock: PropTypes.func,
   deleteBets: PropTypes.func,
   changeTypeBlock: PropTypes.func,
+  isDisabledByLife: PropTypes.bool,
 }
 
 // function mapStateToProps(state) {

@@ -29,7 +29,9 @@ import FormBlock from '../FormBlock';
 
 import {
   typeBlock,
+  rateStatusLive,
 } from '../../constants';
+
 
 import {
   postBlock,
@@ -263,7 +265,10 @@ class FormBlocks extends React.Component {
     const {
       classes,
       lang,
-    } = this.props
+      statusLife,
+    } = this.props;
+
+    const isDisabledByLife = (statusLife === rateStatusLive.finish) ||  (statusLife === rateStatusLive.archive)
 
     return (
       <div className={classes['card-block']} noValidate autoComplete="off">
@@ -280,18 +285,25 @@ class FormBlocks extends React.Component {
                 deleteBets={this.deleteBets}
                 lang={lang}
                 changeTypeBlock={this.changeTypeBlock}
+                isDisabledByLife={isDisabledByLife}
               />
             )
           })
         }
         <div>
-          <Button variant="contained" onClick={this.addBlock} color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.addBlock}
+            disabled={isDisabledByLife}
+          >
             <AddCircleIcon /> Добавить блок
           </Button>
           <Button
             variant="contained"
-            onClick={block._id ? this.handleChangeBlockById : this.handlePostBlock}
             color="primary"
+            onClick={block._id ? this.handleChangeBlockById : this.handlePostBlock}
+            disabled={isDisabledByLife}
           >
             <AddCircleIcon /> { block._id ? 'Обновить блоки' : 'Сохранить' }
           </Button>
@@ -309,6 +321,7 @@ FormBlocks.propTypes = {
   putBlockById: PropTypes.func,
   rateId: PropTypes.string,
   blockId: PropTypes.string,
+  statusLife: PropTypes.string,
 }
 
 function mapStateToProps(state) {

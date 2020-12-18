@@ -27,6 +27,7 @@ class CreateRatePage extends React.Component {
     this.state = {
       isShowRate: false,
       blockId: null,
+      statusLife: '',
     }
   }
 
@@ -40,7 +41,11 @@ class CreateRatePage extends React.Component {
       getRateByID(rateId)
         .then((action) => {
           if (action.status === 'SUCCESS') {
-            this.setState({isShowRate: true, blockId: action.response.blockId})
+            this.setState({
+              isShowRate: true,
+              blockId: action.response.blockId,
+              statusLife: action.response.statusLife
+            })
           }
         });
     }
@@ -50,6 +55,7 @@ class CreateRatePage extends React.Component {
     const {
       isShowRate,
       blockId,
+      statusLife,
     } = this.state;
     const {
       // creteNewRate,
@@ -79,6 +85,7 @@ class CreateRatePage extends React.Component {
               <FormBlocks
                 rateId={rateId}
                 blockId={blockId}
+                statusLife={statusLife}
               />
             </Col>
           </Row>
