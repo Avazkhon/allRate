@@ -27,7 +27,6 @@ function CardBlock(
   }
 ) {
   const classes = useStyles();
-console.log(block);
 
   return (
     <>
@@ -38,27 +37,58 @@ console.log(block);
         {block.description.value}
       </Typography>
       <List>
-        {block.bets.map((bet) => {
-          return (
-            <ListItem button key={bet._id}>
-              <Grid container>
-                <Grid item xs={7} sm={10}>
-                  <Typography>
-                    {bet.condition}
-                  </Typography>
-                </Grid>
-                <Grid item xs={5} sm={2}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                  >
-                    <CheckIcon />Выбрать
-                  </Button>
-                </Grid>
-              </Grid>
-            </ListItem>
-          )
-        })}
+        {
+          block.bets.map((bet) => {
+              if(block.type === 'boolean') {
+                return (
+                  <ListItem button key={bet._id}>
+                    <Grid container>
+                      <Grid item xs={7} sm={10}>
+                        <Typography>
+                          {bet.condition}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={5} sm={2}>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                        >
+                          <CheckIcon />Нет
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                        >
+                          <CheckIcon />Да
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </ListItem>
+                )
+              } else if (block.type === 'total') {
+                  return (
+                    <ListItem button key={bet._id}>
+                      <Grid container>
+                        <Grid item xs={7} sm={10}>
+                          <Typography>
+                            {bet.condition}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={5} sm={2}>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                          >
+                            <CheckIcon />Выбрать
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    </ListItem>
+                  )
+                }
+              }
+            )
+          }
       </List>
     </>
   );
