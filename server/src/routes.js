@@ -16,6 +16,9 @@ const InvoiceControllers = require('./controllers/invoice');
 const AlbumFolder = require('./controllers/albumFolder');
 const withdrawalRequestAdmin = require('./controllers/withdrawalRequest/withdrawalRequestAdmin');
 const blockControllers = require('./controllers/block');
+const MakeBet = require('./controllers/block/makeBet');
+
+const makeBet = new MakeBet()
 
 const invoiceControllers = new InvoiceControllers();
 const albumFolder = new AlbumFolder();
@@ -96,4 +99,7 @@ module.exports = function (app) {
     .get(blockControllers.findOne)
     .put(blockControllers.updateOne)
     .post(blockControllers.createBlock)
+
+  app.route('/api/make-bet')
+    .post(makeBet.makeBet)
 };
