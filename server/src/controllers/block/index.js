@@ -53,3 +53,30 @@ exports.updateOne = async (req, res) => {
     res.status(500).json({ message: 'Ошибка на сервере', error: error.toString()});
   };
 };
+
+exports.addParticipant = async (req, res) => {
+  try {
+    const {
+      body,
+      query: {
+        rateId,
+        participantId,
+      },
+    } = req;
+
+    const block = await blockModels.findByIdAndUpdate(
+      {
+        _id: rateId,
+        ['bets._id']: participantId
+      },
+      {
+        '$push': { ['bets.participants']: body }
+      },
+      { new: true }
+    )
+    res.status(200).json(block);
+  } catch (error) {
+    writeToLog.write(error, 'put_block_by_id.error');
+    res.status(500).json({ message: 'Ошибка на сервере', error: error.toString()});
+  };
+};

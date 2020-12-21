@@ -26,7 +26,7 @@ exports.blockSchema = new Schema({
             coefficient: { type: Number, min: 1},
             amount: { type: Number, default: 0 },
             win: { type: Boolean, default: false },
-            ab: { type: Boolean, default: false }, // if type block boolean
+            ab: { type: Boolean }, // if type block boolean
             condition: { type: String, required: true },
             createDate: { type: Date, default: moment().utc().format() },
             paymentMade: { type: Boolean, default: false },
