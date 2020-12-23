@@ -191,6 +191,17 @@ class InvoiceController {
     }
   }
 
+  
+
+  async createInvoiceForMakeRate (data) {
+    data.invoiceId = uuidv4();
+    data.basisForPayment = makeRate;
+    const invoice = await invoiceModel.create(data);
+    await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
+      .then(() => this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
+    return invoice;
+  }
+
   async createInvoiceForLeftovers (data) {
     data.authorId = superAdmin.userId;
     data.invoiceId = uuidv4();
