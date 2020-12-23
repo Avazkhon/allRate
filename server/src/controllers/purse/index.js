@@ -18,7 +18,7 @@ exports.createPurseForMainBet = async (data) => {
   const purse = await purseModel.create(data);
   const rate = await rateModel.findByIdAndUpdate(
     { _id: purse.mainBetId },
-    { 'mainBet.purseId': purse._id }
+    { 'purseId': purse._id }
   );
   return { purse, rate };
 }
