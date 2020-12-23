@@ -20,6 +20,7 @@ exports.blockSchema = new Schema({
         type: { type: String, required: true }, // boolean, total
         status: { type: String, default: 'disabled' }, // hidden, disabled, active, finish
         amount: { type: Number, default: 0 },
+        coefficient: { type: Number, min: 1},
         bets: [
           {
             id: { type: Number, required: true },

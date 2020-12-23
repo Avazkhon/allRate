@@ -1,6 +1,6 @@
-const blockModels = require('../../models/block');
-const rateModels = require('../../models/rate');
-const userModels = require('../../models/user');
+const blockModel = require('../../models/block');
+const rateModel = require('../../models/rate');
+const userModel = require('../../models/user');
 const InvoiceControllers = require('../invoice');
 const WriteToLog = require('../../utils/writeToLog');
 
@@ -13,6 +13,14 @@ const writeToLog = new WriteToLog();
 
 class MakeRate {
 
+  changeCoefficients = (blocks, id) => {
+    const block = blocks.find(block => block._id == id)
+    if (block.type === 'boolean') {
+      return { ['blocks.$[innerBlock].bets.$[innerBets].coefficient']: 2 }
+    } else {
+        return { ['blocks.$[innerBlock].bets.coefficient']: 2 }
+    }
+  }
 
   createInvoice = async (dataInvoice) => {
     return invoiceControllers.createInvoiceForMakeRate(dataInvoice)
@@ -33,9 +41,10 @@ class MakeRate {
         }
       } = req;
 
-      const [user, rate] = await Promise.all([
-        userModels.findOne({ _id: userSession.userId }),
-        rateModels.findOne({ blockId: blocksId })
+      const [user, rate, blockBefore] = await Promise.all([
+        userModel.findOne({ _id: userSession.userId }),
+        rateModel.findOne({ blockId: blocksId }),
+        blockModel.findOne({ _id: blocksId })
       ]);
 
       const invoice = await this.createInvoice({
@@ -47,11 +56,12 @@ class MakeRate {
         }
       })
 
-      const block = await blockModels.findByIdAndUpdate(
+      const block = await blockModel.findByIdAndUpdate(
         {
           _id: blocksId,
         },
         {
+          '$set': this.changeCoefficients(blockBefore.blocks, blockId),
           '$push': { ['blocks.$[innerBlock].bets.$[innerBets].participants']: body.participants }
         },
         {
