@@ -5,27 +5,15 @@ const InvoiceControllers = require('../invoice');
 const WriteToLog = require('../../utils/writeToLog');
 
 const {
-  typeBlock
+  typeBlock,
+  interest,
 } = require('../../constants');
+
 
 const invoiceControllers = new InvoiceControllers();
 const writeToLog = new WriteToLog();
 
 class MakeRate {
-
-  changeCoefficients = (blocks, id) => {
-    const block = blocks.find(block => block._id == id)
-    if (block.type === 'boolean') {
-      return { ['blocks.$[innerBlock].bets.$[innerBets].coefficient']: 2 }
-    } else {
-        return { ['blocks.$[innerBlock].bets.coefficient']: 2 }
-    }
-  }
-
-  createInvoice = async (dataInvoice) => {
-    return invoiceControllers.createInvoiceForMakeRate(dataInvoice)
-  }
-
 
   makeBet = async (req, res) => {
     try {
@@ -61,7 +49,7 @@ class MakeRate {
           _id: blocksId,
         },
         {
-          '$set': this.changeCoefficients(blockBefore.blocks, blockId),
+          '$set': this.changeCoefficients(blockBefore.blocks, blockId, betId, body.amount, body.participants.noOrYes),
           '$push': { ['blocks.$[innerBlock].bets.$[innerBets].participants']: body.participants }
         },
         {
@@ -75,6 +63,37 @@ class MakeRate {
       res.status(500).json({ message: 'Ошибка на сервере', error: error.toString()});
     };
   }
+
+  createInvoice = async (dataInvoice) => {
+    return invoiceControllers.createInvoiceForMakeRate(dataInvoice)
+  }
+
+  changeCoefficients = (blocks, blockId, betId, amount, noOrYes) => {
+    const block = blocks.find(block => block._id == blockId)
+    if (block.type === typeBlock.boolean) {
+      const bet = block.bets.find(bet => bet._id == betId)
+
+      if(noOrYes) {
+        bet.amountYes +=  amount;
+      } else {
+        bet.amountNo += amount;
+      }
+      const allAmoun = bet.amountNo + bet.amountYes;
+
+      const coefficientYes = (allAmoun / bet.amountYes * interest.winPercentage).toFixed(2)
+      const coefficientNo = (allAmoun / bet.amountNo * interest.winPercentage).toFixed(2)
+      return {
+        ['blocks.$[innerBlock].bets.$[innerBets].coefficientYes']: Number(coefficientYes),
+        ['blocks.$[innerBlock].bets.$[innerBets].coefficientNo']: Number(coefficientNo),
+        ['blocks.$[innerBlock].bets.$[innerBets].amountYes']: bet.amountYes,
+        ['blocks.$[innerBlock].bets.$[innerBets].amountNo']: bet.amountNo,
+      }
+    } else {
+      const coefficient = (block.amount / amount * interest.winPercentage).toFixed(2)
+        return { ['blocks.$[innerBlock].bets.coefficient']: Number(coefficient) }
+    }
+  }
+
 }
 
 module.exports = MakeRate;

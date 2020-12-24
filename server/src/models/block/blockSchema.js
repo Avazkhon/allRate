@@ -19,15 +19,16 @@ exports.blockSchema = new Schema({
         paymentMade: { type: Boolean, default: false },
         type: { type: String, required: true }, // boolean, total
         status: { type: String, default: 'disabled' }, // hidden, disabled, active, finish
-        amount: { type: Number, default: 0 },
+        amount: { type: Number, default: 0  },
         coefficient: { type: Number, min: 1},
         bets: [
           {
             id: { type: Number, required: true },
-            coefficient: { type: Number, min: 1},
-            amount: { type: Number, default: 0 },
+            coefficientNo: { type: Number, min: 1 },
+            coefficientYes: { type: Number, min: 1 },
+            amountNo: { type: Number, default: 0  },
+            amountYes: { type: Number, default: 0 },
             win: { type: Boolean, default: false },
-            ab: { type: Boolean }, // if type block boolean
             condition: { type: String, required: true },
             createDate: { type: Date, default: moment().utc().format() },
             paymentMade: { type: Boolean, default: false },
@@ -37,6 +38,7 @@ exports.blockSchema = new Schema({
                 purseId: { type: mongoose.ObjectId, required: true },
                 meny: { type: Number, required: true, min: 50, max: 500 },
                 paymentMade: { type: Boolean, default: false },
+                noOrYes: { type: Boolean }, // if type block boolean
                 createDate: { type: Date, default: moment().utc().format() },
               }
             ],
