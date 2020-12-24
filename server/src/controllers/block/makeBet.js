@@ -36,7 +36,7 @@ class MakeRate {
       ]);
 
       const invoice = await this.createInvoice({
-        amount: body.amount,
+        amount: body.participants.amount,
         authorId: user._id,
         requisites: {
           src: user.purseId,
@@ -49,7 +49,7 @@ class MakeRate {
           _id: blocksId,
         },
         {
-          '$set': this.changeCoefficients(blockBefore.blocks, blockId, betId, body.amount, body.participants.noOrYes),
+          '$set': this.changeCoefficients(blockBefore.blocks, blockId, betId, body.participants.amount, body.participants.noOrYes),
           '$push': { ['blocks.$[innerBlock].bets.$[innerBets].participants']: body.participants }
         },
         {
@@ -70,8 +70,8 @@ class MakeRate {
 
   changeCoefficients = (blocks, blockId, betId, amount, noOrYes) => {
     const block = blocks.find(block => block._id == blockId)
+    const bet = block.bets.find(bet => bet._id == betId)
     if (block.type === typeBlock.boolean) {
-      const bet = block.bets.find(bet => bet._id == betId)
 
       if(noOrYes) {
         bet.amountYes +=  amount;
@@ -89,8 +89,13 @@ class MakeRate {
         ['blocks.$[innerBlock].bets.$[innerBets].amountNo']: bet.amountNo,
       }
     } else {
-      const coefficient = (block.amount / amount * interest.winPercentage).toFixed(2)
-        return { ['blocks.$[innerBlock].bets.coefficient']: Number(coefficient) }
+      block.amountAll += amount
+      const coefficient = (block.amountAll / amount * interest.winPercentage).toFixed(2)
+        return {
+          ['blocks.$[innerBlock].bets.$[innerBets].coefficient']: Number(coefficient),
+          ['blocks.$[innerBlock].bets.$[innerBets].amount']: bet.amount + amount,
+          ['blocks.$[innerBlock].amountAll']: block.amountAll
+        }
     }
   }
 
