@@ -100,7 +100,7 @@ const CardComponent = ({
           {
             auth && auth.userId === authorId &&
             <Card.Link
-              href={`/card-rate/${_id}`}
+              href={`/create-rate/?rateId=${_id}`}
             >
               Редактировать
             </Card.Link>
