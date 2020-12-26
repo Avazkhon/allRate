@@ -111,63 +111,6 @@ exports.rateLive  = async (req, res)  => {
         res.status(200).json(result)
       })
     }
-    if (mainBet) {
-      const rate = await rateModels.findByIdAndUpdate({ _id: id }, {statusLife: rateStatusLive.in_progress});
-      const author = await userModel.findOne({ _id: rate.authorId}, { purseId: true });
-      const purse = await purseModel.findOne({ _id: rate.mainBet.purseId });
-      await makePay(rate, mainBet, purse._id)
-      .then(async (status) => {
-        const {partyOne, partyDraw, partyTwo} = rate.mainBet;
-        const amount = partyOne.amount + partyDraw.amount + partyTwo.amount;
-        if (status && amount) { // перевести проценты только если были сделаны выплаты победителям
-          await makePayPercentage(amount * interest.percentage, purse._id, author.purseId)
-          await makePayPercentage(amount * interest.percentage, purse._id, superAdmin.purseId)
-        }
-        return status;
-      })
-      .then(async (status) => {
-        const rateAfterPaymentMade = await rateModels.findOne({ _id: id });
-        const purseAfterPaymentMade = await purseModel.findOne({ _id: purse._id });
-        const isNotAllPaymentMade = rateAfterPaymentMade.mainBet[mainBet].participants.some((participant) => !participant.paymentMade)
-        if (!isNotAllPaymentMade && purseAfterPaymentMade.amount) {
-          // если всем выплачено и есть остатки денег то перевести супер админу
-          const dataInvoice = {
-            amount: purseAfterPaymentMade.amount,
-            requisites: { src: purseAfterPaymentMade._id, target: superAdmin.purseId},
-          }
-          invoiceControllers.createInvoiceForLeftovers(dataInvoice);
-        }
-        return rateModels.findByIdAndUpdate(
-          { _id: id },
-          {
-            statusLife: rateStatusLive.finish,
-            $set: {
-            [`mainBet.idPartyVictory`]: rate.mainBet[mainBet].idParty,
-            [`mainBet.paymentMade`]: !isNotAllPaymentMade,
-            }
-          }
-        );
-      })
-      .then(() => rateModels.findOne({ _id: id }))
-      .then((data) => {
-        res.status(200).send(data);
-      })
-      .catch((err) => {
-
-        rateModels.findByIdAndUpdate(
-          { _id: id },
-          {
-            statusLife: rateStatusLive.finish,
-            $set: {
-              [`mainBet.paymentMade`]: true, // если произошла ошибка то это не даст производить оплату
-            }
-          }
-        )
-
-        writeToLog.write(err, 'rate_live.err');
-        res.status(402).send({ message: 'Ошибка!', err: err.toString()});
-      });
-    }
   } catch (err) {
     writeToLog.write(err, 'rate_live.err');
     res.status(500).send({ message: `ошибка на стороне серера!`, err })
