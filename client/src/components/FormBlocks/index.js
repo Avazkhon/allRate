@@ -260,18 +260,30 @@ class FormBlocks extends React.Component {
   selectWinBet = (e) => {
     const {idblock, idbet, no_or_yes } = e.currentTarget.dataset;
     let { block } = this.state;
+    const { putBlockById } = this.props;
     block.blocks = block.blocks.map((block) => {
       if (block.id === Number(idblock)) {
+
         block.bets = block.bets.map((bet) => {
           if (bet.id === Number(idbet)) {
-            bet.noOrYes = no_or_yes
+            if (block.type === typeBlock.boolean) {
+              bet.noOrYes = no_or_yes;
+            }
+            if (block.type === typeBlock.total) {
+              bet.win = true;
+            }
           }
           return bet
         })
       }
       return block
     })
-    this.setState({ block })
+    putBlockById(block)
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          this.setState({block: action.response})
+        }
+      })
   }
 
   render() {
