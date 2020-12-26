@@ -23,12 +23,13 @@ exports.blockSchema = new Schema({
         bets: [
           {
             id: { type: Number, required: true },
-            coefficient: { type: Number, min: 1},
             coefficientNo: { type: Number, min: 1 },
             coefficientYes: { type: Number, min: 1 },
+            coefficient: { type: Number, min: 1},
             amountNo: { type: Number, default: 0  },
             amountYes: { type: Number, default: 0 },
             amount: { type: Number, default: 0 },
+            noOrYes: { type: Boolean },
             win: { type: Boolean, default: false },
             condition: { type: String, required: true },
             createDate: { type: Date, default: moment().utc().format() },
