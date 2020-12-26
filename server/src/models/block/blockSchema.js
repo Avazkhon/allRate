@@ -30,7 +30,7 @@ exports.blockSchema = new Schema({
             amountYes: { type: Number, default: 0 },
             amount: { type: Number, default: 0 },
             noOrYes: { type: Boolean },
-            win: { type: Boolean, default: false },
+            win: { type: Boolean },
             condition: { type: String, required: true },
             createDate: { type: Date, default: moment().utc().format() },
             paymentMade: { type: Boolean, default: false },
