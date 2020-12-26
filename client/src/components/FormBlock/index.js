@@ -73,6 +73,7 @@ class FormBlock extends React.Component {
         id: idBlock
       },
       isDisabledByLife,
+      selectWinBet,
     } = this.props;
     return (
       <List component="nav" className={classes.root} aria-label="contacts">
@@ -97,8 +98,26 @@ class FormBlock extends React.Component {
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <Button variant="contained" disabled >{textLang.no[lang]}</Button>
-                    <Button variant="contained" disabled >{textLang.yes[lang]}</Button>
+                    <Button
+                      variant="contained"
+                      onClick={selectWinBet}
+                      data-idblock={idBlock}
+                      data-idbet={bet.id}
+                      data-no_or_yes={false}
+                      disabled={!isDisabledByLife} // если isDisabledByLife значит ставка завершена и можно выбрать
+                    >
+                      {textLang.no[lang]}
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={selectWinBet}
+                      data-idblock={idBlock}
+                      data-idbet={bet.id}
+                      data-no_or_yes={true}
+                      disabled={!isDisabledByLife}
+                      >
+                        {textLang.yes[lang]}
+                      </Button>
                     <Button
                       variant="contained"
                       color="secondary"
@@ -152,7 +171,12 @@ class FormBlock extends React.Component {
                     />
                 </Grid>
                   <Grid item xs={12} sm={6}>
-                    <Button variant="contained" disabled >{textLang.yes[lang]}</Button>
+                    <Button
+                      variant="contained"
+                      disabled={!isDisabledByLife}
+                      >
+                        {textLang.yes[lang]}
+                      </Button>
                     <Button
                       variant="contained"
                       color="secondary"
@@ -285,6 +309,7 @@ FormBlock.propTypes = {
   deleteBlock: PropTypes.func,
   deleteBets: PropTypes.func,
   changeTypeBlock: PropTypes.func,
+  selectWinBet: PropTypes.func,
   isDisabledByLife: PropTypes.bool,
 }
 

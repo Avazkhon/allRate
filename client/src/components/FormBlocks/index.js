@@ -257,6 +257,23 @@ class FormBlocks extends React.Component {
     this.setState({block})
   }
 
+  selectWinBet = (e) => {
+    const {idblock, idbet, no_or_yes } = e.currentTarget.dataset;
+    let { block } = this.state;
+    block.blocks = block.blocks.map((block) => {
+      if (block.id === Number(idblock)) {
+        block.bets = block.bets.map((bet) => {
+          if (bet.id === Number(idbet)) {
+            bet.noOrYes = no_or_yes
+          }
+          return bet
+        })
+      }
+      return block
+    })
+    this.setState({ block })
+  }
+
   render() {
     const {
       block,
@@ -286,6 +303,7 @@ class FormBlocks extends React.Component {
                 lang={lang}
                 changeTypeBlock={this.changeTypeBlock}
                 isDisabledByLife={isDisabledByLife}
+                selectWinBet={this.selectWinBet}
               />
             )
           })
@@ -303,7 +321,7 @@ class FormBlocks extends React.Component {
             variant="contained"
             color="primary"
             onClick={block._id ? this.handleChangeBlockById : this.handlePostBlock}
-            disabled={isDisabledByLife}
+            disabled={statusLife === rateStatusLive.archive}
           >
             <AddCircleIcon /> { block._id ? 'Обновить блоки' : 'Сохранить' }
           </Button>
