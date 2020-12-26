@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const rateControllers = require('./controllers/rateControllers');
+const PaymentAfterRate = require('./controllers/rateControllers/paymentAfterRate');
 const langControllers = require('./controllers/langControllers');
 const postControllers = require('./controllers/post');
 const rateLiveControllers = require('./controllers/rateControllers/rateLive');
@@ -22,6 +23,7 @@ const makeBet = new MakeBet()
 
 const invoiceControllers = new InvoiceControllers();
 const albumFolder = new AlbumFolder();
+const paymentAfterRate = new PaymentAfterRate();
 
 module.exports = function (app) {
   app.get('/api/', (req, res) => {
@@ -65,8 +67,12 @@ module.exports = function (app) {
     .put(rateControllers.findByIdAndUpdate)
     .delete(rateControllers.deleteOne)
 
+    app.route('/api/rate/payment/')
+      .post(paymentAfterRate.paymentWin)
+
   app.route('/api/rate-live')
     .put(rateLiveControllers.rateLive)
+
 
   app.route('/api/purse')
     .get(purseControllers.getPurse)
