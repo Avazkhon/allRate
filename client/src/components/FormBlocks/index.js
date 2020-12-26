@@ -321,14 +321,17 @@ class FormBlocks extends React.Component {
           })
         }
         <div>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={this.addBlock}
-            disabled={isDisabledByLife}
-          >
-            <AddCircleIcon /> Добавить блок
-          </Button>
+          {
+            statusLife === rateStatusLive.new &&
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.addBlock}
+              disabled={isDisabledByLife}
+            >
+              <AddCircleIcon /> Добавить блок
+            </Button>
+          }
           <Button
             variant="contained"
             color="primary"
