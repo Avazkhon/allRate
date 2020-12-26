@@ -118,15 +118,18 @@ class FormBlock extends React.Component {
                       disabled={!isDisabledByLife}
                       >
                         {textLang.yes[lang]}
-                      </Button>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={deleteBets}
-                      data-idblock={idBlock}
-                      data-idbet={bet.id}
-                      disabled={isDisabledByLife}
-                    ><DeleteIcon /></Button>
+                    </Button>
+                    {
+                      !bet.participants.length &&
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={deleteBets}
+                        data-idblock={idBlock}
+                        data-idbet={bet.id}
+                        disabled={isDisabledByLife}
+                      ><DeleteIcon /></Button>
+                    }
                   </Grid>
                 </Grid>
               </ListItem>
@@ -149,7 +152,7 @@ class FormBlock extends React.Component {
       isDisabledByLife,
       selectWinBet,
     } = this.props;
-
+      const isHasPatricpants = bets.some(bet => bet.participants.length)
     return (
       <List component="nav" className={classes.root} aria-label="contacts">
         {
@@ -182,16 +185,19 @@ class FormBlock extends React.Component {
                       >
                         {textLang.yes[lang]}
                       </Button>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={deleteBets}
-                      data-idblock={idBlock}
-                      data-idbet={bet.id}
-                      disabled={isDisabledByLife}
-                    >
-                      <DeleteIcon />
-                  </Button>
+                      {
+                        !isHasPatricpants &&
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          onClick={deleteBets}
+                          data-idblock={idBlock}
+                          data-idbet={bet.id}
+                          disabled={isDisabledByLife}
+                          >
+                          <DeleteIcon />
+                        </Button>
+                      }
                   </Grid>
                 </Grid>
               </ListItem>
