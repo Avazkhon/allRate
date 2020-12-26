@@ -105,7 +105,7 @@ class FormBlock extends React.Component {
                       data-idblock={idBlock}
                       data-idbet={bet.id}
                       data-no_or_yes={false}
-                      disabled={!isDisabledByLife} // если isDisabledByLife значит ставка завершена и можно выбрать
+                      // disabled={!isDisabledByLife} // если isDisabledByLife значит ставка завершена и можно выбрать
                     >
                       {textLang.no[lang]}
                     </Button>
@@ -115,7 +115,7 @@ class FormBlock extends React.Component {
                       data-idblock={idBlock}
                       data-idbet={bet.id}
                       data-no_or_yes={true}
-                      disabled={!isDisabledByLife}
+                      // disabled={!isDisabledByLife}
                       >
                         {textLang.yes[lang]}
                     </Button>
@@ -181,7 +181,7 @@ class FormBlock extends React.Component {
                       onClick={selectWinBet}
                       data-idblock={idBlock}
                       data-idbet={bet.id}
-                      disabled={!isDisabledByLife}
+                      // disabled={!isDisabledByLife}
                       >
                         {textLang.yes[lang]}
                       </Button>
