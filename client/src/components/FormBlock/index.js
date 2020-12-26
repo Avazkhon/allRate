@@ -53,7 +53,8 @@ const textLang = {
 // } from 'utils';
 
 import {
-  typeBlock
+  typeBlock,
+  rateStatusLive,
 } from '../../constants';
 
 // import Messages from 'components/Messages';
@@ -210,7 +211,8 @@ class FormBlock extends React.Component {
         title,
         description,
         bets,
-        id: idBlock
+        id: idBlock,
+        rateStatusLive: statusLive
       },
       addBets,
 
@@ -280,24 +282,27 @@ class FormBlock extends React.Component {
             }
           </div>
         </div>
-        <Button
-          variant="contained"
-          color="primary"
-          data-idblock={idBlock}
-          onClick={addBets}
-          disabled={isDisabledByLife}
-        >
-          <AddCircleIcon />
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          data-idblock={idBlock}
-          onClick={deleteBlock}
-          disabled={isDisabledByLife}
-        >
-          <DeleteIcon />
-        </Button>
+        { statusLive === rateStatusLive.new &&
+          <Button
+            variant="contained"
+            color="primary"
+            data-idblock={idBlock}
+            onClick={addBets}
+          >
+            <AddCircleIcon />
+          </Button>
+        }
+        {
+          statusLive === rateStatusLive.new &&
+          <Button
+            variant="contained"
+            color="secondary"
+            data-idblock={idBlock}
+            onClick={deleteBlock}
+          >
+            <DeleteIcon />
+          </Button>
+        }
       </form>
     );
   }
