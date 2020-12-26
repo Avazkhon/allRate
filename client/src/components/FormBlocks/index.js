@@ -316,10 +316,12 @@ class FormBlocks extends React.Component {
                 changeTypeBlock={this.changeTypeBlock}
                 isDisabledByLife={isDisabledByLife}
                 selectWinBet={this.selectWinBet}
+                statusLife={statusLife}
               />
             )
           })
         }
+
         <div>
           {
             statusLife === rateStatusLive.new &&
@@ -349,6 +351,7 @@ class FormBlocks extends React.Component {
 FormBlocks.propTypes = {
   auth: PropTypes.shape(),
   classes: PropTypes.shape(),
+  selectRate: PropTypes.shape(),
   postBlock: PropTypes.func,
   getBlockById: PropTypes.func,
   putBlockById: PropTypes.func,

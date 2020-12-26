@@ -218,7 +218,6 @@ class FormBlock extends React.Component {
         description,
         bets,
         id: idBlock,
-        rateStatusLive: statusLive
       },
       addBets,
 
@@ -226,6 +225,7 @@ class FormBlock extends React.Component {
       deleteBlock,
       changeTypeBlock,
       isDisabledByLife,
+      statusLife,
     } = this.props;
 
     return (
@@ -288,7 +288,7 @@ class FormBlock extends React.Component {
             }
           </div>
         </div>
-        { statusLive === rateStatusLive.new &&
+        { statusLife === rateStatusLive.new &&
           <Button
             variant="contained"
             color="primary"
@@ -299,7 +299,7 @@ class FormBlock extends React.Component {
           </Button>
         }
         {
-          statusLive === rateStatusLive.new &&
+          statusLife === rateStatusLive.new &&
           <Button
             variant="contained"
             color="secondary"
@@ -326,6 +326,7 @@ FormBlock.propTypes = {
   changeTypeBlock: PropTypes.func,
   selectWinBet: PropTypes.func,
   isDisabledByLife: PropTypes.bool,
+  statusLife: PropTypes.string,
 }
 
 // function mapStateToProps(state) {

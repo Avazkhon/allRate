@@ -281,11 +281,11 @@ function FormRate (
             <AddCircleIcon /> Добавить участника
           </Button>
         }
-        { rate.statusLife === rateStatusLive.new &&
+        { !isDisabledByLife &&
           <Button
             variant="contained"
             color="primary"
-            disabled={isFetching || isDisabledByLife}
+            disabled={isFetching}
             onClick={ rate._id ? handleChangeRate : handleCreteNewRate}
           >
             <SaveIcon /> {rate._id ? 'Сохранить ставку' : 'Создать ставку'}
