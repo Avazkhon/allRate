@@ -146,6 +146,7 @@ class FormBlock extends React.Component {
         id: idBlock
       },
       isDisabledByLife,
+      selectWinBet,
     } = this.props;
 
     return (
@@ -173,6 +174,9 @@ class FormBlock extends React.Component {
                   <Grid item xs={12} sm={6}>
                     <Button
                       variant="contained"
+                      onClick={selectWinBet}
+                      data-idblock={idBlock}
+                      data-idbet={bet.id}
                       disabled={!isDisabledByLife}
                       >
                         {textLang.yes[lang]}
