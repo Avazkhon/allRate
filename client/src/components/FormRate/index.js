@@ -271,23 +271,26 @@ function FormRate (
             })
           }
         </List>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={addParty}
-          disabled={isFetching || isDisabledByLife}
-        >
-          <AddCircleIcon /> Добавить участника
-        </Button>
-
-        <Button
-          variant="contained"
-          color="primary"
-          disabled={isFetching || isDisabledByLife}
-          onClick={ rate._id ? handleChangeRate : handleCreteNewRate}
-        >
-          <SaveIcon /> {rate._id ? 'Сохранить ставку' : 'Создать ставку'}
-        </Button>
+        { rate.statusLife === rateStatusLive.new &&
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={addParty}
+            disabled={isFetching || isDisabledByLife}
+          >
+            <AddCircleIcon /> Добавить участника
+          </Button>
+        }
+        { rate.statusLife === rateStatusLive.new &&
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={isFetching || isDisabledByLife}
+            onClick={ rate._id ? handleChangeRate : handleCreteNewRate}
+          >
+            <SaveIcon /> {rate._id ? 'Сохранить ставку' : 'Создать ставку'}
+          </Button>
+        }
         {
           (rate.statusLife === rateStatusLive.active || rate.statusLife === rateStatusLive.new) &&
           <Button
