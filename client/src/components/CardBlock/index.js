@@ -23,10 +23,30 @@ const useStyles = makeStyles({
 
 function CardBlock(
   {
-    block
+    block,
+    makeRate,
   }
 ) {
   const classes = useStyles();
+
+  function makeBet (e) {
+    const { betid, no_or_yes } = e.currentTarget.dataset
+    // http://localhost:8080/api/make-bet/
+    const data = {
+      participants: {}
+    }
+    if (no_or_yes !== undefined) {
+      data.participants.noOrYes = !!no_or_yes
+    }
+
+    const queryParams = {
+      blocksId: null,
+      blockId: block._id,
+      betId: betid
+    }
+
+    makeRate(queryParams, data)
+  }
 
   return (
     <>
@@ -52,12 +72,18 @@ function CardBlock(
                         <Button
                           variant="contained"
                           color="primary"
+                          data-betid={bet._id}
+                          data-no_or_yes={false}
+                          onClick={makeBet}
                         >
                           <CheckIcon />Нет
                         </Button>
                         <Button
                           variant="contained"
                           color="primary"
+                          data-betid={bet._id}
+                          data-no_or_yes={true}
+                          onClick={makeBet}
                         >
                           <CheckIcon />Да
                         </Button>
@@ -78,6 +104,8 @@ function CardBlock(
                           <Button
                             variant="contained"
                             color="primary"
+                            data-betid={bet._id}
+                            onClick={makeBet}
                           >
                             <CheckIcon />Выбрать
                           </Button>
@@ -96,6 +124,7 @@ function CardBlock(
 
 CardBlock.propTypes = {
   block: PropTypes.shape(),
+  makeRate: PropTypes.func,
 }
 
 export default CardBlock;
