@@ -68,14 +68,6 @@ export default [
     }),
   },
   {
-    path: '/card-rate/:id/',
-    exact: true,
-    component: asyncComponent({
-      loader: () => import('./container/CardRate'),
-      Placeholder: () => <div>...LOADING...</div>,
-    }),
-  },
-  {
     path: '/auth',
     exact: true,
     component: asyncComponent({
