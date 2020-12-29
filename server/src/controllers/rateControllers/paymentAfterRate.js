@@ -30,10 +30,15 @@ class PaymentAfterRate {
       ])
       this.rate = rate;
 
-      const asd = await this.makePaymentBlocks(blocks)
-      console.log(asd);
+      const blocksAfterPaymentMade = await this.makePaymentBlocks(blocks)
+      const blocksAfterUpdate = await blockModel.findByIdAndUpdate(
+        { _id: blocksId },
+        blocksAfterPaymentMade
+      )
 
-      res.status(200).json(asd)
+      console.log(blocksAfterUpdate);
+
+      res.status(200).json(blocksAfterUpdate)
     } catch (error) {
       res.status(500).json({ error: error.toString() })
     }

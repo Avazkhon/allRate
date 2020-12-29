@@ -16,7 +16,7 @@ exports.blockSchema = new Schema({
           templateId: { type: mongoose.ObjectId }
         },
         createDate: { type: Date, default: moment().utc().format() },
-        paymentMade: { type: Boolean, default: false },
+        paymentMade: { type: Boolean },
         type: { type: String, required: true }, // boolean, total
         status: { type: String, default: 'disabled' }, // hidden, disabled, active, finish
         amountAll: { type: Number, default: 0  },
@@ -33,13 +33,13 @@ exports.blockSchema = new Schema({
             win: { type: Boolean },
             condition: { type: String, required: true },
             createDate: { type: Date, default: moment().utc().format() },
-            paymentMade: { type: Boolean, default: false },
+            paymentMade: { type: Boolean },
             participants: [
               {
                 userId: { type: mongoose.ObjectId, required: true },
                 purseId: { type: mongoose.ObjectId, required: true },
                 amount: { type: Number, required: true, min: 50, max: 500 },
-                paymentMade: { type: Boolean, default: false },
+                paymentMade: { type: Boolean },
                 noOrYes: { type: Boolean }, // if type block boolean
                 createDate: { type: Date, default: moment().utc().format() },
               }
