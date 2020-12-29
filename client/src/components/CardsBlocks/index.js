@@ -26,6 +26,12 @@ function CardsBlocks(
 ) {
   const classes = useStyles();
 
+  function makeRate(queryParams, data) {
+    queryParams.blocksId = blocks.data._id;
+    console.log(data);
+    console.log(queryParams);
+  }
+
   return (
     < >
       {
@@ -35,6 +41,7 @@ function CardsBlocks(
               <CardContent>
                 <CardBlock
                   block={block}
+                  makeRate={makeRate}
                   key={block._id}
                 />
               </CardContent>
