@@ -40,6 +40,7 @@ class PaymentAfterRate {
 
   }
 
+
   makePaymentBlocks = async (blocks, blocksIndex = 0) => {
     try {
       if (blocks.blocks.length === blocksIndex) {
@@ -53,7 +54,7 @@ class PaymentAfterRate {
         }
         if (blocks.blocks[blocksIndex].type === typeBlock.boolean) {
           await this.makePaymentBoolean(blocks.blocks[blocksIndex])
-
+          blocks.blocks[blocksIndex].paymentMade = true
           blocksIndex++
           return this.makePaymentBlocks(blocks, blocksIndex)
         }
@@ -63,6 +64,8 @@ class PaymentAfterRate {
       return blocks
     }
   }
+
+
 
   makePaymentTotal = async (block, indexbBet = 0) => {
     if(block.bets.length === indexbBet) {
@@ -101,21 +104,49 @@ class PaymentAfterRate {
     }
   }
 
-  makePaymentBoolean = (block) => {
-    // const betWin = block.bets.forEach((bet) => {
-    //   bet.participants.forEach(participant => {
-    //     if (participant.noOrYes === bet.noOrYes) {
-    //       const coefficient = bet.noOrYes ? bet.coefficientYes : bet.coefficientNo
-    //       const dataInvoice = {
-    //         amount: Math.floor(participant.amount * coefficient),
-    //         requisites: { src: this.rate.purseId, target: participant.purseId},
-    //       };
-    //       // console.log(dataInvoice);
-    //       // invoiceControllers.createInvoiceForWin(dataInvoice)
-    //     }
-    //   })
-    // })
-    return block;
+
+
+
+  makePaymentBoolean = async (block, indexbBet = 0) => {
+    try {
+      if (block.bets.length === indexbBet) {
+        console.log('finish makePaymentBoolean');
+        return block
+      } else {
+        await this.makePaymentBooleanParticipants(block.bets[indexbBet]);
+        block.bets[indexbBet].paymentMade = true
+        indexbBet++
+        return this.makePaymentBoolean(block, indexbBet)
+      }
+    } catch (e) {
+      console.log('e', e);
+      return block;
+    }
+  }
+
+  makePaymentBooleanParticipants = async(bets, participantsIndex = 0) => {
+    try {
+      if(bets.participants.length === participantsIndex) {
+        console.log('finish makePaymentBooleanParticipants');
+        return bets;
+      } else {
+        if (bets.participants[participantsIndex].noOrYes === bets.noOrYes) {
+          const coefficient = bets.noOrYes ? bets.coefficientYes : bets.coefficientNo;
+
+          const dataInvoice = {
+            amount: Math.floor(bets.participants[participantsIndex].amount * coefficient),
+            requisites: { src: this.rate.purseId, target: bets.participants[participantsIndex].purseId},
+          };
+          await invoiceControllers.createInvoiceForWin(dataInvoice)
+          bets.participants[participantsIndex].paymentMade = true;
+        }
+        participantsIndex++
+        return this.makePaymentBooleanParticipants(bets, participantsIndex)
+      }
+    } catch (e) {
+      console.log('e', e);
+      return bets;
+    }
   }
 
 }
