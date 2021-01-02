@@ -93,40 +93,6 @@ class InvoiceController {
     }
   }
 
-  changeCoefficients = async (id, partyNumber, amount) => {
-    const {
-      mainBet,
-      mainBet: {
-        partyOne,
-        partyDraw,
-        partyTwo,
-      },
-    } = await rateModel.findOne({ _id: id });
-    mainBet[partyNumber].amount += amount;
-    let allAmount = partyOne.amount + partyTwo.amount;
-    allAmount = partyDraw.idParty ? allAmount + partyDraw.amount : allAmount;
-    const data = {
-      'mainBet.partyOne.coefficient': (allAmount / partyOne.amount * interest.winPercentage).toFixed(2),
-      'mainBet.partyTwo.coefficient': (allAmount / partyTwo.amount * interest.winPercentage).toFixed(2),
-      [`mainBet.${[partyNumber]}.amount`]: mainBet[partyNumber].amount,
-    };
-    if (partyDraw.idParty) {
-      data['mainBet.partyDraw.coefficient'] = (allAmount / partyDraw.amount * interest.winPercentage).toFixed(2);
-    }
-    return data;
-  }
-
-  changeRate = async (id, partyNumber, participant, amount) => {
-    const dataPurse = {
-      $set: await this.changeCoefficients(id, partyNumber, amount),
-      $push: {
-        [`mainBet.${[partyNumber]}.participants`]: participant,
-      },
-    };
-    return rateModel.findByIdAndUpdate({ _id: id}, dataPurse)
-    .then(rate => this.SUCCESS);
-  }
-
   createInvoice = async (req, res) => {
     try {
     const { user } = req.session;
@@ -134,17 +100,12 @@ class InvoiceController {
       return res.status(401).json({ message: 'Пользователь не авторизован!'});
     };
     const { body, body: { basisForPayment } } = req;
-    if (basisForPayment !== 'accountReplenishment' && basisForPayment !== 'makeRate' && basisForPayment !== 'win') {
+    if (basisForPayment !== 'accountReplenishment') {
       return res.status(400).json({ message: 'Основания для операции не верна!'});
     }
     body.authorId = user.userId;
     body.invoiceId = uuidv4();
-    if (basisForPayment !== accountReplenishment) {
-      const purse = await purseModel.findOne({_id: body.requisites.src});
-      if (purse.amount < body.amount) {
-        return res.status(402).json({ message: 'Недостаточно средств!'});
-      }
-    }
+
     const invoice = await invoiceModel.create(body);
     if (basisForPayment === accountReplenishment) {
       return this.makeInvoicYandex({amount_due: invoice.amount})
@@ -175,14 +136,6 @@ class InvoiceController {
           res.status(500).json({ message: 'Не все операции успешно выполнены!', err: err.toString()});
         })
 
-    } else {
-      await this.changePurse(invoice, invoice.requisites.src, basisForPayment, this.minus)
-       // надо сначала убедиться что вычет из кшшелька произошло успешно
-        .then(() => this.changePurse(invoice, invoice.requisites.target, basisForPayment, this.plus));
-
-      const userDate = await userModel.findOne({_id: user.userId})
-      body.rate.participant.purseId = userDate.purseId;
-      await this.changeRate(body.rate.id, body.rate.partyNumber, body.rate.participant, invoice.amount);
     }
       res.status(201).json(invoice);
   } catch(err) {
@@ -191,7 +144,7 @@ class InvoiceController {
     }
   }
 
-  
+
 
   async createInvoiceForMakeRate (data) {
     data.invoiceId = uuidv4();
