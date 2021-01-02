@@ -75,12 +75,16 @@ class FormBlock extends React.Component {
       },
       isDisabledByLife,
       selectWinBet,
+      statusLife,
     } = this.props;
+    const isFinish = !statusLife || statusLife === rateStatusLive.finish;
+    console.log(isFinish);
     return (
       <List component="nav" className={classes.root} aria-label="contacts">
         {
           bets.map((bet) => {
             const isSelectWin = typeof bet.noOrYes === 'boolean';
+
             return (
               <ListItem button key={bet.id}>
                 <Grid container>
@@ -106,7 +110,7 @@ class FormBlock extends React.Component {
                       data-idblock={idBlock}
                       data-idbet={bet.id}
                       data-no_or_yes={false}
-                      disabled={isSelectWin}
+                      disabled={isFinish || isSelectWin}
                     >
                       {textLang.no[lang]}
                     </Button>
@@ -116,7 +120,7 @@ class FormBlock extends React.Component {
                       data-idblock={idBlock}
                       data-idbet={bet.id}
                       data-no_or_yes={true}
-                      disabled={isSelectWin}
+                      disabled={isFinish || isSelectWin}
                       >
                         {textLang.yes[lang]}
                     </Button>
@@ -153,9 +157,11 @@ class FormBlock extends React.Component {
       },
       isDisabledByLife,
       selectWinBet,
+      statusLife,
     } = this.props;
       const isHasPatricpants = bets.some(bet => bet.participants.length)
       const isSelectWin = bets.some(bet => bet.win)
+      const isFinish = !statusLife || statusLife === rateStatusLive.finish;
     return (
       <List component="nav" className={classes.root} aria-label="contacts">
         {
@@ -184,7 +190,7 @@ class FormBlock extends React.Component {
                       onClick={selectWinBet}
                       data-idblock={idBlock}
                       data-idbet={bet.id}
-                      disabled={isSelectWin}
+                      disabled={isFinish || isSelectWin}
                       >
                         {textLang.yes[lang]}
                       </Button>
@@ -291,7 +297,7 @@ class FormBlock extends React.Component {
             }
           </div>
         </div>
-        { statusLife === rateStatusLive.new &&
+        { (!statusLife || (statusLife === rateStatusLive.new)) &&
           <Button
             variant="contained"
             color="primary"
