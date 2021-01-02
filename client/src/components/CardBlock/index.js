@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { makeStyles } from '@material-ui/core/styles';
 import {
   List,
   ListItem,
@@ -15,15 +14,6 @@ import {
   rateStatusLive,
 } from '../../constants';
 
-const useStyles = makeStyles({
-  // root: {
-  //   maxWidth: 345,
-  // },
-  // media: {
-  //   height: 140,
-  //   width: 200,
-  // },
-});
 
 function CardBlock(
   {
@@ -32,7 +22,7 @@ function CardBlock(
     statusLife,
   }
 ) {
-  const classes = useStyles();
+
 
   function makeBet (e) {
     const { betid, no_or_yes } = e.currentTarget.dataset
@@ -83,7 +73,11 @@ function CardBlock(
                           onClick={makeBet}
                           disabled={disabledSelectWin}
                         >
-                          <CheckIcon />Нет {bet.coefficientNo}
+                          {
+                            bet.noOrYes === false &&
+                            <CheckIcon />
+                          }
+                          Нет {bet.coefficientNo}
                         </Button>
                         <Button
                           variant="contained"
@@ -93,7 +87,11 @@ function CardBlock(
                           onClick={makeBet}
                           disabled={disabledSelectWin}
                         >
-                          <CheckIcon />Да {bet.coefficientYes}
+                        {
+                          bet.noOrYes === true &&
+                          <CheckIcon />
+                        }
+                          Да {bet.coefficientYes}
                         </Button>
                       </Grid>
                     </Grid>
@@ -116,7 +114,11 @@ function CardBlock(
                             onClick={makeBet}
                             disabled={disabledSelectWin}
                           >
-                            <CheckIcon />Выбрать {bet.coefficient}
+                            {
+                              bet.win &&
+                              <CheckIcon />
+                            }
+                            Выбрать {bet.coefficient}
                           </Button>
                         </Grid>
                       </Grid>
