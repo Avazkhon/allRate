@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
@@ -15,16 +15,8 @@ import {
   Collapse,
 
   IconButton,
+  Link,
 
-  // Button,
-  // TextField,
-  // FormControl,
-  // InputLabel,
-  // Select,
-  // List,
-  // ListItem,
-  // Grid,
-  // Icon,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
@@ -36,15 +28,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CardPart from 'components/CardPart';
 
 import {
+  getUsersByIds,
 } from 'actions';
 
 import {
   formatDateTime,
 } from '../../constants';
-
-// import {
-//   rateStatusLive,
-// } from '../../constants';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -73,27 +62,45 @@ const useStyles = makeStyles((theme) => ({
 function RateCard (
   {
     selectRate,
+    getUsersByIds,
+    auth,
   }
 ) {
   const classes = useStyles();
 
   const [expanded, setExpanded] = useState(false);
+  const [author, changeAuthor] = useState({});
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  // const isDisabledByLife = (rate.statusLife === rateStatusLive.finish) ||  (rate.statusLife === rateStatusLive.archive)
+  useEffect(() => {
+    selectRate.data && selectRate.data.authorId && getUsersByIds([selectRate.data.authorId])
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          changeAuthor(action.response[0])
+        }
+      })
+  }, selectRate.data)
+
 
   return (
     <Card>
       <CardHeader
         avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            R
-          </Avatar>
+          <Link
+            href={auth.auth && auth.auth.userId === author._id ? '/me' : `/profile/${author._id}`}
+            >
+            <Avatar
+              aria-label="recipe"
+              src={author.avatar}
+              alt={author.userName}
+              className={classes.avatar}
+            />
+          </Link>
         }
-        title="Shrimp and Chorizo Paella"
+        title={author.userName}
         subheader={selectRate.data && moment(selectRate.data.createDate).format(formatDateTime)}
       />
       <CardMedia
@@ -151,6 +158,8 @@ function RateCard (
 
 RateCard.propTypes = {
   selectRate: PropTypes.shape(),
+  auth: PropTypes.shape(),
+  getUsersByIds: PropTypes.func,
 }
 
 function mapStateToProps(state) {
@@ -165,5 +174,6 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   {
+    getUsersByIds,
   }
 )(RateCard);
