@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import moment from 'moment-timezone';
+import moment from 'moment-timezone';
 import clsx from 'clsx';
 
 import {
@@ -36,7 +36,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CardPart from 'components/CardPart';
 
 import {
-} from 'actions'
+} from 'actions';
+
+import {
+  formatDateTime,
+} from '../../constants';
 
 // import {
 //   rateStatusLive,
@@ -90,7 +94,7 @@ function RateCard (
           </Avatar>
         }
         title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        subheader={selectRate.data && moment(selectRate.data.createDate).format(formatDateTime)}
       />
       <CardMedia
        className={classes.media}
@@ -100,6 +104,12 @@ function RateCard (
      <CardContent>
       <Typography variant="body2" color="textSecondary" component="p">
         {selectRate.data && selectRate.data.description}
+      </Typography>
+      <Typography variant="body2" color="textSecondary" component="p">
+        Дата начало: {selectRate.data && moment(selectRate.data.dateStart).format(formatDateTime)}
+      </Typography>
+      <Typography variant="body2" color="textSecondary" component="p">
+        Дата завершения: {selectRate.data && moment(selectRate.data.dateFinish).format(formatDateTime)}
       </Typography>
     </CardContent>
     <CardActions disableSpacing>
