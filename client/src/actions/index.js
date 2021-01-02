@@ -76,4 +76,6 @@ export {
   postBlock,
   getBlockById,
   putBlockById,
+  postMakeBet,
+  putPaymentRateByBlock,
 } from './block';

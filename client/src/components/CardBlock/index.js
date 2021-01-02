@@ -31,12 +31,11 @@ function CardBlock(
 
   function makeBet (e) {
     const { betid, no_or_yes } = e.currentTarget.dataset
-    // http://localhost:8080/api/make-bet/
     const data = {
       participants: {}
     }
     if (no_or_yes !== undefined) {
-      data.participants.noOrYes = !!no_or_yes
+      data.participants.noOrYes = (no_or_yes === 'true' && true) || (no_or_yes === 'false' && false)
     }
 
     const queryParams = {

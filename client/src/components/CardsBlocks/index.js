@@ -1,5 +1,6 @@
 import React, { useState} from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -12,6 +13,11 @@ import {
 } from '@material-ui/core';
 
 import CardBlock from 'components/CardBlock';
+
+import {
+  postMakeBet,
+  getBlockById,
+} from 'actions';
 
 const useStyles = makeStyles((theme) => ({
   modalCreateInvice: {
@@ -29,6 +35,8 @@ const useStyles = makeStyles((theme) => ({
 function CardsBlocks(
   {
     blocks,
+    postMakeBet,
+    getBlockById,
   }
 ) {
   const classes = useStyles();
@@ -55,8 +63,13 @@ function CardsBlocks(
 
   function handleSibmit() {
     participants.participants.amount = Number(amount);
-    console.log(queryParamsData);
-    console.log(participants);
+    postMakeBet(queryParamsData, participants)
+      .then((action) => {
+        if(action.status === 'SUCCESS') {
+          getBlockById(blocks.data._id)
+          handleShowModalCreateInvice()
+        }
+      })
   }
 
   return (
@@ -107,6 +120,23 @@ function CardsBlocks(
 
 CardsBlocks.propTypes = {
   blocks: PropTypes.shape(),
+  postMakeBet: PropTypes.func,
+  getBlockById: PropTypes.func,
 }
 
-export default CardsBlocks;
+function mapStateToProps(state) {
+  const {
+    auth,
+  } = state;
+  return {
+    auth,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  {
+    postMakeBet,
+    getBlockById,
+  }
+)(CardsBlocks);

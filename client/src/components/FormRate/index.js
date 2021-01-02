@@ -19,11 +19,15 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import SaveIcon from '@material-ui/icons/Save';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 
 import {
   creteNewRate,
   putRateByID,
   putRateLiveByID,
+  putPaymentRateByBlock,
+  getRateByID,
+  getBlockById,
   // changeImg,
 } from 'actions'
 
@@ -42,6 +46,9 @@ function FormRate (
     selectRate,
     putRateByID,
     putRateLiveByID,
+    getRateByID,
+    putPaymentRateByBlock,
+    getBlockById,
   },
 ) {
   let history = useHistory();
@@ -161,6 +168,16 @@ function FormRate (
         setStatusFinish(false)
         if (action.status === 'SUCCESS') {
           setChangeRate(action.response)
+        }
+      })
+  }
+
+  function handlePaymentRateByBlock () {
+    putPaymentRateByBlock(rate.blockId)
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          getRateByID(rate._id)
+          getBlockById(rate.blockId)
         }
       })
   }
@@ -308,6 +325,16 @@ function FormRate (
             <Button
               variant="contained"
               color="primary"
+              onClick={handlePaymentRateByBlock}
+            >
+              <MonetizationOnIcon /> Сделать выплаты
+            </Button>
+        }
+        {
+          rate.statusLife === rateStatusLive.finish &&
+            <Button
+              variant="contained"
+              color="primary"
               name={rateStatusLive.archive}
               onClick={handleChangeRateLiveByID}
             >
@@ -324,6 +351,9 @@ FormRate.propTypes = {
   changeImg: PropTypes.func,
   putRateByID: PropTypes.func,
   putRateLiveByID: PropTypes.func,
+  putPaymentRateByBlock: PropTypes.func,
+  getRateByID: PropTypes.func,
+  getBlockById: PropTypes.func,
   selectRate: PropTypes.shape(),
   auth: PropTypes.shape(),
 }
@@ -343,5 +373,8 @@ export default connect(
     creteNewRate,
     putRateByID,
     putRateLiveByID,
+    putPaymentRateByBlock,
+    getRateByID,
+    getBlockById,
   }
 )(FormRate);

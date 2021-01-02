@@ -56,6 +56,9 @@ export const POST_BLOCK = 'POST_BLOCK';
 export const GET_BLOCK_BY_ID = 'GET_BLOCK_BY_ID';
 export const PUT_BLOCK_BY_ID = 'PUT_BLOCK_BY_ID';
 
+export const POST_MAKE_BET = 'POST_MAKE_BET';
+export const PUT_PAYMENT_RATE_BY_BLOCK = 'PUT_PAYMENT_RATE_BY_BLOCK';
+
 export const basisForPayment = {
   accountReplenishment: 'accountReplenishment', // Пополнение счета
   withdrawal: 'withdrawal', // вывод

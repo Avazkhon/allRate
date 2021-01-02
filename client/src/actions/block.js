@@ -2,6 +2,8 @@ import {
   POST_BLOCK,
   GET_BLOCK_BY_ID,
   PUT_BLOCK_BY_ID,
+  POST_MAKE_BET,
+  PUT_PAYMENT_RATE_BY_BLOCK,
 } from '../constants';
 
 export function postBlock (data, rateId) {
@@ -38,6 +40,31 @@ export function putBlockById (data) {
       method: 'PUT',
       endpoint:`block`,
       data,
+    }
+  });
+}
+
+export function postMakeBet (queryParams, data) {
+  return dispatch => dispatch({
+    type: POST_MAKE_BET,
+    meta: {
+      method: 'POST',
+      endpoint:`make-bet`,
+      queryParams,
+      data,
+    }
+  });
+}
+
+export function putPaymentRateByBlock (blocksId) {
+  return dispatch => dispatch({
+    type: PUT_PAYMENT_RATE_BY_BLOCK,
+    meta: {
+      method: 'POST',
+      endpoint:`rate/payment`,
+      queryParams: {
+        blocksId
+      }
     }
   });
 }
