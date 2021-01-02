@@ -80,6 +80,7 @@ class FormBlock extends React.Component {
       <List component="nav" className={classes.root} aria-label="contacts">
         {
           bets.map((bet) => {
+            const isSelectWin = typeof bet.noOrYes === 'boolean';
             return (
               <ListItem button key={bet.id}>
                 <Grid container>
@@ -105,7 +106,7 @@ class FormBlock extends React.Component {
                       data-idblock={idBlock}
                       data-idbet={bet.id}
                       data-no_or_yes={false}
-                      // disabled={!isDisabledByLife} // если isDisabledByLife значит ставка завершена и можно выбрать
+                      disabled={isSelectWin}
                     >
                       {textLang.no[lang]}
                     </Button>
@@ -115,7 +116,7 @@ class FormBlock extends React.Component {
                       data-idblock={idBlock}
                       data-idbet={bet.id}
                       data-no_or_yes={true}
-                      // disabled={!isDisabledByLife}
+                      disabled={isSelectWin}
                       >
                         {textLang.yes[lang]}
                     </Button>
@@ -147,12 +148,14 @@ class FormBlock extends React.Component {
       handleChangeTextBets,
       deleteBets,
       block: {
-        id: idBlock
+        id: idBlock,
+        win,
       },
       isDisabledByLife,
       selectWinBet,
     } = this.props;
       const isHasPatricpants = bets.some(bet => bet.participants.length)
+      const isSelectWin = bets.some(bet => bet.win)
     return (
       <List component="nav" className={classes.root} aria-label="contacts">
         {
@@ -181,7 +184,7 @@ class FormBlock extends React.Component {
                       onClick={selectWinBet}
                       data-idblock={idBlock}
                       data-idbet={bet.id}
-                      // disabled={!isDisabledByLife}
+                      disabled={isSelectWin}
                       >
                         {textLang.yes[lang]}
                       </Button>
