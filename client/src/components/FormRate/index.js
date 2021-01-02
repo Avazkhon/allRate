@@ -49,6 +49,7 @@ function FormRate (
     getRateByID,
     putPaymentRateByBlock,
     getBlockById,
+    paymentPercentage,
   },
 ) {
   let history = useHistory();
@@ -321,7 +322,7 @@ function FormRate (
           </Button>
         }
         {
-          rate.statusLife === rateStatusLive.finish &&
+          rate.statusLife === rateStatusLive.finish && !paymentPercentage &&
             <Button
               variant="contained"
               color="primary"
@@ -354,6 +355,7 @@ FormRate.propTypes = {
   putPaymentRateByBlock: PropTypes.func,
   getRateByID: PropTypes.func,
   getBlockById: PropTypes.func,
+  paymentPercentage: PropTypes.func,
   selectRate: PropTypes.shape(),
   auth: PropTypes.shape(),
 }

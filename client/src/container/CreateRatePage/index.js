@@ -65,10 +65,10 @@ class CreateRatePage extends React.Component {
       selectRate,
       changeImg,
       history,
+      blocks,
     } = this.props;
 
     const { rateId } = queryString.parse(history.location.search);
-
     return (
       <Layout>
         <Container>
@@ -81,6 +81,7 @@ class CreateRatePage extends React.Component {
             <Col xs="12" sm="9">
               <FormRate
                 selectRate={isShowRate && selectRate}
+                paymentPercentage={blocks.data.paymentPercentage}
               />
               <FormBlocks
                 rateId={rateId}
@@ -102,6 +103,7 @@ CreateRatePage.propTypes = {
   selectRate: PropTypes.shape(),
   auth: PropTypes.shape(),
   history: PropTypes.shape(),
+  blocks: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {
@@ -113,6 +115,7 @@ function mapStateToProps(state) {
   return {
     auth,
     selectRate,
+    blocks,
   };
 }
 
