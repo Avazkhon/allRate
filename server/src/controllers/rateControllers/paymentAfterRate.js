@@ -1,6 +1,7 @@
 const blockModel = require('../../models/block');
 const rateModel = require('../../models/rate');
 const userModel = require('../../models/user');
+const purseModel = require('../../models/purse');
 const WriteToLog = require('../../utils/writeToLog');
 const InvoiceControllers = require('../invoice');
 
@@ -9,11 +10,13 @@ const invoiceControllers = new InvoiceControllers();
 const {
   typeBlock,
   interest,
+  superAdmin,
 } = require('../../constants');
 
 class PaymentAfterRate {
   constructor(){
     this.rate = null;
+    this.user = null;
   }
 
   paymentWin = async (req, res) => {
@@ -21,22 +24,30 @@ class PaymentAfterRate {
       const {
         query: {
           blocksId,
+        },
+        session: {
+          user: userSession
         }
       } = req;
+      if (!userSession.userId) {
+        return res.status(401);
+      }
 
-      const [ blocks, rate ] = await Promise.all([
+      const [ blocks, rate, user ] = await Promise.all([
         blockModel.findOne({ _id: blocksId}),
         rateModel.findOne({ blockId: blocksId}),
+        userModel.findOne({ _id: userSession.userId }),
       ])
       this.rate = rate;
+      this.user = user;
 
-      const blocksAfterPaymentMade = await this.makePaymentBlocks(blocks)
+      let blocksAfterPaymentMade = await this.makePaymentBlocks(blocks)
+      blocksAfterPaymentMade = await this.paymentPercentageAndLeftovers(blocksAfterPaymentMade);
+
       const blocksAfterUpdate = await blockModel.findByIdAndUpdate(
         { _id: blocksId },
         blocksAfterPaymentMade
       )
-
-      console.log(blocksAfterUpdate);
 
       res.status(200).json(blocksAfterUpdate)
     } catch (error) {
@@ -169,6 +180,68 @@ class PaymentAfterRate {
       console.log('e', e);
       return bets;
     }
+  }
+
+
+
+  getAmountForPercentage = (blocks) => {
+    return blocks.reduce((amount, block) => {
+      if(block.type === typeBlock.total) {
+        amount += block.amountAll
+      }
+      if(block.type === typeBlock.boolean) {
+        block.bets.forEach((bet) => {
+          amount += bet.amountNo + bet.amountYes;
+        });
+      }
+
+      return amount
+    }, 0)
+  }
+
+
+  paymentPercentageAndLeftovers = async (blocksAfterPaymentMade) => {
+      try {
+        const isPaymentMade = blocksAfterPaymentMade.blocks.some( block => block.paymentMade )
+        if(isPaymentMade && !blocksAfterPaymentMade.paymentPercentage) {
+          const amount = this.getAmountForPercentage(blocksAfterPaymentMade.blocks);
+          const dataInvoiceAuthor = {
+            amount: Math.floor(amount * interest.percentage),
+            requisites: {
+              src: this.rate.purseId,
+              target: this.user.purseId
+            }
+          }
+          const dataInvoiceService = {
+            amount: Math.floor(amount * interest.percentage),
+            requisites: {
+              src: this.rate.purseId,
+              target: superAdmin.purseId
+            }
+          }
+          await invoiceControllers.createInvoiceForPercentage(dataInvoiceAuthor);
+          await invoiceControllers.createInvoiceForPercentage(dataInvoiceService);
+          const purse = await purseModel.findOne({ _id: this.rate.purseId});
+          if (purse.amount) {
+            const dataInvoiceLeftovers = {
+              amount: Math.floor(purse.amount),
+              requisites: {
+                src: this.rate.purseId,
+                target: superAdmin.purseId
+              }
+            }
+            await invoiceControllers.createInvoiceForLeftovers(dataInvoiceLeftovers);
+          }
+
+          blocksAfterPaymentMade.paymentPercentage = true;
+
+        }
+        return blocksAfterPaymentMade
+      } catch (e) {
+        console.log(e);
+      } finally {
+        return blocksAfterPaymentMade
+      }
   }
 
 }

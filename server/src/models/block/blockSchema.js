@@ -4,6 +4,7 @@ const moment = require('moment-timezone');
 
 exports.blockSchema = new Schema({
     rateId: { type: mongoose.ObjectId },
+    paymentPercentage: { type: Boolean },
     blocks: [
       {
         id: { type: Number, required: true },
