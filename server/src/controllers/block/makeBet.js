@@ -44,13 +44,22 @@ class MakeRate {
         }
       })
 
+      const participants = {
+        userId: user._id,
+        purseId: user.purseId,
+        amount: body.participants.amount,
+      }
+      if (typeof body.participants.noOrYes === 'boolean') {
+        participants.noOrYes = body.participants.noOrYes
+      }
+
       const block = await blockModel.findByIdAndUpdate(
         {
           _id: blocksId,
         },
         {
-          '$set': this.changeCoefficients(blockBefore.blocks, blockId, betId, body.participants.amount, body.participants.noOrYes),
-          '$push': { ['blocks.$[innerBlock].bets.$[innerBets].participants']: body.participants }
+          '$set': this.changeCoefficients(blockBefore.blocks, blockId, betId, participants.amount, participants.noOrYes),
+          '$push': { ['blocks.$[innerBlock].bets.$[innerBets].participants']: participants }
         },
         {
           arrayFilters: [{ "innerBlock._id": blockId }, { "innerBets._id": betId }], // позволяет найти массив в массиве
@@ -72,7 +81,8 @@ class MakeRate {
     const block = blocks.find(block => block._id == blockId)
     const bet = block.bets.find(bet => bet._id == betId)
     if (block.type === typeBlock.boolean) {
-
+      bet.amountYes = bet.amountYes || 0;
+      bet.amountNo = bet.amountNo || 0;
       if(noOrYes) {
         bet.amountYes +=  amount;
       } else {
@@ -89,6 +99,8 @@ class MakeRate {
         ['blocks.$[innerBlock].bets.$[innerBets].amountNo']: bet.amountNo,
       }
     } else {
+      block.amountAll = block.amountAll || 0;
+      bet.amount = bet.amount || 0;
       block.amountAll += amount
       const coefficient = (block.amountAll / amount * interest.winPercentage).toFixed(2)
         return {
