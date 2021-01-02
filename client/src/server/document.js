@@ -5,6 +5,7 @@ import {
   JssProvider,
   SheetsRegistry,
 } from 'react-jss';
+import theme from '../theme';
 
 import initStyle from './style.css';
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
@@ -22,7 +23,7 @@ const CustomDocumentHOC = (store) => {
             registry={sheets}
             id={process.env.RAZZLE_APP_MINIMIZE_CLASSES && {minify: true}}
           >
-            <ThemeProvider>
+            <ThemeProvider theme={theme}>
               <App {...props} />
             </ThemeProvider>
           </JssProvider>

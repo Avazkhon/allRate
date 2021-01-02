@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 import { Router } from 'react-router-dom';
 import { ensureReady, After } from '@jaredpalmer/after';
+import { ThemeProvider } from '@material-ui/core/styles';
 
 import {
   JssProvider,
@@ -11,7 +12,9 @@ import {
 } from 'react-jss'
 
 import routes from 'routes';
-import history from 'store/routerHistory'
+import history from 'store/routerHistory';
+
+import theme from './theme';
 
 /* eslint-disable no-underscore-dangle */
 const preloadedState = window.__PRELOADED_STATE__ || {};
@@ -26,16 +29,23 @@ ensureReady(routes).then((data) => {
   // if (ssStyles && ssStyles.parentNode) {
   //   ssStyles.parentNode.removeChild(ssStyles);
   // }
+  const jssStyles = document.querySelector('#jss-server-side');
+  if (jssStyles) {
+    jssStyles.parentElement.removeChild(jssStyles);
+  }
+
   return hydrate(
     <Provider store={store}>
-      <JssProvider
-        registry={sheets}
-        id={process.env.RAZZLE_APP_MINIMIZE_CLASSES && {minify: true}}
-      >
-        <Router history={history}>
-          <After data={data} routes={routes} />
-        </Router>
-      </JssProvider>
+      <ThemeProvider theme={theme}>
+        <JssProvider
+          registry={sheets}
+          id={process.env.RAZZLE_APP_MINIMIZE_CLASSES && {minify: true}}
+        >
+          <Router history={history}>
+            <After data={data} routes={routes} />
+          </Router>
+        </JssProvider>
+      </ThemeProvider>
     </Provider>,
     document.getElementById('root'),
   )}
