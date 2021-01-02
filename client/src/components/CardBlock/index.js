@@ -11,6 +11,10 @@ import {
 } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 
+import {
+  rateStatusLive,
+} from '../../constants';
+
 const useStyles = makeStyles({
   // root: {
   //   maxWidth: 345,
@@ -25,6 +29,7 @@ function CardBlock(
   {
     block,
     makeRate,
+    statusLife,
   }
 ) {
   const classes = useStyles();
@@ -46,6 +51,8 @@ function CardBlock(
 
     makeRate(queryParams, data)
   }
+
+  const disabledSelectWin = (statusLife === rateStatusLive.finish) || (statusLife === rateStatusLive.archive)
 
   return (
     <>
@@ -74,8 +81,9 @@ function CardBlock(
                           data-betid={bet._id}
                           data-no_or_yes={false}
                           onClick={makeBet}
+                          disabled={disabledSelectWin}
                         >
-                          <CheckIcon />Нет
+                          <CheckIcon />Нет {bet.coefficientNo}
                         </Button>
                         <Button
                           variant="contained"
@@ -83,8 +91,9 @@ function CardBlock(
                           data-betid={bet._id}
                           data-no_or_yes={true}
                           onClick={makeBet}
+                          disabled={disabledSelectWin}
                         >
-                          <CheckIcon />Да
+                          <CheckIcon />Да {bet.coefficientYes}
                         </Button>
                       </Grid>
                     </Grid>
@@ -105,8 +114,9 @@ function CardBlock(
                             color="primary"
                             data-betid={bet._id}
                             onClick={makeBet}
+                            disabled={disabledSelectWin}
                           >
-                            <CheckIcon />Выбрать
+                            <CheckIcon />Выбрать {bet.coefficient}
                           </Button>
                         </Grid>
                       </Grid>
@@ -124,6 +134,7 @@ function CardBlock(
 CardBlock.propTypes = {
   block: PropTypes.shape(),
   makeRate: PropTypes.func,
+  statusLife: PropTypes.string,
 }
 
 export default CardBlock;

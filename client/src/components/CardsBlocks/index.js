@@ -37,6 +37,7 @@ function CardsBlocks(
     blocks,
     postMakeBet,
     getBlockById,
+    statusLife,
   }
 ) {
   const classes = useStyles();
@@ -82,6 +83,7 @@ function CardsBlocks(
                 <CardBlock
                   block={block}
                   makeRate={makeRate}
+                  statusLife={statusLife}
                   key={block._id}
                 />
               </CardContent>
@@ -122,6 +124,7 @@ CardsBlocks.propTypes = {
   blocks: PropTypes.shape(),
   postMakeBet: PropTypes.func,
   getBlockById: PropTypes.func,
+  statusLife: PropTypes.string,
 }
 
 function mapStateToProps(state) {

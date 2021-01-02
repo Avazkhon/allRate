@@ -47,6 +47,7 @@ function MakeRate (
       />
       <CardsBlocks
         blocks={blocks}
+        statusLife={selectRate.data && selectRate.data.statusLife}
       />
     </Layout>
   )
