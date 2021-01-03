@@ -44,7 +44,7 @@ const historyText = {
     RU: 'Основание',
     EN: 'Basis For Payment'
   },
-  createTime: {
+  createDate: {
     RU: 'Дата',
     EN: 'Date'
   },
@@ -68,8 +68,8 @@ function HistoryPurse({
     { field: 'basisForPayment', headerName: historyText.basisForPayment[lang], width: 120 },
     { field: 'amount', headerName: historyText.amount[lang], width: 120 },
     {
-      field: 'createTime',
-      headerName: historyText.createTime[lang],
+      field: 'createDate',
+      headerName: historyText.createDate[lang],
       type: 'date',
       width: 180,
     },
@@ -80,7 +80,7 @@ function HistoryPurse({
         _id,
         invoiceId,
         amount,
-        createTime,
+        createDate,
         basisForPayment
       } = invoice;
 
@@ -88,7 +88,7 @@ function HistoryPurse({
         id: _id,
         basisForPayment: keyBasisForPayment[basisForPayment][lang],
         amount,
-        createTime: moment(createTime).format(formatDateTime)
+        createDate: moment(createDate).format(formatDateTime)
       }
     }) : []
 
