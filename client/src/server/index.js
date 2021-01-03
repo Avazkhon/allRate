@@ -9,6 +9,8 @@ import { render } from '@jaredpalmer/after';
 
 import configureStore from 'store/configureStore';
 
+import { createProxyMiddleware } from'http-proxy-middleware';
+
 import Layout from 'container/Layout';
 import routes from '../routes';
 import myDocument from './document';
@@ -20,6 +22,11 @@ const server = express();
 server
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
+  .use('/api', createProxyMiddleware({
+    target: 'http://localhost:8080/api/',
+    changeOrigin: true,
+    pathRewrite: { 'api': '' },
+  }))
   .use(cookie())
   .get('/*', async (req, res) => {
     try {

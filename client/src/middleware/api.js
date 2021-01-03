@@ -70,7 +70,7 @@ function uploadFiles(endpoint, files, field, options) {
     method: 'POST',
     credentials: 'include',
     headers: {
-      'X-CSRFToken': options.csrfToken
+      // 'X-CSRFToken': options.csrfToken
     }
   };
 
