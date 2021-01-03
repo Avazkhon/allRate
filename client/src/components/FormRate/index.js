@@ -52,7 +52,7 @@ function FormRate (
     putPaymentRateByBlock,
     getBlockById,
     paymentPercentage,
-  },
+  }
 ) {
   let history = useHistory();
 
