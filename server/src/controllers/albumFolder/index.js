@@ -3,17 +3,21 @@ const fs = require('fs');
 const userModels = require('../../models/user');
 const postModels = require('../../models/post');
 const rateModels = require('../../models/rate');
+const WriteToLog = require('../../utils/writeToLog');
+
+const writeToLog = new WriteToLog();
 
 class AlbumFolder {
   constructor () {
-    this.PATH = process.cwd() + '/var/image/';
+    this.foder = process.env.NODE_ENV === 'development' ? '/dev/image/' : '/var/image/'
+    this.PATH = process.cwd() + this.foder;
   }
 
   addFile = async (fileUploaded, pathName, userId) => {
     const nameImage = `${userId}-${fileUploaded.name.replace(/ /g,"_")}`
     return  fileUploaded.mv(`${pathName}${nameImage}`, function(err) {
       if (err) {
-        throw err;
+        writeToLog.write(error, 'add_file.err');
       }
     });
   }
