@@ -21,6 +21,8 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import SaveIcon from '@material-ui/icons/Save';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 
+import AlertDialogSlide from 'widgets/AlertDialogSlide';
+
 import {
   creteNewRate,
   putRateByID,
@@ -59,6 +61,12 @@ function FormRate (
     description: '',
     dateStart: '',
     dateFinish: '',
+  })
+
+  const [alertDate, setAlertDate] = useState({
+    title: '',
+    description: '',
+    type: '',
   })
 
   const [party, setChangeParty] = useState(() => ([]))
@@ -141,6 +149,13 @@ function FormRate (
           setChangeRate(action.response)
           history.push({search: `rateId=${action.response._id}`})
         }
+
+        setAlertDate({
+          title: 'Ошибка',
+          description: 'Ошибка при создании ставки',
+          type: 'Error',
+          isOpen: true,
+        })
       })
   }
 
@@ -158,6 +173,12 @@ function FormRate (
         if (action.status === 'SUCCESS') {
           setChangeRate(action.response)
         }
+        setAlertDate({
+          title: 'Ошибка',
+          description: 'Ошибка при обновлений ставки',
+          type: 'Error',
+          isOpen: true,
+        })
       })
   }
 
@@ -170,6 +191,13 @@ function FormRate (
         if (action.status === 'SUCCESS') {
           setChangeRate(action.response)
         }
+        setAlertDate({
+          title: 'Ошибка',
+          description: 'Ошибка при обновлений ставки',
+          type: 'Error',
+          isOpen: true,
+        })
+
       })
   }
 
@@ -180,10 +208,17 @@ function FormRate (
           getRateByID(rate._id)
           getBlockById(rate.blockId)
         }
+        setAlertDate({
+          title: 'Ошибка',
+          description: 'Ошибка при выполнения оплаты',
+          type: 'Error',
+          isOpen: true,
+        })
       })
   }
 
   const isDisabledByLife = (rate.statusLife === rateStatusLive.finish) ||  (rate.statusLife === rateStatusLive.archive)
+
 
   return (
     <>
@@ -342,6 +377,11 @@ function FormRate (
               <SaveIcon /> Добавить в архив
             </Button>
         }
+
+        <AlertDialogSlide
+          {...alertDate}
+          setAlertDate={setAlertDate}
+        />
       </form>
     </>
   )
