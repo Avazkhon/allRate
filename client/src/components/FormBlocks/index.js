@@ -334,14 +334,17 @@ class FormBlocks extends React.Component {
               <AddCircleIcon /> Добавить блок
             </Button>
           }
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={block._id ? this.handleChangeBlockById : this.handlePostBlock}
-            disabled={statusLife === rateStatusLive.archive}
-          >
-            <AddCircleIcon /> { block._id ? 'Обновить блоки' : 'Сохранить' }
-          </Button>
+          {
+            !(statusLife === rateStatusLive.finish) || !(statusLife === rateStatusLive.archive) &&
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={block._id ? this.handleChangeBlockById : this.handlePostBlock}
+              disabled={statusLife === rateStatusLive.archive}
+            >
+              <AddCircleIcon /> { block._id ? 'Обновить блоки' : 'Сохранить' }
+            </Button>
+          }
         </div>
       </div>
     );
