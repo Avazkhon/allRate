@@ -6,6 +6,7 @@ const WriteToLog = require('../../utils/writeToLog');
 const InvoiceControllers = require('../invoice');
 
 const invoiceControllers = new InvoiceControllers();
+const writeToLog = new WriteToLog();
 
 const {
   typeBlock,
@@ -84,7 +85,7 @@ class PaymentAfterRate {
         }
       }
     } catch (e) {
-      console.log('e', e);
+      writeToLog.write(error, 'make_payment_blocks.err');
       return blocks
     }
   }
@@ -93,7 +94,6 @@ class PaymentAfterRate {
 
   makePaymentTotal = async (block, indexbBet = 0) => {
     if(block.bets.length === indexbBet) {
-      console.log('finish makePaymentTotal');
      return block
     } else if (block.bets[indexbBet].win) {
 
@@ -113,7 +113,6 @@ class PaymentAfterRate {
   makePaymentTotalParticipants = async (participants, coefficient, participantsIndex = 0) => {
     try {
       if(participants.length === participantsIndex) {
-          console.log('finish makePaymentTotalParticipants');
          return participants
        } else {
 
@@ -130,7 +129,7 @@ class PaymentAfterRate {
           return this.makePaymentTotalParticipants(participants, coefficient, participantsIndex)
        }
     } catch (e) {
-        console.log('e', e);
+        writeToLog.write(error, 'make_payment_total_participants.err');
         return participants
     }
   }
@@ -141,7 +140,6 @@ class PaymentAfterRate {
   makePaymentBoolean = async (block, indexbBet = 0) => {
     try {
       if (block.bets.length === indexbBet) {
-        console.log('finish makePaymentBoolean');
         return block
       } else {
         if(!block.bets[indexbBet].paymentMade) {
@@ -152,7 +150,7 @@ class PaymentAfterRate {
         return this.makePaymentBoolean(block, indexbBet)
       }
     } catch (e) {
-      console.log('e', e);
+      writeToLog.write(error, 'make_payment_boolean.err');
       return block;
     }
   }
@@ -160,7 +158,6 @@ class PaymentAfterRate {
   makePaymentBooleanParticipants = async(bets, participantsIndex = 0) => {
     try {
       if(bets.participants.length === participantsIndex) {
-        console.log('finish makePaymentBooleanParticipants');
         return bets;
       } else {
         if ((bets.participants[participantsIndex].noOrYes === bets.noOrYes) && (!bets.participants[participantsIndex].paymentMade)) {
@@ -177,7 +174,7 @@ class PaymentAfterRate {
         return this.makePaymentBooleanParticipants(bets, participantsIndex)
       }
     } catch (e) {
-      console.log('e', e);
+      writeToLog.write(error, 'make_payment_boolean_participants.err');
       return bets;
     }
   }
@@ -238,7 +235,7 @@ class PaymentAfterRate {
         }
         return blocksAfterPaymentMade
       } catch (e) {
-        console.log(e);
+        writeToLog.write(error, 'payment_percentage_and_leftovers.err');
       } finally {
         return blocksAfterPaymentMade
       }
