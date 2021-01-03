@@ -148,14 +148,14 @@ function FormRate (
         if (action.status === 'SUCCESS') {
           setChangeRate(action.response)
           history.push({search: `rateId=${action.response._id}`})
+        } else {
+          setAlertDate({
+            title: 'Ошибка',
+            description: 'Ошибка при создании ставки',
+            type: 'error',
+            isOpen: true,
+          })
         }
-
-        setAlertDate({
-          title: 'Ошибка',
-          description: 'Ошибка при создании ставки',
-          type: 'Error',
-          isOpen: true,
-        })
       })
   }
 
@@ -172,13 +172,14 @@ function FormRate (
         setStatusFinish(false)
         if (action.status === 'SUCCESS') {
           setChangeRate(action.response)
+        } else {
+          setAlertDate({
+            title: 'Ошибка',
+            description: 'Ошибка при обновлений ставки',
+            type: 'error',
+            isOpen: true,
+          })
         }
-        setAlertDate({
-          title: 'Ошибка',
-          description: 'Ошибка при обновлений ставки',
-          type: 'Error',
-          isOpen: true,
-        })
       })
   }
 
@@ -190,13 +191,14 @@ function FormRate (
         setStatusFinish(false)
         if (action.status === 'SUCCESS') {
           setChangeRate(action.response)
+        } else {
+          setAlertDate({
+            title: 'Ошибка',
+            description: 'Ошибка при обновлений ставки',
+            type: 'error',
+            isOpen: true,
+          })
         }
-        setAlertDate({
-          title: 'Ошибка',
-          description: 'Ошибка при обновлений ставки',
-          type: 'Error',
-          isOpen: true,
-        })
 
       })
   }
@@ -207,13 +209,14 @@ function FormRate (
         if (action.status === 'SUCCESS') {
           getRateByID(rate._id)
           getBlockById(rate.blockId)
+        } else {
+          setAlertDate({
+            title: 'Ошибка',
+            description: 'Ошибка при выполнения оплаты',
+            type: 'error',
+            isOpen: true,
+          })
         }
-        setAlertDate({
-          title: 'Ошибка',
-          description: 'Ошибка при выполнения оплаты',
-          type: 'Error',
-          isOpen: true,
-        })
       })
   }
 
