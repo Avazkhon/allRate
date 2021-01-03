@@ -1,16 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import injectSheet from 'react-jss';
 import moment from 'moment';
 
-import Messages from 'components/Messages';
+import { DataGrid } from '@material-ui/data-grid';
 
 import {
   basisForPayment,
   formatDateTime,
 } from '../../constants';
-
-import historyStyle from './historyStyle';
 
 const {
   accountReplenishment,
@@ -57,106 +54,67 @@ const historyText = {
   }
 }
 
-class HistoryPurse extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      sortBy: 'createTime',
-    }
-  }
+function HistoryPurse({
+  lang,
+  purse: {
+    isFetching,
+    purse,
+    error,
+  },
+}) {
 
-  handleSort = (e) => {
-    const { name } = e.currentTarget.dataset;
-    this.setState({ sortBy: name })
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'basisForPayment', headerName: historyText.basisForPayment[lang], width: 120 },
+    { field: 'amount', headerName: historyText.amount[lang], width: 120 },
+    {
+      field: 'createTime',
+      headerName: historyText.createTime[lang],
+      type: 'date',
+      width: 180,
+    },
+  ];
 
-  }
+  const rows = purse ? purse.history.map((invoice) => {
+      const {
+        _id,
+        invoiceId,
+        amount,
+        createTime,
+        basisForPayment
+      } = invoice;
 
-  sortHistory = (purse) => {
-    const { sortBy } = this.state;
-    if (purse && purse.history) {
-      return purse.history.sort((a, b) => {
-        if (a[sortBy] > b[sortBy]) {
-          return -1;
-        };
-        if (a[sortBy] < b[sortBy]) {
-          return 1;
-        };
-        return 0;
-      });
-    }
-    return [];
-  }
+      return {
+        id: _id,
+        basisForPayment: keyBasisForPayment[basisForPayment][lang],
+        amount,
+        createTime: moment(createTime).format(formatDateTime)
+      }
+    }) : []
 
-  render() {
-    const {
-      purse: {
-        isFetching,
-        purse,
-        error,
-      },
-      classes,
-      lang,
-    } = this.props;
-    const {
-      sortBy,
-    } = this.state;
 
-    const history = this.sortHistory(purse);
-
-    return (
-      <>
-        <h3>{historyText.title[lang]}</h3>
-        <table className={classes.table}>
-          <tr>
-          <th>#</th>
-            <th data-name="amount" onClick={this.handleSort} >
-              {historyText.amount[lang]} {sortBy === 'amount' ? <strong>*</strong> : ''}
-            </th>
-            <th data-name="basisForPayment" onClick={this.handleSort} >
-              {historyText.basisForPayment[lang]} {sortBy === 'basisForPayment' ? <strong>*</strong> : ''}
-              </th>
-            <th data-name="createTime" onClick={this.handleSort} >
-              {historyText.createTime[lang]} {sortBy === 'createTime' ? <strong>*</strong> : ''}
-            </th>
-          </tr>
-          {
-            history.map((invoice, index) => {
-              const {
-                _id,
-                invoiceId,
-                amount,
-                createTime,
-                basisForPayment
-              } = invoice;
-
-              return (
-                <tr key={_id}>
-                  <td> {index} </td>
-                  <td className={classes[invoice.action]}
-                  >
-                    {amount}
-                  </td>
-                  <td>{keyBasisForPayment[basisForPayment][lang]}</td>
-                  <td>{moment(createTime).format(formatDateTime)}</td>
-                </tr>
-              )
-            })
-          }
-        </table>
-        <Messages
-          warning={!history.length && purse && !error && historyText.warning[lang]}
-          error={error}
-          isFetching={isFetching}
+  return (
+    <>
+      <h3>
+        {historyText.title[lang]}
+      </h3>
+      <div style={{ height: '500px', width: '100%' }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={20}
+          rowsPerPageOptions={[10, 20, 40, 80]}
+          autoHeight
+          loading={isFetching}
         />
-      </>
-    )
-  }
-};
+      </div>
+    </>
+  )
+}
 
 HistoryPurse.propTypes = {
-  purse: PropTypes.shape({}),
-  classes: PropTypes.shape({}),
+  purse: PropTypes.shape(),
   lang: PropTypes.strin,
 }
 
-export default injectSheet(historyStyle)(HistoryPurse)
+export default HistoryPurse;
