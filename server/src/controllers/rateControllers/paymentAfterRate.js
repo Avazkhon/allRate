@@ -66,8 +66,9 @@ class PaymentAfterRate {
         if (blocks.blocks[blocksIndex].type === typeBlock.total) {
 
           if (!blocks.blocks[blocksIndex].paymentMade) {
-            await this.makePaymentTotal(blocks.blocks[blocksIndex])
-            blocks.blocks[blocksIndex].paymentMade = true
+            await this.makePaymentTotal(blocks.blocks[blocksIndex]);
+            const isPaymentMade = blocks.blocks[blocksIndex].bets.some(bet => bet.paymentMade)
+            blocks.blocks[blocksIndex].paymentMade = isPaymentMade
           }
 
           blocksIndex++
@@ -100,7 +101,8 @@ class PaymentAfterRate {
 
         if (!block.bets[indexbBet].paymentMade) {
           await this.makePaymentTotalParticipants(block.bets[indexbBet].participants, block.bets[indexbBet].coefficient)
-          block.bets[indexbBet].paymentMade = true
+          const isPaymentMade = block.bets[indexbBet].participants.every(participant => participant.paymentMade)
+          block.bets[indexbBet].paymentMade = isPaymentMade
         }
 
         indexbBet++

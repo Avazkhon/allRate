@@ -58,17 +58,17 @@ class MakeRate {
         participants.noOrYes = body.participants.noOrYes
       }
 
+
       const block = await blockModel.findByIdAndUpdate(
         {
           _id: blocksId,
         },
         {
-          '$set': this.changeCoefficients(blockBefore.blocks, blockId, betId, participants.amount, participants.noOrYes),
+          '$set': await this.changeCoefficients(blockBefore.blocks, blockId, betId, participants.amount, participants.noOrYes),
           '$push': { ['blocks.$[innerBlock].bets.$[innerBets].participants']: participants }
         },
         {
           arrayFilters: [{ "innerBlock._id": blockId }, { "innerBets._id": betId }], // позволяет найти массив в массиве
-          new: true
         }
       )
       res.status(200).json(invoice);
@@ -96,8 +96,9 @@ class MakeRate {
         }
         const allAmoun = bet.amountNo + bet.amountYes;
 
-        const coefficientYes = (allAmoun / bet.amountYes * interest.winPercentage).toFixed(2)
-        const coefficientNo = (allAmoun / bet.amountNo * interest.winPercentage).toFixed(2)
+        const coefficientYes = (allAmoun / bet.amountYes * interest.winPercentage).toFixed(2);
+        const coefficientNo = (allAmoun / bet.amountNo * interest.winPercentage).toFixed(2);
+
         return {
           ['blocks.$[innerBlock].bets.$[innerBets].coefficientYes']: Number(coefficientYes),
           ['blocks.$[innerBlock].bets.$[innerBets].coefficientNo']: Number(coefficientNo),
@@ -108,7 +109,6 @@ class MakeRate {
         block.amountAll = block.amountAll || 0;
         bet.amount = bet.amount || 0;
         block.amountAll += amount
-        const coefficient = (block.amountAll / (bet.amount + amount) * interest.winPercentage).toFixed(2)
 
           const bets = block.bets.map((betItm) => {
             if (betItm._id == bet._id ) {
@@ -120,7 +120,6 @@ class MakeRate {
                   '$set': {
                     ['blocks.$[innerBlock].bets.$[innerBets].coefficient']: (block.amountAll / (betItm.amount + amount) * interest.winPercentage).toFixed(2),
                     ['blocks.$[innerBlock].bets.$[innerBets].amount']: bet.amount + amount,
-                    ['blocks.$[innerBlock].amountAll']: block.amountAll
                   }
                 },
                 {
@@ -136,7 +135,6 @@ class MakeRate {
                 {
                   '$set': {
                     ['blocks.$[innerBlock].bets.$[innerBets].coefficient']: (block.amountAll / betItm.amount * interest.winPercentage).toFixed(2),
-                    ['blocks.$[innerBlock].amountAll']: block.amountAll
                   }
                 },
                 {
@@ -144,7 +142,6 @@ class MakeRate {
                 }
               )
             }
-            return betItm
           })
 
           return {
@@ -153,9 +150,6 @@ class MakeRate {
       }
     } catch (e) {
       console.log(e);
-      return {
-        ['blocks.$[innerBlock].amountAll']: block.amountAll
-      }
     }
   }
 
