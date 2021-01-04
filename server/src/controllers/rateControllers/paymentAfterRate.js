@@ -77,7 +77,8 @@ class PaymentAfterRate {
 
           if (!blocks.blocks[blocksIndex].paymentMade) {
             await this.makePaymentBoolean(blocks.blocks[blocksIndex])
-            blocks.blocks[blocksIndex].paymentMade = true
+            const isPaymentMade = blocks.blocks[blocksIndex].bets.every( bet => bet.paymentMade)
+            blocks.blocks[blocksIndex].paymentMade = isPaymentMade
           }
 
           blocksIndex++
@@ -144,7 +145,13 @@ class PaymentAfterRate {
       } else {
         if(!block.bets[indexbBet].paymentMade) {
           await this.makePaymentBooleanParticipants(block.bets[indexbBet]);
-          block.bets[indexbBet].paymentMade = true
+          const isPaymentMade =  block.bets[indexbBet].participants.every((participant) => {
+            if(participant.noOrYes === block.bets[indexbBet].noOrYes) {
+              return participant.paymentMade
+            }
+            return true
+          })
+          block.bets[indexbBet].paymentMade = isPaymentMade
         }
         indexbBet++
         return this.makePaymentBoolean(block, indexbBet)
