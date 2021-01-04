@@ -77,7 +77,6 @@ class FormBlock extends React.Component {
       selectWinBet,
       statusLife,
     } = this.props;
-    const isFinish = !statusLife || statusLife === rateStatusLive.finish;
 
     return (
       <List component="nav" className={classes.root} aria-label="contacts">
@@ -110,7 +109,7 @@ class FormBlock extends React.Component {
                       data-idblock={idBlock}
                       data-idbet={bet.id}
                       data-no_or_yes={false}
-                      disabled={isFinish || isSelectWin}
+                      disabled={statusLife === rateStatusLive.archive || isSelectWin}
                     >
                       {textLang.no[lang]}
                     </Button>
@@ -120,7 +119,7 @@ class FormBlock extends React.Component {
                       data-idblock={idBlock}
                       data-idbet={bet.id}
                       data-no_or_yes={true}
-                      disabled={isFinish || isSelectWin}
+                      disabled={statusLife === rateStatusLive.archive || isSelectWin}
                       >
                         {textLang.yes[lang]}
                     </Button>
@@ -161,7 +160,6 @@ class FormBlock extends React.Component {
     } = this.props;
       const isHasPatricpants = bets.some(bet => bet.participants.length)
       const isSelectWin = bets.some(bet => bet.win)
-      const isFinish = !statusLife || statusLife === rateStatusLive.finish;
     return (
       <List component="nav" className={classes.root} aria-label="contacts">
         {
@@ -190,7 +188,7 @@ class FormBlock extends React.Component {
                       onClick={selectWinBet}
                       data-idblock={idBlock}
                       data-idbet={bet.id}
-                      disabled={isFinish || isSelectWin}
+                      disabled={statusLife === rateStatusLive.archive || isSelectWin}
                       >
                         {textLang.yes[lang]}
                       </Button>
