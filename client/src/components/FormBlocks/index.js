@@ -324,7 +324,7 @@ class FormBlocks extends React.Component {
 
         <div>
           {
-            (!statusLife || statusLife === rateStatusLive.new || statusLife === rateStatusLive.active) &&
+            (!statusLife || statusLife === rateStatusLive.new) &&
             <Button
               variant="contained"
               color="primary"
@@ -335,7 +335,7 @@ class FormBlocks extends React.Component {
             </Button>
           }
           {
-            !(statusLife === rateStatusLive.finish) || !(statusLife === rateStatusLive.archive) &&
+            (!statusLife || !(statusLife === rateStatusLive.archive)) &&
             <Button
               variant="contained"
               color="primary"
