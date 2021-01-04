@@ -147,7 +147,10 @@ class PaymentAfterRate {
       } else {
         if(!block.bets[indexbBet].paymentMade) {
           await this.makePaymentBooleanParticipants(block.bets[indexbBet]);
-          const isPaymentMade =  block.bets[indexbBet].participants.every((participant) => {
+          const isPaymentMade = block.bets[indexbBet].participants.every((participant) => {
+            if (typeof block.bets[indexbBet].noOrYes === 'undefined') {
+              return false
+            }
             if(participant.noOrYes === block.bets[indexbBet].noOrYes) {
               return participant.paymentMade
             }
@@ -208,7 +211,8 @@ class PaymentAfterRate {
 
   paymentPercentageAndLeftovers = async (blocksAfterPaymentMade) => {
       try {
-        const isPaymentMade = blocksAfterPaymentMade.blocks.some( block => block.paymentMade )
+        const isPaymentMade = blocksAfterPaymentMade.blocks.every( block => block.paymentMade )
+
         if(isPaymentMade && !blocksAfterPaymentMade.paymentPercentage) {
           const amount = this.getAmountForPercentage(blocksAfterPaymentMade.blocks);
           const dataInvoiceAuthor = {
@@ -240,11 +244,10 @@ class PaymentAfterRate {
           }
 
           blocksAfterPaymentMade.paymentPercentage = true;
-
         }
         return blocksAfterPaymentMade
       } catch (e) {
-        writeToLog.write(error, 'payment_percentage_and_leftovers.err');
+        writeToLog.write(e, 'payment_percentage_and_leftovers.err');
       } finally {
         return blocksAfterPaymentMade
       }
