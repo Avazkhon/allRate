@@ -14,6 +14,9 @@ const invoiceControllers = new InvoiceControllers();
 const writeToLog = new WriteToLog();
 
 class MakeRate {
+  constructor () {
+    this.blocks = {}
+  }
 
   makeBet = async (req, res) => {
     try {
@@ -34,6 +37,8 @@ class MakeRate {
         rateModel.findOne({ blockId: blocksId }),
         blockModel.findOne({ _id: blocksId })
       ]);
+
+      this.blocks = blockBefore;
 
       const invoice = await this.createInvoice({
         amount: body.participants.amount,
@@ -77,37 +82,80 @@ class MakeRate {
     return invoiceControllers.createInvoiceForMakeRate(dataInvoice)
   }
 
-  changeCoefficients = (blocks, blockId, betId, amount, noOrYes) => {
-    const block = blocks.find(block => block._id == blockId)
-    const bet = block.bets.find(bet => bet._id == betId)
-    if (block.type === typeBlock.boolean) {
-      bet.amountYes = bet.amountYes || 0;
-      bet.amountNo = bet.amountNo || 0;
-      if(noOrYes) {
-        bet.amountYes +=  amount;
-      } else {
-        bet.amountNo += amount;
-      }
-      const allAmoun = bet.amountNo + bet.amountYes;
-
-      const coefficientYes = (allAmoun / bet.amountYes * interest.winPercentage).toFixed(2)
-      const coefficientNo = (allAmoun / bet.amountNo * interest.winPercentage).toFixed(2)
-      return {
-        ['blocks.$[innerBlock].bets.$[innerBets].coefficientYes']: Number(coefficientYes),
-        ['blocks.$[innerBlock].bets.$[innerBets].coefficientNo']: Number(coefficientNo),
-        ['blocks.$[innerBlock].bets.$[innerBets].amountYes']: bet.amountYes,
-        ['blocks.$[innerBlock].bets.$[innerBets].amountNo']: bet.amountNo,
-      }
-    } else {
-      block.amountAll = block.amountAll || 0;
-      bet.amount = bet.amount || 0;
-      block.amountAll += amount
-      const coefficient = (block.amountAll / amount * interest.winPercentage).toFixed(2)
-        return {
-          ['blocks.$[innerBlock].bets.$[innerBets].coefficient']: Number(coefficient),
-          ['blocks.$[innerBlock].bets.$[innerBets].amount']: bet.amount + amount,
-          ['blocks.$[innerBlock].amountAll']: block.amountAll
+  changeCoefficients = async (blocks, blockId, betId, amount, noOrYes) => {
+    try {
+      const block = blocks.find(block => block._id == blockId)
+      const bet = block.bets.find(bet => bet._id == betId)
+      if (block.type === typeBlock.boolean) {
+        bet.amountYes = bet.amountYes || 0;
+        bet.amountNo = bet.amountNo || 0;
+        if(noOrYes) {
+          bet.amountYes +=  amount;
+        } else {
+          bet.amountNo += amount;
         }
+        const allAmoun = bet.amountNo + bet.amountYes;
+
+        const coefficientYes = (allAmoun / bet.amountYes * interest.winPercentage).toFixed(2)
+        const coefficientNo = (allAmoun / bet.amountNo * interest.winPercentage).toFixed(2)
+        return {
+          ['blocks.$[innerBlock].bets.$[innerBets].coefficientYes']: Number(coefficientYes),
+          ['blocks.$[innerBlock].bets.$[innerBets].coefficientNo']: Number(coefficientNo),
+          ['blocks.$[innerBlock].bets.$[innerBets].amountYes']: bet.amountYes,
+          ['blocks.$[innerBlock].bets.$[innerBets].amountNo']: bet.amountNo,
+        }
+      } else {
+        block.amountAll = block.amountAll || 0;
+        bet.amount = bet.amount || 0;
+        block.amountAll += amount
+        const coefficient = (block.amountAll / (bet.amount + amount) * interest.winPercentage).toFixed(2)
+
+          const bets = block.bets.map((betItm) => {
+            if (betItm._id == bet._id ) {
+              blockModel.findByIdAndUpdate(
+                {
+                  _id: this.blocks._id,
+                },
+                {
+                  '$set': {
+                    ['blocks.$[innerBlock].bets.$[innerBets].coefficient']: (block.amountAll / (betItm.amount + amount) * interest.winPercentage).toFixed(2),
+                    ['blocks.$[innerBlock].bets.$[innerBets].amount']: bet.amount + amount,
+                    ['blocks.$[innerBlock].amountAll']: block.amountAll
+                  }
+                },
+                {
+                  arrayFilters: [{ "innerBlock._id": block._id }, { "innerBets._id": betItm._id }]
+                }
+              )
+
+            } else {
+              blockModel.findByIdAndUpdate(
+                {
+                  _id: this.blocks._id,
+                },
+                {
+                  '$set': {
+                    ['blocks.$[innerBlock].bets.$[innerBets].coefficient']: (block.amountAll / betItm.amount * interest.winPercentage).toFixed(2),
+                    ['blocks.$[innerBlock].amountAll']: block.amountAll
+                  }
+                },
+                {
+                  arrayFilters: [{ "innerBlock._id": block._id }, { "innerBets._id": betItm._id }]
+                }
+              )
+            }
+            return betItm
+          })
+
+          return {
+            ['blocks.$[innerBlock].amountAll']: block.amountAll
+          }
+      }
+    } catch (e) {
+      console.log(e);
+      return {
+        ['blocks.$[innerBlock].amountAll']: block.amountAll
+      }
     }
   }
 
