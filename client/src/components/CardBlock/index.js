@@ -77,7 +77,7 @@ function CardBlock(
                             bet.noOrYes === false &&
                             <CheckIcon />
                           }
-                          Нет {bet.coefficientNo}
+                          Нет { bet.coefficientNo > 1 && bet.coefficientNo }
                         </Button>
                         <Button
                           variant="contained"
@@ -91,7 +91,7 @@ function CardBlock(
                           bet.noOrYes === true &&
                           <CheckIcon />
                         }
-                          Да {bet.coefficientYes}
+                          Да {bet.coefficientYes > 1 && bet.coefficientYes}
                         </Button>
                       </Grid>
                     </Grid>
@@ -118,7 +118,7 @@ function CardBlock(
                               bet.win &&
                               <CheckIcon />
                             }
-                            Выбрать {bet.coefficient}
+                            Выбрать {bet.coefficient > 1 && bet.coefficient}
                           </Button>
                         </Grid>
                       </Grid>
