@@ -78,7 +78,7 @@ class FormBlock extends React.Component {
       statusLife,
     } = this.props;
     const isFinish = !statusLife || statusLife === rateStatusLive.finish;
-    console.log(isFinish);
+
     return (
       <List component="nav" className={classes.root} aria-label="contacts">
         {
@@ -297,6 +297,7 @@ class FormBlock extends React.Component {
             }
           </div>
         </div>
+
         { (!statusLife || (statusLife === rateStatusLive.new)) &&
           <Button
             variant="contained"

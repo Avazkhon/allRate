@@ -13,7 +13,7 @@ exports.blockSchema = new Schema({
           templateId: { type: mongoose.ObjectId }
         },
         description: {
-          value: { type: String, required: true, min: 10, max: 500 },
+          value: { type: String, min: 10, max: 500 },
           templateId: { type: mongoose.ObjectId }
         },
         createDate: { type: Date, default: moment().utc().format() },
