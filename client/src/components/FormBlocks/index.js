@@ -335,12 +335,11 @@ class FormBlocks extends React.Component {
             </Button>
           }
           {
-            (!statusLife || !(statusLife === rateStatusLive.archive)) &&
+            ((statusLife && !(statusLife === rateStatusLive.archive)) || !!block.blocks.length) &&
             <Button
               variant="contained"
               color="primary"
               onClick={block._id ? this.handleChangeBlockById : this.handlePostBlock}
-              disabled={statusLife === rateStatusLive.archive}
             >
               <AddCircleIcon /> { block._id ? 'Обновить блоки' : 'Сохранить' }
             </Button>
