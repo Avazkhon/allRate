@@ -100,7 +100,7 @@ class PaymentAfterRate {
     } else if (block.bets[indexbBet].win) {
 
         if (!block.bets[indexbBet].paymentMade) {
-          await this.makePaymentTotalParticipants(block.bets[indexbBet].participants, block.bets[indexbBet].coefficient)
+          await this.makePaymentTotalParticipants(block.bets[indexbBet].participants, block, block.bets[indexbBet])
           const isPaymentMade = block.bets[indexbBet].participants.every(participant => participant.paymentMade)
           block.bets[indexbBet].paymentMade = isPaymentMade
         }
@@ -113,19 +113,35 @@ class PaymentAfterRate {
     }
   }
 
-  makePaymentTotalParticipants = async (participants, coefficient, participantsIndex = 0) => {
+  makePaymentTotalParticipants = async (participants, block, bet, participantsIndex = 0) => {
     try {
       if(participants.length === participantsIndex) {
          return participants
        } else {
 
           if (!participants[participantsIndex].paymentMade) {
-            const dataInvoice = {
-              amount: Math.floor(participants[participantsIndex].amount * coefficient),
-              requisites: { src: this.rate.purseId, target: participants[participantsIndex].purseId},
-            };
-            await invoiceControllers.createInvoiceForWin(dataInvoice)
+
+            if (bet.coefficient === interest.winPercentage) {
+
+              const dataInvoice = {
+                amount: participants[participantsIndex].amount,
+                requisites: { src: this.rate.purseId, target: participants[participantsIndex].purseId}
+              };
+              await invoiceControllers.createInvoiceForReturnMoney(dataInvoice);
+              bet.amount - participants[participantsIndex].amount;
+              block.amountAll - participants[participantsIndex].amount;
+
+            } else {
+
+              const dataInvoice = {
+                amount: Math.floor(participants[participantsIndex].amount * bet.coefficient),
+                requisites: { src: this.rate.purseId, target: participants[participantsIndex].purseId},
+              };
+              await invoiceControllers.createInvoiceForWin(dataInvoice)
+
+            }
             participants[participantsIndex].paymentMade = true;
+
           }
 
           participantsIndex++
@@ -175,15 +191,33 @@ class PaymentAfterRate {
         if ((bets.participants[participantsIndex].noOrYes === bets.noOrYes) && (!bets.participants[participantsIndex].paymentMade)) {
           const coefficient = bets.noOrYes ? bets.coefficientYes : bets.coefficientNo;
 
-          const dataInvoice = {
-            amount: Math.floor(bets.participants[participantsIndex].amount * coefficient),
-            requisites: { src: this.rate.purseId, target: bets.participants[participantsIndex].purseId},
-          };
-          await invoiceControllers.createInvoiceForWin(dataInvoice)
+          if (coefficient === interest.winPercentage) {
+            const dataInvoice = {
+              amount: bets.participants[participantsIndex].amount,
+              requisites: { src: this.rate.purseId, target: bets.participants[participantsIndex].purseId},
+            };
+
+            await invoiceControllers.createInvoiceForReturnMoney(dataInvoice)
+            (bets.noOrYes && bets.amountYes - bets.participants[participantsIndex].amount)
+            (!bets.noOrYes && bets.amountNo - bets.participants[participantsIndex].amount)
+
+          } else {
+
+            const dataInvoice = {
+              amount: Math.floor(bets.participants[participantsIndex].amount * coefficient),
+              requisites: { src: this.rate.purseId, target: bets.participants[participantsIndex].purseId},
+            };
+
+            await invoiceControllers.createInvoiceForWin(dataInvoice)
+          }
+
           bets.participants[participantsIndex].paymentMade = true;
+
         }
+
         participantsIndex++
         return this.makePaymentBooleanParticipants(bets, participantsIndex)
+
       }
     } catch (e) {
       writeToLog.write(error, 'make_payment_boolean_participants.err');
@@ -231,6 +265,7 @@ class PaymentAfterRate {
           }
           await invoiceControllers.createInvoiceForPercentage(dataInvoiceAuthor);
           await invoiceControllers.createInvoiceForPercentage(dataInvoiceService);
+          blocksAfterPaymentMade.paymentPercentage = true;
           const purse = await purseModel.findOne({ _id: this.rate.purseId});
           if (purse.amount) {
             const dataInvoiceLeftovers = {
@@ -243,7 +278,6 @@ class PaymentAfterRate {
             await invoiceControllers.createInvoiceForLeftovers(dataInvoiceLeftovers);
           }
 
-          blocksAfterPaymentMade.paymentPercentage = true;
         }
         return blocksAfterPaymentMade
       } catch (e) {
