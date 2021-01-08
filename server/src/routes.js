@@ -103,7 +103,8 @@ module.exports = function (app) {
 
   app.route('/api/block')
     .get(blockControllers.findOne)
-    .put(blockControllers.updateOne)
+    .put(blockControllers.changeBlocks)
+    .patch(blockControllers.addBlocks)
     .post(blockControllers.createBlock)
 
   app.route('/api/make-bet')

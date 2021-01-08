@@ -40,16 +40,72 @@ exports.findOne = async (req, res) => {
   };
 };
 
-exports.updateOne = async (req, res) => {
+exports.changeBlocks = async (req, res) => {
   try {
     const {
       body
     } = req;
-
-    const block = await blockModels.findByIdAndUpdate({ _id: body._id}, body, { new: true })
+    const data = {
+    };
+    body.blocks.forEach((block, indexBlock) => {
+      data[`blocks.${indexBlock}.title`] = block.title;
+      data[`blocks.${indexBlock}.description`] = block.description;
+      data[`blocks.${indexBlock}.id`] = block.id;
+      data[`blocks.${indexBlock}.type`] = block.type;
+      block.bets.forEach((bet, indexbBet) => {
+        const propName = (bet.hasOwnProperty('noOrYes') && 'noOrYes') || (bet.hasOwnProperty('win') && 'win')
+        const propValue = (bet.hasOwnProperty('noOrYes') && bet.noOrYes) || (bet.hasOwnProperty('win') && bet.win)
+        data[`blocks.${indexBlock}.bets.${indexbBet}.condition`] = bet.condition;
+        data[`blocks.${indexBlock}.bets.${indexbBet}.id`] = bet.id;
+        if (propName) {
+          data[`blocks.${indexBlock}.bets.${indexbBet}.${propName}`] = propValue;
+        }
+      })
+    })
+    console.log(data);
+    const block = await blockModels.findByIdAndUpdate(
+      { _id: body._id},
+      {$set: data},
+      { new: true }
+    )
     res.status(200).json(block);
   } catch (error) {
     writeToLog.write(error, 'put_block_by_id.error');
     res.status(500).json({ message: 'Ошибка на сервере', error: error.toString()});
   };
 };
+
+
+exports.addBlocks = async (req, res) => {
+  try {
+    const {
+      body: {
+        id
+      },
+      query: {
+        blocksId,
+      },
+    } = req;
+    const block = await blockModels.findByIdAndUpdate(
+      { _id: blocksId},
+      {
+        $push: {
+          blocks: {
+            id,
+            title: {
+              value: '',
+          },
+            description: {
+              value: '',
+            }
+          },
+          type: 'boolean'
+        }
+      },
+      { new: true }
+    )
+    res.status(200).json(block)
+  } catch (e) {
+
+  }
+}
