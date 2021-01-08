@@ -111,6 +111,7 @@ module.exports = function (app) {
 
   app.route('/api/block/bet')
     .post(betControllers.postAddBetInBlock)
+    .delete(betControllers.deleteBet)
 
   app.route('/api/make-bet')
     .post(makeBet.makeBet)

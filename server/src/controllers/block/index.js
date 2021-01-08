@@ -62,10 +62,10 @@ exports.changeBlocks = async (req, res) => {
         }
       })
     })
-    console.log(data);
+
     const block = await blockModels.findByIdAndUpdate(
       { _id: body._id},
-      {$set: data},
+      { $set: data },
       { new: true }
     )
     res.status(200).json(block);
@@ -113,15 +113,11 @@ exports.addBlocks = async (req, res) => {
 exports.deleteBlock = async (req, res) => {
   try {
     const {
-      body: {
-        id
-      },
       query: {
         blocksId,
         blockId,
       },
     } = req;
-    console.log(blocksId, blockId);
     const block = await blockModels.findByIdAndUpdate(
       { _id: blocksId},
       {

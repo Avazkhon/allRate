@@ -34,3 +34,29 @@ exports.postAddBetInBlock = async (req, res) => {
     console.log(e);
   }
 }
+
+exports.deleteBet = async (req, res) => {
+  try {
+    const {
+      query: {
+        blocksId,
+        blockId,
+        betId
+      },
+    } = req;
+
+    const block = await blockModels.findByIdAndUpdate(
+      { _id: blocksId },
+      {
+        $pull: {
+          'blocks.$[innerBlock].bets': { _id: betId }
+        },
+      },
+      { new: true, arrayFilters: [{ 'innerBlock._id': blockId }] }
+    )
+
+    res.status(200).json(block)
+  } catch (e) {
+    console.log(e);
+  }
+}
