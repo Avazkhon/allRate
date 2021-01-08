@@ -17,6 +17,7 @@ const InvoiceControllers = require('./controllers/invoice');
 const AlbumFolder = require('./controllers/albumFolder');
 const withdrawalRequestAdmin = require('./controllers/withdrawalRequest/withdrawalRequestAdmin');
 const blockControllers = require('./controllers/block');
+const betControllers = require('./controllers/block/bet');
 const MakeBet = require('./controllers/block/makeBet');
 
 const makeBet = new MakeBet()
@@ -108,7 +109,7 @@ module.exports = function (app) {
     .post(blockControllers.createBlock)
 
   app.route('/api/block/bet')
-    .post(blockControllers.postAddBetInBlock)
+    .post(betControllers.postAddBetInBlock)
 
   app.route('/api/make-bet')
     .post(makeBet.makeBet)
