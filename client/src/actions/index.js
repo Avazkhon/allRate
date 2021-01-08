@@ -79,4 +79,6 @@ export {
   postMakeBet,
   putPaymentRateByBlock,
   patchPartAddBlock,
+
+  postAddBetInBlock,
 } from './block';

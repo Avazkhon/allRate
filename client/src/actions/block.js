@@ -5,6 +5,8 @@ import {
   POST_MAKE_BET,
   PUT_PAYMENT_RATE_BY_BLOCK,
   PATCH_PART_ADD_BLOCK,
+
+  POST_ADD_BET_IN_BLOCK
 } from '../constants';
 
 export function postBlock (data, rateId) {
@@ -79,6 +81,18 @@ export function patchPartAddBlock (blocksId, data) {
       queryParams: {
         blocksId
       },
+      data
+    }
+  })
+}
+
+export function postAddBetInBlock (queryParams, data) {
+  return dispatch => dispatch({
+    type: POST_ADD_BET_IN_BLOCK,
+    meta: {
+      method: 'post',
+      endpoint: 'block/bet',
+      queryParams,
       data
     }
   })

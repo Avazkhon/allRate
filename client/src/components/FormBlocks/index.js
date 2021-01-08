@@ -38,6 +38,7 @@ import {
   getBlockById,
   putBlockById,
   patchPartAddBlock,
+  postAddBetInBlock,
 } from 'actions';
 
 const textLang = {
@@ -137,26 +138,25 @@ class FormBlocks extends React.Component {
   addBets = (e) => {
     const { idblock } = e.currentTarget.dataset;
     let {
-      blocks
-    } = this.state.block;
-    blocks = blocks.map((block) => {
-      if (block.id === Number(idblock)) {
+      block
+    } = this.state;
+    block.blocks.forEach((blockItem) => {
+      if (blockItem.id === Number(idblock)) {
         const betTemplate = {
           id: this.randomNumber(),
           condition: "",
           participants: []
         }
-        block.bets.push(betTemplate)
+        this.props.postAddBetInBlock({ blocksId: block._id, blockId: blockItem._id }, betTemplate)
+          .then((action) => {
+            if (action.status === 'SUCCESS') {
+              this.setState({
+                block: action.response
+              })
+            }
+          })
       }
-      return block;
     })
-
-    this.setState((prevState) => ({
-      block: {
-        ...prevState.block,
-        blocks,
-      }
-    }))
   }
 
   addBlock = () => {
@@ -364,6 +364,7 @@ FormBlocks.propTypes = {
   getBlockById: PropTypes.func,
   putBlockById: PropTypes.func,
   patchPartAddBlock: PropTypes.func,
+  postAddBetInBlock: PropTypes.func,
   rateId: PropTypes.string,
   blockId: PropTypes.string,
   statusLife: PropTypes.string,
@@ -388,6 +389,7 @@ export default injectSheet(style)(
       getBlockById,
       putBlockById,
       patchPartAddBlock,
+      postAddBetInBlock,
     }
   )(FormBlocks)
 )
