@@ -86,7 +86,7 @@ class PaymentAfterRate {
           return this.makePaymentBlocks(blocks, blocksIndex)
         }
       }
-    } catch (e) {
+    } catch (error) {
       writeToLog.write(error, 'make_payment_blocks.err');
       return blocks
     }
@@ -145,9 +145,9 @@ class PaymentAfterRate {
           }
 
           participantsIndex++
-          return this.makePaymentTotalParticipants(participants, coefficient, participantsIndex)
+          return this.makePaymentTotalParticipants(participants, block, bet, participantsIndex)
        }
-    } catch (e) {
+    } catch (error) {
         writeToLog.write(error, 'make_payment_total_participants.err');
         return participants
     }
@@ -177,7 +177,7 @@ class PaymentAfterRate {
         indexbBet++
         return this.makePaymentBoolean(block, indexbBet)
       }
-    } catch (e) {
+    } catch (error) {
       writeToLog.write(error, 'make_payment_boolean.err');
       return block;
     }
@@ -219,7 +219,7 @@ class PaymentAfterRate {
         return this.makePaymentBooleanParticipants(bets, participantsIndex)
 
       }
-    } catch (e) {
+    } catch (error) {
       writeToLog.write(error, 'make_payment_boolean_participants.err');
       return bets;
     }
@@ -280,8 +280,8 @@ class PaymentAfterRate {
 
         }
         return blocksAfterPaymentMade
-      } catch (e) {
-        writeToLog.write(e, 'payment_percentage_and_leftovers.err');
+      } catch (error) {
+        writeToLog.write(error, 'payment_percentage_and_leftovers.err');
       } finally {
         return blocksAfterPaymentMade
       }
