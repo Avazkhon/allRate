@@ -37,6 +37,7 @@ import {
   postBlock,
   getBlockById,
   putBlockById,
+  patchPartAddBlock,
 } from 'actions';
 
 const textLang = {
@@ -177,8 +178,13 @@ class FormBlocks extends React.Component {
       bets: []
     }
 
-    block.blocks.push(blockTemplate)
-    this.setState({block})
+    this.props.patchPartAddBlock(block._id, { id: this.randomNumber() })
+      .then((action) => {
+        if(action.status == 'SUCCESS') {
+          this.setState({ block: action.response })
+        }
+      })
+
   }
 
   handleChangeTextBets = (e) => {
@@ -357,6 +363,7 @@ FormBlocks.propTypes = {
   postBlock: PropTypes.func,
   getBlockById: PropTypes.func,
   putBlockById: PropTypes.func,
+  patchPartAddBlock: PropTypes.func,
   rateId: PropTypes.string,
   blockId: PropTypes.string,
   statusLife: PropTypes.string,
@@ -380,6 +387,7 @@ export default injectSheet(style)(
       postBlock,
       getBlockById,
       putBlockById,
+      patchPartAddBlock,
     }
   )(FormBlocks)
 )

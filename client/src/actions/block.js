@@ -4,6 +4,7 @@ import {
   PUT_BLOCK_BY_ID,
   POST_MAKE_BET,
   PUT_PAYMENT_RATE_BY_BLOCK,
+  PATCH_PART_ADD_BLOCK,
 } from '../constants';
 
 export function postBlock (data, rateId) {
@@ -67,4 +68,18 @@ export function putPaymentRateByBlock (blocksId) {
       }
     }
   });
+}
+
+export function patchPartAddBlock (blocksId, data) {
+  return dispatch => dispatch({
+    type: PATCH_PART_ADD_BLOCK,
+    meta: {
+      method: 'PATCH',
+      endpoint: 'block',
+      queryParams: {
+        blocksId
+      },
+      data
+    }
+  })
 }
