@@ -39,7 +39,8 @@ import {
   putBlockById,
   patchPartAddBlock,
   postAddBetInBlock,
-  deleteBlock
+  deleteBlock,
+  deleteBet,
 } from 'actions';
 
 const textLang = {
@@ -249,14 +250,22 @@ class FormBlocks extends React.Component {
   deleteBets = (e) => {
     const { idblock, idbet } = e.currentTarget.dataset;
     const { block } = this.state;
-    block.blocks.map((block) => {
-      if(block.id === Number(idblock)) {
-        block.bets = block.bets.filter(bet => bet.id !== Number(idbet))
+
+    block.blocks.forEach((blockItem) => {
+      if(blockItem.id === Number(idblock)) {
+        blockItem.bets.forEach(bet => {
+          if (bet.id === Number(idbet)) {
+            this.props.deleteBet({ blocksId: block._id, blockId: blockItem._id, betId: bet._id })
+              .then((action) => {
+                if (action.status === 'SUCCESS') {
+                  this.setState({ block: action.response })
+                }
+              })
+          }
+        })
       }
-      return block;
     })
 
-    this.setState({block})
   }
 
   changeTypeBlock = (e) => {
@@ -400,7 +409,8 @@ export default injectSheet(style)(
       putBlockById,
       patchPartAddBlock,
       postAddBetInBlock,
-      deleteBlock
+      deleteBlock,
+      deleteBet,
     }
   )(FormBlocks)
 )

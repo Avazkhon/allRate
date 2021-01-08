@@ -7,7 +7,8 @@ import {
   PATCH_PART_ADD_BLOCK,
 
   POST_ADD_BET_IN_BLOCK,
-  DELETE_BLOCK
+  DELETE_BLOCK,
+  DELETE_BET
 } from '../constants';
 
 export function postBlock (data, rateId) {
@@ -99,14 +100,24 @@ export function postAddBetInBlock (queryParams, data) {
   })
 }
 
-export function deleteBlock (queryParams, data) {
+export function deleteBlock (queryParams) {
   return dispatch => dispatch({
     type: DELETE_BLOCK,
     meta: {
       method: 'DELETE',
       endpoint: 'block',
+      queryParams
+    }
+  })
+}
+
+export function deleteBet (queryParams) {
+  return dispatch => dispatch({
+    type: DELETE_BET,
+    meta: {
+      method: 'DELETE',
+      endpoint: 'block/bet',
       queryParams,
-      data
     }
   })
 }
