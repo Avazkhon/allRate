@@ -97,10 +97,10 @@ exports.addBlocks = async (req, res) => {
           },
             description: {
               value: '',
-            }
+            },
+            type: 'boolean'
           },
-          type: 'boolean'
-        }
+        },
       },
       { new: true }
     )
