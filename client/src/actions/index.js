@@ -81,4 +81,5 @@ export {
   patchPartAddBlock,
 
   postAddBetInBlock,
+  deleteBlock
 } from './block';
