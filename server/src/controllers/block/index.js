@@ -109,3 +109,33 @@ exports.addBlocks = async (req, res) => {
     console.log(e);
   }
 }
+
+exports.deleteBlock = async (req, res) => {
+  try {
+    const {
+      body: {
+        id
+      },
+      query: {
+        blocksId,
+        blockId,
+      },
+    } = req;
+    console.log(blocksId, blockId);
+    const block = await blockModels.findByIdAndUpdate(
+      { _id: blocksId},
+      {
+        $pull: {
+          blocks: {
+            _id: blockId,
+          },
+        },
+      },
+      { new: true }
+    )
+
+    res.status(200).json(block)
+  } catch (e) {
+    console.log(e);
+  }
+}
