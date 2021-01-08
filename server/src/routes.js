@@ -107,6 +107,9 @@ module.exports = function (app) {
     .patch(blockControllers.addBlocks)
     .post(blockControllers.createBlock)
 
+  app.route('/api/block/bet')
+    .post(blockControllers.postAddBetInBlock)
+
   app.route('/api/make-bet')
     .post(makeBet.makeBet)
 };
