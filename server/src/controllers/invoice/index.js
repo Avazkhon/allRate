@@ -73,7 +73,7 @@ class InvoiceController {
 
   async changePurse (invoice, id, basisForPayment, action) {
     try {
-      const purse = await purseModel.findOne({ _id: id });
+      const purse = await purseModel.findOne({ _id: id }, { amount: true });
       const data = {
         $push: {
           history: {
