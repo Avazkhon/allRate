@@ -66,7 +66,7 @@ exports.changeBlocks = async (req, res) => {
     const block = await blockModels.findByIdAndUpdate(
       { _id: body._id},
       { $set: data },
-      { new: true }
+      { fields: { "blocks.bets.participants": 0 }, new: true }
     )
     res.status(200).json(block);
   } catch (error) {
