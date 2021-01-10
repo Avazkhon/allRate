@@ -127,6 +127,7 @@ class PaymentAfterRate {
                 amount: participants[participantsIndex].amount,
                 requisites: { src: this.rate.purseId, target: participants[participantsIndex].purseId}
               };
+
               await invoiceControllers.createInvoiceForReturnMoney(dataInvoice);
               bet.amount - participants[participantsIndex].amount;
               block.amountAll - participants[participantsIndex].amount;
@@ -183,7 +184,7 @@ class PaymentAfterRate {
     }
   }
 
-  makePaymentBooleanParticipants = async(bets, participantsIndex = 0) => {
+  makePaymentBooleanParticipants = async (bets, participantsIndex = 0) => {
     try {
       if(bets.participants.length === participantsIndex) {
         return bets;
@@ -196,10 +197,13 @@ class PaymentAfterRate {
               amount: bets.participants[participantsIndex].amount,
               requisites: { src: this.rate.purseId, target: bets.participants[participantsIndex].purseId},
             };
-
             await invoiceControllers.createInvoiceForReturnMoney(dataInvoice)
-            (bets.noOrYes && bets.amountYes - bets.participants[participantsIndex].amount)
-            (!bets.noOrYes && bets.amountNo - bets.participants[participantsIndex].amount)
+
+            if (bets.noOrYes) {
+              bets.amountYes - bets.participants[participantsIndex].amount
+            } else {
+              bets.amountNo - bets.participants[participantsIndex].amount
+            }
 
           } else {
 
@@ -214,7 +218,6 @@ class PaymentAfterRate {
           bets.participants[participantsIndex].paymentMade = true;
 
         }
-
         participantsIndex++
         return this.makePaymentBooleanParticipants(bets, participantsIndex)
 
@@ -265,7 +268,6 @@ class PaymentAfterRate {
           }
           await invoiceControllers.createInvoiceForPercentage(dataInvoiceAuthor);
           await invoiceControllers.createInvoiceForPercentage(dataInvoiceService);
-          blocksAfterPaymentMade.paymentPercentage = true;
           const purse = await purseModel.findOne({ _id: this.rate.purseId});
           if (purse.amount) {
             const dataInvoiceLeftovers = {
@@ -279,6 +281,7 @@ class PaymentAfterRate {
           }
 
         }
+        blocksAfterPaymentMade.paymentPercentage = true;
         return blocksAfterPaymentMade
       } catch (error) {
         writeToLog.write(error, 'payment_percentage_and_leftovers.err');
