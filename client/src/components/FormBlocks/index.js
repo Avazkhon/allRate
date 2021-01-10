@@ -348,7 +348,7 @@ class FormBlocks extends React.Component {
 
         <div>
           {
-            (!statusLife || statusLife === rateStatusLive.new) &&
+            (!!block._id) &&
             <Button
               variant="contained"
               color="primary"
@@ -359,13 +359,13 @@ class FormBlocks extends React.Component {
             </Button>
           }
           {
-            ((statusLife && !(statusLife === rateStatusLive.archive)) || !!block.blocks.length) &&
+            ((statusLife && !(statusLife === rateStatusLive.archive))) &&
             <Button
               variant="contained"
               color="primary"
               onClick={block._id ? this.handleChangeBlockById : this.handlePostBlock}
             >
-              <AddCircleIcon /> { block._id ? 'Обновить блоки' : 'Сохранить' }
+              <AddCircleIcon /> { block._id ? 'Обновить блоки' : 'Создать блоки' }
             </Button>
           }
         </div>
