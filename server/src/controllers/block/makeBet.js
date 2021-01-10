@@ -35,7 +35,7 @@ class MakeRate {
       const [user, rate, blockBefore] = await Promise.all([
         userModel.findOne({ _id: userSession.userId }),
         rateModel.findOne({ blockId: blocksId }),
-        blockModel.findOne({ _id: blocksId })
+        blockModel.findOne({ _id: blocksId }, { 'blocks.bets.participants': false })
       ]);
 
       this.blocks = blockBefore;
@@ -54,7 +54,7 @@ class MakeRate {
         purseId: user.purseId,
         amount: body.participants.amount,
       }
-      if (typeof body.participants.noOrYes === 'boolean') {
+      if (body.participants.hasOwnProperty('noOrYes')) {
         participants.noOrYes = body.participants.noOrYes
       }
 

@@ -32,7 +32,7 @@ exports.findOne = async (req, res) => {
         rateId,
       },
     } = req;
-    const block = await blockModels.findOne({ _id: rateId})
+    const block = await blockModels.findOne({ _id: rateId}, { 'blocks.bets.participants': false })
     res.status(200).json(block);
   } catch (error) {
     writeToLog.write(error, 'get_block_by_id.error');
