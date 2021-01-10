@@ -59,7 +59,7 @@ class MakeRate {
       }
 
 
-      const block = await blockModel.findByIdAndUpdate(
+      await blockModel.findByIdAndUpdate(
         {
           _id: blocksId,
         },
@@ -69,8 +69,10 @@ class MakeRate {
         },
         {
           arrayFilters: [{ "innerBlock._id": blockId }, { "innerBets._id": betId }], // позволяет найти массив в массиве
+          select: '_id'
         }
-      )
+      );
+
       res.status(200).json(invoice);
     } catch (error) {
       writeToLog.write(error, 'add_participant.error');
@@ -123,7 +125,8 @@ class MakeRate {
                   }
                 },
                 {
-                  arrayFilters: [{ "innerBlock._id": block._id }, { "innerBets._id": betItm._id }]
+                  arrayFilters: [{ "innerBlock._id": block._id }, { "innerBets._id": betItm._id }],
+                  select: '_id'
                 }
               )
 
@@ -138,7 +141,8 @@ class MakeRate {
                   }
                 },
                 {
-                  arrayFilters: [{ "innerBlock._id": block._id }, { "innerBets._id": betItm._id }]
+                  arrayFilters: [{ "innerBlock._id": block._id }, { "innerBets._id": betItm._id }],
+                  select: '_id'
                 }
               )
             }

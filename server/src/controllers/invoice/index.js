@@ -85,7 +85,7 @@ class InvoiceController {
         },
         amount: this.createAmount(purse.amount, invoice.amount, action),
       };
-      return purseModel.findByIdAndUpdate({ _id: id}, data)
+      return purseModel.findByIdAndUpdate({ _id: id}, data, { select: '_id' })
       .then( purse => this.SUCCESS)
     } catch(err) {
       writeToLog.write(err, 'update_purse.err');
