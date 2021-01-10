@@ -29,6 +29,7 @@ function MakeRate (
 ) {
 
   useEffect(() => {
+  const interval = setInterval(() => {
     const { rateId } = queryString.parse(history.location.search);
     if (rateId) {
       getRateByID(rateId)
@@ -38,7 +39,9 @@ function MakeRate (
           }
         })
     }
-  }, [])
+  }, 3000);
+  return () => clearInterval(interval);
+}, []);
 
   return (
     <Layout>
