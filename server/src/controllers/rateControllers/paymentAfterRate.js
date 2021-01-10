@@ -121,7 +121,7 @@ class PaymentAfterRate {
 
           if (!participants[participantsIndex].paymentMade) {
 
-            if (bet.coefficient === interest.winPercentage) {
+            if (bet.coefficient <= 1) {
 
               const dataInvoice = {
                 amount: participants[participantsIndex].amount,
@@ -191,8 +191,7 @@ class PaymentAfterRate {
       } else {
         if ((bets.participants[participantsIndex].noOrYes === bets.noOrYes) && (!bets.participants[participantsIndex].paymentMade)) {
           const coefficient = bets.noOrYes ? bets.coefficientYes : bets.coefficientNo;
-
-          if (coefficient === interest.winPercentage) {
+          if (coefficient < 1) {
             const dataInvoice = {
               amount: bets.participants[participantsIndex].amount,
               requisites: { src: this.rate.purseId, target: bets.participants[participantsIndex].purseId},
@@ -280,8 +279,8 @@ class PaymentAfterRate {
             await invoiceControllers.createInvoiceForLeftovers(dataInvoiceLeftovers);
           }
 
+          blocksAfterPaymentMade.paymentPercentage = true;
         }
-        blocksAfterPaymentMade.paymentPercentage = true;
         return blocksAfterPaymentMade
       } catch (error) {
         writeToLog.write(error, 'payment_percentage_and_leftovers.err');
