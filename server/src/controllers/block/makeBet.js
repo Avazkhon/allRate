@@ -112,45 +112,25 @@ class MakeRate {
         bet.amount = bet.amount || 0;
         block.amountAll += amount
 
-          const bets = block.bets.map((betItm) => {
+          block.bets.forEach((betItm, index) => {
             if (betItm._id == bet._id ) {
-              blockModel.findByIdAndUpdate(
-                {
-                  _id: this.blocks._id,
-                },
-                {
+              return ({
                   '$set': {
-                    ['blocks.$[innerBlock].bets.$[innerBets].coefficient']: (block.amountAll / (betItm.amount + amount) * interest.winPercentage).toFixed(2),
-                    ['blocks.$[innerBlock].bets.$[innerBets].amount']: bet.amount + amount,
+                    [`blocks.$[innerBlock].bets.${index}.coefficient`]: (block.amountAll / (betItm.amount + amount) * interest.winPercentage).toFixed(2),
+                    [`blocks.$[innerBlock].bets.${index}.amount`]: bet.amount + amount,
+                    ['blocks.$[innerBlock].amountAll']: block.amountAll
                   }
-                },
-                {
-                  arrayFilters: [{ "innerBlock._id": block._id }, { "innerBets._id": betItm._id }],
-                  select: '_id'
-                }
-              )
+                })
 
             } else {
-              blockModel.findByIdAndUpdate(
-                {
-                  _id: this.blocks._id,
-                },
-                {
+              return ({
                   '$set': {
-                    ['blocks.$[innerBlock].bets.$[innerBets].coefficient']: (block.amountAll / betItm.amount * interest.winPercentage).toFixed(2),
+                    [`blocks.$[innerBlock].bets.${index}.coefficient`]: (block.amountAll / betItm.amount * interest.winPercentage).toFixed(2),
+                    ['blocks.$[innerBlock].amountAll']: block.amountAll
                   }
-                },
-                {
-                  arrayFilters: [{ "innerBlock._id": block._id }, { "innerBets._id": betItm._id }],
-                  select: '_id'
-                }
-              )
+                })
             }
           })
-
-          return {
-            ['blocks.$[innerBlock].amountAll']: block.amountAll
-          }
       }
     } catch (e) {
       console.log(e);
