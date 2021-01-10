@@ -1,6 +1,7 @@
 const blockModel = require('../../models/block');
 const rateModel = require('../../models/rate');
 const userModel = require('../../models/user');
+const purseModels = require('../../models/purse');
 const InvoiceControllers = require('../invoice');
 const WriteToLog = require('../../utils/writeToLog');
 
@@ -32,11 +33,16 @@ class MakeRate {
         }
       } = req;
 
-      const [user, rate, blockBefore] = await Promise.all([
+      const [user, rate, blockBefore, purse] = await Promise.all([
         userModel.findOne({ _id: userSession.userId }),
         rateModel.findOne({ blockId: blocksId }),
-        blockModel.findOne({ _id: blocksId }, { 'blocks.bets.participants': false })
+        blockModel.findOne({ _id: blocksId }, { 'blocks.bets.participants': false }),
+        purseModels.findOne({ userId: userSession.userId }, { 'amount': true })
       ]);
+
+      if (purse.amount < body.participants.amount ) {
+        return res.status(400).json({ message: 'Недостаточно средств'});
+      }
 
       this.blocks = blockBefore;
 
