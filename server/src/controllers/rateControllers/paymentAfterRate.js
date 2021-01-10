@@ -47,7 +47,8 @@ class PaymentAfterRate {
 
       const blocksAfterUpdate = await blockModel.findByIdAndUpdate(
         { _id: blocksId },
-        blocksAfterPaymentMade
+        blocksAfterPaymentMade,
+        { 'blocks.bets.participants': false }
       )
 
       res.status(200).json(blocksAfterUpdate)
@@ -267,10 +268,10 @@ class PaymentAfterRate {
           }
           await invoiceControllers.createInvoiceForPercentage(dataInvoiceAuthor);
           await invoiceControllers.createInvoiceForPercentage(dataInvoiceService);
-          const purse = await purseModel.findOne({ _id: this.rate.purseId});
+          const purse = await purseModel.findOne({ _id: this.rate.purseId}, { amount: true });
           if (purse.amount) {
             const dataInvoiceLeftovers = {
-              amount: Math.floor(purse.amount),
+              amount: purse.amount,
               requisites: {
                 src: this.rate.purseId,
                 target: superAdmin.purseId
