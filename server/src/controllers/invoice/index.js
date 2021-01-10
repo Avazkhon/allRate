@@ -183,9 +183,12 @@ class InvoiceController {
   }
 
   async createInvoiceForReturnMoney (data) {
+    data.authorId = superAdmin.userId;
     data.invoiceId = uuidv4();
+    data.basisForPayment = returnMoney;
     const invoice = await invoiceModel.create(data);
-    await this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus);
+    await this.changePurse(invoice, invoice.requisites.src, data.basisForPayment, this.minus)
+      .then(() => this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus))
     return invoice;
   }
 
