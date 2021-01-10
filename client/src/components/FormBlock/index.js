@@ -124,7 +124,7 @@ class FormBlock extends React.Component {
                         {textLang.yes[lang]}
                     </Button>
                     {
-                      !bet.participants.length &&
+                      !bet.amount &&
                       <Button
                         variant="contained"
                         color="secondary"
@@ -158,7 +158,6 @@ class FormBlock extends React.Component {
       selectWinBet,
       statusLife,
     } = this.props;
-      const isHasPatricpants = bets.some(bet => bet.participants.length)
       const isSelectWin = bets.some(bet => bet.win)
     return (
       <List component="nav" className={classes.root} aria-label="contacts">
@@ -193,7 +192,7 @@ class FormBlock extends React.Component {
                         {textLang.yes[lang]}
                       </Button>
                       {
-                        !isHasPatricpants &&
+                        !bet.amount &&
                         <Button
                           variant="contained"
                           color="secondary"
