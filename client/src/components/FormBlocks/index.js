@@ -235,7 +235,8 @@ class FormBlocks extends React.Component {
         this.props.deleteBlock({ blocksId: block._id, blockId: blockItem._id })
           .then((action) => {
             if (action.status === 'SUCCESS') {
-              this.setState({ block: action.response})
+              block.blocks = block.blocks.filter(block => block._id !== blockItem._id)
+              this.setState({ block })
             }
           })
       }
