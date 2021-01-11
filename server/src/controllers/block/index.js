@@ -102,11 +102,12 @@ exports.addBlocks = async (req, res) => {
           },
         },
       },
-      { new: true }
+      { fields: { "blocks.bets.participants": 0 }, new: true }
     )
-    res.status(200).json(block)
+    res.status(200).json(block.blocks.find(block => block.id === id))
   } catch (e) {
     console.log(e);
+    res.status(500).json({error: e.toString()})
   }
 }
 
@@ -127,11 +128,12 @@ exports.deleteBlock = async (req, res) => {
           },
         },
       },
-      { new: true }
+      { fields: { "blocks.bets.participants": 0 }, new: true }
     )
 
     res.status(200).json(block)
   } catch (e) {
     console.log(e);
+    res.status(500).json({error: e.toString()})
   }
 }
