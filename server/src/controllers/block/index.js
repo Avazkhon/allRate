@@ -119,7 +119,7 @@ exports.deleteBlock = async (req, res) => {
         blockId,
       },
     } = req;
-    const block = await blockModels.findByIdAndUpdate(
+    await blockModels.findByIdAndUpdate(
       { _id: blocksId},
       {
         $pull: {
