@@ -177,7 +177,8 @@ class FormBlocks extends React.Component {
     this.props.patchPartAddBlock(block._id, { id: this.randomNumber() })
       .then((action) => {
         if(action.status == 'SUCCESS') {
-          this.setState({ block: action.response })
+          block.blocks.push(action.response)
+          this.setState({ block })
         }
       })
 
