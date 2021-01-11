@@ -253,7 +253,8 @@ class FormBlocks extends React.Component {
             this.props.deleteBet({ blocksId: block._id, blockId: blockItem._id, betId: bet._id })
               .then((action) => {
                 if (action.status === 'SUCCESS') {
-                  this.setState({ block: action.response })
+                  blockItem.bets = blockItem.bets.filter(elm => elm._id !== bet._id)
+                  this.setState({ block })
                 }
               })
           }
