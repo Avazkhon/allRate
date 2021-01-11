@@ -131,7 +131,7 @@ exports.deleteBlock = async (req, res) => {
       { fields: { "blocks.bets.participants": 0 }, new: true }
     )
 
-    res.status(200).json(block)
+    res.sendStatus(200)
   } catch (e) {
     console.log(e);
     res.status(500).json({error: e.toString()})
