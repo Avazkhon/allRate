@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { connect } from 'react-redux';
 
 import { DataGrid } from '@material-ui/data-grid';
+import {
+  getPurseHistory
+} from 'actions';
 
 import {
   basisForPayment,
@@ -56,11 +60,7 @@ const historyText = {
 
 function HistoryPurse({
   lang,
-  purse: {
-    isFetching,
-    purse,
-    error,
-  },
+  getPurseHistory,
 }) {
 
   const columns = [
@@ -75,7 +75,21 @@ function HistoryPurse({
     },
   ];
 
-  const rows = purse ? purse.history.map((invoice) => {
+  const [ history, changeHistpry ] = useState([])
+  const [ isFetching, changeFetching ] = useState(false)
+
+  useEffect(() => {
+    changeFetching(true)
+    getPurseHistory()
+      .then((action) => {
+        changeFetching(false)
+        if (action.status === 'SUCCESS') {
+          changeHistpry(action.response.history)
+        }
+      })
+  }, [])
+
+  const rows = history.map((invoice) => {
       const {
         _id,
         invoiceId,
@@ -90,7 +104,7 @@ function HistoryPurse({
         amount,
         createDate: moment(createDate).format(formatDateTime)
       }
-    }) : []
+    })
 
 
   return (
@@ -117,4 +131,10 @@ HistoryPurse.propTypes = {
   lang: PropTypes.strin,
 }
 
-export default HistoryPurse;
+
+export default connect(
+  () => {},
+  {
+    getPurseHistory
+  }
+)(HistoryPurse);

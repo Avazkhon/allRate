@@ -87,7 +87,6 @@ class PurseComponent extends Component {
         <Row>
           <HistoryPurse
             lang={lang}
-            purse={purse}
           />
         </Row>
         <ModalInvoice

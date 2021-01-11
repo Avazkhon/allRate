@@ -26,6 +26,7 @@ export {
 
 export {
   getPurse,
+  getPurseHistory,
 } from './purse';
 
 export {

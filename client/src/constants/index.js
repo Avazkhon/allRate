@@ -21,6 +21,7 @@ export const PUT_RATE_LIVE = 'PUT_RATE_LIVE';
 export const PUT_RATE_SELECT_VICTORY = 'PUT_RATE_SELECT_VICTORY';
 
 export const GET_PURSE = 'GET_PURSE';
+export const GET_PURSE_HISTORY = 'GET_PURSE_HISTORY';
 
 export const POST_INVOICE = 'POST_INVOICE';
 
