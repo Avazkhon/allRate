@@ -146,9 +146,8 @@ class FormBlocks extends React.Component {
         this.props.postAddBetInBlock({ blocksId: block._id, blockId: blockItem._id }, betTemplate)
           .then((action) => {
             if (action.status === 'SUCCESS') {
-              this.setState({
-                block: action.response
-              })
+              blockItem.bets.push(action.response)
+              this.setState({ block })
             }
           })
       }
