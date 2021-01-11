@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
@@ -21,79 +21,73 @@ import FormBlocks from 'components/FormBlocks';
 
 import Layout from '../Layout';
 
-class CreateRatePage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isShowRate: false,
-      blockId: null,
-      statusLife: '',
-    }
+function CreateRatePage ({
+  history,
+  selectRate,
+  blocks,
+  auth: {
+    userData,
+  },
+  getRateByID
+}) {
+  const { rateId } = queryString.parse(history.location.search);
+
+  const [{
+    isShowRate,
+    blockId,
+    statusLife
+  },
+  changeData,
+] = useState({
+    isShowRate: false,
+    blockId: null,
+    statusLife: '',
+})
+
+  useEffect(() => {
+    updateRateEndBlocks()
+  }, [])
+
+
+  function updateRateEndBlocks () {
+      if (rateId) {
+        getRateByID(rateId)
+          .then((action) => {
+            if (action.status === 'SUCCESS') {
+              changeData({
+                isShowRate: true,
+                blockId: action.response.blockId,
+                statusLife: action.response.statusLife
+              })
+            }
+          });
+      }
   }
 
-  componentDidMount() {
-    const {
-      history,
-      getRateByID,
-    } = this.props;
-    const { rateId } = queryString.parse(history.location.search);
-    if (rateId) {
-      getRateByID(rateId)
-        .then((action) => {
-          if (action.status === 'SUCCESS') {
-            this.setState({
-              isShowRate: true,
-              blockId: action.response.blockId,
-              statusLife: action.response.statusLife
-            })
-          }
-        });
-    }
-  }
-
-  render() {
-    const {
-      isShowRate,
-      blockId,
-      statusLife,
-    } = this.state;
-    const {
-      // creteNewRate,
-      auth: {
-        userData
-      },
-      selectRate,
-      changeImg,
-      history,
-      blocks,
-    } = this.props;
-
-    const { rateId } = queryString.parse(history.location.search);
-    return (
-      <Layout>
-        <Container>
-          <Row>
-            <Col xs="12" sm="3">
-              <SiteBar
-                userData={userData}
-              />
-            </Col>
-            <Col xs="12" sm="9">
-              <FormRate
-                selectRate={isShowRate && selectRate}
-                paymentPercentage={blocks.data.paymentPercentage}
-              />
-              <FormBlocks
-                rateId={rateId}
-                blockId={blockId}
-                statusLife={statusLife}
-              />
-            </Col>
-          </Row>
-        </Container>
-      </Layout>
-    );
-  }
+  return (
+    <Layout>
+      <Container>
+        <Row>
+          <Col xs="12" sm="3">
+            <SiteBar
+              userData={userData}
+            />
+          </Col>
+          <Col xs="12" sm="9">
+            <FormRate
+              selectRate={isShowRate && selectRate}
+              paymentPercentage={blocks.data.paymentPercentage}
+            />
+            <FormBlocks
+              rateId={rateId}
+              blockId={blockId}
+              statusLife={statusLife}
+            />
+          </Col>
+        </Row>
+      </Container>
+    </Layout>
+  );
 }
 
 CreateRatePage.propTypes = {
