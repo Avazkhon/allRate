@@ -35,13 +35,11 @@ function CreateRatePage ({
   const [{
     isShowRate,
     blockId,
-    statusLife
   },
   changeData,
 ] = useState({
     isShowRate: false,
     blockId: null,
-    statusLife: '',
 })
 
   useEffect(() => {
@@ -57,7 +55,6 @@ function CreateRatePage ({
               changeData({
                 isShowRate: true,
                 blockId: action.response.blockId,
-                statusLife: action.response.statusLife
               })
             }
           });
@@ -81,7 +78,7 @@ function CreateRatePage ({
             <FormBlocks
               rateId={rateId}
               blockId={blockId}
-              statusLife={statusLife}
+              statusLife={selectRate.data && selectRate.data.statusLife}
             />
           </Col>
         </Row>

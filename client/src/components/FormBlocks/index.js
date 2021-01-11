@@ -19,7 +19,6 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import {
   Form,
-  // Button,
 } from 'react-bootstrap';
 
 import style from './style';
@@ -69,11 +68,6 @@ const textLang = {
     RU: 'Нет'
   }
 }
-
-// import {
-// } from 'utils';
-
-// import Messages from 'components/Messages';
 
 class FormBlocks extends React.Component {
   constructor(props) {
@@ -358,6 +352,7 @@ class FormBlocks extends React.Component {
               <AddCircleIcon /> Добавить блок
             </Button>
           }
+
           {
             ((statusLife && !(statusLife === rateStatusLive.archive))) &&
             <Button
