@@ -92,7 +92,7 @@ class FormBlock extends React.Component {
                       name="condition"
                       label={textLang.conditions[lang]}
                       id="standard-password-input"
-                      defaultValue={bet.condition}
+                      value={bet.condition}
                       inputProps={{
                         'data-idblock': idBlock,
                         'data-idbet': bet.id,
@@ -171,7 +171,7 @@ class FormBlock extends React.Component {
                       name="condition"
                       label={textLang.conditions[lang]}
                       id="standard-password-input"
-                      defaultValue={bet.condition}
+                      value={bet.condition}
                       inputProps={{
                         'data-idblock': idBlock,
                         'data-idbet': bet.id,
@@ -241,7 +241,7 @@ class FormBlock extends React.Component {
             name="title"
             label={textLang.title[lang]}
             id="standard-password-input"
-            defaultValue={title.value}
+            value={title.value}
             onChange={handleChangeTextBlock}
             inputProps={{
               'data-idblock': idBlock
@@ -252,7 +252,7 @@ class FormBlock extends React.Component {
           <TextField
             name="description"
             label={textLang.description[lang]}
-            defaultValue={description.value}
+            value={description.value}
             onChange={handleChangeTextBlock}
             inputProps={{
               'data-idblock': idBlock
