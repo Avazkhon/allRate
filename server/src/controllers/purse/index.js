@@ -29,12 +29,28 @@ exports.getPurse = (req, res) => {
     return res.status(401).json('Пользователь не авторизован!');
   }
 
-  purseModel.findOne({ userId: user.userId })
+  purseModel.findOne({ userId: user.userId }, { history: false })
   .then(data => {
     res.status(200).json(data)
   })
   .catch((err) => {
     writeToLog.write(err, 'get_purse.err')
+    res.status(500).json(err);
+  });
+}
+
+exports.getPurseHistory = (req, res) => {
+  const { user } = req.session;
+  if (!user || (user && !user.userId )) {
+    return res.status(401).json('Пользователь не авторизован!');
+  }
+
+  purseModel.findOne({ userId: user.userId }, { history: true })
+  .then(data => {
+    res.status(200).json(data)
+  })
+  .catch((err) => {
+    writeToLog.write(err, 'get_purse_history.err')
     res.status(500).json(err);
   });
 }

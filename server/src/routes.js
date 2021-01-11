@@ -80,6 +80,8 @@ module.exports = function (app) {
     // этот метод не должен быть доступным на production
     // так как пользователь не должен иметь примой доступ к нему
     .put(purseControllers.findByIdAndUpdate);
+  app.route('/api/purse/history')
+    .get(purseControllers.getPurseHistory)
 
   app.route('/api/invoice')
     .get(invoiceControllers.getInvoice)
