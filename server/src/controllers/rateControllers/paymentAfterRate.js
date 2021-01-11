@@ -61,7 +61,7 @@ class PaymentAfterRate {
 
   makePaymentBlocks = async (blocks, blocksIndex = 0) => {
     try {
-      if (blocks.blocks.length === blocksIndex) {
+      if (blocks.blocks.length === blocksIndex + 1) {
         return blocks
       } else {
         if (blocks.blocks[blocksIndex].type === typeBlock.total) {
@@ -96,10 +96,9 @@ class PaymentAfterRate {
 
 
   makePaymentTotal = async (block, indexbBet = 0) => {
-    if(block.bets.length === indexbBet) {
+    if(block.bets.length === indexbBet + 1) {
      return block
     } else if (block.bets[indexbBet].win) {
-
         if (!block.bets[indexbBet].paymentMade) {
           await this.makePaymentTotalParticipants(block.bets[indexbBet].participants, block, block.bets[indexbBet])
           const isPaymentMade = block.bets[indexbBet].participants.every(participant => participant.paymentMade)
@@ -116,7 +115,7 @@ class PaymentAfterRate {
 
   makePaymentTotalParticipants = async (participants, block, bet, participantsIndex = 0) => {
     try {
-      if(participants.length === participantsIndex) {
+      if(participants.length === participantsIndex + 1) {
          return participants
        } else {
 
@@ -145,7 +144,6 @@ class PaymentAfterRate {
             participants[participantsIndex].paymentMade = true;
 
           }
-
           participantsIndex++
           return this.makePaymentTotalParticipants(participants, block, bet, participantsIndex)
        }
@@ -160,7 +158,7 @@ class PaymentAfterRate {
 
   makePaymentBoolean = async (block, indexbBet = 0) => {
     try {
-      if (block.bets.length === indexbBet) {
+      if (block.bets.length === indexbBet + 1) {
         return block
       } else {
         if(!block.bets[indexbBet].paymentMade) {
@@ -187,7 +185,7 @@ class PaymentAfterRate {
 
   makePaymentBooleanParticipants = async (bets, participantsIndex = 0) => {
     try {
-      if(bets.participants.length === participantsIndex) {
+      if(bets.participants.length === participantsIndex + 1) {
         return bets;
       } else {
         if ((bets.participants[participantsIndex].noOrYes === bets.noOrYes) && (!bets.participants[participantsIndex].paymentMade)) {
