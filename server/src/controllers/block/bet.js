@@ -26,10 +26,15 @@ exports.postAddBetInBlock = async (req, res) => {
           },
         },
       },
-      { new: true, arrayFilters: [{ "innerBlock._id": blockId }] }
+      {
+        new: true,
+        arrayFilters: [{ "innerBlock._id": blockId }],
+        fields: { "blocks.bets.participants": 0 }
+       }
     )
-
-    res.status(200).json(block)
+    let data = block.blocks.find(block => block._id == blockId);
+    data = data.bets.find(bet => bet.id == id)
+    res.status(200).json(data)
   } catch (e) {
     console.log(e);
   }
