@@ -2,6 +2,7 @@ const blockModels = require('../../models/block');
 // const rateModels = require('../../models/rate');
 // const userModels = require('../../models/user');
 const WriteToLog = require('../../utils/writeToLog');
+const writeToLog = new WriteToLog();
 
 exports.postAddBetInBlock = async (req, res) => {
   try {
@@ -35,9 +36,9 @@ exports.postAddBetInBlock = async (req, res) => {
     let data = block.blocks.find(block => block._id == blockId);
     data = data.bets.find(bet => bet.id == id)
     res.status(200).json(data)
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({error: e.toString()})
+  } catch (error) {
+    writeToLog.write(error, 'add_bet.error');
+    res.status(500).json({error: error.toString()})
   }
 }
 
@@ -65,8 +66,8 @@ exports.deleteBet = async (req, res) => {
       }
     )
     res.sendStatus(200)
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({error: e.toString()})
+  } catch (error) {
+    writeToLog.write(error, 'delete_bet.error');
+    res.status(500).json({error: error.toString()})
   }
 }

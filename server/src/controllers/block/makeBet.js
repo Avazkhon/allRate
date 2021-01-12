@@ -140,8 +140,8 @@ class MakeRate {
 
           return {...result, ['blocks.$[innerBlock].amountAll']: block.amountAll}
       }
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      writeToLog.write(error, 'change_coefficients.error');
     }
   }
 

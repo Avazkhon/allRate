@@ -107,9 +107,9 @@ exports.addBlocks = async (req, res) => {
       { fields: { "blocks.bets.participants": 0 }, new: true }
     )
     res.status(200).json(block.blocks.find(block => block.id === id))
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({error: e.toString()})
+  } catch (error) {
+    writeToLog.write(error, 'add_block.error');
+    res.status(500).json({error: error.toString()})
   }
 }
 
@@ -134,8 +134,8 @@ exports.deleteBlock = async (req, res) => {
     )
 
     res.sendStatus(200)
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({error: e.toString()})
+  } catch (error) {
+    writeToLog.write(error, 'delete_block.error');
+    res.status(500).json({error: error.toString()})
   }
 }

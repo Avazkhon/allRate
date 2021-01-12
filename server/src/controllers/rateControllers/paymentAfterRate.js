@@ -53,6 +53,7 @@ class PaymentAfterRate {
 
       res.status(200).json(blocksAfterUpdate)
     } catch (error) {
+      writeToLog.write(error, 'payment_after_rate.error');
       res.status(500).json({ error: error.toString() })
     }
 
