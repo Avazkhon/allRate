@@ -17,6 +17,7 @@ const writeToLog = new WriteToLog();
 class MakeRate {
   constructor () {
     this.blocks = {}
+    this.arrayFilters = []
   }
 
   makeBet = async (req, res) => {
@@ -63,8 +64,6 @@ class MakeRate {
       if (body.participants.hasOwnProperty('noOrYes')) {
         participants.noOrYes = body.participants.noOrYes
       }
-
-
       await blockModel.findByIdAndUpdate(
         {
           _id: blocksId,
@@ -74,7 +73,7 @@ class MakeRate {
           '$push': { ['blocks.$[innerBlock].bets.$[innerBets].participants']: participants }
         },
         {
-          arrayFilters: [{ "innerBlock._id": blockId }, { "innerBets._id": betId }], // позволяет найти массив в массиве
+          arrayFilters: [{ "innerBlock._id": blockId }, { "innerBets._id": betId }, ...this.arrayFilters], // позволяет найти массив в массиве
           select: '_id'
         }
       );
@@ -116,27 +115,30 @@ class MakeRate {
       } else {
         block.amountAll = block.amountAll || 0;
         bet.amount = bet.amount || 0;
-        block.amountAll += amount
+        block.amountAll += amount;
+        let result = {}
 
           block.bets.forEach((betItm, index) => {
+
             if (betItm._id == bet._id ) {
-              return ({
-                  '$set': {
-                    [`blocks.$[innerBlock].bets.${index}.coefficient`]: (block.amountAll / (betItm.amount + amount) * interest.winPercentage).toFixed(2),
-                    [`blocks.$[innerBlock].bets.${index}.amount`]: bet.amount + amount,
-                    ['blocks.$[innerBlock].amountAll']: block.amountAll
-                  }
-                })
+
+              result = {
+                ...result,
+                [`blocks.$[innerBlock].bets.$[index${index}].coefficient`]: (block.amountAll / (betItm.amount + amount) * interest.winPercentage).toFixed(2),
+                [`blocks.$[innerBlock].bets.$[index${index}].amount`]: bet.amount + amount,
+              }
 
             } else {
-              return ({
-                  '$set': {
-                    [`blocks.$[innerBlock].bets.${index}.coefficient`]: (block.amountAll / betItm.amount * interest.winPercentage).toFixed(2),
-                    ['blocks.$[innerBlock].amountAll']: block.amountAll
-                  }
-                })
+              result = {
+                ...result,
+                [`blocks.$[innerBlock].bets.$[index${index}].coefficient`]: (block.amountAll / betItm.amount * interest.winPercentage).toFixed(2),
+              }
             }
+            this.arrayFilters.push({[`index${index}._id`]: betItm._id});
+
           })
+
+          return {...result, ['blocks.$[innerBlock].amountAll']: block.amountAll}
       }
     } catch (e) {
       console.log(e);

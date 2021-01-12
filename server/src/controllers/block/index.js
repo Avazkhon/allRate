@@ -45,14 +45,15 @@ exports.changeBlocks = async (req, res) => {
     const {
       body
     } = req;
-    const data = {
-    };
+    const data = {};
+
     body.blocks.forEach((block, indexBlock) => {
       data[`blocks.${indexBlock}.title`] = block.title;
       data[`blocks.${indexBlock}.description`] = block.description;
       data[`blocks.${indexBlock}.id`] = block.id;
       data[`blocks.${indexBlock}.type`] = block.type;
       block.bets.forEach((bet, indexbBet) => {
+
         const propName = (bet.hasOwnProperty('noOrYes') && 'noOrYes') || (bet.hasOwnProperty('win') && 'win')
         const propValue = (bet.hasOwnProperty('noOrYes') && bet.noOrYes) || (bet.hasOwnProperty('win') && bet.win)
         data[`blocks.${indexBlock}.bets.${indexbBet}.condition`] = bet.condition;
@@ -60,6 +61,7 @@ exports.changeBlocks = async (req, res) => {
         if (propName) {
           data[`blocks.${indexBlock}.bets.${indexbBet}.${propName}`] = propValue;
         }
+
       })
     })
 

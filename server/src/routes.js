@@ -20,8 +20,6 @@ const blockControllers = require('./controllers/block');
 const betControllers = require('./controllers/block/bet');
 const MakeBet = require('./controllers/block/makeBet');
 
-const makeBet = new MakeBet()
-
 const invoiceControllers = new InvoiceControllers();
 const albumFolder = new AlbumFolder();
 const paymentAfterRate = new PaymentAfterRate();
@@ -116,5 +114,9 @@ module.exports = function (app) {
     .delete(betControllers.deleteBet)
 
   app.route('/api/make-bet')
-    .post(makeBet.makeBet)
+    .post((...rest) => {
+      // Новый инстанс нужен для стерильности данных в конструкторе при каждом новом запросе
+      const makeBet = new MakeBet();
+      makeBet.makeBet(...rest)
+    })
 };
