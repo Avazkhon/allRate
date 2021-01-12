@@ -232,10 +232,13 @@ class PaymentAfterRate {
   getAmountForPercentage = (blocks) => {
     return blocks.reduce((amount, block) => {
       if(block.type === typeBlock.total) {
+        block.amountAll = block.amountAll || 0;
         amount += block.amountAll
       }
       if(block.type === typeBlock.boolean) {
         block.bets.forEach((bet) => {
+          bet.amountNo = bet.amountNo || 0;
+          bet.amountYes = bet.amountYes || 0;
           amount += bet.amountNo + bet.amountYes;
         });
       }
