@@ -61,7 +61,7 @@ class PaymentAfterRate {
 
   makePaymentBlocks = async (blocks, blocksIndex = 0) => {
     try {
-      if (blocks.blocks.length === blocksIndex + 1) {
+      if (blocks.blocks.length === blocksIndex) {
         return blocks
       } else {
         if (blocks.blocks[blocksIndex].type === typeBlock.total) {
@@ -96,7 +96,7 @@ class PaymentAfterRate {
 
 
   makePaymentTotal = async (block, indexbBet = 0) => {
-    if(block.bets.length === indexbBet + 1) {
+    if(block.bets.length === indexbBet) {
      return block
     } else if (block.bets[indexbBet].win) {
         if (!block.bets[indexbBet].paymentMade) {
@@ -115,13 +115,13 @@ class PaymentAfterRate {
 
   makePaymentTotalParticipants = async (participants, block, bet, participantsIndex = 0) => {
     try {
-      if(participants.length === participantsIndex + 1) {
+      if(participants.length === participantsIndex) {
          return participants
        } else {
 
           if (!participants[participantsIndex].paymentMade) {
 
-            if (bet.coefficient <= 1) {
+            if (bet.coefficient < 1) {
 
               const dataInvoice = {
                 amount: participants[participantsIndex].amount,
@@ -158,7 +158,7 @@ class PaymentAfterRate {
 
   makePaymentBoolean = async (block, indexbBet = 0) => {
     try {
-      if (block.bets.length === indexbBet + 1) {
+      if (block.bets.length === indexbBet) {
         return block
       } else {
         if(!block.bets[indexbBet].paymentMade) {
@@ -185,7 +185,7 @@ class PaymentAfterRate {
 
   makePaymentBooleanParticipants = async (bets, participantsIndex = 0) => {
     try {
-      if(bets.participants.length === participantsIndex + 1) {
+      if(bets.participants.length === participantsIndex) {
         return bets;
       } else {
         if ((bets.participants[participantsIndex].noOrYes === bets.noOrYes) && (!bets.participants[participantsIndex].paymentMade)) {
