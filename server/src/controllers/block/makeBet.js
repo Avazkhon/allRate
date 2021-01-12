@@ -119,7 +119,7 @@ class MakeRate {
         let result = {}
 
           block.bets.forEach((betItm, index) => {
-
+            betItm.amount = betItm.amount || 0
             if (betItm._id == bet._id ) {
 
               result = {
