@@ -115,14 +115,18 @@ function CardsBlocks(
           <Grid container>
             <Grid item xs={12}>
               <Typography>
-                {purseData.amount && 'Текущий счет:'} {purseData.amount} {purseData.currency}
+                { !!purseData.amount && 'Текущий счет:' } { purseData.amount } { purseData.currency }
               </Typography>
               <Typography>
-                {modalData.coefficient && 'Текущий коэф:'} {modalData.coefficient}
+                {
+                  (modalData.coefficient < 1 || !modalData.coefficient ) ?
+                  'Коэф. еще не определен' :
+                  'Текущий коэф: ' + modalData.coefficient
+                }
               </Typography>
               <Typography>
-                {modalData.condition && 'Пари:'} {modalData.condition} { modalData.condition && ' - ' }
-                { modalData.noOrYes }
+                { modalData.condition && 'Пари:' } { modalData.condition }
+                { modalData.noOrYes && ' - ' }{ modalData.noOrYes }
               </Typography>
               <TextField
                 id="standard-basic"
