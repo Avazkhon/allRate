@@ -26,9 +26,12 @@ import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import CardPart from 'components/CardPart';
+import Rating from 'widgets/Rating';
 
 import {
   getUsersByIds,
+  changeRatingRate,
+  getUserForPageById
 } from 'actions';
 
 import {
@@ -62,8 +65,10 @@ const useStyles = makeStyles((theme) => ({
 function RateCard (
   {
     selectRate,
-    getUsersByIds,
     auth,
+    getUsersByIds,
+    changeRatingRate,
+    getUserForPageById
   }
 ) {
   const classes = useStyles();
@@ -84,6 +89,10 @@ function RateCard (
       })
   }, selectRate.data)
 
+
+  function handleChangeRatingRate(data, objectId, action) {
+    return changeRatingRate(data, objectId, action)
+  }
 
   return (
     <Card>
@@ -118,6 +127,15 @@ function RateCard (
       <Typography variant="body2" color="textSecondary" component="p">
         Дата завершения: {selectRate.data && moment(selectRate.data.dateFinish).format(formatDateTime)}
       </Typography>
+      {
+        selectRate.data &&
+        <Rating
+          changeRating={handleChangeRatingRate}
+          rating={selectRate.data.rating}
+          objectId={selectRate.data._id}
+          isShow
+        />
+      }
     </CardContent>
     <CardActions disableSpacing>
       <IconButton aria-label="Thumb down">
@@ -160,6 +178,8 @@ RateCard.propTypes = {
   selectRate: PropTypes.shape(),
   auth: PropTypes.shape(),
   getUsersByIds: PropTypes.func,
+  changeRatingRate: PropTypes.func,
+  getUserForPageById: PropTypes.func,
 }
 
 function mapStateToProps(state) {
@@ -175,5 +195,7 @@ export default connect(
   mapStateToProps,
   {
     getUsersByIds,
+    changeRatingRate,
+    getUserForPageById
   }
 )(RateCard);
