@@ -11,6 +11,7 @@ import initStyle from './style.css';
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
 import { ThemeProvider, ServerStyleSheets } from '@material-ui/core/styles';
 
+
 const CustomDocumentHOC = (store) => {
   class CustomDocument extends React.Component {
     static async getInitialProps({ assets, data, renderPage }) {
