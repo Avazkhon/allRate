@@ -33,7 +33,7 @@ const ReasonForBettingCard = ({
       <Col xs="12" md="9">
         <Card.Img
           variant="top"
-          src={reasonForBetting.img}
+          src={'/media/image' + reasonForBetting.img}
           style={{ width: '14rem' }}
         />
       </Col>

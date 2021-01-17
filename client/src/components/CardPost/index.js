@@ -48,7 +48,7 @@ const CardComponent = ({
 }) => {
   return (
     <Card>
-      <Card.Img variant="top" src={img.url} />
+      <Card.Img variant="top" src={'/media/image/' + img.url} />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         {

@@ -114,7 +114,7 @@ function RateCard (
       />
       <CardMedia
        className={classes.media}
-       image={selectRate.data && selectRate.data.img}
+       image={selectRate.data && '/media/image' + selectRate.data.img}
        title="Main rate img"
      />
      <CardContent>

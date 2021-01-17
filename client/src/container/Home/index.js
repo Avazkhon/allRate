@@ -70,7 +70,7 @@ class Home extends React.Component {
                           <img
                             style={{filter: 'brightness(50%)'}}
                             className="d-block w-100"
-                            src={itm.img.url}
+                            src={'/media/image/' + itm.img.url}
                             alt={itm.title}
                           />
 
@@ -95,7 +95,7 @@ class Home extends React.Component {
                           <img
                             style={{filter: 'brightness(50%)'}}
                             className="d-block w-100"
-                            src={itm.img}
+                            src={'/media/image/' + itm.img}
                             alt={itm.title}
                           />
 

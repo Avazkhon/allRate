@@ -27,6 +27,11 @@ server
     changeOrigin: true,
     pathRewrite: { 'api': '' },
   }))
+  .use('/media', createProxyMiddleware({
+    target: 'http://localhost:8082',
+    changeOrigin: true,
+    pathRewrite: { '': '' },
+  }))
   .use(cookie())
   .get('/*', async (req, res) => {
     try {

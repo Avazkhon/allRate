@@ -197,7 +197,7 @@ class MakeRateComponent extends Component {
               {
                 rate &&
                 <Col sm="12" md="12">
-                  <Image style={{ width: '100%' }} src={rate.img}/>
+                  <Image style={{ width: '100%' }} src={'/media/image' + rate.img}/>
                 </Col>
               }
               {
@@ -210,10 +210,10 @@ class MakeRateComponent extends Component {
                         <Card.Title>{rate.party[0].participator}</Card.Title>
                       </Col>
                       <Col sm="4" md="3">
-                        <Image src={rate.party[0].img}/>
+                        <Image src={ '/media/image' + rate.party[0].img}/>
                       </Col>
                       <Col sm="4" md="3">
-                        <Image src={rate.party[1].img}/>
+                        <Image src={'/media/image' + rate.party[1].img}/>
                       </Col>
                       <Col sm="4" md="3">
                         <Card.Title>{rate.party[1].participator}</Card.Title>
