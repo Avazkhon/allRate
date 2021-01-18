@@ -15,8 +15,8 @@ class AlbumFolder {
 
   addFile = async (fileUploaded, pathName, userId) => {
     const nameImage = `${userId}-${fileUploaded.name.replace(/ /g,"_")}`
-    return  fileUploaded.mv(`${pathName}${nameImage}`, function(err) {
-      if (err) {
+    return  fileUploaded.mv(`${pathName}${nameImage}`, function(error) {
+      if (error) {
         writeToLog.write(error, 'add_file.err');
       }
     });
