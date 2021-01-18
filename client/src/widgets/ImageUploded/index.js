@@ -50,7 +50,7 @@ class ImageUploded extends React.Component {
       warning: '',
     })
 
-    return changeImg('avatar', [this.state.file])
+    return changeImg([this.state.file])
     .then((action) => {
       if (action.status === 'SUCCESS') {
         this.setState({

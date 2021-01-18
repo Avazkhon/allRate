@@ -94,7 +94,7 @@ class PostFrom extends React.Component {
           warning: 'Пост успешно создан!',
           isFetching: false,
         })
-        changeImg('post', [file], { postId: action.response._id });
+        changeImg([file]);
       } else {
         this.setState({
           error: action.error,

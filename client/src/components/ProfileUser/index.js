@@ -43,13 +43,13 @@ class ProfileUser extends React.Component {
     getUserForPageById(profileId);
   }
 
-  handleUploded = (fileUploaded, files) => {
+  handleUploded = (files) => {
     const {
       changeImg,
       getUserForPageById,
       profileId,
     } = this.props;
-    return changeImg(fileUploaded, files)
+    return changeImg(files)
     .then((action) => {
       if (action.status === 'SUCCESS') {
         getUserForPageById(profileId)

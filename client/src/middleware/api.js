@@ -119,8 +119,7 @@ function makeOptions(req, store, serverName) {
   }
 
   return {
-    apiRoot: process.env.NODE_ENV ===
-    'production' ? `https://facebetting.ru/${getMediaPrefix(serverName)}/` : `http://localhost:8080/${getMediaPrefix(serverName)}/`,
+    apiRoot: getMediaPrefix(serverName),
     headers
   };
 }
@@ -135,8 +134,16 @@ function getMediaPrefix (serverName = 'api') {
     api: 'api',
     media: 'media',
   }
+  const ports = {
+    api: 8080,
+    media: 8082,
+  }
 
-  return servers[serverName]
+return (
+    process.env.NODE_ENV === 'production' ?
+    `https://facebetting.ru/${servers[serverName]}/`
+    : `http://localhost:${ports[serverName]}/${servers[serverName]}/`
+  );
 }
 
 export default function createApiMiddleware(req) {
