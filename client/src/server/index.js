@@ -23,9 +23,9 @@ server
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .use('/api', createProxyMiddleware({
-    target: 'http://localhost:8080/api/',
+    target: 'http://localhost:8080/',
     changeOrigin: true,
-    pathRewrite: { 'api': '' },
+    pathRewrite: { '': '' },
   }))
   .use('/media', createProxyMiddleware({
     target: 'http://localhost:8082',

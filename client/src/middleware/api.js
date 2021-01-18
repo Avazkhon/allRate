@@ -111,22 +111,16 @@ function uploadFiles(endpoint, files, field, options) {
   }));
 }
 
-function makeOptions(req, store, timezone, date) {
+function makeOptions(req, store, serverName) {
   let headers = {};
 
   if (req) {
     headers = req.headers;
   }
 
-  if (timezone) {
-    headers['x-user-timezone'] = new Date().getTimezoneOffset();
-  }
-  if (date) {
-    headers['x-user-date'] = `${new Date(new Date().toString().split('GMT')[0]+' UTC').toISOString().split('.')[0]}`;
-  }
-
   return {
-    apiRoot: process.env.NODE_ENV === 'production' ? `https://facebetting.ru/api/` : 'http://localhost:8080/api/',
+    apiRoot: process.env.NODE_ENV ===
+    'production' ? `https://facebetting.ru/${getMediaPrefix(serverName)}/` : `http://localhost:8080/${getMediaPrefix(serverName)}/`,
     headers
   };
 }
@@ -134,6 +128,15 @@ function makeOptions(req, store, timezone, date) {
 function actionWith(action, status, obj) {
   if (!obj) obj = {};
   return Object.assign({}, action, { status }, obj);
+}
+
+function getMediaPrefix (serverName = 'api') {
+  const servers = {
+    api: 'api',
+    media: 'media',
+  }
+
+  return servers[serverName]
 }
 
 export default function createApiMiddleware(req) {
@@ -150,9 +153,9 @@ export default function createApiMiddleware(req) {
     };
 
     const { meta } = action;
-    const { method, endpoint, data, files, field, queryParams, timezone, date } = meta;
+    const { method, endpoint, data, files, field, queryParams, serverName } = meta;
 
-    const options = makeOptions(req, store);
+    const options = makeOptions(req, store, serverName);
 
     const successCallback = (data) => {
       let { json, status, headers } = data;
