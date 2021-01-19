@@ -4,6 +4,7 @@ import {
   GET_USER_BY_ID,
 
   LOG_AUT,
+  UPDATE_USER_AUTH,
 } from '../constants'
 
 import {
@@ -19,6 +20,30 @@ const initState = {
   error: null,
   userData: null,
 };
+
+function changeDataUser(_state, _action) {
+  return createRequestReducer(_state, _action, {
+      SEND: (state) => ({
+        ...state,
+        isFetching: true,
+      }),
+      SUCCESS: (state, action) => ({
+        ...state,
+        isFetching: false,
+        userData: action.response,
+        auth: {
+          userId: action.response._id,
+          userName: action.response.userName,
+        },
+      }),
+      FAIL: (state, action) => ({
+        ...state,
+        isFetching: false,
+        error: action.error,
+        userData: null,
+      }),
+    })
+}
 
 
 export default createReducer(initState, {
@@ -43,28 +68,8 @@ export default createReducer(initState, {
     }),
   }),
 
-  [GET_USER_BY_ID]: (_state, _action) =>
-  createRequestReducer(_state, _action, {
-    SEND: (state, action) => ({
-      ...state,
-      isFetching: true,
-    }),
-    SUCCESS: (state, action) => ({
-      ...state,
-      isFetching: false,
-      userData: action.response,
-      auth: {
-        userId: action.response._id,
-        userName: action.response.userName,
-      },
-    }),
-    FAIL: (state, action) => ({
-      ...state,
-      isFetching: false,
-      error: action.error,
-      userData: null,
-    }),
-  }),
+  [GET_USER_BY_ID]: (_state, _action) => changeDataUser(_state, _action),
+  [UPDATE_USER_AUTH]: (_state, _action) => changeDataUser(_state, _action),
 
   [LOG_AUT]: (_state, _action) =>
   createRequestReducer(_state, _action, {
