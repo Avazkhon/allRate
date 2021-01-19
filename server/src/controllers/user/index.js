@@ -74,7 +74,6 @@ exports.updateUserAuth = (req, res) => {
   try {
     const { id } = req.query;
     const props = ['email', 'userName', 'password', 'avatar']
-
     if (!req.session.user) {
       res.status = 403;
       return res.send('Нет прав!');
@@ -91,7 +90,7 @@ exports.updateUserAuth = (req, res) => {
     userModels.findByIdAndUpdate({ _id: req.session.user.userId }, user)
     .then(result => res.status(200).json(result))
     .then((error) => {
-      res.status(500).json(error);
+      res.status(500).json({ error : error.toString()});
       writeToLog.write(error, 'update_user.error');
     })
   } catch (error) {
