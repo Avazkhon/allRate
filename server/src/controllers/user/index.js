@@ -70,26 +70,33 @@ exports.craeteUser = async (req, res) => {
   };
 }
 
-exports.updateOne = (req, res) => {
-  const { id } = req.query;
-  const { email, userName, password, isAdmin } = req.body;
-  const user = { email, userName, password, isAdmin: false };
+exports.updateUserAuth = (req, res) => {
+  try {
+    const { id } = req.query;
+    const props = ['email', 'userName', 'password', 'avatar']
 
-  if (!req.session.user) {
-    res.status = 403;
-    return res.send('Нет прав!');
+    if (!req.session.user) {
+      res.status = 403;
+      return res.send('Нет прав!');
+    }
+
+
+    const user = {};
+    props.forEach((nameProp, i) => {
+      if (req.body.hasOwnProperty(nameProp)) {
+        user[nameProp] = req.body[nameProp];
+      }
+    });
+
+    userModels.findByIdAndUpdate({ _id: req.session.user.userId }, user)
+    .then(result => res.status(200).json(result))
+    .then((error) => {
+      res.status(500).json(error);
+      writeToLog.write(error, 'update_user.error');
+    })
+  } catch (error) {
+    res.status(500).json({ error: error.toString()});
   }
-
-  if (req.session.user.isAdmin) {
-    user.isAdmin = isAdmin || false;
-  }
-
-  userModels.findByIdAndUpdate({ _id: id }, user)
-  .then(result => res.status(200).json(result))
-  .then((error) => {
-    res.status(500).json(error);
-    writeToLog.write(error, 'update_user.error');
-  })
 }
 
 exports.deleteOne = (req, res) => {

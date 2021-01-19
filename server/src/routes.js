@@ -56,7 +56,7 @@ module.exports = function (app) {
   app.route('/api/user')
     .get(userControllers.getUser) // обрабатывает запросы по userName, id и all
     .post(userControllers.craeteUser)
-    .put(userControllers.updateOne)
+    .put(userControllers.updateUserAuth)
     .delete(userControllers.deleteOne);
 
 
