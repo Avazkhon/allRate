@@ -6,6 +6,7 @@ import {
   CREATE_NEW_USER,
   CHANGE_RATING_USER,
   POST_UPDATE_USERS_BY_ID,
+  UPDATE_USER_AUTH,
 } from '../constants'
 
 export function authRegistration() {
@@ -78,6 +79,17 @@ export function postUpdateUsersById (mail_confirmation) {
     meta: {
       method: 'PATCH',
       endpoint:`mail_confirmation/?mail_confirmation=${mail_confirmation}`,
+    }
+  });
+}
+
+export function updateUserAuth(data) {
+  return dispatch => dispatch({
+    type: UPDATE_USER_AUTH,
+    meta: {
+      method: 'PUT',
+      endpoint: 'user',
+      data
     }
   });
 }

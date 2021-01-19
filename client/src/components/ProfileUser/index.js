@@ -15,6 +15,7 @@ import {
 
 import {
   changeImg,
+  updateUserAuth,
   getUserForPageById,
   changeRatingUser,
 } from 'actions';
@@ -48,11 +49,13 @@ class ProfileUser extends React.Component {
       changeImg,
       getUserForPageById,
       profileId,
+      updateUserAuth
     } = this.props;
     return changeImg(files)
     .then((action) => {
       if (action.status === 'SUCCESS') {
-        getUserForPageById(profileId)
+        updateUserAuth({ avatar: action.response[0].imageName });
+        getUserForPageById(profileId);
       }
       return action;
     })
@@ -101,7 +104,12 @@ class ProfileUser extends React.Component {
       <Card>
         <Row>
           <Col xs="12" sm="6" md="2">
-            <Image style={{ height: '190px',  width: '18rem' }} src={userData && userData.avatar || srcImage} thumbnail alt="Avatar" />
+            <Image
+              style={{ height: '190px',  width: '18rem' }}
+              src={userData && userData.avatar && ('/media/image/' + userData.avatar) || srcImage}
+              alt="Avatar"
+              thumbnail
+              />
             {
               isPageAuth &&
               <ImageUploded
@@ -146,6 +154,7 @@ class ProfileUser extends React.Component {
 
 ProfileUser.propTypes = {
   changeImg: PropTypes.func,
+  updateUserAuth: PropTypes.func,
   changeRatingUser: PropTypes.func,
   auth: PropTypes.shape(),
   lang: PropTypes.shape(),
@@ -169,6 +178,7 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   changeImg,
+  updateUserAuth,
   getUserForPageById,
   changeRatingUser,
 })(ProfileUser);

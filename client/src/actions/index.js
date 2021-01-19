@@ -6,6 +6,7 @@ export {
   authoLogAut,
   changeRatingUser,
   postUpdateUsersById,
+  updateUserAuth,
 } from './auth';
 
 export {
