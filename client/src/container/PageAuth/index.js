@@ -60,6 +60,11 @@ class PageAuth extends React.Component {
       data,
     } = this.state;
     this.props.authoLogin(data)
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          document.cookie = `userId=${action.response.userId}; path=/; expires=Tue ${new Date(Date.now() + 1000 * 60 * 60 * 24 * 3)}`
+        }
+      })
   }
 
   render() {

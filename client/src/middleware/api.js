@@ -1,4 +1,4 @@
-import cookie from 'cookie';
+import Cookies from 'js-cookie';
 import 'isomorphic-fetch';
 import queryString from 'query-string';
 import uuidV4 from 'uuid/v4';
@@ -113,6 +113,9 @@ function uploadFiles(endpoint, files, field, options) {
 
 function makeOptions(req, store, serverName) {
   let headers = {};
+  if (Cookies.get('userId')) {
+    headers.cookie = Cookies.getJSON('userId')
+  }
 
   if (req) {
     headers = req.headers;

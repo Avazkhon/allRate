@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
 import { Link } from "react-router-dom";
 import { IoIosAlert } from "react-icons/io";
+import Cookies from 'js-cookie';
 
 import {
   Navbar,
@@ -108,11 +109,17 @@ class Header extends React.Component {
       authoLogin,
     } = this.props;
     if (auth.auth && auth.auth.userId) {
-      authoLogAut(data);
+      authoLogAut(data)
+        .then((action) => {
+          if (action.status === 'SUCCESS') {
+            Cookies.remove('userId');
+          }
+        });
     } else {
       authoLogin(data)
       .then((action) => {
         if (action.status === 'SUCCESS') {
+          document.cookie = `userId=${action.response.userId}; path=/; expires=Tue ${new Date(Date.now() + 1000 * 60 * 60 * 24 * 3)}`;
           this.setState((prevState) => ({ isAuth: !prevState.isAuth }));
         }
       });
