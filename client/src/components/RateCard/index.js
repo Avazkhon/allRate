@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     height: 0,
+    margin: 5,
     paddingTop: '56.25%', // 16:9
   },
   expand: {
@@ -103,7 +104,7 @@ function RateCard (
             >
             <Avatar
               aria-label="recipe"
-              src={author.avatar}
+              src={'/media/image/' + author.avatar}
               alt={author.userName}
               className={classes.avatar}
             />
@@ -114,7 +115,7 @@ function RateCard (
       />
       <CardMedia
        className={classes.media}
-       image={selectRate.data && '/media/image' + selectRate.data.img}
+       image={selectRate.data && '/media/image/' + selectRate.data.img}
        title="Main rate img"
      />
      <CardContent>

@@ -13,8 +13,11 @@ import {
   List,
   ListItem,
   Grid,
+  CardMedia
   // Icon,
 } from '@material-ui/core';
+
+import { makeStyles } from '@material-ui/core/styles';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -23,6 +26,8 @@ import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 
 import AlertDialogSlide from 'widgets/AlertDialogSlide';
 
+import UploadButtons from 'widgets/UploadButtons';
+
 import {
   creteNewRate,
   putRateByID,
@@ -30,13 +35,21 @@ import {
   putPaymentRateByBlock,
   getRateByID,
   getBlockById,
-  // changeImg,
+  changeImg,
 } from 'actions'
 
 import {
   rateStatusLive,
 } from '../../constants';
 
+
+const useStyles = makeStyles((theme) => ({
+  media: {
+    margin: '5px',
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
+}));
 
 function randomNumber(min = 100000, max = 999999) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -52,8 +65,10 @@ function FormRate (
     putPaymentRateByBlock,
     getBlockById,
     paymentPercentage,
+    changeImg,
   }
 ) {
+  const classes = useStyles();
   let history = useHistory();
 
   const [rate, setChangeRate] = useState({
@@ -146,7 +161,13 @@ function FormRate (
       .then((action) => {
         setStatusFinish(false)
         if (action.status === 'SUCCESS') {
-          setChangeRate(action.response)
+          setChangeRate(
+            {
+              ...action.response,
+              dateStart: moment(action.response.dateStart).format('YYYY-MM-DDTHH:mm'),
+              dateFinish: moment(action.response.dateFinish).format('YYYY-MM-DDTHH:mm'),
+            }
+          )
           history.push({search: `rateId=${action.response._id}`})
         } else {
           setAlertDate({
@@ -220,6 +241,16 @@ function FormRate (
       })
   }
 
+  function uploadFile(e) {
+    const image = e.target.files[0];
+    changeImg([image])
+    .then((action) => {
+      if(action.status === 'SUCCESS') {
+        putRateByID({_id: rate._id, img: action.response[0].imageName })
+      }
+    })
+  }
+
   const isDisabledByLife = (rate.statusLife === rateStatusLive.finish) ||  (rate.statusLife === rateStatusLive.archive)
 
 
@@ -274,6 +305,25 @@ function FormRate (
               onChange={changeDateFinish}
             />
             </Grid>
+            {
+              rate.statusLife &&
+              <Grid item xs={6}>
+                {
+                  rate.img &&
+                  <CardMedia
+                   className={classes.media}
+                   image={'/media/image/' + rate.img }
+                   title="Main rate img"
+                 />
+                }
+                {
+                  !isDisabledByLife &&
+                  <UploadButtons
+                    uploadFile={uploadFile}
+                  />
+                }
+              </Grid>
+            }
         </Grid>
         <List component="nav" aria-label="contacts">
           {
@@ -399,6 +449,7 @@ FormRate.propTypes = {
   getRateByID: PropTypes.func,
   getBlockById: PropTypes.func,
   paymentPercentage: PropTypes.func,
+  changeImg: PropTypes.func,
   selectRate: PropTypes.shape(),
   auth: PropTypes.shape(),
 }
@@ -421,5 +472,6 @@ export default connect(
     putPaymentRateByBlock,
     getRateByID,
     getBlockById,
+    changeImg,
   }
 )(FormRate);

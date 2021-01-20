@@ -53,7 +53,7 @@ const CardComponent = ({
 
   return (
     <Card>
-      <Card.Img variant="top" src={'/media/image' + img} />
+      <Card.Img variant="top" src={'/media/image/' + img} />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         {
