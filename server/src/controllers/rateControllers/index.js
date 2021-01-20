@@ -47,7 +47,7 @@ exports.findByIdAndUpdate = (req, res) => {
   const { id } = req.query;
   const { body } = req;
   try {
-    rateModels.findByIdAndUpdate({ _id: id }, body)
+    rateModels.findByIdAndUpdate({ _id: id }, { $set: body })
     .then((result) => {
       res.status(200).json(result);
     })
