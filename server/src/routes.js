@@ -14,14 +14,12 @@ const ratingControllers = require('./controllers/rating');
 const viewsControllers = require('./controllers/views');
 const withdrawalRequest = require('./controllers/withdrawalRequest');
 const InvoiceControllers = require('./controllers/invoice');
-const AlbumFolder = require('./controllers/albumFolder');
 const withdrawalRequestAdmin = require('./controllers/withdrawalRequest/withdrawalRequestAdmin');
 const blockControllers = require('./controllers/block');
 const betControllers = require('./controllers/block/bet');
 const MakeBet = require('./controllers/block/makeBet');
 
 const invoiceControllers = new InvoiceControllers();
-const albumFolder = new AlbumFolder();
 const paymentAfterRate = new PaymentAfterRate();
 
 module.exports = function (app) {
@@ -46,7 +44,7 @@ module.exports = function (app) {
 
   app.route('/api/post')
     .get(postControllers.get)
-    .put(postControllers.put)
+    .put(postControllers.putPostById)
     .post(postControllers.create)
     .delete(postControllers.deleteOne);
 
@@ -84,11 +82,6 @@ module.exports = function (app) {
   app.route('/api/invoice')
     .get(invoiceControllers.getInvoice)
     .post(invoiceControllers.createInvoice)
-
-  app.route('/api/image')
-    .post(albumFolder.addImage)
-
-  app.get('/api/img', albumFolder.getImg);
 
   app.route('/api/withdrawal-request')
     // .get(withdrawalRequest.get)

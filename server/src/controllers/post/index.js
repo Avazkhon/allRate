@@ -17,18 +17,27 @@ exports.create = async (req, res) => {
   }
 }
 
-exports.put = async (req, res) => {
+exports.putPostById = async (req, res) => {
   try {
     const {
-      body: {
-        title,
-        text,
-      },
+      body,
       query: {
         postId,
       },
     } = req;
-    const post = await postModels.findByIdAndUpdate({ _id: postId }, { title, text });
+
+    const props = [
+      'title',
+      'text',
+      'img',
+    ];
+    const data = {};
+    props.forEach((prop, i) => {
+      if(body.hasOwnProperty(prop)) {
+        data[prop] = body[prop];
+      }
+    });
+    const post = await postModels.findByIdAndUpdate({ _id: postId }, { $set: data });
     res.status(200).json(post);
   } catch (error) {
     writeToLog.write(error, 'put_post.error');
