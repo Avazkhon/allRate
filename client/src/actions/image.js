@@ -2,7 +2,7 @@ import {
   CHANGE_IMG,
 } from '../constants';
 
-export function changeImg (files) {
+export function changeImg(files) {
 
   return dispatch => dispatch({
     type: CHANGE_IMG,

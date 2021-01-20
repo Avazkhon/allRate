@@ -5,6 +5,7 @@ import {
   ADD_COUNT_VIEWS_POST,
   GET_POSTS_PAGE,
   GET_POST_BY_ID,
+  PUT_POST_BY_ID,
 } from '../constants';
 
 export function createPost (data) {
@@ -58,6 +59,20 @@ export function getPostById (postId) {
       queryParams: {
         postId
       }
+    }
+  });
+}
+
+export function putPostById (postId, data) {
+  return dispatch => dispatch({
+    type: PUT_POST_BY_ID,
+    meta: {
+      method: 'PUT',
+      endpoint:`post/`,
+      queryParams: {
+        postId
+      },
+      data
     }
   });
 }

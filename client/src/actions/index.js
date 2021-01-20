@@ -57,6 +57,7 @@ export {
   addCountViewsPost,
   getPostsPage,
   getPostById,
+  putPostById,
 } from './post';
 
 export {

@@ -10,6 +10,7 @@ import {
 import {
   createPost,
   changeImg,
+  putPostById,
 } from 'actions';
 
 import {
@@ -75,7 +76,7 @@ class PostFrom extends React.Component {
 
   handleSubmit = () => {
     const { title, text, file } = this.state;
-    const { auth: { auth }, createPost, changeImg } = this.props;
+    const { auth: { auth }, createPost, changeImg, putPostById } = this.props;
     const data = {
       title,
       text,
@@ -94,7 +95,15 @@ class PostFrom extends React.Component {
           warning: 'Пост успешно создан!',
           isFetching: false,
         })
-        changeImg([file]);
+        changeImg([file])
+          .then((actionImg) => {
+            if(actionImg.status === 'SUCCESS') {
+              putPostById(
+                action.response._id,
+                { img: { url: actionImg.response[0].imageName } }
+              )
+            }
+          });
       } else {
         this.setState({
           error: action.error,
@@ -173,6 +182,7 @@ PostFrom.propTypes = {
   auth: PropTypes.shape({}),
   createPost: PropTypes.func,
   changeImg: PropTypes.func,
+  putPostById: PropTypes.func,
 }
 
 function mapStateToProps(state) {
@@ -187,4 +197,5 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   createPost,
   changeImg,
+  putPostById,
 })(PostFrom);
