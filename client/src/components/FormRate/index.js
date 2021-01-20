@@ -241,6 +241,24 @@ function FormRate (
       })
   }
 
+  function partUploadFile(e) {
+    const image = e.target.files[0];
+    const { id } = e.target.dataset;
+    changeImg([image])
+    .then((action) => {
+      if(action.status === 'SUCCESS') {
+        rate.party = rate.party.map((part) => {
+          if (part.id == Number(id)) {
+            part.img = action.response[0].imageName;
+          }
+          return part
+        })
+        console.log(rate);
+        putRateByID(rate)
+      }
+    })
+  }
+
   function uploadFile(e) {
     const image = e.target.files[0];
     changeImg([image])
@@ -319,6 +337,7 @@ function FormRate (
                 {
                   !isDisabledByLife &&
                   <UploadButtons
+                    id={1}
                     uploadFile={uploadFile}
                   />
                 }
@@ -331,7 +350,14 @@ function FormRate (
               return (
                 <ListItem button key={part.id}>
                   <Grid container>
-                    <Grid item xs={12}>
+                    <Grid xs={6}>
+                      <CardMedia
+                       className={classes.media}
+                       image={'/media/image/' + part.img }
+                       title="part img"
+                     />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
                       <TextField
                         name="participator"
                         label="Названия команды"
@@ -344,7 +370,7 @@ function FormRate (
                         required
                       />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid item xs={12} sm={6}>
                         <TextField
                           name="description"
                           label="Описания"
@@ -370,6 +396,13 @@ function FormRate (
                         <DeleteIcon />
                         Удалить участника
                       </Button>
+                      <UploadButtons
+                        uploadFile={partUploadFile}
+                        id={part.id}
+                        inputProps={{
+                          'data-id': part.id,
+                        }}
+                      />
                     </Grid>
                   </Grid>
                 </ListItem>

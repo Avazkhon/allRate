@@ -14,19 +14,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function UploadButtons({uploadFile}) {
+function UploadButtons({ uploadFile, id, inputProps = {}}) {
   const classes = useStyles();
-  
   return (
     <div className={classes.root}>
       <input
         accept=".jpg, .jpeg, .png"
         className={classes.input}
-        id="contained-button-file"
+        id={id}
         onChange={uploadFile}
         type="file"
+        data-id={inputProps['data-id']}
       />
-      <label htmlFor="contained-button-file">
+      <label htmlFor={id}>
         <Button variant="contained" color="primary" component="span">
           Upload
         </Button>
@@ -35,6 +35,8 @@ function UploadButtons({uploadFile}) {
   );
 }
 UploadButtons.propTypes = {
-  uploadFile: PropTypes.func.isReqred
+  uploadFile: PropTypes.func,
+  inputProps: PropTypes.shape(),
+  id: PropTypes.number
 }
 export default UploadButtons
