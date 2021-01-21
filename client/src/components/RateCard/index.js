@@ -139,12 +139,6 @@ function RateCard (
       }
     </CardContent>
     <CardActions disableSpacing>
-      <IconButton aria-label="Thumb down">
-        <ThumbDownIcon />
-      </IconButton>
-      <IconButton aria-label="Thumb up">
-        <ThumbUpIcon />
-      </IconButton>
       <IconButton
       className={clsx(classes.expand, {
         [classes.expandOpen]: expanded,

@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
+import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+import { blue } from '@material-ui/core/colors';
+
 
 import {
-  ProgressBar,
-  ButtonGroup,
-  Button,
-} from 'react-bootstrap';
+  IconButton,
+} from '@material-ui/core';
+
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 
 const ratingText = {
   negative: { RU: 'Негативный отзыв', EN: 'Negative feedback' },
@@ -15,99 +19,73 @@ const ratingText = {
   ratingTitle: { RU: 'Райтинг', EN: 'rating' },
 };
 
-class Rating extends React.Component {
-  constructor(props) {
-    super(props);
+const useStyles = makeStyles((theme) => ({
+  isLike: {
+    color: blue[700],
+  },
+}));
 
-  }
 
-  // componentDidUpdate(prevProps) {
-    // changeLang
-  // }
+function Rating({
+  changeRating,
+  auth: {
+    auth,
+    auth: { userId },
+  },
+  objectId,
+  lang,
+  rating,
+}) {
+  const classes = useStyles();
+  const [ isFetching, changeFetching ] = useState(false)
 
-  handleChangeRating = (e) => {
+  function handleChangeRating(e) {
     const { action } = e.currentTarget.dataset;
-    const {
-      changeRating,
-      auth: {
-        auth: { userId },
-        userData: { _id }
-      },
-      objectId,
-    } = this.props;
-
+    changeFetching(true)
     changeRating({ userId }, objectId, action)
+      .then(() => changeFetching(false))
   }
 
-  render() {
-    const {
-      lang: {
-        lang
-      },
-      auth: {
-        auth,
-      },
-      objectId,
-      isShow,
-    } = this.props;
-    let {
-      rating,
-    } = this.props;
-
-    if (!rating) {
-      rating = {
-        positively: [],
-        negative: [],
-      }
+  if (!rating) {
+    rating = {
+      positively: [],
+      negative: [],
     }
-    const allCount = rating.positively.length + rating.negative.length;
-    const ratingUser = (rating.positively.length / (allCount ? allCount : 1)) * 100;
-    const isMakePositively = auth && rating.positively.some(user => user.userId === auth.userId )
-    const isMakeNegative = auth && rating.negative.some(user => user.userId === auth.userId )
-    return (
-      <ButtonGroup size="sm">
-        {
-          isShow &&
-          <Button
-            variant="secondary"
-            onClick={this.handleChangeRating}
-            data-action="negative"
-            disabled={isMakeNegative || !auth}
-            title={ratingText.negative[lang]}
-          >
-            <AiFillMinusCircle color={ isMakeNegative ? 'green' : ''} fontSize="20px" />
-          </Button>
-        }
-        <Button
-          variant={ !ratingUser && rating.negative.length ? 'danger' : 'secondary'}
-          title={ratingText.ratingTitle[lang]}
-        >
-          <ProgressBar
-            now={ratingUser}
-            label={`${ratingUser.toFixed()} %`}
-          />
-        </Button>
-          {
-            isShow &&
-            <Button
-              variant="secondary"
-              onClick={this.handleChangeRating}
-              data-action="positively"
-              disabled={isMakePositively || !auth}
-              title={ratingText.positively[lang]}
-            >
-              <AiFillPlusCircle color={ isMakePositively ? 'green' : ''} fontSize="20px"/>
-            </Button>
-          }
-      </ButtonGroup>
-    );
   }
-};
+
+  const isMakePositively = auth && rating.positively.some(user => user.userId === auth.userId )
+  const isMakeNegative = auth && rating.negative.some(user => user.userId === auth.userId )
+
+  return (
+    <>
+      <IconButton
+        aria-label="Thumb down"
+        onClick={handleChangeRating}
+        data-action="negative"
+        disabled={isMakeNegative || !auth || isFetching}
+        title={ratingText.negative[lang]}
+      >
+        <ThumbDownIcon className={clsx('', {[classes.isLike]: isMakeNegative})} /> {rating.negative.length}
+      </IconButton>
+      <IconButton
+        aria-label="Thumb up"
+        onClick={handleChangeRating}
+        data-action="positively"
+        disabled={isMakePositively || !auth || isFetching}
+        title={ratingText.positively[lang]}
+      >
+        <ThumbUpIcon className={clsx('', {[classes.isLike]: isMakePositively})} /> {rating.positively.length}
+      </IconButton>
+    </>
+  );
+}
 
 Rating.propTypes = {
   changeRating: PropTypes.func,
-  rating: PropTypes.shape({}),
+  rating: PropTypes.shape(),
+  auth: PropTypes.shape(),
   objectId: PropTypes.string,
+  lang: PropTypes.string,
   isShow: PropTypes.bool,
 };
 
