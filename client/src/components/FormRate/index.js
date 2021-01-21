@@ -49,6 +49,9 @@ const useStyles = makeStyles((theme) => ({
     height: 0,
     paddingTop: '56.25%', // 16:9
   },
+  button: {
+    margin: '10px',
+  }
 }));
 
 function randomNumber(min = 100000, max = 999999) {
@@ -247,14 +250,13 @@ function FormRate (
     changeImg([image])
     .then((action) => {
       if(action.status === 'SUCCESS') {
-        rate.party = rate.party.map((part) => {
+        const updadetParty = party.map((part) => {
           if (part.id == Number(id)) {
             part.img = action.response[0].imageName;
           }
           return part
         })
-        console.log(rate);
-        putRateByID(rate)
+        putRateByID({ ...rate, party: updadetParty })
       }
     })
   }
@@ -283,6 +285,7 @@ function FormRate (
               value={rate.title}
               onChange={changeRateText}
               disabled={isFetching || isDisabledByLife}
+              multiline
               required
             />
             </Grid>
@@ -350,7 +353,7 @@ function FormRate (
               return (
                 <ListItem button key={part.id}>
                   <Grid container>
-                    <Grid xs={6}>
+                    <Grid xs={12}>
                       <CardMedia
                        className={classes.media}
                        image={'/media/image/' + part.img }
@@ -367,6 +370,7 @@ function FormRate (
                           'data-id': part.id,
                         }}
                         disabled={isFetching || isDisabledByLife}
+                        multiline
                         required
                       />
                       </Grid>
@@ -384,8 +388,9 @@ function FormRate (
                           required
                         />
                       </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={10} sm={6}>
                       <Button
+                        className={classes.button}
                         size="small"
                         variant="contained"
                         color="secondary"
@@ -396,6 +401,8 @@ function FormRate (
                         <DeleteIcon />
                         Удалить участника
                       </Button>
+                    </Grid>
+                    <Grid item xs={2} sm={6}>
                       <UploadButtons
                         uploadFile={partUploadFile}
                         id={part.id}
@@ -412,6 +419,7 @@ function FormRate (
         </List>
         { rate.statusLife === rateStatusLive.new &&
           <Button
+            className={classes.button}
             variant="contained"
             color="primary"
             onClick={addParty}
@@ -422,6 +430,7 @@ function FormRate (
         }
         { !isDisabledByLife &&
           <Button
+            className={classes.button}
             variant="contained"
             color="primary"
             disabled={isFetching}
@@ -433,6 +442,7 @@ function FormRate (
         {
           (rate.statusLife === rateStatusLive.active || rate.statusLife === rateStatusLive.new) &&
           <Button
+            className={classes.button}
             variant="contained"
             color="primary"
             name={rateStatusLive.finish}
@@ -445,6 +455,7 @@ function FormRate (
         {
           rate.statusLife === rateStatusLive.finish && !paymentPercentage &&
             <Button
+              className={classes.button}
               variant="contained"
               color="primary"
               onClick={handlePaymentRateByBlock}
@@ -455,6 +466,7 @@ function FormRate (
         {
           rate.statusLife === rateStatusLive.finish &&
             <Button
+              className={classes.button}
               variant="contained"
               color="primary"
               name={rateStatusLive.archive}

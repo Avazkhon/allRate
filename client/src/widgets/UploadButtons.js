@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 
+import ImageSearchIcon from '@material-ui/icons/ImageSearch';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
@@ -28,7 +30,7 @@ function UploadButtons({ uploadFile, id, inputProps = {}}) {
       />
       <label htmlFor={id}>
         <Button variant="contained" color="primary" component="span">
-          Upload
+          <ImageSearchIcon />
         </Button>
       </label>
     </div>
