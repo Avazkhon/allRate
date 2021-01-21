@@ -95,7 +95,7 @@ function CardsBlocks(
   return (
     < >
       {
-        blocks.data._id && blocks.data.blocks.map((block) => {
+        blocks.data && blocks.data._id && blocks.data.blocks.map((block) => {
           return (
             <Collapse in={true} key={block._id}>
               <CardContent>
