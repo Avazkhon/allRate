@@ -30,7 +30,6 @@ function Rating({
   changeRating,
   auth: {
     auth,
-    auth: { userId },
   },
   objectId,
   lang,
@@ -42,7 +41,7 @@ function Rating({
   function handleChangeRating(e) {
     const { action } = e.currentTarget.dataset;
     changeFetching(true)
-    changeRating({ userId }, objectId, action)
+    changeRating({ userId: auth.userId }, objectId, action)
       .then(() => changeFetching(false))
   }
 
