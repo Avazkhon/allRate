@@ -19,7 +19,7 @@ const ratingText = {
   ratingTitle: { RU: 'Райтинг', EN: 'rating' },
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   isLike: {
     color: blue[700],
   },
@@ -34,6 +34,7 @@ function Rating({
   objectId,
   lang,
   rating,
+  isShow: isRightsMakeAction,
 }) {
   const classes = useStyles();
   const [ isFetching, changeFetching ] = useState(false)
@@ -61,7 +62,7 @@ function Rating({
         aria-label="Thumb down"
         onClick={handleChangeRating}
         data-action="negative"
-        disabled={isMakeNegative || !auth || isFetching}
+        disabled={isMakeNegative || !auth || isFetching || !isRightsMakeAction}
         title={ratingText.negative[lang]}
       >
         <ThumbDownIcon className={clsx('', {[classes.isLike]: isMakeNegative})} /> {rating.negative.length}
@@ -70,7 +71,7 @@ function Rating({
         aria-label="Thumb up"
         onClick={handleChangeRating}
         data-action="positively"
-        disabled={isMakePositively || !auth || isFetching}
+        disabled={isMakePositively || !auth || isFetching || !isRightsMakeAction}
         title={ratingText.positively[lang]}
       >
         <ThumbUpIcon className={clsx('', {[classes.isLike]: isMakePositively})} /> {rating.positively.length}
