@@ -10,7 +10,7 @@ import {
   // postInvoice,
   // getPurse,
   // changeRatingRate,
-  // addCountViewsRate,
+  addCountViewsRate,
 } from 'actions';
 
 import Layout from '../Layout';
@@ -25,8 +25,16 @@ function MakeRate (
     getBlockById,
     history,
     blocks,
+    addCountViewsRate,
   }
 ) {
+
+  useEffect(() => {
+    const { rateId } = queryString.parse(history.location.search);
+    if(rateId) {
+      addCountViewsRate(rateId)
+    }
+  }, [])
 
   useEffect(() => {
   const interval = setInterval(() => {
@@ -61,7 +69,7 @@ MakeRate.propTypes = {
   blocks: PropTypes.shape(),
   getRateByID: PropTypes.func,
   getBlockById: PropTypes.func,
-
+  addCountViewsRate: PropTypes.func,
 }
 
 function mapStateToProps(state) {
@@ -82,4 +90,5 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   getRateByID,
   getBlockById,
+  addCountViewsRate,
 })(MakeRate);

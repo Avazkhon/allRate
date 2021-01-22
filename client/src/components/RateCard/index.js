@@ -16,15 +16,12 @@ import {
 
   IconButton,
   Link,
-
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
 
-import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import CardPart from 'components/CardPart';
 import Rating from 'widgets/Rating';
 
@@ -69,7 +66,6 @@ function RateCard (
     auth,
     getUsersByIds,
     changeRatingRate,
-    getUserForPageById
   }
 ) {
   const classes = useStyles();
@@ -128,15 +124,13 @@ function RateCard (
       <Typography variant="body2" color="textSecondary" component="p">
         Дата завершения: {selectRate.data && moment(selectRate.data.dateFinish).format(formatDateTime)}
       </Typography>
-      {
-        selectRate.data &&
-        <Rating
-          changeRating={handleChangeRatingRate}
-          rating={selectRate.data.rating}
-          objectId={selectRate.data._id}
-          isShow
-        />
-      }
+        <VisibilityIcon/> {selectRate.data && selectRate.data.views}
+      <Rating
+        changeRating={handleChangeRatingRate}
+        rating={selectRate.data && selectRate.data.rating}
+        objectId={selectRate.data && selectRate.data._id}
+        isShow
+      />
     </CardContent>
     <CardActions disableSpacing>
       <IconButton
