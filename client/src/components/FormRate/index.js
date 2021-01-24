@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
 import { useHistory } from "react-router-dom";
+import { Dialog } from '@material-ui/core';
 
 import {
   Button,
@@ -359,12 +360,15 @@ function FormRate (
 
                 Выбрать категорию
               </Button>
-              <RecursiveTreeView
+              <Dialog
                 open={isShowCategories}
-                handleClose={handleShowCategories}
-                getPath={getPath}
-                categoriesData={categoriesData}
-              />
+                onClose={handleShowCategories}
+              >
+                <RecursiveTreeView
+                  getPath={getPath}
+                  categoriesData={categoriesData}
+                />
+              </Dialog>
             </Grid>
             {
               rate.statusLife &&
