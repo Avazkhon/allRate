@@ -14,6 +14,7 @@ import withdrawalRequest from './withdrawalRequest';
 import withdrawalRequestAdmin from './admin/withdrawalRequestAdmin';
 import userPage from './userPage';
 import blocks from './blocks';
+import categories from './categories';
 
 export default combineReducers({
   userPage,
@@ -31,4 +32,5 @@ export default combineReducers({
   posts,
   postPage,
   withdrawalRequest,
+  categories,
 });

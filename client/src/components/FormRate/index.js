@@ -335,18 +335,36 @@ function FormRate (
               onChange={changeDateStart}
             />
             </Grid>
-          <Grid item xs={6}>
-            <TextField
-              id="datetime-local"
-              type="datetime-local"
-              label="Время завершения"
-              value={rate.dateFinish}
-              disabled={isFetching || isDisabledByLife}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={changeDateFinish}
-            />
+            <Grid item xs={6}>
+              <TextField
+                id="datetime-local"
+                type="datetime-local"
+                label="Время завершения"
+                value={rate.dateFinish}
+                disabled={isFetching || isDisabledByLife}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={changeDateFinish}
+              />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  className={classes.button}
+                  size="small"
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleShowCategories}
+              >
+
+                Выбрать категорию
+              </Button>
+              <RecursiveTreeView
+                open={isShowCategories}
+                handleClose={handleShowCategories}
+                getPath={getPath}
+                categoriesData={categoriesData}
+              />
             </Grid>
             {
               rate.statusLife &&
@@ -368,24 +386,6 @@ function FormRate (
                 }
               </Grid>
             }
-            <Grid item xs={12}>
-              <Button
-                className={classes.button}
-                size="small"
-                variant="contained"
-                color="secondary"
-                onClick={handleShowCategories}
-              >
-
-                Выбрать категорию
-              </Button>
-              <RecursiveTreeView
-                open={isShowCategories}
-                handleClose={handleShowCategories}
-                getPath={getPath}
-                categoriesData={categoriesData}
-              />
-            </Grid>
         </Grid>
         <List component="nav" aria-label="contacts">
           {
