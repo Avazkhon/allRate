@@ -33,7 +33,7 @@ function RecursiveTreeView({
     setExpanded(list)
   }
   function onNodeSelect(code, end) {
-    if (end) {
+    if (end && getPath) {
       getPath(expanded, code)
     }
 
@@ -57,7 +57,7 @@ function RecursiveTreeView({
         //   [classes.selected]: selectel === nodes.idCheckIcon
         // })}
       >
-        {end ? null : nodes.children.map((node) => renderTree(node))}
+        {end ? null : nodes.children && nodes.children.map((node) => renderTree(node))}
       </TreeItem>
     )
   };

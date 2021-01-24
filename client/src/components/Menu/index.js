@@ -86,7 +86,6 @@ function Menu({
             <RecursiveTreeView
               open={true}
               handleClose={(res) => {console.log(res)}}
-              getPath={(res) => {console.log(res)}}
               categoriesData={categories.data}
               isMenu
             />
