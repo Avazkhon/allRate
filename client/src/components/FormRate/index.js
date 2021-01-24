@@ -36,6 +36,7 @@ import {
   getRateByID,
   getBlockById,
   changeImg,
+  getCategories,
 } from 'actions'
 
 import {
@@ -69,6 +70,7 @@ function FormRate (
     getBlockById,
     paymentPercentage,
     changeImg,
+    getCategories,
   }
 ) {
   const classes = useStyles();
@@ -91,7 +93,17 @@ function FormRate (
   const [isFetching, setStatusFinish] = useState(false)
   const [isShowCategories, setShowCategories] = useState(false)
   const [categories, setCategories] = useState({})
+  const [categoriesData, setCategoriesData] = useState({})
 
+
+  useEffect(() => {
+    getCategories()
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          setCategoriesData(action.response)
+        }
+      })
+  }, [])
 
   useEffect(() => {
     if (selectRate.data && selectRate.data._id) {
@@ -370,6 +382,7 @@ function FormRate (
                 open={isShowCategories}
                 handleClose={handleShowCategories}
                 getPath={getPath}
+                categoriesData={categoriesData}
               />
             </Grid>
         </Grid>
@@ -520,7 +533,7 @@ FormRate.propTypes = {
   getRateByID: PropTypes.func,
   getBlockById: PropTypes.func,
   paymentPercentage: PropTypes.func,
-  changeImg: PropTypes.func,
+  getCategories: PropTypes.func,
   selectRate: PropTypes.shape(),
   auth: PropTypes.shape(),
 }
@@ -544,5 +557,6 @@ export default connect(
     getRateByID,
     getBlockById,
     changeImg,
+    getCategories,
   }
 )(FormRate);

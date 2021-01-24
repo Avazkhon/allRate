@@ -87,3 +87,7 @@ export {
   deleteBlock,
   deleteBet,
 } from './block';
+
+export {
+  getCategories,
+} from './categories';

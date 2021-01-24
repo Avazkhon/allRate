@@ -67,6 +67,8 @@ export const DELETE_BET = 'DELETE_BET';
 export const POST_MAKE_BET = 'POST_MAKE_BET';
 export const PUT_PAYMENT_RATE_BY_BLOCK = 'PUT_PAYMENT_RATE_BY_BLOCK';
 
+export const GET_CATEGORIES = 'GET_CATEGORIES';
+
 export const basisForPayment = {
   accountReplenishment: 'accountReplenishment', // Пополнение счета
   withdrawal: 'withdrawal', // вывод

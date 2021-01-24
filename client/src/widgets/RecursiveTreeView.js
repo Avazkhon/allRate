@@ -9,82 +9,6 @@ import CheckIcon from '@material-ui/icons/Check';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
 
-const data = {
-  id: 'root',
-  name: 'Выбрать категорию',
-  open: true,
-  children: [
-    {
-      name: 'Спорт',
-      id: '1',
-      children: [
-        {
-          name: 'Фудбол',
-          id: '11',
-          children: [
-            {
-              name: 'Аглийская премьер лига',
-              id: '345353',
-              children: [
-
-              ]
-            },
-            {
-              name: 'Российская премьер лига',
-              id: '1123',
-              children: [
-
-              ]
-            },
-          ]
-        },
-        {
-          name: 'UFC',
-          id: '12',
-          children: [
-
-          ]
-        },
-        {
-          name: 'Бокс',
-          id: '14',
-          children: [
-
-          ]
-        },
-      ]
-    },
-    {
-      name: 'Кибер спорт',
-      id: '2',
-      children: [
-        {
-          name: 'CS GO',
-          id: '123123',
-          children: [
-
-          ]
-        },
-        {
-          name: 'Лига',
-          id: '354467',
-          children: [
-
-          ]
-        },
-        {
-          name: 'CS 2',
-          id: '34674674535',
-          children: [
-
-          ]
-        }
-      ]
-    }
-  ]
-}
-
-
 const useStyles = makeStyles({
   root: {
     padding: 20,
@@ -99,17 +23,18 @@ const useStyles = makeStyles({
 function RecursiveTreeView({
   open,
   handleClose,
-  getPath
+  getPath,
+  categoriesData,
 }) {
   const classes = useStyles();
-  const [expanded, setExpanded] = useState(['root'])
+  const [expanded, setExpanded] = useState(['Категории'])
   const [selectel, setSelectel] = useState(null)
   function onNodeToggle(e, list) {
     setExpanded(list)
   }
-  function onNodeSelect(id, end) {
+  function onNodeSelect(_id, end) {
     if (!end) {
-      getPath(expanded, id)
+      getPath(expanded, _id)
     }
 
   }
@@ -118,13 +43,13 @@ function RecursiveTreeView({
     const isHasChildren = Array.isArray(nodes.children);
     const end = isHasChildren && nodes.children.length;
     function click(){
-      setSelectel(nodes.id)
-      onNodeSelect(nodes.id, !!end)
+      setSelectel(nodes._id)
+      onNodeSelect(nodes._id, !!end)
     }
     return (
       <TreeItem
-        key={nodes.id}
-        nodeId={nodes.id}
+        key={nodes._id}
+        nodeId={nodes._id}
         label={nodes.name}
         onClick={click}
         // className={clsx('', {
@@ -135,7 +60,7 @@ function RecursiveTreeView({
       </TreeItem>
     )
   };
-
+  console.log(categoriesData);
   return (
     <Dialog
       open={open}
@@ -149,7 +74,6 @@ function RecursiveTreeView({
         onNodeToggle={onNodeToggle}
         defaultExpandIcon={<ChevronRightIcon />}
       >
-        {renderTree(data)}
       </TreeView>
     </Dialog>
   );
@@ -158,7 +82,8 @@ function RecursiveTreeView({
 RecursiveTreeView.propTypes = {
   open: PropTypes.bool,
   handleClose: PropTypes.func,
-  getPath: PropTypes.func
+  getPath: PropTypes.func,
+  categoriesData: PropTypes.shape()
 }
 
 export default RecursiveTreeView
