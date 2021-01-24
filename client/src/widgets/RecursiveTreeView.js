@@ -27,14 +27,14 @@ function RecursiveTreeView({
   categoriesData,
 }) {
   const classes = useStyles();
-  const [expanded, setExpanded] = useState(['Категории'])
+  const [expanded, setExpanded] = useState(['categories'])
   const [selectel, setSelectel] = useState(null)
   function onNodeToggle(e, list) {
     setExpanded(list)
   }
-  function onNodeSelect(_id, end) {
+  function onNodeSelect(code, end) {
     if (!end) {
-      getPath(expanded, _id)
+      getPath(expanded, code)
     }
 
   }
@@ -43,13 +43,13 @@ function RecursiveTreeView({
     const isHasChildren = Array.isArray(nodes.children);
     const end = isHasChildren && nodes.children.length;
     function click(){
-      setSelectel(nodes._id)
-      onNodeSelect(nodes._id, !!end)
+      setSelectel(nodes.code)
+      onNodeSelect(nodes.code, !!end)
     }
     return (
       <TreeItem
-        key={nodes._id}
-        nodeId={nodes._id}
+        key={nodes.code}
+        nodeId={nodes.code}
         label={nodes.name}
         onClick={click}
         // className={clsx('', {

@@ -203,6 +203,7 @@ function FormRate (
   function handleChangeRate () {
     const data = {
       ...rate,
+      categories,
       dateStart: moment(rate.dateStart).utc().format(),
       dateFinish: moment(rate.dateFinish).utc().format(),
       party
@@ -288,8 +289,8 @@ function FormRate (
     })
   }
 
-  function getPath(path, id) {
-    setCategories({path, id})
+  function getPath(path, code) {
+    setCategories({path, code})
   }
 
   const isDisabledByLife = (rate.statusLife === rateStatusLive.finish) ||  (rate.statusLife === rateStatusLive.archive)
