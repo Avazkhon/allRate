@@ -21,8 +21,6 @@ const useStyles = makeStyles({
 });
 
 function RecursiveTreeView({
-  open,
-  handleClose,
   getPath,
   categoriesData,
 }) {
@@ -62,10 +60,6 @@ function RecursiveTreeView({
   };
 
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-    >
       <TreeView
         className={classes.root}
         defaultCollapseIcon={<ExpandMoreIcon />}
@@ -76,13 +70,10 @@ function RecursiveTreeView({
       >
         {renderTree(categoriesData)}
       </TreeView>
-    </Dialog>
   );
 }
 
 RecursiveTreeView.propTypes = {
-  open: PropTypes.bool,
-  handleClose: PropTypes.func,
   getPath: PropTypes.func,
   categoriesData: PropTypes.shape()
 }

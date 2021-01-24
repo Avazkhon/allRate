@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import Menu from 'components/Menu';
+
 import Header from '../Header';
 import Footer from '../Footer';
 
@@ -11,6 +13,7 @@ const Layout = (props) => {
       <div className="layout-header">
         <Header/>
       </div>
+      <Menu />
       <div className='content'>
         {props.children}
       </div>
