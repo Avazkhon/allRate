@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from "react-router-dom";
 
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -33,7 +34,10 @@ const useStyles = makeStyles({
 
 function Menu({
   getCategories,
-  categories
+  categories,
+  auth: {
+    userData
+  }
 }) {
   const classes = useStyles();
   // const [categoriesData, setCategoriesData ] = useState({})
@@ -74,14 +78,27 @@ function Menu({
         }
         <Divider />
         <List>
-          {
-            // ['All mail', 'Trash', 'Spam'].map((text, index) => (
-            //   <ListItem button key={text}>
-            //     <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            //     <ListItemText primary={text} />
-            //   </ListItem>
-            // ))
-          }
+            {
+              userData && userData._id &&
+              <ListItem button>
+                <ListItemText primary={<Link to='/create-rate'>Создать ставку</Link>}/>
+              </ListItem>
+            }
+            {
+              userData && userData.isAdmin &&
+              <ListItem button>
+                <ListItemText primary={<Link to='/admin/withdrawal-request'>Запросы на переводы</Link>}/>
+              </ListItem>
+            }
+            <ListItem button>
+              <ListItemText primary={<Link to='/rate-list?page=1&limit=24'>Список ставок</Link>}/>
+            </ListItem>
+            <ListItem button>
+              <ListItemText primary={<Link to='/posts/'>Посты</Link>}/>
+            </ListItem>
+            <ListItem button>
+              <ListItemText primary={<Link to='/users/?page=1&limit=24'>Люди</Link>}/>
+            </ListItem>
           {
             <RecursiveTreeView
               open={true}
@@ -107,6 +124,7 @@ function Menu({
 Menu.propTypes = {
   getCategories: PropTypes.func,
   categories: PropTypes.shape(),
+  auth: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {
