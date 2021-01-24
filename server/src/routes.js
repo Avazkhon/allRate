@@ -17,10 +17,12 @@ const InvoiceControllers = require('./controllers/invoice');
 const withdrawalRequestAdmin = require('./controllers/withdrawalRequest/withdrawalRequestAdmin');
 const blockControllers = require('./controllers/block');
 const betControllers = require('./controllers/block/bet');
+const Categories = require('./controllers/category');
 const MakeBet = require('./controllers/block/makeBet');
 
 const invoiceControllers = new InvoiceControllers();
 const paymentAfterRate = new PaymentAfterRate();
+const categories = new Categories();
 
 module.exports = function (app) {
   app.get('/api/', (req, res) => {
@@ -105,6 +107,10 @@ module.exports = function (app) {
   app.route('/api/block/bet')
     .post(betControllers.postAddBetInBlock)
     .delete(betControllers.deleteBet)
+
+  app.route('/api/categories')
+    .post(categories.createCategories)
+    .get(categories.getCategories)
 
   app.route('/api/make-bet')
     .post((...rest) => {
