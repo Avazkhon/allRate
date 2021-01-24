@@ -25,8 +25,8 @@ import SaveIcon from '@material-ui/icons/Save';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 
 import AlertDialogSlide from 'widgets/AlertDialogSlide';
-
 import UploadButtons from 'widgets/UploadButtons';
+import RecursiveTreeView from 'widgets/RecursiveTreeView';
 
 import {
   creteNewRate,
@@ -88,7 +88,9 @@ function FormRate (
   })
 
   const [party, setChangeParty] = useState(() => ([]))
-  const [isFetching, setStatusFinish] = useState(() => (false))
+  const [isFetching, setStatusFinish] = useState(false)
+  const [isShowCategories, setShowCategories] = useState(false)
+  const [categories, setCategories] = useState({})
 
 
   useEffect(() => {
@@ -103,7 +105,9 @@ function FormRate (
   }, [selectRate])
 
 
-
+  function handleShowCategories() {
+    setShowCategories(!isShowCategories)
+  }
 
   function addParty() {
     setChangeParty([
@@ -153,6 +157,7 @@ function FormRate (
   function handleCreteNewRate(){
     const data = {
       ...rate,
+      categories,
       dateStart: moment(rate.dateStart).utc().format(),
       dateFinish: moment(rate.dateFinish).utc().format(),
       party
@@ -271,6 +276,10 @@ function FormRate (
     })
   }
 
+  function getPath(path, id) {
+    setCategories({path, id})
+  }
+
   const isDisabledByLife = (rate.statusLife === rateStatusLive.finish) ||  (rate.statusLife === rateStatusLive.archive)
 
 
@@ -346,6 +355,23 @@ function FormRate (
                 }
               </Grid>
             }
+            <Grid item xs={12}>
+              <Button
+                className={classes.button}
+                size="small"
+                variant="contained"
+                color="secondary"
+                onClick={handleShowCategories}
+              >
+
+                Выбрать категорию
+              </Button>
+              <RecursiveTreeView
+                open={isShowCategories}
+                handleClose={handleShowCategories}
+                getPath={getPath}
+              />
+            </Grid>
         </Grid>
         <List component="nav" aria-label="contacts">
           {
