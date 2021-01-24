@@ -60,7 +60,7 @@ function RecursiveTreeView({
       </TreeItem>
     )
   };
-  console.log(categoriesData);
+
   return (
     <Dialog
       open={open}
@@ -74,6 +74,7 @@ function RecursiveTreeView({
         onNodeToggle={onNodeToggle}
         defaultExpandIcon={<ChevronRightIcon />}
       >
+        {renderTree(categoriesData)}
       </TreeView>
     </Dialog>
   );
