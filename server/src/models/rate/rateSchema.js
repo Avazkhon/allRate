@@ -5,6 +5,41 @@ const moment = require('moment-timezone');
 const urlParty = 'https://sun9-39.userapi.com/c852216/v852216813/1239e2/VZL0QayR6E4.jpg?ava=1';
 const urlMain = 'https://betrating.ru/wp-content/uploads/2018/10/BETREYT-314.jpg';
 
+const categories = new Schema({
+    code: { type: String, required: true },
+    path: { type: Array, require: true }
+  },
+  {strict: true}
+)
+
+const party = new Schema({
+    id: { type: Number, required: true },
+    participator: { type: String, required: true, min: 3, max: 50 },
+    description: { type: String, required: true, min: 10, max: 200 },
+    img: { type: String, default: urlParty },
+    win: { type: Boolean, default: false },
+  },
+  {strict: true}
+)
+
+const rating = new Schema({
+    positively: [
+      {
+        userId: { type: mongoose.ObjectId, required: true },
+        makeTime: { type: Date, default: moment().utc().format() },
+      }
+    ],
+    negative: [
+      {
+        userId: { type: mongoose.ObjectId, required: true },
+        makeTime: { type: Date, default: moment().utc().format() },
+      }
+    ],
+  },
+  {strict: true}
+)
+
+
 exports.rateSchema = new Schema(
   {
     title: { type: String, required: true, min: 3, max: 50 },
@@ -20,27 +55,9 @@ exports.rateSchema = new Schema(
     views: { type: Number, required: true, min: 0, default: 0 },
     paymentMade: { type: Boolean, required: false },
     blockId: { type: mongoose.ObjectId },
-    party: [{
-      id: { type: Number, required: true },
-      participator: { type: String, required: true, min: 3, max: 50 },
-      description: { type: String, required: true, min: 10, max: 200 },
-      img: { type: String, default: urlParty },
-      win: { type: Boolean, default: false },
-    }],
-    rating: {
-      positively: [
-        {
-          userId: { type: mongoose.ObjectId, required: true },
-          makeTime: { type: Date, default: moment().utc().format() },
-        }
-      ],
-      negative: [
-        {
-          userId: { type: mongoose.ObjectId, required: true },
-          makeTime: { type: Date, default: moment().utc().format() },
-        }
-      ],
-    }
+    party: [ party ],
+    rating,
+    categories,
   },
   { collection: 'Rate' }
 );
