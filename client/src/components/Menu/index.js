@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
@@ -58,17 +59,19 @@ function Menu({
           [classes.fullList]: anchor === 'top' || anchor === 'bottom',
         })}
         role="presentation"
-        onClick={toggleDrawer}
+        // onClick={toggleDrawer}
         onKeyDown={toggleDrawer}
       >
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
+        {
+          // <List>
+          //   {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          //     <ListItem button key={text}>
+          //       <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+          //       <ListItemText primary={text} />
+          //     </ListItem>
+          //   ))}
+          // </List>
+        }
         <Divider />
         <List>
           {
@@ -85,6 +88,7 @@ function Menu({
               handleClose={(res) => {console.log(res)}}
               getPath={(res) => {console.log(res)}}
               categoriesData={categories.data}
+              isMenu
             />
           }
         </List>

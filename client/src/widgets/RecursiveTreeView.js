@@ -1,5 +1,7 @@
 import React,{ useState } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from "react-router-dom";
+
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
@@ -22,6 +24,7 @@ const useStyles = makeStyles({
 function RecursiveTreeView({
   getPath,
   categoriesData,
+  isMenu,
 }) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(['categories'])
@@ -30,7 +33,7 @@ function RecursiveTreeView({
     setExpanded(list)
   }
   function onNodeSelect(code, end) {
-    if (!end) {
+    if (end) {
       getPath(expanded, code)
     }
 
@@ -38,22 +41,23 @@ function RecursiveTreeView({
 
   const renderTree = (nodes) => {
     const isHasChildren = Array.isArray(nodes.children);
-    const end = isHasChildren && nodes.children.length;
+    const end = isHasChildren && !nodes.children.length;
     function click(){
       setSelectel(nodes.code)
       onNodeSelect(nodes.code, !!end)
     }
+
     return (
       <TreeItem
         key={nodes.code}
         nodeId={nodes.code}
-        label={nodes.name}
+        label={(nodes.code !== 'categories') ? <Link to={`/rate-list${'/'.concat(expanded)}/${nodes.code}`}><span>{nodes.name}</span></Link> : nodes.name }
         onClick={click}
         // className={clsx('', {
         //   [classes.selected]: selectel === nodes.idCheckIcon
         // })}
       >
-        {end ? nodes.children.map((node) => renderTree(node)) : null}
+        {end ? null : nodes.children.map((node) => renderTree(node))}
       </TreeItem>
     )
   };
@@ -74,7 +78,8 @@ function RecursiveTreeView({
 
 RecursiveTreeView.propTypes = {
   getPath: PropTypes.func,
-  categoriesData: PropTypes.shape()
+  categoriesData: PropTypes.shape(),
+  isMenu: PropTypes.bool
 }
 
 export default RecursiveTreeView
