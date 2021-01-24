@@ -12,7 +12,7 @@ class Categories {
     const template = {
       name: "Категории",
       code: "categories",
-      categories: [
+      children: [
         {
           name: "Спорт",
           code: "sport",
