@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
@@ -14,6 +14,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import Hidden from '@material-ui/core/Hidden';
 
 import RecursiveTreeView from 'widgets/RecursiveTreeView';
 
@@ -23,14 +24,31 @@ import {
 
 
 
-const useStyles = makeStyles({
-  list: {
-    width: 250,
-  },
-  fullList: {
-    width: 'auto',
-  },
-});
+const useStyles = makeStyles((theme) => {
+  const drawerWidth = 240;
+  return ({
+    root: {
+      display: 'flex',
+    },
+    // drawer: {
+    //   [theme.breakpoints.up('sm')]: {
+    //     width: drawerWidth,
+    //     flexShrink: 0,
+    //   },
+    // },
+
+    drawerPaper: {
+      width: drawerWidth,
+      marginTop: '55px'
+    },
+    list: {
+      width: 250,
+    },
+    fullList: {
+      width: 'auto',
+    },
+  })
+})
 
 function Menu({
   getCategories,
@@ -40,6 +58,8 @@ function Menu({
   }
 }) {
   const classes = useStyles();
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const theme = useTheme();
   // const [categoriesData, setCategoriesData ] = useState({})
 
   useEffect(() => {
@@ -57,6 +77,11 @@ function Menu({
     setShow(!show);
   };
 
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+
     const list = (anchor) => (
       <div
         className={clsx(classes.list, {
@@ -66,39 +91,35 @@ function Menu({
         // onClick={toggleDrawer}
         onKeyDown={toggleDrawer}
       >
-        {
-          // <List>
-          //   {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          //     <ListItem button key={text}>
-          //       <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-          //       <ListItemText primary={text} />
-          //     </ListItem>
-          //   ))}
-          // </List>
-        }
         <Divider />
         <List>
-            {
-              userData && userData._id &&
-              <ListItem button>
-                <ListItemText primary={<Link to='/create-rate'>Создать ставку</Link>}/>
-              </ListItem>
-            }
-            {
-              userData && userData.isAdmin &&
-              <ListItem button>
-                <ListItemText primary={<Link to='/admin/withdrawal-request'>Запросы на переводы</Link>}/>
-              </ListItem>
-            }
+          {
+            mobileOpen &&
             <ListItem button>
-              <ListItemText primary={<Link to='/rate-list?page=1&limit=24'>Список ставок</Link>}/>
+              <ListItemText onClick={handleDrawerToggle} primary={'Menu - Закрыть'}/>
             </ListItem>
+          }
+          {
+            userData && userData._id &&
             <ListItem button>
-              <ListItemText primary={<Link to='/posts/'>Посты</Link>}/>
+              <ListItemText primary={<Link to='/create-rate'>Создать ставку</Link>}/>
             </ListItem>
+          }
+          {
+            userData && userData.isAdmin &&
             <ListItem button>
-              <ListItemText primary={<Link to='/users/?page=1&limit=24'>Люди</Link>}/>
+              <ListItemText primary={<Link to='/admin/withdrawal-request'>Запросы на переводы</Link>}/>
             </ListItem>
+          }
+          <ListItem button>
+            <ListItemText primary={<Link to='/rate-list?page=1&limit=24'>Список ставок</Link>}/>
+          </ListItem>
+          <ListItem button>
+            <ListItemText primary={<Link to='/posts/'>Посты</Link>}/>
+          </ListItem>
+          <ListItem button>
+            <ListItemText primary={<Link to='/users/?page=1&limit=24'>Люди</Link>}/>
+          </ListItem>
           {
             <RecursiveTreeView
               open={true}
@@ -112,11 +133,35 @@ function Menu({
     );
 
   return(
-    <div>
-      <Button onClick={toggleDrawer}>Menu</Button>
-      <Drawer anchor={anchor} open={show} onClose={toggleDrawer}>
-        {list(anchor)}
-      </Drawer>
+    <div className={classes.root}>
+      <Button onClick={handleDrawerToggle}>Menu</Button>
+      <Hidden smUp implementation="css">
+       <Drawer
+         variant="temporary"
+         anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+         open={mobileOpen}
+         onClose={handleDrawerToggle}
+         classes={{
+           paper: classes.drawerPaper,
+         }}
+         ModalProps={{
+           keepMounted: true, // Better open performance on mobile.
+         }}
+       >
+         {list(anchor)}
+       </Drawer>
+      </Hidden>
+      <Hidden xsDown implementation="css">
+        <Drawer
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          variant="permanent"
+          open
+        >
+          {list(anchor)}
+        </Drawer>
+      </Hidden>
     </div>
   )
 }
