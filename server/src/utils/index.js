@@ -26,9 +26,9 @@ exports.sortByDate = (array) => {
   });
 }
 
-exports.getParamsForSearchDB = (params, delteParams) => {
+exports.getParamsForSearchDB = (params, deleteParams) => {
   const _params = Object.assign({}, params);
-  delteParams.forEach((currentValue) => {
+  deleteParams.forEach((currentValue) => {
     delete _params[currentValue];
   })
 

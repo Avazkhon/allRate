@@ -6,6 +6,7 @@ const PaymentAfterRate = require('./controllers/rateControllers/paymentAfterRate
 const langControllers = require('./controllers/langControllers');
 const postControllers = require('./controllers/post');
 const rateLiveControllers = require('./controllers/rateControllers/rateLive');
+const SearchRate = require('./controllers/rateControllers/searchRate');
 const userControllers = require('./controllers/user');
 const authControllers = require('./controllers/auth');
 const purseControllers = require('./controllers/purse');
@@ -23,6 +24,7 @@ const MakeBet = require('./controllers/block/makeBet');
 const invoiceControllers = new InvoiceControllers();
 const paymentAfterRate = new PaymentAfterRate();
 const categories = new Categories();
+const searchRate = new SearchRate();
 
 module.exports = function (app) {
   app.get('/api/', (req, res) => {
@@ -111,6 +113,9 @@ module.exports = function (app) {
   app.route('/api/categories')
     .post(categories.createCategories)
     .get(categories.getCategories)
+
+  app.route('/api/bet/search')
+    .get(searchRate.search)
 
   app.route('/api/make-bet')
     .post((...rest) => {
