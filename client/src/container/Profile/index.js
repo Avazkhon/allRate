@@ -13,7 +13,6 @@ import {
 
 import Layout from 'container/Layout';
 import ProfileUser from 'components/ProfileUser';
-import SiteBar from 'components/SiteBar';
 import UserBtnGroup from 'components/UserBtnGroup';
 import CardsPosts from 'components/CardsPosts';
 import CardsRates from 'components/CardsRates';
@@ -21,7 +20,6 @@ import CardsRates from 'components/CardsRates';
 import style from './style';
 
 function MePage ({
-  auth,
   posts,
   rates,
   history,
@@ -35,11 +33,6 @@ function MePage ({
     <Layout>
       <Container>
         <Row>
-          <Col xs="12"  sm="4" md="3">
-            <SiteBar
-              userData={auth.userData}
-            />
-          </Col>
           <Col xs="12" sm="8" md="9">
             <ProfileUser
               profileId={userId}

@@ -9,7 +9,7 @@ import {
   Col,
 } from 'react-bootstrap';
 
-import SiteBar from 'components/SiteBar';
+
 import CardsPosts from 'components/CardsPosts';
 import Layout from '../Layout';
 
@@ -31,19 +31,10 @@ class PostList extends React.Component {
     return (
       <Layout>
       <Container>
-        <Row>
-          <Col xs="12"  sm="4" md="3">
-            <SiteBar
-              userData={userData}
-            />
-          </Col>
-          <Col xs="12" sm="8" md="9">
-            <CardsPosts
-              posts={posts}
-              history={history}
-            />
-          </Col>
-        </Row>
+        <CardsPosts
+          posts={posts}
+          history={history}
+        />
       </Container>
       </Layout>
     );

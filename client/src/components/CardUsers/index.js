@@ -20,7 +20,6 @@ import {
 
 import Rating from 'widgets/Rating';
 import NexLoadPage from 'widgets/NexLoadPage';
-import SiteBar from 'components/SiteBar';
 import Messages from 'components/Messages';
 
 const userCardText = {

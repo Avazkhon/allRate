@@ -13,8 +13,8 @@ const Layout = (props) => {
       <div className="layout-header">
         <Header/>
       </div>
-      <Menu />
-      <div className='content'>
+      <div style={{display: 'flex'}} className='content'>
+        <Menu />
         {props.children}
       </div>
       <div className="layout-footer">

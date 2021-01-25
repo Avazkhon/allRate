@@ -19,15 +19,11 @@ const text = {
   }
 };
 
-import SiteBar from 'components/SiteBar';
 import Messages from 'components/Messages';
 
 import Layout from './Layout';
 
 function Translation({
-  auth: {
-    userData,
-  },
   match: {
     params: {
       status
@@ -42,11 +38,6 @@ function Translation({
     <Layout>
       <Container>
         <Row>
-          <Col xs="12"  sm="4" md="3">
-            <SiteBar
-              userData={userData}
-            />
-          </Col>
           <Col xs="12" sm="8" md="9">
             {
               status === 'successful' &&

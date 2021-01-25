@@ -9,7 +9,6 @@ import {
   Col,
 } from 'react-bootstrap';
 
-import SiteBar from 'components/SiteBar';
 import CardPost from 'components/CardPost';
 import Layout from '../Layout';
 import queryString from 'query-string';
@@ -59,9 +58,6 @@ class CardPostPage extends React.Component {
 
   render() {
     const {
-      auth: {
-        userData,
-      },
       postPage,
       lang,
       users,
@@ -70,24 +66,15 @@ class CardPostPage extends React.Component {
     return (
       <Layout>
       <Container>
-        <Row>
-          <Col xs="12"  sm="4" md="3">
-            <SiteBar
-              userData={userData}
-            />
-          </Col>
-            <Col xs="12" sm="8" md="9">
-            { postPage.data._id &&
-              <CardPost
-                changeRating={this.handleChangeRating}
-                post={postPage.data}
-                isPage
-                user={users.data && this.getAuthor(users.data, postPage.data)}
-                lang={lang.lang}
-              />
-            }
-            </Col>
-        </Row>
+        { postPage.data._id &&
+          <CardPost
+            changeRating={this.handleChangeRating}
+            post={postPage.data}
+            isPage
+            user={users.data && this.getAuthor(users.data, postPage.data)}
+            lang={lang.lang}
+          />
+        }
       </Container>
       </Layout>
     );

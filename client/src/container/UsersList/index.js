@@ -13,7 +13,6 @@ import {
   getSubscriptions,
 } from 'actions';
 
-import SiteBar from 'components/SiteBar';
 import CardUsers from 'components/CardUsers';
 import Layout from '../Layout';
 
@@ -39,27 +38,15 @@ class UsersList extends React.Component {
 
   render() {
     const {
-      auth: {
-        userData,
-      },
       history,
     } = this.props;
 
     return (
       <Layout>
       <Container>
-        <Row>
-          <Col xs="12"  sm="4" md="3">
-            <SiteBar
-              userData={userData}
-            />
-          </Col>
-          <Col xs="12" sm="8" md="9">
-            <CardUsers
-              history={history}
-            />
-          </Col>
-        </Row>
+        <CardUsers
+          history={history}
+        />
       </Container>
       </Layout>
     );

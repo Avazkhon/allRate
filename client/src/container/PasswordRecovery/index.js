@@ -14,7 +14,6 @@ import {
 } from 'react-bootstrap';
 
 import Layout from 'container/Layout';
-import SiteBar from 'components/SiteBar';
 import Messages from 'components/Messages';
 
 import {
@@ -130,7 +129,6 @@ class PasswordRecovery extends Component {
     } = this.state;
 
     const {
-      userData,
       classes,
       match: {
         params: {
@@ -151,11 +149,6 @@ class PasswordRecovery extends Component {
         }
         <Container>
           <Row>
-            <Col xs="12"  sm="4" md="3">
-              <SiteBar
-                userData={userData}
-              />
-            </Col>
             <div className={classes['page-recovery']}>
               <Col xs="12" sm="8" md="9">
                 {
@@ -213,7 +206,6 @@ class PasswordRecovery extends Component {
 
 PasswordRecovery.propTypes = {
   auth: PropTypes.shape(),
-  userData: PropTypes.shape(),
   classes: PropTypes.shape(),
   history: PropTypes.shape(),
   match: PropTypes.shape(),

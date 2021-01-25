@@ -16,7 +16,6 @@ import {
 } from 'actions'
 
 import FormRate from 'components/FormRate';
-import SiteBar from 'components/SiteBar';
 import FormBlocks from 'components/FormBlocks';
 
 import Layout from '../Layout';
@@ -25,9 +24,6 @@ function CreateRatePage ({
   history,
   selectRate,
   blocks,
-  auth: {
-    userData,
-  },
   getRateByID
 }) {
   const { rateId } = queryString.parse(history.location.search);
@@ -64,24 +60,15 @@ function CreateRatePage ({
   return (
     <Layout>
       <Container>
-        <Row>
-          <Col xs="12" sm="3">
-            <SiteBar
-              userData={userData}
-            />
-          </Col>
-          <Col xs="12" sm="9">
-            <FormRate
-              selectRate={isShowRate && selectRate}
-              paymentPercentage={blocks.data.paymentPercentage}
-            />
-            <FormBlocks
-              rateId={rateId}
-              blockId={blockId}
-              statusLife={selectRate.data && selectRate.data.statusLife}
-            />
-          </Col>
-        </Row>
+        <FormRate
+          selectRate={isShowRate && selectRate}
+          paymentPercentage={blocks.data.paymentPercentage}
+        />
+        <FormBlocks
+          rateId={rateId}
+          blockId={blockId}
+          statusLife={selectRate.data && selectRate.data.statusLife}
+        />
       </Container>
     </Layout>
   );

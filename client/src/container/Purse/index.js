@@ -8,7 +8,6 @@ import {
   Col,
 } from 'react-bootstrap';
 
-import SiteBar from 'components/SiteBar';
 import PurseComponent from 'components/PurseComponent';
 
 import Layout from '../Layout';
@@ -20,24 +19,10 @@ class Purse extends Component {
   }
 
   render() {
-    const {
-      auth: {
-        userData,
-      },
-    } = this.props;
     return (
       <Layout>
         <Container>
-          <Row>
-            <Col xs="12"  sm="4" md="3">
-              <SiteBar
-                userData={userData}
-              />
-            </Col>
-            <Col xs="12" sm="8" md="9">
-              <PurseComponent />
-            </Col>
-          </Row>
+          <PurseComponent />
         </Container>
       </Layout>
     );

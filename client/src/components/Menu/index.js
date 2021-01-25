@@ -15,6 +15,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Hidden from '@material-ui/core/Hidden';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
 import RecursiveTreeView from 'widgets/RecursiveTreeView';
 
@@ -25,28 +26,24 @@ import {
 
 
 const useStyles = makeStyles((theme) => {
-  const drawerWidth = 240;
+  const drawerWidth = '250px';
   return ({
-    root: {
-      display: 'flex',
-    },
-    // drawer: {
-    //   [theme.breakpoints.up('sm')]: {
-    //     width: drawerWidth,
-    //     flexShrink: 0,
-    //   },
-    // },
-
     drawerPaper: {
       width: drawerWidth,
-      marginTop: '55px'
+      display: 'block',
+      position: 'relative',
+      zIndex: 100
     },
     list: {
-      width: 250,
+      width: drawerWidth,
     },
     fullList: {
       width: 'auto',
     },
+    opneMenu: {
+      position: 'fixed',
+      zIndex: 1300
+    }
   })
 })
 
@@ -60,7 +57,6 @@ function Menu({
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const theme = useTheme();
-  // const [categoriesData, setCategoriesData ] = useState({})
 
   useEffect(() => {
     getCategories()
@@ -88,7 +84,6 @@ function Menu({
           [classes.fullList]: anchor === 'top' || anchor === 'bottom',
         })}
         role="presentation"
-        // onClick={toggleDrawer}
         onKeyDown={toggleDrawer}
       >
         <Divider />
@@ -134,8 +129,11 @@ function Menu({
 
   return(
     <div className={classes.root}>
-      <Button onClick={handleDrawerToggle}>Menu</Button>
       <Hidden smUp implementation="css">
+      {
+          !mobileOpen &&
+          <Button variant="contained" color="primary" className={classes.opneMenu}onClick={handleDrawerToggle}>{'->'}</Button>
+      }
        <Drawer
          variant="temporary"
          anchor={theme.direction === 'rtl' ? 'right' : 'left'}

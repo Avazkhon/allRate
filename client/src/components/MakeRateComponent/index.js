@@ -16,7 +16,6 @@ import {
 import Rating from 'widgets/Rating';
 import CommonModal from 'widgets/CommonModal';
 import Messages from 'components/Messages';
-import SiteBar from 'components/SiteBar';
 import MakeRateTabel from './MakeRateTabel';
 import ReasonForBettingCard from './ReasonForBettingCard';
 
@@ -147,7 +146,6 @@ class MakeRateComponent extends Component {
         error,
         isFetching,
       },
-      auth,
       purse,
       changeRatingRate,
       getRateByID,
@@ -183,11 +181,6 @@ class MakeRateComponent extends Component {
 
         <Container>
           <Row>
-            <Col xs="12" sm="3" >
-              <SiteBar
-                userData={auth.userData}
-              />
-            </Col>
             <Col xs="12" sm="9">
               <Messages
                 error={error}

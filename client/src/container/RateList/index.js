@@ -18,7 +18,6 @@ import {
 
 import style from './style';
 
-import SiteBar from 'components/SiteBar';
 import CardsRates from 'components/CardsRates';
 
 class RateList extends React.Component {
@@ -42,7 +41,6 @@ class RateList extends React.Component {
   render() {
     const {
       // classes,
-      auth,
       rates,
       history,
     } = this.props;
@@ -50,19 +48,10 @@ class RateList extends React.Component {
     return (
       <Layout>
         <Container className="justify-content-xs-center">
-          <Row>
-            <Col xs="12"  sm="4" md="3">
-              <SiteBar
-                userData={auth.userData}
-              />
-            </Col>
-            <Col xs="12"  sm="8" md="9">
-              <CardsRates
-                rates={rates}
-                history={history}
-              />
-            </Col>
-          </Row>
+          <CardsRates
+            rates={rates}
+            history={history}
+          />
         </Container>
       </Layout>
     );

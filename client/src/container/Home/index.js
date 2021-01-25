@@ -17,8 +17,6 @@ import {
   getRatesPage,
 } from 'actions';
 
-import SiteBar from 'components/SiteBar';
-
 import style from './style';
 
 import Layout from '../Layout';
@@ -41,9 +39,6 @@ class Home extends React.Component {
 
   render() {
     const {
-      auth: {
-        userData
-      },
       posts,
       rate,
       classes,
@@ -53,11 +48,6 @@ class Home extends React.Component {
       <Layout>
       <Container>
         <Row>
-          <Col xs="12"  sm="4" md="3">
-            <SiteBar
-              userData={userData}
-            />
-          </Col>
           <Col xs="12" sm="8" md="9">
             {
               posts.data && posts.data.docs && !!posts.data.docs.length &&
