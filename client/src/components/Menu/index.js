@@ -28,6 +28,13 @@ import {
 const useStyles = makeStyles((theme) => {
   const drawerWidth = '250px';
   return ({
+    link: {
+      color: 'black',
+      '&:hover': {
+        color: 'black',
+        textDecoration: 'none',
+      }
+    },
     drawerPaper: {
       width: drawerWidth,
       display: 'block',
@@ -97,23 +104,23 @@ function Menu({
           {
             userData && userData._id &&
             <ListItem button>
-              <ListItemText primary={<Link to='/create-rate'>Создать ставку</Link>}/>
+              <ListItemText primary={<Link className={classes.link} to='/create-rate'>Создать ставку</Link>}/>
             </ListItem>
           }
           {
             userData && userData.isAdmin &&
             <ListItem button>
-              <ListItemText primary={<Link to='/admin/withdrawal-request'>Запросы на переводы</Link>}/>
+              <ListItemText primary={<Link className={classes.link} to='/admin/withdrawal-request'>Запросы на переводы</Link>}/>
             </ListItem>
           }
           <ListItem button>
-            <ListItemText primary={<Link to='/rate-list?page=1&limit=24'>Список ставок</Link>}/>
+            <ListItemText primary={<Link className={classes.link} to='/rate-list?page=1&limit=24'>Список ставок</Link>}/>
           </ListItem>
           <ListItem button>
-            <ListItemText primary={<Link to='/posts/'>Посты</Link>}/>
+            <ListItemText primary={<Link className={classes.link} to='/posts/'>Посты</Link>}/>
           </ListItem>
           <ListItem button>
-            <ListItemText primary={<Link to='/users/?page=1&limit=24'>Люди</Link>}/>
+            <ListItemText primary={<Link className={classes.link} to='/users/?page=1&limit=24'>Люди</Link>}/>
           </ListItem>
           {
             <RecursiveTreeView
@@ -128,7 +135,7 @@ function Menu({
     );
 
   return(
-    <div className={classes.root}>
+    <div>
       <Hidden smUp implementation="css">
       {
           !mobileOpen &&

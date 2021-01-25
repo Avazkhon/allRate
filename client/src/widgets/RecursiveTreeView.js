@@ -16,9 +16,13 @@ const useStyles = makeStyles({
     flexGrow: 1,
     maxWidth: 400,
   },
-  // selected: {
-  //   color: 'red',
-  // }
+  link: {
+    color: 'black',
+    '&:hover': {
+      color: 'black',
+      textDecoration: 'none',
+    }
+  },
 });
 
 function RecursiveTreeView({
@@ -51,7 +55,7 @@ function RecursiveTreeView({
       <TreeItem
         key={nodes.code}
         nodeId={nodes.code}
-        label={(nodes.code !== 'categories') ? <Link to={`/rate-list${'/'.concat(expanded)}/${nodes.code}`}><span>{nodes.name}</span></Link> : nodes.name }
+        label={(nodes.code !== 'categories') ? <Link className={classes.link} to={`/rate-list${'/'.concat(expanded)}/${nodes.code}`}><span>{nodes.name}</span></Link> : nodes.name }
         onClick={click}
         // className={clsx('', {
         //   [classes.selected]: selectel === nodes.idCheckIcon
