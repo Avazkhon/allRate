@@ -114,9 +114,6 @@ function Menu({
             </ListItem>
           }
           <ListItem button>
-            <ListItemText primary={<Link className={classes.link} to='/rate-list?page=1&limit=24'>Список ставок</Link>}/>
-          </ListItem>
-          <ListItem button>
             <ListItemText primary={<Link className={classes.link} to='/posts/'>Посты</Link>}/>
           </ListItem>
           <ListItem button>

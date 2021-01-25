@@ -1,19 +1,12 @@
 export default {
-  'rate-list': {
+  'bets': {
     width: '500px',
     margin: '0 auto',
   },
 
-  'rate-list__hedaer': {
+  'bets__hedaer': {
     'text-align': 'center',
   },
-
-  // 'rate-list__items' {
-  //
-  // },
-
-  // .rate-list__content {
-  // },
 
   'rate-item_description': {
     'margin-top': '5px',

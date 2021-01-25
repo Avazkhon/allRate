@@ -28,7 +28,7 @@ export default [
     }),
   },
   {
-    path: '/rate-list/',
+    path: '/bets/:type',
     exact: true,
     component: asyncComponent({
       loader: () => import('./container/RateList'),

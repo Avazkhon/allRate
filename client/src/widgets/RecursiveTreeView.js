@@ -31,7 +31,7 @@ function RecursiveTreeView({
   isMenu,
 }) {
   const classes = useStyles();
-  const [expanded, setExpanded] = useState(['categories'])
+  const [expanded, setExpanded] = useState(['bets'])
   const [selectel, setSelectel] = useState(null)
   function onNodeToggle(e, list) {
     setExpanded(list)
@@ -43,6 +43,23 @@ function RecursiveTreeView({
 
   }
 
+  function getUrl(arr) {
+    const result =  arr.reduce((acc, params) => {
+      acc.index = acc.index + 1;
+      if(acc.index < 1) {
+          acc.url = acc.url + params + '/'
+          return acc
+      } else if(acc.index === 1) {
+          acc.url = acc.url + params + '?'
+          return acc
+      } else {
+          acc.url = acc.url + `${params}=${params}&`
+          return acc
+      }
+    }, {url: '/', index: 0})
+    return result.url
+  }
+
   const renderTree = (nodes) => {
     const isHasChildren = Array.isArray(nodes.children);
     const end = isHasChildren && !nodes.children.length;
@@ -50,12 +67,11 @@ function RecursiveTreeView({
       setSelectel(nodes.code)
       onNodeSelect(nodes.code, !!end)
     }
-
     return (
       <TreeItem
         key={nodes.code}
         nodeId={nodes.code}
-        label={(nodes.code !== 'categories') ? <Link className={classes.link} to={`/rate-list${'/'.concat(expanded)}/${nodes.code}`}><span>{nodes.name}</span></Link> : nodes.name }
+        label={(nodes.code !== 'bets') ? <Link className={classes.link} to={'/bets' + getUrl([...expanded.filter( elm => elm !== 'bets'), nodes.code])}><span>{nodes.name}</span></Link> : nodes.name }
         onClick={click}
         // className={clsx('', {
         //   [classes.selected]: selectel === nodes.idCheckIcon
