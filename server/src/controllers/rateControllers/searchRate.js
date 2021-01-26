@@ -20,7 +20,8 @@ class SearchRate {
         page,
         authorId,
         subscriptionsId,
-        query
+        query,
+        text
       },
       params
     } = req;
@@ -37,8 +38,12 @@ class SearchRate {
     if(params.search) {
       findProps['categories.search'] = params.search
     }
+    if(text) {
+      findProps.$text = { $search: text }
+    }
 
     console.log(findProps);
+
     rateModels.paginate(findProps, options)
       .then((bets) => {
         res.status(200).json(bets)
