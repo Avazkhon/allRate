@@ -44,10 +44,6 @@ function CardsRates({
           });
     }, [ location ])
 
-    useEffect(() => {
-        console.log(location);
-    })
-
 
     function handleShow(e) {
       const { id } = e.currentTarget.dataset;

@@ -290,10 +290,6 @@ function FormRate (
     })
   }
 
-  function getPath(path, code) {
-    setCategories({path, code})
-  }
-
   const isDisabledByLife = (rate.statusLife === rateStatusLive.finish) ||  (rate.statusLife === rateStatusLive.archive)
 
 
@@ -365,7 +361,7 @@ function FormRate (
                 onClose={handleShowCategories}
               >
                 <RecursiveTreeView
-                  getPath={getPath}
+                  handleSelectCategories={setCategories}
                   categoriesData={categoriesData}
                 />
               </Dialog>

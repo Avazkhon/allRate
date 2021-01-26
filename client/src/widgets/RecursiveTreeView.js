@@ -2,11 +2,11 @@ import React,{ useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 
-import clsx from 'clsx';
+// import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import CheckIcon from '@material-ui/icons/Check';
+// import CheckIcon from '@material-ui/icons/Check';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
 
@@ -26,33 +26,28 @@ const useStyles = makeStyles({
 });
 
 function RecursiveTreeView({
-  getPath,
+  handleSelectCategories,
   categoriesData,
   isMenu,
 }) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(['bets'])
-  const [selectel, setSelectel] = useState(null)
   function onNodeToggle(e, list) {
     setExpanded(list)
   }
-  function onNodeSelect(code, end) {
-    if (end && getPath) {
-      getPath(expanded, code)
-    }
-  }
 
-  const renderTree = (nodes, url = '') => {
+  const renderTree = (nodes, url = '', categories = {}) => {
     const isHasChildren = Array.isArray(nodes.children);
     const end = isHasChildren && !nodes.children.length;
-    function click(){
-      setSelectel(nodes.code)
-      onNodeSelect(nodes.code, !!end)
-    }
     if ((nodes.type === 'url') || (nodes.type === 'search')) {
       url += `/${nodes.code}`
     } else {
       url += `?${nodes.type}=${nodes.code}`
+    }
+
+    categories[nodes.type] = nodes.code;
+    function click(){
+      handleSelectCategories(categories)
     }
 
     return (
@@ -65,7 +60,7 @@ function RecursiveTreeView({
         //   [classes.selected]: selectel === nodes.idCheckIcon
         // })}
       >
-        {end ? null : nodes.children && nodes.children.map((node) => renderTree(node, url))}
+        {end ? null : nodes.children && nodes.children.map((node) => renderTree(node, url, Object.assign({}, categories)))}
       </TreeItem>
     )
   };
@@ -85,7 +80,7 @@ function RecursiveTreeView({
 }
 
 RecursiveTreeView.propTypes = {
-  getPath: PropTypes.func,
+  handleSelectCategories: PropTypes.func,
   categoriesData: PropTypes.shape(),
   isMenu: PropTypes.bool
 }
