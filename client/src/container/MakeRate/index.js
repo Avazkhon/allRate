@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import queryString from 'query-string';
 
 import {
+  Grid
+} from '@material-ui/core';
+
+import {
   getRateByID,
   getBlockById,
   // putBlockById,
@@ -48,13 +52,19 @@ function MakeRate (
 
   return (
     <Layout>
-      <RateCard
-        selectRate={selectRate}
-      />
-      <CardsBlocks
-        blocks={blocks}
-        statusLife={selectRate.data && selectRate.data.statusLife}
-      />
+      <Grid container>
+        <Grid item xs={12}>
+          <RateCard
+            selectRate={selectRate}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CardsBlocks
+            blocks={blocks}
+            statusLife={selectRate.data && selectRate.data.statusLife}
+          />
+        </Grid>
+      </Grid>
     </Layout>
   )
 }
