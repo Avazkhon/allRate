@@ -41,7 +41,7 @@ const rating = new Schema({
 )
 
 
-exports.rateSchema = new Schema(
+const rateSchema = new Schema(
   {
     title: { type: String, required: true, min: 3, max: 50 },
     authorId: { type: mongoose.ObjectId, required: true },
@@ -62,3 +62,10 @@ exports.rateSchema = new Schema(
   },
   { collection: 'Rate' }
 );
+rateSchema.index(
+  {
+    title: 'text',
+    description: 'text',
+  }
+)
+exports.rateSchema = rateSchema
