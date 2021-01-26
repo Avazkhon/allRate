@@ -8,6 +8,7 @@ import {
   CHANGE_RATING_RATE,
   ADD_COUNT_VIEWS_RATE,
   GET_RATES_PAGE,
+  SEARCH_BETS,
 } from '../constants';
 
 import {
@@ -105,6 +106,16 @@ export function getRatesPage (props) {
     meta: {
       method: 'GET',
       endpoint:`rate/${getPramsAndTranformToQueryUrl(props)}`,
+    }
+  });
+}
+
+export function searchBets(url) {
+  return dispatch => dispatch({
+    type: SEARCH_BETS,
+    meta: {
+      method: 'GET',
+      endpoint: url,
     }
   });
 }

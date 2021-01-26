@@ -17,6 +17,7 @@ export const GET_RATES_PAGE = 'GET_RATES_PAGE';
 export const GET_RATE_BY_ID = 'GET_RATE_BY_ID';
 export const PUT_RATE = 'PUT_RATE';
 export const GET_COMMON_RATES = 'GET_COMMON_RATES';
+export const SEARCH_BETS = 'SEARCH_BETS';
 
 export const PUT_RATE_LIVE = 'PUT_RATE_LIVE';
 export const PUT_RATE_SELECT_VICTORY = 'PUT_RATE_SELECT_VICTORY';

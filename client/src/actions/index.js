@@ -19,6 +19,7 @@ export {
   changeRatingRate,
   addCountViewsRate,
   getRatesPage,
+  searchBets,
 } from './rate';
 
 export {

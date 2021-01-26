@@ -2,6 +2,7 @@ import {
   GET_RATES,
   GET_RATES_PAGE,
   CHANGE_RATING_RATE,
+  SEARCH_BETS,
 } from '../constants'
 
 import {
@@ -51,6 +52,8 @@ export default createReducer(initState, {
   changeState(_state, _action),
 
   [GET_RATES_PAGE]: (_state, _action) =>
+  changeStateBattery(_state, _action),
+  [SEARCH_BETS]: (_state, _action) =>
   changeStateBattery(_state, _action),
 
 });

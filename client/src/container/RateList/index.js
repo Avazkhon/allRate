@@ -18,7 +18,7 @@ import {
 
 import style from './style';
 
-import CardsRates from 'components/CardsRates';
+import CardsRates from 'components/CardsRates/indexNew';
 
 class RateList extends React.Component {
   constructor(props) {
