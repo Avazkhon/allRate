@@ -6,8 +6,9 @@ const urlParty = 'https://sun9-39.userapi.com/c852216/v852216813/1239e2/VZL0QayR
 const urlMain = 'https://betrating.ru/wp-content/uploads/2018/10/BETREYT-314.jpg';
 
 const categories = new Schema({
-    code: { type: String, required: true },
-    path: { type: Array, require: true }
+    url: { type: String, require: true },
+    search: { type: String, require: true },
+    query: { type: String, require: true },
   },
   {strict: true}
 )
