@@ -5,17 +5,17 @@ import { Link } from "react-router-dom";
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import Hidden from '@material-ui/core/Hidden';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+
+import {
+  Drawer,
+  Button,
+  List,
+  Divider,
+  ListItem,
+  ListItemText,
+  Hidden,
+} from '@material-ui/core';
+
 
 import RecursiveTreeView from 'widgets/RecursiveTreeView';
 
@@ -98,7 +98,14 @@ function Menu({
           {
             mobileOpen &&
             <ListItem button>
-              <ListItemText onClick={handleDrawerToggle} primary={'Menu - Закрыть'}/>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.opneMenu}
+                onClick={handleDrawerToggle}
+            >
+              {'<'}
+            </Button>
             </ListItem>
           }
           {
@@ -136,7 +143,14 @@ function Menu({
       <Hidden smUp implementation="css">
       {
           !mobileOpen &&
-          <Button variant="contained" color="primary" className={classes.opneMenu}onClick={handleDrawerToggle}>{'->'}</Button>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.opneMenu}
+            onClick={handleDrawerToggle}
+          >
+            {'>'}
+          </Button>
       }
        <Drawer
          variant="temporary"
