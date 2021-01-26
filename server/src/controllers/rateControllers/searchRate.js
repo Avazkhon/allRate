@@ -29,8 +29,8 @@ class SearchRate {
     }
     let query = await getAuthorIdOrAuthorIds({ authorId, subscriptionsId });
     query = { ...getParamsForSearchDB(params, ['page', 'limit' ]), ...query };
-    console.log(params);
-    rateModels.paginate(params, options)
+
+    rateModels.paginate(query, options)
       .then((bets) => {
         res.status(200).json(bets)
       })
