@@ -19,6 +19,7 @@ import {
 import style from './style';
 
 import CardsRates from 'components/CardsRates/indexNew';
+import SearchRateForm from 'components/SearchRateForm';
 
 class RateList extends React.Component {
   constructor(props) {
@@ -48,6 +49,7 @@ class RateList extends React.Component {
     return (
       <Layout>
         <Container className="justify-content-xs-center">
+          <SearchRateForm />
           <CardsRates
             rates={rates}
             history={history}
