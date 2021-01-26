@@ -55,7 +55,7 @@ function RecursiveTreeView({
         key={nodes.code}
         nodeId={nodes.code}
         label={(nodes.code !== 'bets' && isMenu) ? <Link className={classes.link} to={url}><span>{nodes.name}</span></Link> : nodes.name}
-        onClick={click}
+        onClick={!isMenu && click}
         // className={clsx('', {
         //   [classes.selected]: selectel === nodes.idCheckIcon
         // })}
