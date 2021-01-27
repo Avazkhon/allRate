@@ -12,9 +12,12 @@ import TreeItem from '@material-ui/lab/TreeItem';
 
 const useStyles = makeStyles({
   root: {
+    maxWidth: 400,
     padding: 20,
     flexGrow: 1,
-    maxWidth: 400,
+  },
+  MuiTreeItem: {
+    margin: '10px',
   },
   link: {
     color: 'black',
@@ -52,6 +55,7 @@ function RecursiveTreeView({
 
     return (
       <TreeItem
+        className={classes.MuiTreeItem}
         key={nodes.code}
         nodeId={nodes.code}
         label={(nodes.code !== 'bets' && isMenu) ? <Link className={classes.link} to={url}><span>{nodes.name}</span></Link> : nodes.name}
