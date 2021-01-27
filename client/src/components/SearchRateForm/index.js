@@ -41,7 +41,7 @@ function SearchRateForm() {
       <TextField
         id="outlined-basic"
         variant="outlined"
-        label="Названия"
+        label="Поиск"
         onChange={changeText}
         value={text}
       />

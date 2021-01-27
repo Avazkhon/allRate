@@ -42,8 +42,6 @@ class SearchRate {
       findProps.$text = { $search: text }
     }
 
-    console.log(findProps);
-
     rateModels.paginate(findProps, options)
       .then((bets) => {
         res.status(200).json(bets)
