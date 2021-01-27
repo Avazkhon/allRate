@@ -43,9 +43,9 @@ const rating = new Schema({
 
 const rateSchema = new Schema(
   {
-    title: { type: String, required: true, min: 3, max: 50 },
+    title: { type: String, text: true, required: true, min: 3, max: 50 },
     authorId: { type: mongoose.ObjectId, required: true },
-    description: { type: String, required: true, min: 10, max: 500 },
+    description: { type: String, text: true, required: true, min: 10, max: 500 },
     createDate: { type: Date, default: moment().utc().format() },
     dateStart: { type: Date, required: true },
     dateFinish: { type: Date, required: true },
@@ -62,10 +62,5 @@ const rateSchema = new Schema(
   },
   { collection: 'Rate' }
 );
-rateSchema.index(
-  {
-    title: 'text',
-    description: 'text',
-  }
-)
+
 exports.rateSchema = rateSchema

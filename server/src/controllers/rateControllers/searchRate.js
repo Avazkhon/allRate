@@ -3,6 +3,9 @@ const rateModels = require('../../models/rate');
 const WriteToLog = require('../../utils/writeToLog');
 const purseControllers = require('../purse');
 const { getAuthorIdOrAuthorIds } = require('../../utils');
+// const {
+//   rateStatusLive,
+// } = require('../../constants');
 
 const writeToLog = new WriteToLog();
 
@@ -21,16 +24,24 @@ class SearchRate {
         authorId,
         subscriptionsId,
         query,
-        text
+        text,
+        statusLife
       },
       params
     } = req;
     const options = {
-      sort: { createDate: -1 },
+      sort: {
+        createDate: -1,
+        "rating.positively": -1,
+      },
       limit: queryGlobal.limit || 24,
       page: queryGlobal.page || 1,
     }
     let findProps = await getAuthorIdOrAuthorIds({ authorId, subscriptionsId });
+
+    findProps = {
+      ...findProps,
+    }
 
     if(query) {
       findProps['categories.query'] = query
@@ -41,6 +52,11 @@ class SearchRate {
     if(text) {
       findProps.$text = { $search: text }
     }
+    if(statusLife) {
+      findProps.statusLife = statusLife
+    }
+
+
 
     rateModels.paginate(findProps, options)
       .then((bets) => {
