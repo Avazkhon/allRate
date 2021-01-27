@@ -44,6 +44,7 @@ export {
   getUsersByIds,
   userPaginate,
   getUserForPageById,
+  getUserByProps,
 } from './user';
 
 export {

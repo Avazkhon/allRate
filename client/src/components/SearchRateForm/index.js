@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory, useLocation } from "react-router-dom";
 import queryString from 'query-string';
@@ -9,10 +10,14 @@ import {
   Button,
   FormControl,
   InputLabel,
-  BootstrapInput,
   MenuItem,
-  Select
+  Select,
 } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
+import {
+  getUserByProps
+} from 'actions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,17 +32,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SearchRateForm() {
+function SearchRateForm({
+  getUserByProps
+}) {
   const classes = useStyles();
   const history = useHistory()
   const location = useLocation()
   const [ text, setText ] = useState('')
   const [ statusLife, setStatusLife ] = useState('')
+  const [ authorId, setAuthorId ] = useState('')
+  const [ options, setOptions ] = useState([])
+  const [ author, setAuthor ] = useState('')
 
   function handlesearchBets() {
     const prevSearch = queryString.parse(location.search)
     history.push({
-      search: queryString.stringify({ ...prevSearch, text, statusLife })
+      search: queryString.stringify({ ...prevSearch, text, statusLife, authorId })
     })
   }
 
@@ -46,6 +56,19 @@ function SearchRateForm() {
     if(name === 'text') {
       setText(value)
     }
+    if(name === 'author') {
+      setAuthor(value)
+      getUserByProps({ userName: value })
+        .then((action) => {
+          if(action.status === 'SUCCESS') {
+            setOptions(action.response)
+          }
+        })
+    }
+  }
+
+  function selectUser(e) {
+    setAuthorId(options[e.target.value]._id)
   }
 
   function changeStatusLife(e) {
@@ -71,6 +94,15 @@ function SearchRateForm() {
         onChange={changeText}
         value={text}
       />
+
+      <Autocomplete
+         id="combo-box-demo"
+         options={options}
+         getOptionLabel={(option) => option.userName}
+         style={{ width: 200 }}
+         onChange={selectUser}
+         renderInput={(params) => <TextField {...params} label="Имя" variant="outlined" name="author"  onChange={changeText} />}
+       />
       <FormControl className={classes.formControl}>
         <InputLabel id="demo-customized-select-label">Статус</InputLabel>
         <Select
@@ -107,7 +139,21 @@ function SearchRateForm() {
 }
 
 SearchRateForm.propTypes = {
-
+  getUserByProps: PropTypes.func
 }
 
-export default SearchRateForm
+function mapStateToProps(state) {
+  const {
+    auth,
+  } = state;
+  return {
+    auth,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  {
+    getUserByProps
+  },
+)(SearchRateForm)

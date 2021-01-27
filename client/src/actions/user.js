@@ -2,6 +2,7 @@ import {
   GET_USERS_BY_IDS,
   GET_USERS_PAGINATE,
   GET_USER_FOR_PAGE_BY_ID,
+  GET_USERS_BY_PROPS,
 } from '../constants';
 
 export function getUsersByIds (arr) {
@@ -34,6 +35,17 @@ export function getUserForPageById (userId) {
       queryParams: {
         id: userId
       }
+    }
+  });
+}
+
+export function getUserByProps (data) {
+  return dispatch => dispatch({
+    type: GET_USERS_BY_PROPS,
+    meta: {
+      method: 'GET',
+      endpoint: 'user',
+      queryParams: data
     }
   });
 }
