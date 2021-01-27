@@ -14,7 +14,10 @@ import {
   List,
   ListItem,
   Grid,
-  CardMedia
+  CardMedia,
+  DialogTitle,
+  DialogContent,
+  DialogActions
   // Icon,
 } from '@material-ui/core';
 
@@ -370,10 +373,23 @@ function FormRate (
                 open={isShowCategories}
                 onClose={handleShowCategories}
               >
-                <RecursiveTreeView
-                  handleSelectCategories={setCategories}
-                  categoriesData={categoriesData}
-                />
+                <DialogTitle>
+                  Выбор места в меню
+                </DialogTitle>
+                <DialogContent>
+                  <RecursiveTreeView
+                    handleSelectCategories={setCategories}
+                    categoriesData={categoriesData}
+                  />
+                  </DialogContent>
+                <DialogActions>
+                  <Button autoFocus onClick={handleShowCategories} color="primary">
+                    Назад
+                  </Button>
+                  <Button onClick={handleShowCategories} color="primary">
+                    ОК
+                  </Button>
+                </DialogActions>
               </Dialog>
             </Grid>
             {
