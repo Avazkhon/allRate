@@ -6,7 +6,12 @@ import queryString from 'query-string';
 
 import {
   TextField,
-  Button
+  Button,
+  FormControl,
+  InputLabel,
+  BootstrapInput,
+  MenuItem,
+  Select
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -16,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
       width: '25ch',
     },
   },
+  formControl: {
+    margin: theme.spacing(1),
+    width: 80,
+  },
 }));
 
 function SearchRateForm() {
@@ -23,17 +32,33 @@ function SearchRateForm() {
   const history = useHistory()
   const location = useLocation()
   const [ text, setText ] = useState('')
+  const [ statusLife, setStatusLife ] = useState('')
 
   function handlesearchBets() {
     const prevSearch = queryString.parse(location.search)
     history.push({
-      search: queryString.stringify({ ...prevSearch, text })
+      search: queryString.stringify({ ...prevSearch, text, statusLife })
     })
   }
 
   function changeText(e) {
-    const { value } = e.currentTarget;
-    setText(value)
+    const { value, name } = e.currentTarget;
+    if(name === 'text') {
+      setText(value)
+    }
+  }
+
+  function changeStatusLife(e) {
+    const { value } = e.target;
+    setStatusLife(value)
+  }
+
+  function handleClear() {
+    setText('')
+    setStatusLife('')
+    history.push({
+      search: queryString.stringify({})
+    })
   }
 
   return (
@@ -42,15 +67,40 @@ function SearchRateForm() {
         id="outlined-basic"
         variant="outlined"
         label="Поиск"
+        name="text"
         onChange={changeText}
         value={text}
       />
+      <FormControl className={classes.formControl}>
+        <InputLabel id="demo-customized-select-label">Статус</InputLabel>
+        <Select
+          labelId="demo-customized-select-label"
+          id="demo-customized-select"
+          value={statusLife}
+          onChange={changeStatusLife}
+        >
+          <MenuItem value="">
+             <em>Все</em>
+           </MenuItem>
+          <MenuItem value="new">new</MenuItem>
+          <MenuItem value="active">active</MenuItem>
+          <MenuItem value="finish">finish</MenuItem>
+        </Select>
+      </FormControl>
       <Button
         variant="contained"
         color="primary"
         onClick={handlesearchBets}
       >
         Найти
+      </Button>
+
+      <Button
+        variant="contained"
+        color="default"
+        onClick={handleClear}
+      >
+        очистить
       </Button>
     </form>
   );
