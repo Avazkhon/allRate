@@ -12,6 +12,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Grid,
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
@@ -21,11 +22,7 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    '& > *': {
-      margin: theme.spacing(1),
-      width: '25ch',
-    },
-    display: 'flex'
+    margin: '40px 0 0 0',
   },
   formControl: {
     margin: theme.spacing(1),
@@ -86,40 +83,42 @@ function SearchRateForm({
   }
 
   return (
-    <form className={classes.root} noValidate autoComplete="off">
-      <TextField
-        id="outlined-basic"
-        variant="outlined"
-        label="Поиск"
-        name="text"
-        onChange={changeText}
-        value={text}
-      />
+    <form className={classes.root}>
+      <Grid container>
+        <TextField
+          id="outlined-basic"
+          variant="outlined"
+          label="Поиск"
+          name="text"
+          onChange={changeText}
+          value={text}
+        />
 
-      <Autocomplete
-         id="combo-box-demo"
-         options={options}
-         getOptionLabel={(option) => option.userName}
-         style={{ width: 200 }}
-         onChange={selectUser}
-         renderInput={(params) => <TextField {...params} label="Имя" variant="outlined" name="author"  onChange={changeText} />}
-       />
-      <FormControl className={classes.formControl}>
-        <InputLabel id="demo-customized-select-label">Статус</InputLabel>
-        <Select
-          labelId="demo-customized-select-label"
-          id="demo-customized-select"
-          value={statusLife}
-          onChange={changeStatusLife}
-        >
-          <MenuItem value="">
-             <em>Все</em>
-           </MenuItem>
-          <MenuItem value="new">new</MenuItem>
-          <MenuItem value="active">active</MenuItem>
-          <MenuItem value="finish">finish</MenuItem>
-        </Select>
-      </FormControl>
+        <Autocomplete
+           id="combo-box-demo"
+           options={options}
+           getOptionLabel={(option) => option.userName}
+           style={{ width: 200 }}
+           onChange={selectUser}
+           renderInput={(params) => <TextField {...params} label="Имя" variant="outlined" name="author"  onChange={changeText} />}
+         />
+        <FormControl className={classes.formControl}>
+          <InputLabel id="demo-customized-select-label">Статус</InputLabel>
+          <Select
+            labelId="demo-customized-select-label"
+            id="demo-customized-select"
+            value={statusLife}
+            onChange={changeStatusLife}
+          >
+            <MenuItem value="">
+               <em>Все</em>
+             </MenuItem>
+            <MenuItem value="new">new</MenuItem>
+            <MenuItem value="active">active</MenuItem>
+            <MenuItem value="finish">finish</MenuItem>
+          </Select>
+        </FormControl>
+      </Grid>
       <Button
         variant="contained"
         color="primary"
