@@ -92,6 +92,7 @@ function SearchRateForm({
           name="text"
           onChange={changeText}
           value={text}
+          size="small"
         />
 
         <Autocomplete
@@ -100,7 +101,7 @@ function SearchRateForm({
            getOptionLabel={(option) => option.userName}
            style={{ width: 200 }}
            onChange={selectUser}
-           renderInput={(params) => <TextField {...params} label="Имя" variant="outlined" name="author"  onChange={changeText} />}
+           renderInput={(params) => <TextField {...params} size="small" label="Имя" variant="outlined" name="author"  onChange={changeText} />}
          />
         <FormControl className={classes.formControl}>
           <InputLabel id="demo-customized-select-label">Статус</InputLabel>
