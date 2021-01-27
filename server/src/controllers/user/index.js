@@ -20,8 +20,7 @@ exports.getUser = (req, res) => {
     return getUser.getOne(params, res); // эта функция сама определяет какой тип параметра
   }
 
-  res.status = 400;
-  res.send('Нет параметров!')
+  res.status(400).json({ messages: 'Нет параметров!'})
 }
 
 exports.craeteUser = async (req, res) => {
