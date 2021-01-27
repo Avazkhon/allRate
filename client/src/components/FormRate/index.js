@@ -276,6 +276,11 @@ function FormRate (
           return part
         })
         putRateByID({ ...rate, party: updadetParty })
+        .then((action) => {
+          if (action.status === 'SUCCESS') {
+            setChangeRate(action.response)
+          }
+        })
       }
     })
   }
@@ -286,6 +291,11 @@ function FormRate (
     .then((action) => {
       if(action.status === 'SUCCESS') {
         putRateByID({_id: rate._id, img: action.response[0].imageName })
+          .then((action) => {
+            if (action.status === 'SUCCESS') {
+              setChangeRate(action.response)
+            }
+          })
       }
     })
   }
@@ -442,15 +452,17 @@ function FormRate (
                         Удалить участника
                       </Button>
                     </Grid>
-                    <Grid item xs={2} sm={6}>
-                      <UploadButtons
-                        uploadFile={partUploadFile}
-                        id={part.id}
-                        inputProps={{
-                          'data-id': part.id,
-                        }}
-                      />
-                    </Grid>
+                    { isFetching || !isDisabledByLife &&
+                      <Grid item xs={2} sm={6}>
+                        <UploadButtons
+                          uploadFile={partUploadFile}
+                          id={part.id}
+                          inputProps={{
+                            'data-id': part.id,
+                          }}
+                        />
+                      </Grid>
+                    }
                   </Grid>
                 </ListItem>
               )
