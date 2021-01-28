@@ -47,7 +47,7 @@ exports.getPurseHistory = (req, res) => {
 
   purseModel.findOne({ userId: user.userId }, { history: true })
   .then(data => {
-    res.status(200).json(data)
+    res.status(200).json({...data, history: data.history.reverse()})
   })
   .catch((err) => {
     writeToLog.write(err, 'get_purse_history.err')
