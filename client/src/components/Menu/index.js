@@ -47,9 +47,10 @@ const useStyles = makeStyles((theme) => {
     fullList: {
       width: 'auto',
     },
-    opneMenu: {
+    openMenu: {
       position: 'fixed',
-      zIndex: 1300
+      zIndex: 100,
+      opacity: '0.4'
     }
   })
 })
@@ -101,7 +102,7 @@ function Menu({
               <Button
                 variant="contained"
                 color="primary"
-                className={classes.opneMenu}
+                className={classes.openMenu}
                 onClick={handleDrawerToggle}
             >
               {'<'}
@@ -146,7 +147,7 @@ function Menu({
           <Button
             variant="contained"
             color="primary"
-            className={classes.opneMenu}
+            className={classes.openMenu}
             onClick={handleDrawerToggle}
           >
             {'>'}
