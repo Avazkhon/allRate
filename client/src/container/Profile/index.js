@@ -42,8 +42,8 @@ function MePage ({
             {
               ((content === 'my_posts' || !content) && <h3 className={classes['title-list']}>Посты пользователя</h3>)
               || (content === 'subscribtion_posts' && <h3 className={classes['title-list']}>Подписки на посты</h3>)
-              || (content === 'subscribtion_rates' && <h3 className={classes['title-list']}>Ставки пользователя</h3>)
-              || (content === 'my_rates' && <h3 className={classes['title-list']}>Подписки на ставки</h3>)
+              || (content === 'my_rates' && <h3 className={classes['title-list']}>Ставки пользователя</h3>)
+              || (content === 'subscribtion_rates' && <h3 className={classes['title-list']}>Подписки на ставки</h3>)
             }
 
             { isFetching &&
