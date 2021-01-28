@@ -28,10 +28,10 @@ app.use(session({
   secret: passwords.secret,
   saveUninitialized: false,
   resave: true,
-  cookie: { maxAge: 1000 * 60 * 60 * 24 * 3 },
+  cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 },
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
-    ttl: 1000 * 60 * 60 * 24 * 3
+    ttl: 1000 * 60 * 60 * 24 * 7
   }),
 }));
 
