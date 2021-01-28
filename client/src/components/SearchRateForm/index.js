@@ -114,9 +114,9 @@ function SearchRateForm({
             <MenuItem value="">
                <em>Все</em>
              </MenuItem>
-            <MenuItem value="new">new</MenuItem>
-            <MenuItem value="active">active</MenuItem>
-            <MenuItem value="finish">finish</MenuItem>
+            <MenuItem value="new">Новые</MenuItem>
+            <MenuItem value="active">Активные</MenuItem>
+            <MenuItem value="finish">Завершившиеся</MenuItem>
           </Select>
         </FormControl>
       </Grid>
