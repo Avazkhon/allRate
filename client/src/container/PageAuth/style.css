@@ -1,6 +1,6 @@
-/* .page-auth {
-  width: 100%
-} */
+.page-auth {
+  margin: 0 auto;
+}
 
 .page-auth__connect {
   width: 400px;
