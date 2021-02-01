@@ -3,9 +3,9 @@ const rateModels = require('../../models/rate');
 const WriteToLog = require('../../utils/writeToLog');
 const purseControllers = require('../purse');
 const { getAuthorIdOrAuthorIds } = require('../../utils');
-// const {
-//   rateStatusLive,
-// } = require('../../constants');
+const {
+  rateStatusLive,
+} = require('../../constants');
 
 const writeToLog = new WriteToLog();
 
@@ -61,8 +61,9 @@ class SearchRate {
     }
     if(statusLife) {
       findProps.statusLife = statusLife
+    } else {
+      findProps.statusLife = [rateStatusLive.new, rateStatusLive.active, rateStatusLive.finish]
     }
-
 
     rateModels.paginate(findProps, options)
       .then((bets) => {
