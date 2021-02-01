@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -10,6 +10,10 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
+import {
+  // checkLength,
+  validateEmail,
+} from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,7 +26,23 @@ const useStyles = makeStyles((theme) => ({
 
 function Support({ auth }) {
   const classes = useStyles()
-  console.log(auth);
+  const [ data, setData ] = useState({})
+  const [ errors, setErrors ] = useState({})
+
+  function handleChange(e) {
+    const { value, name } = e.target;
+    if(name === 'email') {
+      setErrors({
+        [name]: !validateEmail(value)
+      })
+    }
+    setData({ ...data, [name]: value })
+  }
+
+  function submit() {
+    console.log(data);
+  }
+
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <Grid
@@ -31,16 +51,31 @@ function Support({ auth }) {
         justify="center"
         alignItems="center"
       >
-        <TextField id="standard-basic" label="Тема" />
+        <TextField
+          id="standard-basic"
+          label="Тема"
+          value={data.subject}
+          onChange={handleChange}
+          name="subject"
+        />
         <TextField
           id="outlined-multiline-static"
           label="Текст"
           multiline
-          value=""
+          value={data.text}
           variant="outlined"
+          onChange={handleChange}
+          name="text"
         />
-        <TextField id="standard-basic" label="Почта" />
-        <Button variant="contained" color="primary">
+        <TextField
+          error={errors.email}
+          id="standard-basic"
+          label="Почта"
+          value={data.email}
+          onChange={handleChange}
+          name="email"
+        />
+        <Button variant="contained" color="primary" onClick={submit}>
           отпрвить
         </Button>
       </Grid>
