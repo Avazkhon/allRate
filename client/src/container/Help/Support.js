@@ -11,7 +11,6 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 
 import {
-  // checkLength,
   validateEmail,
 } from 'utils';
 
@@ -36,6 +35,16 @@ function Support({ auth }) {
         [name]: !validateEmail(value)
       })
     }
+    if (name === 'subject') {
+      setErrors({
+        [name]: value.length < 5 || value.length > 20
+      })
+    }
+    if (name === 'text') {
+      setErrors({
+        [name]: value.length < 20 || value.length > 100
+      })
+    }
     setData({ ...data, [name]: value })
   }
 
@@ -57,6 +66,7 @@ function Support({ auth }) {
           value={data.subject}
           onChange={handleChange}
           name="subject"
+          error={errors.subject}
         />
         <TextField
           id="outlined-multiline-static"
@@ -66,15 +76,19 @@ function Support({ auth }) {
           variant="outlined"
           onChange={handleChange}
           name="text"
+          error={errors.text}
         />
-        <TextField
-          error={errors.email}
-          id="standard-basic"
-          label="Почта"
-          value={data.email}
-          onChange={handleChange}
-          name="email"
-        />
+        {
+          !auth.auth &&
+          <TextField
+            error={errors.email}
+            id="standard-basic"
+            label="Почта"
+            value={data.email}
+            onChange={handleChange}
+            name="email"
+          />
+        }
         <Button variant="contained" color="primary" onClick={submit}>
           отпрвить
         </Button>
@@ -88,11 +102,10 @@ Support.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const {
-    auth,
-  } = state;
+  // const {
+  //   auth,
+  // } = state;
   return {
-    auth,
   };
 }
 

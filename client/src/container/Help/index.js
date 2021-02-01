@@ -10,12 +10,11 @@ import Layout from '../Layout';
 import Support from './Support';
 
 function Help({ auth }) {
-  console.log(auth);
   return (
     <Layout>
       <Grid container>
         <Grid item xs={12}>
-          <Support />
+          <Support auth={auth} />
         </Grid>
       </Grid>
     </Layout>
