@@ -64,7 +64,7 @@ function Support({
           setData({})
           setRequest({ severity: 'success', message: 'Ваша письмо принято'})
         } else {
-          setRequest({ severity: 'error', message: action.response.error })
+          setRequest({ severity: 'error', message: action.status })
         }
       })
   }
@@ -80,7 +80,7 @@ function Support({
         <TextField
           id="standard-basic"
           label="Тема"
-          value={data.subject}
+          value={data.subject || ''}
           onChange={handleChange}
           name="subject"
           error={errors.subject}
@@ -89,7 +89,7 @@ function Support({
           id="outlined-multiline-static"
           label="Текст"
           multiline
-          value={data.text}
+          value={data.text || ''}
           variant="outlined"
           onChange={handleChange}
           name="text"
@@ -101,7 +101,7 @@ function Support({
             error={errors.email}
             id="standard-basic"
             label="Почта"
-            value={data.email}
+            value={data.email || ''}
             onChange={handleChange}
             name="email"
           />
