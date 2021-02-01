@@ -36,19 +36,24 @@ function MakeRate (
   useEffect(() => {
     const { rateId } = queryString.parse(history.location.search);
     let interval;
+    getrate(rateId)
     if (rateId) {
       addCountViewsRate(rateId)
       interval = setInterval(() => {
-          getRateByID(rateId)
-            .then((action) => {
-              if (action.status === 'SUCCESS') {
-                getBlockById(action.response.blockId)
-              }
-            })
+        getrate(rateId)
       }, 3000);
     }
     return () => clearInterval(interval);
   }, []);
+
+  function getrate(rateId){
+    getRateByID(rateId)
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          getBlockById(action.response.blockId)
+        }
+      })
+  }
 
   return (
     <Layout>
