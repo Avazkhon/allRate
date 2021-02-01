@@ -44,12 +44,28 @@ function SearchRateForm({
   const [ statusLife, setStatusLife ] = useState('')
   const [ authorId, setAuthorId ] = useState('')
   const [ options, setOptions ] = useState([])
-  const [ author, setAuthor ] = useState('')
 
   function handlesearchBets() {
-    const prevSearch = queryString.parse(location.search)
+    let prevSearch = queryString.parse(location.search)
+    if (text) {
+      prevSearch.text = text
+    } else {
+      delete prevSearch.text
+    }
+    if (statusLife) {
+      prevSearch.statusLife = statusLife
+    } else {
+      delete prevSearch.statusLife
+    }
+
+    if (authorId) {
+      prevSearch.authorId = authorId
+    } else {
+      delete prevSearch.authorId
+    }
+
     history.push({
-      search: queryString.stringify({ ...prevSearch, text, statusLife, authorId })
+      search: queryString.stringify(prevSearch)
     })
   }
 
@@ -59,18 +75,19 @@ function SearchRateForm({
       setText(value)
     }
     if(name === 'author') {
-      setAuthor(value)
       getUserByProps({ userName: value })
         .then((action) => {
           if(action.status === 'SUCCESS') {
             setOptions(action.response)
+          } else {
+            setOptions([])
           }
         })
     }
   }
 
   function selectUser(e) {
-    setAuthorId(options[e.target.value]._id)
+    setAuthorId(e.target.value >= 0 ? options[e.target.value]._id : null)
   }
 
   function changeStatusLife(e) {
