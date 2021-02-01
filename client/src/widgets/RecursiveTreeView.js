@@ -42,11 +42,7 @@ function RecursiveTreeView({
   const renderTree = (nodes, url = '', categories = {}) => {
     const isHasChildren = Array.isArray(nodes.children);
     const end = isHasChildren && !nodes.children.length;
-    if ((nodes.type === 'url') || (nodes.type === 'search')) {
-      url += `/${nodes.code}`
-    } else {
-      url += `?${nodes.type}=${nodes.code}`
-    }
+    url += `/${nodes.code}`
 
     categories[nodes.type] = nodes.code;
     function click(){
