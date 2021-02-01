@@ -114,7 +114,11 @@ module.exports = function (app) {
     .post(categories.createCategories)
     .get(categories.getCategories)
 
-  app.route('/api/bets/:search')
+  app.route([
+    '/api/bets/:type',
+    '/api/bets/:type/:subtype/',
+    '/api/bets/:type/:subtype/:section'
+  ])
     .get(searchRate.search)
 
   app.route('/api/make-bet')

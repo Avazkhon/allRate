@@ -46,8 +46,15 @@ class SearchRate {
     if(query) {
       findProps['categories.query'] = query
     }
-    if(params.search) {
-      findProps['categories.search'] = params.search
+
+    if(params.type) {
+      findProps['categories.type'] = params.type
+    }
+    if(params.subtype) {
+      findProps['categories.subtype'] = params.subtype
+    }
+    if(params.section) {
+      findProps['categories.section'] = params.section
     }
     if(text) {
       findProps.$text = { $search: text }
@@ -55,7 +62,6 @@ class SearchRate {
     if(statusLife) {
       findProps.statusLife = statusLife
     }
-
 
 
     rateModels.paginate(findProps, options)

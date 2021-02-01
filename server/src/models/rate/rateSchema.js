@@ -7,7 +7,9 @@ const urlMain = 'https://betrating.ru/wp-content/uploads/2018/10/BETREYT-314.jpg
 
 const categories = new Schema({
     url: { type: String, require: true },
-    search: { type: String, require: true },
+    type: { type: String, require: true },
+    subtype: { type: String, require: true },
+    section: { type: String, require: true },
     query: { type: String, require: true },
   },
   {strict: true}

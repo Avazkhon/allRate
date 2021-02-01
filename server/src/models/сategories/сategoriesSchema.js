@@ -7,6 +7,7 @@ const getTemmplate = (count = 0) => {
   const template = {
     name: { type: String },
     code: { type: String },
+    type: { type: String },
     children: []
   }
   if(count === 4) {
