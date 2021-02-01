@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
     width: 80,
+    marginTop: '-10px'
   },
 }));
 
