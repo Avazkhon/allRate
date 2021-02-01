@@ -116,6 +116,14 @@ export default [
     }),
   },
   {
+    path: '/help',
+    exact: true,
+    component: asyncComponent({
+      loader: () => import('./container/Help'),
+      Placeholder: () => <div>...LOADING...</div>,
+    }),
+  },
+  {
     path: '*',
     component: asyncComponent({
       loader: () => import('./container/NotFound'),
