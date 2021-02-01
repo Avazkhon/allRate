@@ -93,3 +93,7 @@ export {
 export {
   getCategories,
 } from './categories';
+
+export {
+  createSuppot,
+} from './support';

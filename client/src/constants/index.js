@@ -71,6 +71,8 @@ export const PUT_PAYMENT_RATE_BY_BLOCK = 'PUT_PAYMENT_RATE_BY_BLOCK';
 
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 
+export const CREATE_SUPPORT = 'CREATE_SUPPORT';
+
 export const basisForPayment = {
   accountReplenishment: 'accountReplenishment', // Пополнение счета
   withdrawal: 'withdrawal', // вывод

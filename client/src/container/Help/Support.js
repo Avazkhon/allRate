@@ -6,13 +6,18 @@ import { connect } from 'react-redux';
 import {
   TextField,
   Button,
-  Grid
+  Grid,
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 
 import {
   validateEmail,
 } from 'utils';
+
+import {
+  createSuppot
+} from 'actions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,10 +28,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Support({ auth }) {
+function Support({
+  auth,
+  createSuppot,
+}) {
   const classes = useStyles()
   const [ data, setData ] = useState({})
   const [ errors, setErrors ] = useState({})
+  const [ request, setRequest ] = useState({})
 
   function handleChange(e) {
     const { value, name } = e.target;
@@ -37,7 +46,7 @@ function Support({ auth }) {
     }
     if (name === 'subject') {
       setErrors({
-        [name]: value.length < 5 || value.length > 20
+        [name]: value.length < 5 || value.length > 50
       })
     }
     if (name === 'text') {
@@ -49,7 +58,15 @@ function Support({ auth }) {
   }
 
   function submit() {
-    console.log(data);
+    createSuppot(data)
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          setData({})
+          setRequest({ severity: 'success', message: 'Ваша письмо принято'})
+        } else {
+          setRequest({ severity: 'error', message: action.response.error })
+        }
+      })
   }
 
   return (
@@ -89,6 +106,9 @@ function Support({ auth }) {
             name="email"
           />
         }
+        { request.message &&
+          <Alert severity= {request.severity}>{request.message}</Alert>
+        }
         <Button variant="contained" color="primary" onClick={submit}>
           отпрвить
         </Button>
@@ -99,6 +119,7 @@ function Support({ auth }) {
 
 Support.propTypes = {
   auth: PropTypes.shape(),
+  createSuppot: PropTypes.func,
 }
 
 function mapStateToProps(state) {
@@ -111,5 +132,7 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  {}
+  {
+    createSuppot
+  }
 )(Support);
