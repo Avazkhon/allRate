@@ -20,6 +20,7 @@ const blockControllers = require('./controllers/block');
 const betControllers = require('./controllers/block/bet');
 const Categories = require('./controllers/category');
 const MakeBet = require('./controllers/block/makeBet');
+const support = require('./controllers/support');
 
 const invoiceControllers = new InvoiceControllers();
 const paymentAfterRate = new PaymentAfterRate();
@@ -120,6 +121,10 @@ module.exports = function (app) {
     '/api/bets/:type/:subtype/:section'
   ])
     .get(searchRate.search)
+
+  app.route('/api/support')
+    .post(support.crateSupport)
+
 
   app.route('/api/make-bet')
     .post((...rest) => {
