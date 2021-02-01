@@ -7,14 +7,15 @@ import {
 } from '@material-ui/core';
 
 import Layout from '../Layout';
+import Support from './Support';
 
 function Help({ auth }) {
   console.log(auth);
   return (
     <Layout>
       <Grid container>
-        <Grid item>
-          Help
+        <Grid item xs={12}>
+          <Support />
         </Grid>
       </Grid>
     </Layout>
