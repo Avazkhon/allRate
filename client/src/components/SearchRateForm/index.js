@@ -19,6 +19,9 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import {
   getUserByProps
 } from 'actions'
+import {
+  rateStatusLive
+} from '../../constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -114,9 +117,10 @@ function SearchRateForm({
             <MenuItem value="">
                <em>Все</em>
              </MenuItem>
-            <MenuItem value="new">Новые</MenuItem>
-            <MenuItem value="active">Активные</MenuItem>
-            <MenuItem value="finish">Завершившиеся</MenuItem>
+            <MenuItem value={rateStatusLive.new}>Новые</MenuItem>
+            <MenuItem value={rateStatusLive.active}>Активные</MenuItem>
+            <MenuItem value={rateStatusLive.finish}>Завершившиеся</MenuItem>
+            <MenuItem value={rateStatusLive.archive}>Архив</MenuItem>
           </Select>
         </FormControl>
       </Grid>
