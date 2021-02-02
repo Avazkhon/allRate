@@ -10,7 +10,7 @@ exports.crateSupport = (req, res) => {
     session: { user }
   } = req;
   const data = body;
-  if(user.userId) {
+  if(user && user.userId) {
     data.userId = user.userId
   }
   supportModels.create(data)
