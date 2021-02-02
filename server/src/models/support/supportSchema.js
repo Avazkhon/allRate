@@ -8,11 +8,12 @@ const supportSchema = new Schema(
     text: { type: String, required: true, min: 20, max: 500 },
     email: { type: String },
     userId: { type: mongoose.ObjectId },
-    comment: { type: String, min: 20, max: 500 },
+    comments: [
+      { type: String, min: 20, max: 500 }
+    ],
     status: { type: String }, // new, in_progress, resolved
     responsibleId: { type: mongoose.ObjectId },
     createDate: { type: Date, default: moment().utc().format() },
-
   },
   { collection: 'Support' }
 );
