@@ -11,7 +11,7 @@ const supportSchema = new Schema(
     comments: [
       { type: String, min: 20, max: 500 }
     ],
-    status: { type: String }, // new, in_progress, resolved
+    status: { type: String, default: 'new' }, // new, in_progress, resolved
     responsibleId: { type: mongoose.ObjectId },
     createDate: { type: Date, default: moment().utc().format() },
   },

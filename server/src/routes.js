@@ -124,6 +124,7 @@ module.exports = function (app) {
 
   app.route('/api/support')
     .post(support.crateSupport)
+    .get(support.getSupport)
 
 
   app.route('/api/make-bet')
