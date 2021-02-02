@@ -29,13 +29,13 @@ const rating = new Schema({
     positively: [
       {
         userId: { type: mongoose.ObjectId, required: true },
-        makeTime: { type: Date, default: moment().utc().format() },
+        makeTime: { type: Date, default: () => (moment().utc().format()) },
       }
     ],
     negative: [
       {
         userId: { type: mongoose.ObjectId, required: true },
-        makeTime: { type: Date, default: moment().utc().format() },
+        makeTime: { type: Date, default: () => (moment().utc().format()) },
       }
     ],
   },
@@ -48,7 +48,7 @@ const rateSchema = new Schema(
     title: { type: String, text: true, required: true, min: 3, max: 50 },
     authorId: { type: mongoose.ObjectId, required: true },
     description: { type: String, text: true, required: true, min: 10, max: 500 },
-    createDate: { type: Date, default: moment().utc().format() },
+    createDate: { type: Date, default: () => (moment().utc().format()) },
     dateStart: { type: Date, required: true },
     dateFinish: { type: Date, required: true },
     dateArchive: { type: Date },

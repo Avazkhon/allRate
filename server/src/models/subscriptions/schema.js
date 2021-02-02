@@ -7,7 +7,7 @@ exports.subscriptionsSchema = new Schema(
     userId: { type: mongoose.ObjectId, required: true },
     subscriptions: [{
       userId: { type: mongoose.ObjectId, required: true },
-      subscriptionsTime: { type: Date, default: moment().utc().format() },
+      subscriptionsTime: { type: Date, default: () => (moment().utc().format()) },
     }],
   },
   { collection: 'Subscriptions' }

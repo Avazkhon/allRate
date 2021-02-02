@@ -11,13 +11,13 @@ const supportSchema = new Schema(
     comments: [
       {
         text: { type: String, min: 20, max: 500 },
-        createDate: { type: Date, default: moment().utc().format() },
+        createDate: { type: Date, default: () => (moment().utc().format()) },
         status: { type: String, default: 'new' },
       }
     ],
     status: { type: String, default: 'new' }, // new, in_progress, resolved, skip, reject
     responsibleId: { type: mongoose.ObjectId },
-    createDate: { type: Date, default: moment().utc().format() },
+    createDate: { type: Date, default: () => (moment().utc().format()) },
   },
   { collection: 'Support' }
 );

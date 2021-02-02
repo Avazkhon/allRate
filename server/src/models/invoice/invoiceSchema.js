@@ -17,7 +17,7 @@ exports.invoiceSchema = new Schema(
     },
     // основание
     basisForPayment: { type: String, required: true },
-    createDate: { type: Date, default: moment().utc().format() },
+    createDate: { type: Date, default: () => (moment().utc().format()) },
     authorId: { type: ObjectID, required: true },
     invoiceId: { type: String, required: true },
     status: {type: String}

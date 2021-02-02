@@ -18,8 +18,8 @@ exports.withdrawalRequest = new Schema(
       min: 48,
     },
     target: { type: String, required: true },
-    createDate: { type: Date, default: moment().utc().format() },
-    update: { type: Date, default: moment().utc().format() },
+    createDate: { type: Date, default: () => (moment().utc().format()) },
+    update: { type: Date, default: () => (moment().utc().format()) },
     description: { type: String },
     status: { type: String, default: 'inprogress', required: true }, // inprogress // successfully // refused
     userId: { type: ObjectID, required: true },
