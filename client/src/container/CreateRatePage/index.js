@@ -61,7 +61,7 @@ function CreateRatePage ({
     <Layout>
       <Container style={{marginTop: '40px'}}>
         <FormRate
-          selectRate={isShowRate && selectRate}
+          selectRate={isShowRate ? selectRate : {}}
           paymentPercentage={blocks.data.paymentPercentage}
         />
         <FormBlocks

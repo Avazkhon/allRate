@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
 import { useHistory } from "react-router-dom";
-import { Dialog } from '@material-ui/core';
 
 import {
   Button,
@@ -15,6 +14,7 @@ import {
   ListItem,
   Grid,
   CardMedia,
+  Dialog,
   DialogTitle,
   DialogContent,
   DialogActions
@@ -90,7 +90,7 @@ function FormRate (
   const [alertDate, setAlertDate] = useState({
     title: '',
     description: '',
-    type: '',
+    type: 'error',
   })
 
   const [party, setChangeParty] = useState(() => ([]))

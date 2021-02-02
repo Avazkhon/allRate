@@ -46,7 +46,7 @@ function RecursiveTreeView({
 
     categories[nodes.type] = nodes.code;
     function click(){
-      handleSelectCategories(categories)
+      !isMenu && handleSelectCategories(categories)
     }
 
     return (
@@ -55,7 +55,7 @@ function RecursiveTreeView({
         key={nodes.code}
         nodeId={nodes.code}
         label={(nodes.code !== 'bets' && isMenu) ? <Link className={classes.link} to={url}><span>{nodes.name}</span></Link> : nodes.name}
-        onClick={!isMenu && click}
+        onClick={click}
         // className={clsx('', {
         //   [classes.selected]: selectel === nodes.idCheckIcon
         // })}
@@ -74,7 +74,7 @@ function RecursiveTreeView({
         onNodeToggle={onNodeToggle}
         defaultExpandIcon={<ChevronRightIcon />}
       >
-        {renderTree(categoriesData)}
+        {categoriesData.code && renderTree(categoriesData)}
       </TreeView>
   );
 }

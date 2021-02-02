@@ -9,12 +9,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="drop" ref={ref} {...props} />;
+  return <Slide direction="right" ref={ref} {...props} />;
 });
 
 function AlertDialogSlide (
   {
-    isOpen,
+    isOpen = false,
     title,
     description,
     type,
@@ -26,7 +26,7 @@ function AlertDialogSlide (
 
   useEffect(() => {
     setOpen(isOpen)
-  })
+  }, isOpen)
 
   const handleClose = () => {
     setOpen(false)
