@@ -9,7 +9,8 @@ const supportSchema = new Schema(
     email: { type: String },
     userId: { type: mongoose.ObjectId },
     comment: { type: String, min: 20, max: 500 },
-    isResolve: { type: Boolean },
+    status: { type: String }, // new, in_progress, resolved
+    responsibleId: { type: mongoose.ObjectId },
     createDate: { type: Date, default: moment().utc().format() },
 
   },
