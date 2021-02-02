@@ -4,30 +4,52 @@ import { connect } from 'react-redux';
 import CardSupport from 'components/CardSupport';
 
 import {
+  Grid
+} from '@material-ui/core';
+
+import {
   getSupportList,
 } from 'actions';
+
+import Layout from '../Layout';
 
 function SupportList({
   getSupportList
 }) {
-  const [ supportList, setSupportList ] = useState([])
+  const [ supportList, setSupportList ] = useState({})
 
 
   useEffect(() => {
     getSupportList()
       .then((action) => {
         if(action.status === 'SUCCESS') {
-          setSupportList(action.reponse)
+          setSupportList(action.response)
         }
       })
   }, [])
 
-  console.log(supportList);
   return (
-    <>
-      CardSupport
-      <CardSupport />
-    </>
+    <Layout>
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+      >
+        <Grid item >
+          <h1>Список Обращении</h1>
+          {
+            supportList.docs && supportList.docs.map((support) => (
+              <CardSupport
+                key={support._id}
+                support={support}
+              />
+
+            ))
+          }
+        </Grid>
+      </Grid>
+    </Layout>
   )
 }
 
