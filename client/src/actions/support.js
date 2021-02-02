@@ -1,5 +1,6 @@
 import {
   CREATE_SUPPORT,
+  GET_SUPPORT_LIST,
 } from '../constants';
 
 export function createSuppot (data) {
@@ -9,6 +10,17 @@ export function createSuppot (data) {
       method: 'POST',
       endpoint:'support',
       data
+    }
+  });
+}
+
+export function getSupportList (queryParams) {
+  return dispatch => dispatch({
+    type: GET_SUPPORT_LIST,
+    meta: {
+      method: 'GET',
+      endpoint:'support',
+      queryParams
     }
   });
 }

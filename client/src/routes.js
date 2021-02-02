@@ -124,6 +124,14 @@ export default [
     }),
   },
   {
+    path: '/support-list',
+    exact: true,
+    component: asyncComponent({
+      loader: () => import('./container/SupportList'),
+      Placeholder: () => <div>...LOADING...</div>,
+    }),
+  },
+  {
     path: '*',
     component: asyncComponent({
       loader: () => import('./container/NotFound'),
