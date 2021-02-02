@@ -10,6 +10,7 @@ import {
   MenuItem,
   TextField,
   Button,
+  Typography,
 } from '@material-ui/core';
 
 import {
@@ -18,12 +19,13 @@ import {
 
 import {
   getSupportByID,
+  putSupportByID,
 } from 'actions';
+
 
 import CardSupport from 'components/CardSupport';
 
 import Layout from '../Layout';
-
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -33,15 +35,19 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  input: {
+    marginTop: '10px',
+  }
 }));
 
 function WorkWithSupport({
   getSupportByID,
+  putSupportByID,
   history,
 }) {
   const classes = useStyles()
   const [ support, setSupport ] = useState({})
-  const [ comment, setComment ] = useState('')
+  const [ comment, setComment ] = useState({})
 
 
   useEffect(() => {
@@ -56,13 +62,29 @@ function WorkWithSupport({
 
   function handleChangeStatus(e) {
     const { value } = e.target;
-    setSupport({ ...support, status: value })
+    putSupportByID({ ...support, status: value })
+      .then((action) => {
+        if(action.status === 'SUCCESS') {
+          setSupport(action.response)
+        }
+      })
+  }
+
+  function handleSave() {
+    putSupportByID({ ...support, comments: [...support.comments,  { ...comment, status: support.status }] })
+      .then((action) => {
+        if(action.status === 'SUCCESS') {
+          setSupport(action.response)
+        }
+      })
   }
 
   function changeComment(e) {
     const { value } = e.target;
-    setComment(value)
+    setComment({ text: value })
   }
+
+
 
   return (
     <Layout>
@@ -76,6 +98,26 @@ function WorkWithSupport({
           <h1>Обращение</h1>
             <CardSupport
               support={support}
+            />
+          </Grid>
+          {
+            support.comments && support.comments.map((item) => (
+              <Grid item key={item._id} >
+                <CardSupport
+                  support={item}
+                />
+              </Grid>
+            ))
+          }
+         <Grid item >
+           <TextField
+              id="outlined-multiline-static"
+              label="Multiline"
+              multiline
+              className={classes.input}
+              onChange={changeComment}
+              value={comment.text}
+              variant="outlined"
             />
           </Grid>
           <Grid item >
@@ -96,18 +138,13 @@ function WorkWithSupport({
              </Select>
            </FormControl>
          </Grid>
-         <Grid item >
-           <TextField
-              id="outlined-multiline-static"
-              label="Multiline"
-              multiline
-              onChange={changeComment}
-              value={comment}
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item >
-            <Button variant="contained" color="primary">
+          <Grid item>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.input}
+              onClick={handleSave}
+            >
               Сохранить комментарии
             </Button>
         </Grid>
@@ -119,7 +156,8 @@ function WorkWithSupport({
 WorkWithSupport.propTypes = {
   support: PropTypes.shape(),
   history: PropTypes.shape(),
-  getSupportByID: PropTypes.func
+  getSupportByID: PropTypes.func,
+  putSupportByID: PropTypes.func
 }
 
 
@@ -132,6 +170,7 @@ function mapStateToProps() {
 export default connect(
   mapStateToProps,
   {
-    getSupportByID
+    getSupportByID,
+    putSupportByID,
   }
 )(WorkWithSupport)

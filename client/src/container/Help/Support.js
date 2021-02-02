@@ -51,7 +51,7 @@ function Support({
     }
     if (name === 'text') {
       setErrors({
-        [name]: value.length < 20 || value.length > 100
+        [name]: value.length < 20 || value.length > 500
       })
     }
     setData({ ...data, [name]: value })

@@ -2,6 +2,7 @@ import {
   CREATE_SUPPORT,
   GET_SUPPORT_LIST,
   GET_SUPPORT_BY_ID,
+  PUT_SUPPORT_BY_ID,
 } from '../constants';
 
 export function createSuppot (data) {
@@ -35,6 +36,20 @@ export function getSupportByID (supportId) {
       queryParams: {
         supportId
       }
+    }
+  });
+}
+
+export function putSupportByID (data) {
+  return dispatch => dispatch({
+    type: PUT_SUPPORT_BY_ID,
+    meta: {
+      method: 'PUT',
+      endpoint:'support',
+      queryParams: {
+        supportId: data._id
+      },
+      data
     }
   });
 }
