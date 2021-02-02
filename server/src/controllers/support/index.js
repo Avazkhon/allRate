@@ -53,3 +53,22 @@ exports.getSupport = async (req, res) => {
     res.status(500).json(error.toString());
   };
 };
+
+exports.putSupport = (req, res) => {
+  const {
+    body,
+    session: { user }
+  } = req;
+  const data = body;
+  if(!user.userId) {
+    return res.status(401).json({ message: 'Пользователь не авторизован' })
+  }
+  data.responsibleId = user.userId
+  supportModels.findOneAndUpdate({ _id: data._id }, { $set: data })
+    .then((result) => {
+      res.status(200).json(result)
+    })
+    .catch((error) => {
+      res.status(500).json({ error })
+    })
+}
