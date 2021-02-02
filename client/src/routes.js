@@ -108,14 +108,6 @@ export default [
     }),
   },
   {
-    path: '/admin/withdrawal-request',
-    exact: true,
-    component: asyncComponent({
-      loader: () => import('./container/WithdrawalRequest'),
-      Placeholder: () => <div>...LOADING...</div>,
-    }),
-  },
-  {
     path: '/help',
     exact: true,
     component: asyncComponent({
@@ -124,7 +116,15 @@ export default [
     }),
   },
   {
-    path: '/support-list',
+    path: '/admin/withdrawal-request',
+    exact: true,
+    component: asyncComponent({
+      loader: () => import('./container/WithdrawalRequest'),
+      Placeholder: () => <div>...LOADING...</div>,
+    }),
+  },
+  {
+    path: '/admin/support-list',
     exact: true,
     component: asyncComponent({
       loader: () => import('./container/SupportList'),
