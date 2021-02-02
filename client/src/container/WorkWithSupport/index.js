@@ -1,29 +1,32 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
 
 import {
   Grid
 } from '@material-ui/core';
 
 import {
-  getSupportList,
+  getSupportByID,
 } from 'actions';
 import CardSupport from 'components/CardSupport';
 
 import Layout from '../Layout';
 
-function SupportList({
-  getSupportList
+function WorkWithSupport({
+  getSupportByID,
+  history,
 }) {
-  const [ supportList, setSupportList ] = useState({})
+  const [ support, setSupport ] = useState({})
 
 
   useEffect(() => {
-    getSupportList()
+    const { supportId } = queryString.parse(history.location.search)
+    getSupportByID(supportId)
       .then((action) => {
         if(action.status === 'SUCCESS') {
-          setSupportList(action.response)
+          setSupport(action.response)
         }
       })
   }, [])
@@ -37,16 +40,11 @@ function SupportList({
         alignItems="center"
       >
         <Grid item >
-          <h1>Список Обращении</h1>
+          <h1>Обращение</h1>
           {
-            supportList.docs && supportList.docs.map((support) => (
-              <CardSupport
-                key={support._id}
-                support={support}
-                isList
-              />
-
-            ))
+            <CardSupport
+              support={support}
+            />
           }
         </Grid>
       </Grid>
@@ -54,9 +52,10 @@ function SupportList({
   )
 }
 
-SupportList.propTypes = {
+WorkWithSupport.propTypes = {
   support: PropTypes.shape(),
-  getSupportList: PropTypes.func
+  history: PropTypes.shape(),
+  getSupportByID: PropTypes.func
 }
 
 
@@ -69,6 +68,6 @@ function mapStateToProps() {
 export default connect(
   mapStateToProps,
   {
-    getSupportList
+    getSupportByID
   }
-)(SupportList)
+)(WorkWithSupport)

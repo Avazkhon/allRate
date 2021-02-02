@@ -97,4 +97,5 @@ export {
 export {
   createSuppot,
   getSupportList,
+  getSupportByID,
 } from './support';

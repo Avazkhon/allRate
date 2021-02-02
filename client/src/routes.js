@@ -132,6 +132,14 @@ export default [
     }),
   },
   {
+    path: '/admin/support/',
+    exact: true,
+    component: asyncComponent({
+      loader: () => import('./container/WorkWithSupport'),
+      Placeholder: () => <div>...LOADING...</div>,
+    }),
+  },
+  {
     path: '*',
     component: asyncComponent({
       loader: () => import('./container/NotFound'),

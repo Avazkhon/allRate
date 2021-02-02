@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment-timezone';
+import { Link } from "react-router-dom";
 
 
 import {
@@ -28,31 +29,60 @@ const useStyles = makeStyles({
   },
 });
 
-function CardSupport({ support }) {
+function CardSupport({ support, isList }) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
-      <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
-          {support.subject}
-        </Typography>
-        <Typography variant="h5" component="h2">
-          {support.text}
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          Статус: {support.status}
-        </Typography>
-        <Typography>
-          {moment(support.createDate).format(formatDateTime)}
-        </Typography>
-      </CardContent>
-    </Card>
+    <>
+      {
+        isList ?
+          (
+            <Link to={`/admin/support/?supportId=${support._id}`}>
+              <Card className={classes.root}>
+                <CardContent>
+                  <Typography className={classes.title} color="textSecondary" gutterBottom>
+                    {support.subject}
+                  </Typography>
+                  <Typography variant="h5" component="h2">
+                    {support.text}
+                  </Typography>
+                  <Typography className={classes.pos} color="textSecondary">
+                    Статус: {support.status}
+                  </Typography>
+                  <Typography>
+                    {moment(support.createDate).format(formatDateTime)}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Link>
+          )
+        :
+          (
+            <Card className={classes.root}>
+              <CardContent>
+                <Typography className={classes.title} color="textSecondary" gutterBottom>
+                  {support.subject}
+                </Typography>
+                <Typography variant="h5" component="h2">
+                  {support.text}
+                </Typography>
+                <Typography className={classes.pos} color="textSecondary">
+                  Статус: {support.status}
+                </Typography>
+                <Typography>
+                  {moment(support.createDate).format(formatDateTime)}
+                </Typography>
+              </CardContent>
+            </Card>
+          )
+      }
+    </>
   );
 }
 
 CardSupport.propTypes = {
-  support: PropTypes.shape()
+  support: PropTypes.shape(),
+  isList: PropTypes.bool,
 }
 
 export default CardSupport
