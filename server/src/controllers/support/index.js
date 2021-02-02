@@ -1,10 +1,11 @@
 const supportModels = require('../../models/support');
+const userModels = require('../../models/user');
 const WriteToLog = require('../../utils/writeToLog');
 const { getParamsForSearchDB } = require('../../utils');
 
 const writeToLog = new WriteToLog()
 
-exports.crateSupport = (req, res) => {
+exports.crateSupport = async (req, res) => {
   const {
     body,
     session: { user }
@@ -13,6 +14,8 @@ exports.crateSupport = (req, res) => {
   if(user && user.userId) {
     data.userId = user.userId
   }
+  const dataUser = await userModels.findOne({ _id: user.userId }, { email: true })
+  data.email = dataUser.email
   supportModels.create(data)
     .then((result) => {
       res.status(201).json(result)
