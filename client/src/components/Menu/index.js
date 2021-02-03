@@ -94,7 +94,6 @@ function Menu({
         role="presentation"
         onKeyDown={toggleDrawer}
       >
-        <Divider />
         <List>
           {
             mobileOpen &&
@@ -115,6 +114,22 @@ function Menu({
               <ListItemText primary={<Link className={classes.link} to='/create-rate'>Создать ставку</Link>}/>
             </ListItem>
           }
+          <ListItem button>
+            <ListItemText primary={<Link className={classes.link} to='/posts/'>Посты</Link>}/>
+          </ListItem>
+          <ListItem button>
+            <ListItemText primary={<Link className={classes.link} to='/users/?page=1&limit=24'>Люди</Link>}/>
+          </ListItem>
+          <Divider />
+          {
+            <RecursiveTreeView
+              open={true}
+              handleClose={(res) => {console.log(res)}}
+              categoriesData={categories.data}
+              isMenu
+            />
+          }
+          <Divider />
           {
             userData && userData.isAdmin &&
             <ListItem button>
@@ -126,20 +141,6 @@ function Menu({
             <ListItem button>
               <ListItemText primary={<Link className={classes.link} to='/admin/support-list'>Обращения в поддержку</Link>}/>
             </ListItem>
-          }
-          <ListItem button>
-            <ListItemText primary={<Link className={classes.link} to='/posts/'>Посты</Link>}/>
-          </ListItem>
-          <ListItem button>
-            <ListItemText primary={<Link className={classes.link} to='/users/?page=1&limit=24'>Люди</Link>}/>
-          </ListItem>
-          {
-            <RecursiveTreeView
-              open={true}
-              handleClose={(res) => {console.log(res)}}
-              categoriesData={categories.data}
-              isMenu
-            />
           }
         </List>
       </div>
