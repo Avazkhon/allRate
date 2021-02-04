@@ -116,6 +116,14 @@ export default [
     }),
   },
   {
+    path: '/docs',
+    exact: true,
+    component: asyncComponent({
+      loader: () => import('./container/Docs'),
+      Placeholder: () => <div>...LOADING...</div>,
+    }),
+  },
+  {
     path: '/admin/withdrawal-request',
     exact: true,
     component: asyncComponent({
