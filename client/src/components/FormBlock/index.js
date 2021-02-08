@@ -77,6 +77,7 @@ function FormBlock({
     type,
     title,
     description,
+    status,
     bets,
     id: idBlock,
   },
@@ -85,6 +86,7 @@ function FormBlock({
 
   handleChangeTextBlock,
   handleChangeTextBets,
+  changeStatusBlock,
   deleteBlock,
   deleteBets,
   changeTypeBlock,
@@ -337,6 +339,19 @@ function FormBlock({
                <ListItemText primary="Удалить" />
              </ListItem>
            }
+           {
+             (statusLife === rateStatusLive.new) && (type === typeBlock.total) &&
+             <ListItem
+              button
+              variant="contained"
+              color="secondary"
+              data-idblock={idBlock}
+              onClick={changeStatusBlock}
+             >
+              <DeleteIcon />
+               <ListItemText primary={ status ? 'Не состоявшийся' : 'состоявшийся' } />
+             </ListItem>
+           }
          </List>
           </Popover>
         </>
@@ -352,6 +367,7 @@ FormBlock.propTypes = {
   addBets: PropTypes.func,
   handleChangeTextBlock: PropTypes.func,
   handleChangeTextBets: PropTypes.func,
+  changeStatusBlock: PropTypes.func,
   deleteBlock: PropTypes.func,
   deleteBets: PropTypes.func,
   changeTypeBlock: PropTypes.func,

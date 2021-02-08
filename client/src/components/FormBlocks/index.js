@@ -242,6 +242,27 @@ class FormBlocks extends React.Component {
     });
   }
 
+  changeStatusBlock = (e) => {
+    const { idblock } = e.currentTarget.dataset;
+    const { block } = this.state;
+    const {
+      putBlockById,
+    } = this.props;
+    block.blocks = block.blocks.map(blockItem => {
+      if (blockItem.id === Number(idblock)) {
+        blockItem.status = !blockItem.status
+      }
+      return blockItem
+    });
+
+    putBlockById(block)
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          this.setState({block: action.response})
+        }
+      })
+  }
+
   deleteBets = (e) => {
     const { idblock, idbet } = e.currentTarget.dataset;
     const { block } = this.state;
@@ -268,13 +289,22 @@ class FormBlocks extends React.Component {
     const { idblock } = e.target.dataset;
     const { value } = e.target;
     const { block } = this.state;
-    block.blocks = block.blocks.map(block => {
+    const {
+      putBlockById,
+    } = this.props;
+
+    block.blocks = block.blocks = block.blocks.map(block => {
       if (block.id === Number(idblock)) {
         block.type = value;
       }
       return block;
     });
-    this.setState({block})
+    putBlockById(block)
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          this.setState({block: action.response})
+        }
+      })
   }
 
   selectWinBet = (e) => {
@@ -330,6 +360,7 @@ class FormBlocks extends React.Component {
                 addBets={this.addBets}
                 handleChangeTextBlock={this.handleChangeTextBlock}
                 handleChangeTextBets={this.handleChangeTextBets}
+                changeStatusBlock={this.changeStatusBlock}
                 deleteBlock={this.deleteBlock}
                 deleteBets={this.deleteBets}
                 lang={lang}
