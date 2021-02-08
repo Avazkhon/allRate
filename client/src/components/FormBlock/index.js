@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
 import {
   Button,
@@ -10,17 +10,30 @@ import {
   List,
   ListItem,
   Grid,
-  Icon,
+  Popover,
+  ListItemText,
 } from '@material-ui/core';
-
+import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 
-import {
-  Form,
-} from 'react-bootstrap';
 
 import style from './style';
+
+const useStyles = makeStyles((theme) => ({
+  typography: {
+    padding: theme.spacing(2),
+  },
+  options: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
+  optionsOpenBtn: {
+    marginLeft: 10,
+  }
+}));
 
 const textLang = {
   title: {
@@ -57,29 +70,44 @@ import {
   rateStatusLive,
 } from '../../constants';
 
-// import Messages from 'components/Messages';
+function FormBlock({
+  classes: oldClasses,
+  lang,
+  block: {
+    type,
+    title,
+    description,
+    bets,
+    id: idBlock,
+  },
+  addBets,
+  selectWinBet,
 
-class FormBlock extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  handleChangeTextBlock,
+  handleChangeTextBets,
+  deleteBlock,
+  deleteBets,
+  changeTypeBlock,
+  isDisabledByLife,
+  statusLife,
+}){
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = useState(null)
+  const handleOpenOption = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-  renderBoolType = (bets) => {
-    const {
-      lang,
-      classes,
-      handleChangeTextBets,
-      deleteBets,
-      block: {
-        id: idBlock
-      },
-      isDisabledByLife,
-      selectWinBet,
-      statusLife,
-    } = this.props;
+  const handleOpenClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
+  function renderBoolType (bets) {
 
     return (
-      <List component="nav" className={classes.root} aria-label="contacts">
+      <List component="nav" className={oldClasses.root} aria-label="contacts">
         {
           bets.map((bet) => {
             const isSelectWin = typeof bet.noOrYes === 'boolean';
@@ -144,23 +172,10 @@ class FormBlock extends React.Component {
     )
   }
 
-  renderTotalType = (bets) => {
-    const {
-      lang,
-      classes,
-      handleChangeTextBets,
-      deleteBets,
-      block: {
-        id: idBlock,
-        win,
-      },
-      isDisabledByLife,
-      selectWinBet,
-      statusLife,
-    } = this.props;
-      const isSelectWin = bets.some(bet => bet.win)
+  function renderTotalType (bets) {
+    const isSelectWin = bets.some(bet => bet.win)
     return (
-      <List component="nav" className={classes.root} aria-label="contacts">
+      <List component="nav" className={oldClasses.root} aria-label="contacts">
         {
           bets.map((bet) => {
             return (
@@ -214,28 +229,8 @@ class FormBlock extends React.Component {
     )
   }
 
-  render() {
-    const {
-      classes,
-      lang,
-      block: {
-        type,
-        title,
-        description,
-        bets,
-        id: idBlock,
-      },
-      addBets,
-
-      handleChangeTextBlock,
-      deleteBlock,
-      changeTypeBlock,
-      isDisabledByLife,
-      statusLife,
-    } = this.props;
-
     return (
-      <form className={classes['card-block']} noValidate autoComplete="off">
+      <form className={oldClasses['card-block']} noValidate autoComplete="off">
         <div>
           <TextField
             name="title"
@@ -260,7 +255,7 @@ class FormBlock extends React.Component {
             disabled={isDisabledByLife}
             required
           />
-          <FormControl className={classes.formControl}>
+          <FormControl className={oldClasses.formControl}>
             {textLang.type[lang]}
             <Select
               native
@@ -287,10 +282,10 @@ class FormBlock extends React.Component {
           </FormControl>
           <div>
             {
-              type === typeBlock.boolean && this.renderBoolType(bets)
+              type === typeBlock.boolean && renderBoolType(bets)
             }
             {
-              type === typeBlock.total && this.renderTotalType(bets)
+              type === typeBlock.total && renderTotalType(bets)
             }
           </div>
         </div>
@@ -305,26 +300,55 @@ class FormBlock extends React.Component {
             <AddCircleIcon />
           </Button>
         }
-        {
-          statusLife === rateStatusLive.new &&
-          <Button
+        <>
+          <FormatListBulletedIcon
+            className={classes.optionsOpenBtn}
+            coloe="primary"
+            aria-describedby={id}
             variant="contained"
-            color="secondary"
-            data-idblock={idBlock}
-            onClick={deleteBlock}
+            color="primary" onClick={handleOpenOption}
+          />
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleOpenClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
           >
-            <DeleteIcon />
-          </Button>
-        }
+          <List component="nav" className={classes.options} aria-label="mailbox folders">
+
+           {
+             statusLife === rateStatusLive.new &&
+             <ListItem
+              button
+              variant="contained"
+              color="secondary"
+              data-idblock={idBlock}
+              onClick={deleteBlock}
+             >
+              <DeleteIcon />
+               <ListItemText primary="Удалить" />
+             </ListItem>
+           }
+         </List>
+          </Popover>
+        </>
       </form>
     );
-  }
 }
 
 FormBlock.propTypes = {
   // auth: PropTypes.shape(),
   classes: PropTypes.shape(),
   block: PropTypes.shape(),
+  lang: PropTypes.shape(),
   addBets: PropTypes.func,
   handleChangeTextBlock: PropTypes.func,
   handleChangeTextBets: PropTypes.func,
@@ -336,23 +360,4 @@ FormBlock.propTypes = {
   statusLife: PropTypes.string,
 }
 
-// function mapStateToProps(state) {
-//   const {
-//     auth,
-//     lang,
-//   } = state;
-//   return {
-//     auth,
-//     lang: lang.lang,
-//   };
-// }
-
 export default injectSheet(style)(FormBlock)
-// export default injectSheet(style)(
-//   connect(
-//     mapStateToProps,
-//     {
-//
-//     }
-//   )(FormBlock)
-// )
