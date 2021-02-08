@@ -31,6 +31,8 @@ const betSchema = new Schema(
     createDate: { type: Date, default: () => (moment().utc().format()) },
     paymentMade: { type: Boolean },
     participants: [ participantsSchema ],
+    // if ( blocksSchema.type === boolean ) { has prop this.status }
+    status: { type: Boolean },
   },
   {
     strict: true
@@ -51,8 +53,9 @@ const blocksSchema = new Schema(
     createDate: { type: Date, default: () => (moment().utc().format()) },
     paymentMade: { type: Boolean },
     type: { type: String, required: true }, // boolean, total
-    status: { type: String, default: 'disabled' }, // hidden, disabled, active, finish
-    amountAll: { type: Number  },
+    // if ( blocksSchema.type === boolean ) { has prop this.status }
+    status: { type: Boolean },
+    amountAll: { type: Number },
     bets: [ betSchema ]
   },
   {

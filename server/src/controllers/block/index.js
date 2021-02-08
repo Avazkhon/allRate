@@ -52,6 +52,11 @@ exports.changeBlocks = async (req, res) => {
       data[`blocks.${indexBlock}.description`] = block.description;
       data[`blocks.${indexBlock}.id`] = block.id;
       data[`blocks.${indexBlock}.type`] = block.type;
+      if (block.type === typeBlock.total) {
+        data[`blocks.${indexBlock}.status`] = typeof block.status === 'boolean' ? block.status : true
+      } else {
+        data[`blocks.${indexBlock}.status`] = null
+      }
       block.bets.forEach((bet, indexbBet) => {
 
         const propName = (bet.hasOwnProperty('noOrYes') && 'noOrYes') || (bet.hasOwnProperty('win') && 'win')
@@ -60,6 +65,11 @@ exports.changeBlocks = async (req, res) => {
         data[`blocks.${indexBlock}.bets.${indexbBet}.id`] = bet.id;
         if (propName) {
           data[`blocks.${indexBlock}.bets.${indexbBet}.${propName}`] = propValue;
+        }
+        if (block.type === typeBlock.boolean) {
+          data[`blocks.${indexBlock}.bets.${indexbBet}.status`] = typeof bet.status === 'boolean' ? bet.status : true
+        } else {
+          data[`blocks.${indexBlock}.bets.${indexbBet}.status`] = null
         }
 
       })
