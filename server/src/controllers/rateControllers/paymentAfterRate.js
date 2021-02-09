@@ -99,7 +99,7 @@ class PaymentAfterRate {
   makePaymentTotal = async (block, indexbBet = 0) => {
     if(block.bets.length === indexbBet) {
      return block
-    } else if (block.bets[indexbBet].win) {
+   } else if (block.bets[indexbBet].win || !block.bets[indexbBet].status) {
         if (!block.bets[indexbBet].paymentMade) {
           await this.makePaymentTotalParticipants(block.bets[indexbBet].participants, block, block.bets[indexbBet])
           const isPaymentMade = block.bets[indexbBet].participants.every(participant => participant.paymentMade)
@@ -119,17 +119,20 @@ class PaymentAfterRate {
       if(participants.length === participantsIndex) {
          return participants
        } else {
+         const dataInvoiceForReturn = {
+           amount: participants[participantsIndex].amount,
+           requisites: { src: this.rate.purseId, target: participants[participantsIndex].purseId}
+         };
 
-          if (!participants[participantsIndex].paymentMade) {
+         if (!block.status && !participants[participantsIndex].paymentMade) {
+           await invoiceControllers.createInvoiceForReturnMoney(dataInvoiceForReturn);
+           bet.amount - participants[participantsIndex].amount;
+           block.amountAll - participants[participantsIndex].amount;
+         } else if (!participants[participantsIndex].paymentMade) {
 
             if (bet.coefficient < 1) {
 
-              const dataInvoice = {
-                amount: participants[participantsIndex].amount,
-                requisites: { src: this.rate.purseId, target: participants[participantsIndex].purseId}
-              };
-
-              await invoiceControllers.createInvoiceForReturnMoney(dataInvoice);
+              await invoiceControllers.createInvoiceForReturnMoney(dataInvoiceForReturn);
               bet.amount - participants[participantsIndex].amount;
               block.amountAll - participants[participantsIndex].amount;
 
@@ -142,9 +145,9 @@ class PaymentAfterRate {
               await invoiceControllers.createInvoiceForWin(dataInvoice)
 
             }
-            participants[participantsIndex].paymentMade = true;
 
           }
+          participants[participantsIndex].paymentMade = true;
           participantsIndex++
           return this.makePaymentTotalParticipants(participants, block, bet, participantsIndex)
        }
@@ -163,7 +166,7 @@ class PaymentAfterRate {
         return block
       } else {
         if(!block.bets[indexbBet].paymentMade) {
-          await this.makePaymentBooleanParticipants(block.bets[indexbBet]);
+          await this.makePaymentBooleanParticipants(block.bets[indexbBet], block.type);
           const isPaymentMade = block.bets[indexbBet].participants.every((participant) => {
             if (typeof block.bets[indexbBet].noOrYes === 'undefined') {
               return false
@@ -184,19 +187,25 @@ class PaymentAfterRate {
     }
   }
 
-  makePaymentBooleanParticipants = async (bets, participantsIndex = 0) => {
+  makePaymentBooleanParticipants = async (bets, type, participantsIndex = 0) => {
     try {
       if(bets.participants.length === participantsIndex) {
         return bets;
       } else {
-        if ((bets.participants[participantsIndex].noOrYes === bets.noOrYes) && (!bets.participants[participantsIndex].paymentMade)) {
+        const dataInvoiceForReturn = {
+          amount: bets.participants[participantsIndex].amount,
+          requisites: { src: this.rate.purseId, target: bets.participants[participantsIndex].purseId},
+        };
+        if(
+          (!bets.participants[participantsIndex].status)
+          && !bets.participants[participantsIndex].status
+          && !bets.participants[participantsIndex].paymentMad
+        ) {
+          await invoiceControllers.createInvoiceForReturnMoney(dataInvoiceForReturn)
+        } else if ((bets.participants[participantsIndex].noOrYes === bets.noOrYes) && (!bets.participants[participantsIndex].paymentMade)) {
           const coefficient = bets.noOrYes ? bets.coefficientYes : bets.coefficientNo;
           if (coefficient < 1) {
-            const dataInvoice = {
-              amount: bets.participants[participantsIndex].amount,
-              requisites: { src: this.rate.purseId, target: bets.participants[participantsIndex].purseId},
-            };
-            await invoiceControllers.createInvoiceForReturnMoney(dataInvoice)
+            await invoiceControllers.createInvoiceForReturnMoney(dataInvoiceForReturn)
 
             if (bets.noOrYes) {
               bets.amountYes - bets.participants[participantsIndex].amount
@@ -218,7 +227,7 @@ class PaymentAfterRate {
 
         }
         participantsIndex++
-        return this.makePaymentBooleanParticipants(bets, participantsIndex)
+        return this.makePaymentBooleanParticipants(bets, type, participantsIndex)
 
       }
     } catch (error) {
