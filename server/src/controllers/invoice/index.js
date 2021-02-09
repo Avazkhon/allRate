@@ -151,7 +151,7 @@ class InvoiceController {
     data.basisForPayment = makeRate;
     const invoice = await invoiceModel.create(data);
     await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
-      .then(() => this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
+      .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
     return invoice;
   }
 
@@ -161,7 +161,7 @@ class InvoiceController {
     data.basisForPayment = leftovers;
     const invoice = await invoiceModel.create(data);
     await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
-      .then(() => this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
+      .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
     return invoice;
   }
 
@@ -171,7 +171,7 @@ class InvoiceController {
     data.basisForPayment = win;
     const invoice = await invoiceModel.create(data);
     await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
-      .then(() => this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
+      .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
     return invoice;
   }
 
@@ -188,7 +188,7 @@ class InvoiceController {
     data.basisForPayment = returnMoney;
     const invoice = await invoiceModel.create(data);
     await this.changePurse(invoice, invoice.requisites.src, data.basisForPayment, this.minus)
-      .then(() => this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus))
+      .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus))
     return invoice;
   }
 
@@ -198,7 +198,7 @@ class InvoiceController {
     data.basisForPayment = stalemateSituation;
     const invoice = await invoiceModel.create(data);
     await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
-      .then(() => this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
+      .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
     return invoice;
   }
 
@@ -208,7 +208,7 @@ class InvoiceController {
     data.invoiceId = uuidv4();
     const invoice = await invoiceModel.create(data);
     await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
-      .then(() => this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
+      .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
     return invoice;
   }
 
