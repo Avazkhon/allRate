@@ -263,6 +263,32 @@ class FormBlocks extends React.Component {
       })
   }
 
+  changeStatusBets = (e) => {
+    const { idblock, idbet } = e.currentTarget.dataset;
+    const { block } = this.state;
+    const { putBlockById } = this.props;
+
+    block.blocks = block.blocks.map((blockItem) => {
+      if(blockItem.id === Number(idblock)) {
+        blockItem.bets.map(bet => {
+          if (bet.id === Number(idbet)) {
+            bet.status = !bet.status
+          }
+          return bet
+        })
+      }
+      return blockItem
+    })
+
+    putBlockById(block)
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          this.setState({block: action.response})
+        }
+      })
+
+  }
+
   deleteBets = (e) => {
     const { idblock, idbet } = e.currentTarget.dataset;
     const { block } = this.state;
@@ -361,6 +387,7 @@ class FormBlocks extends React.Component {
                 handleChangeTextBlock={this.handleChangeTextBlock}
                 handleChangeTextBets={this.handleChangeTextBets}
                 changeStatusBlock={this.changeStatusBlock}
+                changeStatusBets={this.changeStatusBets}
                 deleteBlock={this.deleteBlock}
                 deleteBets={this.deleteBets}
                 lang={lang}

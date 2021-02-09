@@ -87,6 +87,7 @@ function FormBlock({
   handleChangeTextBlock,
   handleChangeTextBets,
   changeStatusBlock,
+  changeStatusBets,
   deleteBlock,
   deleteBets,
   changeTypeBlock,
@@ -94,24 +95,21 @@ function FormBlock({
   statusLife,
 }){
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState(null)
-  const handleOpenOption = (event) => {
-    setAnchorEl(event.currentTarget);
+  const [popoverEl, setAnchorEl] = useState({})
+  const handleOpenOption = (event, idEl) => {
+    setAnchorEl({ anchorEl: event.currentTarget, idEl });
   };
 
   const handleOpenClose = () => {
-    setAnchorEl(null);
+    setAnchorEl({ anchorEl: null, idEl: null});
   };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
 
   function renderBoolType (bets) {
 
     return (
       <List component="nav" className={oldClasses.root} aria-label="contacts">
         {
-          bets.map((bet) => {
+          bets.map(function (bet){
             const isSelectWin = typeof bet.noOrYes === 'boolean';
             return (
               <ListItem button key={bet.id}>
@@ -152,17 +150,63 @@ function FormBlock({
                       >
                         {textLang.yes[lang]}
                     </Button>
-                    {
-                      !bet.amount &&
-                      <Button
+                    <>
+                      <FormatListBulletedIcon
+                        className={classes.optionsOpenBtn}
+                        coloe="primary"
                         variant="contained"
-                        color="secondary"
-                        onClick={deleteBets}
-                        data-idblock={idBlock}
-                        data-idbet={bet.id}
-                        disabled={isDisabledByLife}
-                      ><DeleteIcon /></Button>
-                    }
+                        color="primary"
+                        onClick={(e) => handleOpenOption(e, bet.id)}
+                      />
+                      <Popover
+                        open={popoverEl.idEl == bet.id}
+                        anchorEl={popoverEl.anchorEl}
+                        onClose={handleOpenClose}
+                        anchorOrigin={{
+                          vertical: 'bottom',
+                          horizontal: 'center',
+                        }}
+                        transformOrigin={{
+                          vertical: 'top',
+                          horizontal: 'center',
+                        }}
+                      >
+                        <List component="nav" className={classes.options} aria-label="mailbox folders">
+
+                         {
+                           statusLife === rateStatusLive.new &&
+                           <ListItem
+                             button
+                             variant="contained"
+                             color="secondary"
+                             onClick={deleteBets}
+                             data-idblock={idBlock}
+                             data-idbet={bet.id}
+                             disabled={isDisabledByLife}
+                           >
+                            <DeleteIcon />
+                             <ListItemText primary="Удалить" />
+                           </ListItem>
+                         }
+
+                         {
+                           ((statusLife === rateStatusLive.finish) || (statusLife === rateStatusLive.archive)) &&
+                           (type === typeBlock.boolean) &&
+                           <ListItem
+                            button
+                            variant="contained"
+                            color="secondary"
+                            onClick={changeStatusBets}
+                            data-idblock={idBlock}
+                            data-idbet={bet.id}
+                           >
+                            <DeleteIcon />
+                             <ListItemText primary={ bet.status ? 'Не состоявшийся' : 'состоявшийся' } />
+                           </ListItem>
+                         }
+                       </List>
+                      </Popover>
+                    </>
                   </Grid>
                 </Grid>
               </ListItem>
@@ -206,20 +250,21 @@ function FormBlock({
                       disabled={statusLife === rateStatusLive.archive || isSelectWin || !status}
                       >
                         {textLang.yes[lang]}
+                    </Button>
+                    {
+                      !bet.amount &&
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={deleteBets}
+                        data-idblock={idBlock}
+                        data-idbet={bet.id}
+                        disabled={isDisabledByLife}
+                        >
+                        <DeleteIcon />
                       </Button>
-                      {
-                        !bet.amount &&
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={deleteBets}
-                          data-idblock={idBlock}
-                          data-idbet={bet.id}
-                          disabled={isDisabledByLife}
-                          >
-                          <DeleteIcon />
-                        </Button>
-                      }
+                    }
+
                   </Grid>
                 </Grid>
               </ListItem>
@@ -305,14 +350,13 @@ function FormBlock({
           <FormatListBulletedIcon
             className={classes.optionsOpenBtn}
             coloe="primary"
-            aria-describedby={id}
             variant="contained"
-            color="primary" onClick={handleOpenOption}
+            color="primary"
+            onClick={(e) => handleOpenOption(e, idBlock)}
           />
           <Popover
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
+            open={popoverEl.idEl == idBlock}
+            anchorEl={popoverEl.anchorEl}
             onClose={handleOpenClose}
             anchorOrigin={{
               vertical: 'bottom',
@@ -323,37 +367,37 @@ function FormBlock({
               horizontal: 'center',
             }}
           >
-          <List component="nav" className={classes.options} aria-label="mailbox folders">
+            <List component="nav" className={classes.options} aria-label="mailbox folders">
 
-           {
-             statusLife === rateStatusLive.new &&
-             <ListItem
-              button
-              variant="contained"
-              color="secondary"
-              data-idblock={idBlock}
-              onClick={deleteBlock}
-             >
-              <DeleteIcon />
-               <ListItemText primary="Удалить" />
-             </ListItem>
-           }
+             {
+               statusLife === rateStatusLive.new &&
+               <ListItem
+                button
+                variant="contained"
+                color="secondary"
+                data-idblock={idBlock}
+                onClick={deleteBlock}
+               >
+                <DeleteIcon />
+                 <ListItemText primary="Удалить" />
+               </ListItem>
+             }
 
-           {
-             ((statusLife === rateStatusLive.finish) || (statusLife === rateStatusLive.archive)) &&
-             (type === typeBlock.total) &&
-             <ListItem
-              button
-              variant="contained"
-              color="secondary"
-              data-idblock={idBlock}
-              onClick={changeStatusBlock}
-             >
-              <DeleteIcon />
-               <ListItemText primary={ status ? 'Не состоявшийся' : 'состоявшийся' } />
-             </ListItem>
-           }
-         </List>
+             {
+               ((statusLife === rateStatusLive.finish) || (statusLife === rateStatusLive.archive)) &&
+               (type === typeBlock.total) &&
+               <ListItem
+                button
+                variant="contained"
+                color="secondary"
+                data-idblock={idBlock}
+                onClick={changeStatusBlock}
+               >
+                <DeleteIcon />
+                 <ListItemText primary={ status ? 'Не состоявшийся' : 'состоявшийся' } />
+               </ListItem>
+             }
+           </List>
           </Popover>
         </>
       </form>
@@ -369,6 +413,7 @@ FormBlock.propTypes = {
   handleChangeTextBlock: PropTypes.func,
   handleChangeTextBets: PropTypes.func,
   changeStatusBlock: PropTypes.func,
+  changeStatusBets: PropTypes.func,
   deleteBlock: PropTypes.func,
   deleteBets: PropTypes.func,
   changeTypeBlock: PropTypes.func,
