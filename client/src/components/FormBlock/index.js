@@ -113,7 +113,6 @@ function FormBlock({
         {
           bets.map((bet) => {
             const isSelectWin = typeof bet.noOrYes === 'boolean';
-
             return (
               <ListItem button key={bet.id}>
                 <Grid container>
@@ -139,7 +138,7 @@ function FormBlock({
                       data-idblock={idBlock}
                       data-idbet={bet.id}
                       data-no_or_yes={false}
-                      disabled={statusLife === rateStatusLive.archive || isSelectWin}
+                      disabled={statusLife === rateStatusLive.archive || isSelectWin || !bet.status}
                     >
                       {textLang.no[lang]}
                     </Button>
@@ -149,7 +148,7 @@ function FormBlock({
                       data-idblock={idBlock}
                       data-idbet={bet.id}
                       data-no_or_yes={true}
-                      disabled={statusLife === rateStatusLive.archive || isSelectWin}
+                      disabled={statusLife === rateStatusLive.archive || isSelectWin || !bet.status}
                       >
                         {textLang.yes[lang]}
                     </Button>
@@ -204,7 +203,7 @@ function FormBlock({
                       onClick={selectWinBet}
                       data-idblock={idBlock}
                       data-idbet={bet.id}
-                      disabled={statusLife === rateStatusLive.archive || isSelectWin}
+                      disabled={statusLife === rateStatusLive.archive || isSelectWin || !status}
                       >
                         {textLang.yes[lang]}
                       </Button>
@@ -339,8 +338,10 @@ function FormBlock({
                <ListItemText primary="Удалить" />
              </ListItem>
            }
+
            {
-             (statusLife === rateStatusLive.new) && (type === typeBlock.total) &&
+             ((statusLife === rateStatusLive.finish) || (statusLife === rateStatusLive.archive)) &&
+             (type === typeBlock.total) &&
              <ListItem
               button
               variant="contained"

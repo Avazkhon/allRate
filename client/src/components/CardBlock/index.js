@@ -12,6 +12,7 @@ import CheckIcon from '@material-ui/icons/Check';
 
 import {
   rateStatusLive,
+  typeBlock
 } from '../../constants';
 
 
@@ -42,7 +43,11 @@ function CardBlock(
     makeRate(queryParams, data)
   }
 
-  const disabledSelectWin = (statusLife === rateStatusLive.finish) || (statusLife === rateStatusLive.archive)
+  const disabledSelectWin = (
+    (statusLife === rateStatusLive.finish)
+    || (statusLife === rateStatusLive.archive)
+    || block.type === typeBlock.total && !block.status
+  )
 
   return (
     <>
@@ -71,7 +76,7 @@ function CardBlock(
                           data-betid={bet._id}
                           data-no_or_yes={false}
                           onClick={makeBet}
-                          disabled={disabledSelectWin}
+                          disabled={disabledSelectWin || !bet.status}
                         >
                           {
                             bet.noOrYes === false &&
@@ -85,7 +90,7 @@ function CardBlock(
                           data-betid={bet._id}
                           data-no_or_yes={true}
                           onClick={makeBet}
-                          disabled={disabledSelectWin}
+                          disabled={disabledSelectWin || !bet.status}
                         >
                         {
                           bet.noOrYes === true &&
