@@ -34,7 +34,7 @@ function RecursiveTreeView({
   isMenu,
 }) {
   const classes = useStyles();
-  const [expanded, setExpanded] = useState(['bets'])
+  const [expanded, setExpanded] = useState(['bets', 'sport', 'cybersport'])
   function onNodeToggle(e, list) {
     setExpanded(list)
   }
