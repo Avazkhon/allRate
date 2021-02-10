@@ -190,7 +190,7 @@ function FormBlock({
                          }
 
                          {
-                           ((statusLife === rateStatusLive.finish) || (statusLife === rateStatusLive.archive)) &&
+                           (statusLife === rateStatusLive.finish) &&
                            (type === typeBlock.boolean) &&
                            <ListItem
                             button
@@ -384,7 +384,7 @@ function FormBlock({
              }
 
              {
-               ((statusLife === rateStatusLive.finish) || (statusLife === rateStatusLive.archive)) &&
+               (statusLife === rateStatusLive.finish) &&
                (type === typeBlock.total) &&
                <ListItem
                 button
