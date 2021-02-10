@@ -35,13 +35,13 @@ class Yandex {
         });
   }
 
-  async getInvoice({amount_due}) {
+  async getInvoice({amount_due, invoiceRequisites}) {
     const details = {
       pattern_id: 'p2p',
       to: '410012284691047',
       amount_due,
-      comment: `Пополнения счета №${null} с карты на сумму ${amount_due}`,
-      message: 'Пополнения счета №${null}',
+      comment: `Пополнения счета № ${invoiceRequisites} с карты на сумму ${amount_due}`,
+      message: `Пополнения счета № ${invoiceRequisites}`,
       label: 'Face Betting',
       instance_id: await this.instanceId(),
     };
@@ -60,7 +60,7 @@ class Yandex {
         });
   }
 
-  async makeInvoic({amount_due}) {
+  async makeInvoic({amount_due, invoiceRequisites}) {
     const {
       status,
       request_id,
@@ -70,7 +70,7 @@ class Yandex {
       // fees,
       // recipient_identified,
       instance_id,
-    } = await this.getInvoice({amount_due});
+    } = await this.getInvoice({amount_due, invoiceRequisites});
 
     let details = {
       request_id,

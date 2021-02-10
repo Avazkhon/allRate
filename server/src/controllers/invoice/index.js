@@ -32,8 +32,8 @@ class InvoiceController {
   }
 
 
-  async makeInvoicYandex({amount_due}) {
-    return this.yandex.makeInvoic({amount_due})
+  async makeInvoicYandex({amount_due, invoiceRequisites}) {
+    return this.yandex.makeInvoic({amount_due, invoiceRequisites})
       .then(transfer => ({url_redirect: `${transfer.result.acs_uri}/?${this.yandex.formBody({...transfer.result.acs_params})}`, ...transfer}))
   }
 
@@ -107,8 +107,9 @@ class InvoiceController {
     body.invoiceId = uuidv4();
 
     const invoice = await invoiceModel.create(body);
+
     if (basisForPayment === accountReplenishment) {
-      return this.makeInvoicYandex({amount_due: invoice.amount})
+      return this.makeInvoicYandex({amount_due: invoice.amount, invoiceRequisites: invoice.requisites.src})
         .then(async (transfer)=> {
           if (transfer.result.status === 'ext_auth_required') {
             res.status(200).json({
