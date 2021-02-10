@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
@@ -13,18 +13,15 @@ import {
   Modal,
 } from 'react-bootstrap';
 
-import Language from 'widgets/Language';
 
 import style from './style';
 import Auth from '../../components/Auth';
-
-import { isBrowser } from '../../utils';
 
 import {
   authoLogin,
   authoLogAut,
   getUserById,
-  getLang,
+  // getLang,
 } from 'actions';
 
 import {
@@ -51,63 +48,60 @@ const loginText = {
   }
 };
 
-class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.headerAauth = React.createRef();
 
-    this.state = {
-      data: {
-        email: '',
-        password: ''
-      },
-      isAuth: false,
-    }
-  }
+function Header({
+  getUserById,
+  // getLang,
+  auth,
+  authoLogAut,
+  authoLogin,
+  classes,
+  lang: {
+    lang
+  },
+}) {
+  const headerAauth = React.createRef();
 
-  componentDidMount() {
-    const {
-      getUserById,
-      getLang,
-    } = this.props;
-    getLang();
+  const [ data, setData ] = useState({
+    data: {
+      email: '',
+      password: ''
+    },
+    isAuth: false,
+  })
+
+
+  useEffect(() => {
+    // getLang();
     const user = getDataUserFromLocalStorag();
     if (user && user.userId) {
       getUserById(user.userId);
     }
- }
+  }, [])
 
-  showModal = () => {
-    this.setState((prevState) => ({
+  function showModal() {
+    setData((prevState) => ({
+      ...prevState,
       isAuth: !prevState.isAuth
     }));
   }
 
 
-  handleChange = (e) => {
+  function handleChange(e) {
     const name = e.target.name;
     const value = e.target.value;
-    this.setState({
-      data: {
-        ...this.state.data,
+    setData({
+        ...data,
         [name]: value
-      }
     })
   }
 
-  handleAuth = () => {
-    this.setState((prevState) => ({ isAuth: !prevState.isAuth }))
+  function handleAuth() {
+    setData((prevState) => ({...prevState, isAuth: !prevState.isAuth }))
   }
 
-  handleSubmitAuth = () => {
-    const {
-      data,
-    } = this.state;
-    const {
-      auth,
-      authoLogAut,
-      authoLogin,
-    } = this.props;
+  function handleSubmitAuth() {
+
     if (auth.auth && auth.auth.userId) {
       authoLogAut(data)
         .then((action) => {
@@ -120,76 +114,67 @@ class Header extends React.Component {
       .then((action) => {
         if (action.status === 'SUCCESS') {
           document.cookie = `userId=${action.response.userId}; path=/; expires=Tue ${new Date(Date.now() + 1000 * 60 * 60 * 24 * 3)}`;
-          this.setState((prevState) => ({ isAuth: !prevState.isAuth }));
+          setData((prevState) => ({...prevState, isAuth: !prevState.isAuth }));
         }
       });
     }
   }
-
-  render() {
-    const {
-      auth,
-      classes,
-      lang: {
-        lang
-      },
-    } = this.props;
-
-    const {
-      isAuth,
-    } = this.state;
-
     const isLogin = auth.auth && auth.auth.userId;
 
-    return (
-      <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
-        <Navbar.Brand href="/">Face Betting</Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <IoIosAlert size="21" color="red" title={loginText.alert[lang]}/>
-          <Nav className="mr-auto">
-            {navBar.map((itm) => {
-              if (!isLogin && itm.url === '/me') {
-                return
-              }
-              return (
-                <Link className={classes['nav-link']} to={itm.url} key={itm.id} ><span>{itm.name[lang]}</span></Link>
-              )
-            })}
-          </Nav>
-          <Language
-          />
-          <Nav className={classes.header__auth} ref={this.headerAauth}>
-            <Button
-              variant="primary"
-              onClick={ isLogin ? this.handleSubmitAuth : this.handleAuth}
-            >
-              {isLogin ? loginText.Logout[lang] :  loginText.Login[lang]}
-            </Button>
-            <Modal show={isAuth} onHide={this.showModal} backdropClassName="black">
-              <Modal.Header closeButton>
-                <Modal.Title>Авторизация</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <Auth
-                  isHeader
-                  handleChange={this.handleChange}
-                  handleAuth={this.handleSubmitAuth}
-                  error={auth.error}
-                />
-              </Modal.Body>
-            </Modal>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-    );
-  }
-};
+  return (
+    <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
+      <Navbar.Brand href="/">Face Betting</Navbar.Brand>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <IoIosAlert size="21" color="red" title={loginText.alert[lang]}/>
+        <Nav className="mr-auto">
+          {navBar.map((itm) => {
+            if (!isLogin && itm.url === '/me') {
+              return
+            }
+            return (
+              <Link className={classes['nav-link']} to={itm.url} key={itm.id} ><span>{itm.name[lang]}</span></Link>
+            )
+          })}
+        </Nav>
+        {
+          // Пока делать только русский язык
+          // <Language />
+        }
+        <Nav className={classes.header__auth} ref={headerAauth}>
+          <Button
+            variant="primary"
+            onClick={ isLogin ? handleSubmitAuth : handleAuth}
+          >
+            {isLogin ? loginText.Logout[lang] :  loginText.Login[lang]}
+          </Button>
+          <Modal show={data.isAuth} onHide={showModal} backdropClassName="black">
+            <Modal.Header closeButton>
+              <Modal.Title>Авторизация</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Auth
+                isHeader
+                handleChange={handleChange}
+                handleAuth={handleSubmitAuth}
+                error={auth.error}
+              />
+            </Modal.Body>
+          </Modal>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
+  );
+}
 
 Header.propTypes = {
   authoLogin: PropTypes.func,
-  lang: PropTypes.shape({}),
-  auth: PropTypes.shape({}),
+  getUserById: PropTypes.func,
+  // getLang: PropTypes.func,
+  authoLogAut: PropTypes.func,
+  lang: PropTypes.shape(),
+  auth: PropTypes.shape(),
+  classes: PropTypes.shape(),
 }
 
 function mapStateToProps(state) {
@@ -207,5 +192,5 @@ export default injectSheet(style)(connect(mapStateToProps, {
   authoLogin,
   authoLogAut,
   getUserById,
-  getLang,
+  // getLang,
 })(Header));
