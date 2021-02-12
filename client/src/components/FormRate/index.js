@@ -85,6 +85,7 @@ function FormRate (
     description: '',
     dateStart: '',
     dateFinish: '',
+    categories: {}
   })
 
   const [alertDate, setAlertDate] = useState({
@@ -96,7 +97,6 @@ function FormRate (
   const [party, setChangeParty] = useState(() => ([]))
   const [isFetching, setStatusFinish] = useState(false)
   const [isShowCategories, setShowCategories] = useState(false)
-  const [categories, setCategories] = useState({})
   const [categoriesData, setCategoriesData] = useState({})
 
 
@@ -123,6 +123,10 @@ function FormRate (
 
   function handleShowCategories() {
     setShowCategories(!isShowCategories)
+  }
+
+  function setCategories(categories) {
+    setChangeRate({ ...rate, categories })
   }
 
   function addParty() {
@@ -173,7 +177,6 @@ function FormRate (
   function handleCreteNewRate(){
     const data = {
       ...rate,
-      categories,
       dateStart: moment(rate.dateStart).utc().format(),
       dateFinish: moment(rate.dateFinish).utc().format(),
       party
@@ -207,7 +210,6 @@ function FormRate (
   function handleChangeRate () {
     const data = {
       ...rate,
-      categories,
       dateStart: moment(rate.dateStart).utc().format(),
       dateFinish: moment(rate.dateFinish).utc().format(),
       party
