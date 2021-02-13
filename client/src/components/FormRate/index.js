@@ -528,7 +528,7 @@ function FormRate (
               className={classes.button}
               variant="contained"
               color="primary"
-              onClick={handlePaymentRateByBlock}
+              onClick={handlePaymentRateByBlock || rate.statusLife === rateStatusLive.in_progress}
             >
               <MonetizationOnIcon /> Сделать выплаты
             </Button>
