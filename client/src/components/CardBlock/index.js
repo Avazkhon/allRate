@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -24,6 +24,16 @@ function CardBlock(
   }
 ) {
 
+  const [ isSelectWinTotal, setSelectWinTotal ] = useState(false)
+
+  useEffect(() => {
+    if(block.type === typeBlock.total) {
+      block.bets.some((bet) => bet.win)
+      if(block.bets.some((bet) => bet.win)) {
+        setSelectWinTotal(true)
+      }
+    }
+  }, [])
 
   function makeBet (e) {
     const { betid, no_or_yes } = e.currentTarget.dataset
@@ -49,6 +59,7 @@ function CardBlock(
     || block.type === typeBlock.total && !block.status
   )
 
+
   return (
     <>
       <Typography>
@@ -61,6 +72,7 @@ function CardBlock(
         {
           block.bets.map((bet) => {
               if(block.type === 'boolean') {
+                const isSelectWin = typeof bet.noOrYes === 'boolean';
                 return (
                   <ListItem button key={bet._id}>
                     <Grid container>
@@ -76,7 +88,7 @@ function CardBlock(
                           data-betid={bet._id}
                           data-no_or_yes={false}
                           onClick={makeBet}
-                          disabled={disabledSelectWin || !bet.status}
+                          disabled={disabledSelectWin || !bet.status || isSelectWin}
                         >
                           {
                             bet.noOrYes === false &&
@@ -90,7 +102,7 @@ function CardBlock(
                           data-betid={bet._id}
                           data-no_or_yes={true}
                           onClick={makeBet}
-                          disabled={disabledSelectWin || !bet.status}
+                          disabled={disabledSelectWin || !bet.status || isSelectWin}
                         >
                         {
                           bet.noOrYes === true &&
@@ -117,7 +129,7 @@ function CardBlock(
                             color="primary"
                             data-betid={bet._id}
                             onClick={makeBet}
-                            disabled={disabledSelectWin}
+                            disabled={disabledSelectWin || isSelectWinTotal}
                           >
                             {
                               bet.win &&
