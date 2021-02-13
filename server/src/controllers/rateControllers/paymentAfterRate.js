@@ -126,16 +126,17 @@ class PaymentAfterRate {
 
          if (!block.status && !participants[participantsIndex].paymentMade) {
            await invoiceControllers.createInvoiceForReturnMoney(dataInvoiceForReturn);
-           bet.amount - participants[participantsIndex].amount;
-           block.amountAll - participants[participantsIndex].amount;
+           bet.amount -= participants[participantsIndex].amount;
+           block.amountAll -= participants[participantsIndex].amount;
+           participants[participantsIndex].paymentMade = true;
          } else if (!participants[participantsIndex].paymentMade) {
             const coefficient = Math.floor((block.amountAll / bet.amount * interest.winPercentage) * 100) / 100;
             if (coefficient < 1) {
 
               await invoiceControllers.createInvoiceForReturnMoney(dataInvoiceForReturn);
-              bet.amount - participants[participantsIndex].amount;
-              block.amountAll - participants[participantsIndex].amount;
-
+              bet.amount -= participants[participantsIndex].amount;
+              block.amountAll -= participants[participantsIndex].amount;
+              participants[participantsIndex].paymentMade = true;
             } else {
 
               const dataInvoice = {
@@ -206,9 +207,9 @@ class PaymentAfterRate {
         ) {
           await invoiceControllers.createInvoiceForReturnMoney(dataInvoiceForReturn)
           if (participant.noOrYes) {
-            bets.amountYes - participant.amount
+            bets.amountYes -= participant.amount
           } else {
-            bets.amountNo - participant.amount
+            bets.amountNo -= participant.amount
           }
           bets.participants[participantsIndex].paymentMade = true;
         } else if ((!participant.paymentMade) && (participant.noOrYes === bets.noOrYes) ) {
@@ -225,10 +226,11 @@ class PaymentAfterRate {
             await invoiceControllers.createInvoiceForReturnMoney(dataInvoiceForReturn)
 
             if (bets.noOrYes) {
-              bets.amountYes - participant.amount
+              bets.amountYes -= participant.amount
             } else {
-              bets.amountNo - participant.amount
+              bets.amountNo -= participant.amount
             }
+            bets.participants[participantsIndex].paymentMade = true;
 
           } else {
 
@@ -236,8 +238,9 @@ class PaymentAfterRate {
               amount: Math.floor(participant.amount * coefficient),
               requisites: { src: this.rate.purseId, target: participant.purseId},
             };
-
-            await invoiceControllers.createInvoiceForWin(dataInvoice)
+            if(dataInvoice.amount > 0) {
+              await invoiceControllers.createInvoiceForWin(dataInvoice)
+            }
           }
           bets.participants[participantsIndex].paymentMade = true;
 

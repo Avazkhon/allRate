@@ -33,7 +33,7 @@ function CardBlock(
         setSelectWinTotal(true)
       }
     }
-  }, [])
+  })
 
   function makeBet (e) {
     const { betid, no_or_yes } = e.currentTarget.dataset
