@@ -12,6 +12,7 @@ const {
   typeBlock,
   interest,
   superAdmin,
+  rateStatusLive,
 } = require('../../constants');
 
 class PaymentAfterRate {
@@ -39,8 +40,10 @@ class PaymentAfterRate {
         rateModel.findOne({ blockId: blocksId}),
         userModel.findOne({ _id: userSession.userId }),
       ])
-      this.rate = rate;
+
+      this.rate = await rateModel.findByIdAndUpdate({ _id: rate._id}, { statusLife: rateStatusLive.in_progress });
       this.user = user;
+      res.status(200).json(blocks)
 
       let blocksAfterPaymentMade = await this.makePaymentBlocks(blocks)
       blocksAfterPaymentMade = await this.paymentPercentageAndLeftovers(blocksAfterPaymentMade);
@@ -50,8 +53,7 @@ class PaymentAfterRate {
         blocksAfterPaymentMade,
         { 'blocks.bets.participants': false }
       )
-
-      res.status(200).json(blocksAfterUpdate)
+      await rateModel.findByIdAndUpdate({ blockId: blocksId}, { statusLife: rateStatusLive.in_progress });
     } catch (error) {
       writeToLog.write(error, 'payment_after_rate.error');
       res.status(500).json({ error: error.toString() })
