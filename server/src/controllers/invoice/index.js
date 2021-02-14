@@ -46,7 +46,7 @@ class InvoiceController {
       }, timeOut);
 
     }).then((res) => {
-      if(count === 24) {
+      if(count === 48) {
         return 'dont action';
       } else if (res.result.status === 'in_progress' || res.result.status === 'ext_auth_required') {
           return this.timeOutMakeInvoicYandex(prevDetalis, timeOut, ++count)

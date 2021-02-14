@@ -22,7 +22,6 @@ const Categories = require('./controllers/category');
 const MakeBet = require('./controllers/block/makeBet');
 const support = require('./controllers/support');
 
-const invoiceControllers = new InvoiceControllers();
 const paymentAfterRate = new PaymentAfterRate();
 const categories = new Categories();
 const searchRate = new SearchRate();
@@ -85,8 +84,14 @@ module.exports = function (app) {
     .get(purseControllers.getPurseHistory)
 
   app.route('/api/invoice')
-    .get(invoiceControllers.getInvoice)
-    .post(invoiceControllers.createInvoice)
+    .get((req, res) => {
+      const invoiceControllers = new InvoiceControllers();
+      invoiceControllers.getInvoice(req, res)
+    })
+    .post((req, res) => {
+      const invoiceControllers = new InvoiceControllers();
+      invoiceControllers.createInvoice(req, res)
+    })
 
   app.route('/api/withdrawal-request')
     // .get(withdrawalRequest.get)
