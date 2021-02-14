@@ -26,7 +26,7 @@ class InvoiceController {
   constructor() {
     this.minus = 'minus';
     this.plus = 'plus';
-    this.SUCCESS = 'SUCCESS';
+    this.SUCCESS = 'success';
     this.FAIL = 'FAIL';
     this.yandex = new Yandex();
   }
@@ -148,69 +148,104 @@ class InvoiceController {
 
 
   async createInvoiceForMakeRate (data) {
-    data.invoiceId = uuidv4();
-    data.basisForPayment = makeRate;
-    const invoice = await invoiceModel.create(data);
-    await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
-      .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
-    return invoice;
+    try {
+      data.invoiceId = uuidv4();
+      data.basisForPayment = makeRate;
+      const invoice = await invoiceModel.create(data);
+      await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
+        .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
+      return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.SUCCESS});
+    } catch (err) {
+      writeToLog.write({err, invoice}, 'create_invoiceForMakeRate.err');
+      return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.FAIL});
+    }
   }
 
   async createInvoiceForLeftovers (data) {
-    data.authorId = superAdmin.userId;
-    data.invoiceId = uuidv4();
-    data.basisForPayment = leftovers;
-    const invoice = await invoiceModel.create(data);
-    await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
-      .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
-    return invoice;
+    try {
+      data.authorId = superAdmin.userId;
+      data.invoiceId = uuidv4();
+      data.basisForPayment = leftovers;
+      const invoice = await invoiceModel.create(data);
+      await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
+        .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
+      return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.SUCCESS});
+    } catch (err) {
+      writeToLog.write({err, invoice}, 'create_invoiceForLeftovers.err');
+      return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.FAIL});
+    }
   }
 
   async createInvoiceForWin (data) {
-    data.authorId = superAdmin.userId;
-    data.invoiceId = uuidv4();
-    data.basisForPayment = win;
-    const invoice = await invoiceModel.create(data);
-    await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
-      .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
-    return invoice;
+    try {
+      data.authorId = superAdmin.userId;
+      data.invoiceId = uuidv4();
+      data.basisForPayment = win;
+      const invoice = await invoiceModel.create(data);
+      await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
+        .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
+      return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.SUCCESS});
+    } catch (err) {
+      writeToLog.write({err, invoice}, 'create_invoiceForWin.err');
+      return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.FAIL});
+    }
   }
 
   async createInvoiceForWithdrawal (data) {
-    data.invoiceId = uuidv4();
-    const invoice = await invoiceModel.create(data);
-    await this.changePurse(invoice, invoice.requisites.src, data.basisForPayment, this.minus);
-    return invoice;
+    try {
+      data.invoiceId = uuidv4();
+      const invoice = await invoiceModel.create(data);
+      await this.changePurse(invoice, invoice.requisites.src, data.basisForPayment, this.minus);
+      return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.SUCCESS});
+    } catch (err) {
+      writeToLog.write({err, invoice}, 'create_invoiceForWithdrawal.err');
+      return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.FAIL});
+    }
   }
 
   async createInvoiceForReturnMoney (data) {
-    data.authorId = superAdmin.userId;
-    data.invoiceId = uuidv4();
-    data.basisForPayment = returnMoney;
-    const invoice = await invoiceModel.create(data);
-    await this.changePurse(invoice, invoice.requisites.src, data.basisForPayment, this.minus)
-      .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus))
-    return invoice;
+    try {
+      data.authorId = superAdmin.userId;
+      data.invoiceId = uuidv4();
+      data.basisForPayment = returnMoney;
+      const invoice = await invoiceModel.create(data);
+      await this.changePurse(invoice, invoice.requisites.src, data.basisForPayment, this.minus)
+        .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus))
+      return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.SUCCESS});
+    } catch (err) {
+      writeToLog.write({err, invoice}, 'create_invoiceForReturnMoney.err');
+      return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.FAIL});
+    }
   }
 
   async createInvoiceForStalemateSituation (data) {
-    data.authorId = superAdmin.userId;
-    data.invoiceId = uuidv4();
-    data.basisForPayment = stalemateSituation;
-    const invoice = await invoiceModel.create(data);
-    await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
-      .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
-    return invoice;
+    try {
+      data.authorId = superAdmin.userId;
+      data.invoiceId = uuidv4();
+      data.basisForPayment = stalemateSituation;
+      const invoice = await invoiceModel.create(data);
+      await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
+        .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
+      return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.SUCCESS});
+    } catch (err) {
+      writeToLog.write({err, invoice}, 'create_invoiceForStalemateSituation.err');
+      return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.FAIL});
+    }
   }
 
   async createInvoiceForPercentage (data) {
-    data.authorId = superAdmin.userId;
-    data.basisForPayment = percentage;
-    data.invoiceId = uuidv4();
-    const invoice = await invoiceModel.create(data);
-    await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
-      .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
-    return invoice;
+    try {
+      data.authorId = superAdmin.userId;
+      data.basisForPayment = percentage;
+      data.invoiceId = uuidv4();
+      const invoice = await invoiceModel.create(data);
+      await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
+        .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
+      return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.SUCCESS});
+    } catch (err) {
+      writeToLog.write({err, invoice}, 'create_invoiceForPercentage.err');
+      return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.FAIL});
+    }
   }
 
   async getInvoice (req, res) {
