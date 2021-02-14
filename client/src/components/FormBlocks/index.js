@@ -373,7 +373,10 @@ class FormBlocks extends React.Component {
       statusLife,
     } = this.props;
 
-    const isDisabledByLife = (statusLife === rateStatusLive.finish) ||  (statusLife === rateStatusLive.archive)
+    const isDisabledByLife =
+      (statusLife === rateStatusLive.finish)
+      || (statusLife === rateStatusLive.archive)
+      || (statusLife === rateStatusLive.in_progress)
 
     return (
       <div className={classes['card-block']} noValidate autoComplete="off">

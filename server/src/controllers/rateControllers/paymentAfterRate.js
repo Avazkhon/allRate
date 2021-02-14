@@ -41,7 +41,7 @@ class PaymentAfterRate {
         userModel.findOne({ _id: userSession.userId }),
       ])
 
-      this.rate = await rateModel.findByIdAndUpdate({ _id: rate._id}, { statusLife: rateStatusLive.in_progress });
+      this.rate = await rateModel.findByIdAndUpdate({ _id: rate._id }, { statusLife: rateStatusLive.in_progress });
       this.user = user;
       res.status(200).json(blocks)
 
@@ -53,7 +53,7 @@ class PaymentAfterRate {
         blocksAfterPaymentMade,
         { 'blocks.bets.participants': false }
       )
-      await rateModel.findByIdAndUpdate({ blockId: blocksId}, { statusLife: rateStatusLive.in_progress });
+      await rateModel.findByIdAndUpdate({ _id: rate._id }, { statusLife: rateStatusLive.finish });
     } catch (error) {
       writeToLog.write(error, 'payment_after_rate.error');
       res.status(500).json({ error: error.toString() })

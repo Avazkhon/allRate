@@ -305,7 +305,10 @@ function FormRate (
     })
   }
 
-  const isDisabledByLife = (rate.statusLife === rateStatusLive.finish) ||  (rate.statusLife === rateStatusLive.archive)
+  const isDisabledByLife =
+    (rate.statusLife === rateStatusLive.finish)
+    || (rate.statusLife === rateStatusLive.archive)
+    || (rate.statusLife === rateStatusLive.in_progress)
 
 
   return (
@@ -367,6 +370,7 @@ function FormRate (
                   variant="contained"
                   color="secondary"
                   onClick={handleShowCategories}
+                  disabled={isFetching || isDisabledByLife}
               >
 
                 Выбрать категорию
@@ -528,7 +532,8 @@ function FormRate (
               className={classes.button}
               variant="contained"
               color="primary"
-              onClick={handlePaymentRateByBlock || rate.statusLife === rateStatusLive.in_progress}
+              onClick={handlePaymentRateByBlock}
+              disabled={rate.statusLife === rateStatusLive.in_progress}
             >
               <MonetizationOnIcon /> Сделать выплаты
             </Button>
