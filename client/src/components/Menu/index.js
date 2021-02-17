@@ -117,9 +117,12 @@ function Menu({
           <ListItem button>
             <ListItemText primary={<Link className={classes.link} to='/posts/'>Посты</Link>}/>
           </ListItem>
-          <ListItem button>
-            <ListItemText primary={<Link className={classes.link} to='/users/?page=1&limit=24'>Люди</Link>}/>
-          </ListItem>
+          {
+            userData && userData.isAdmin &&
+            <ListItem button>
+              <ListItemText primary={<Link className={classes.link} to='/users/?page=1&limit=24'>Люди</Link>}/>
+            </ListItem>
+          }
           <ListItem button>
             <ListItemText primary={<Link className={classes.link} to='/docs'>Документация</Link>}/>
           </ListItem>
