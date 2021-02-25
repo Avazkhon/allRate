@@ -218,6 +218,21 @@ class InvoiceController {
     }
   }
 
+  async createInvoiceForOnlyReturnMoney (data) {
+    let invoice = null;
+    try {
+      data.authorId = superAdmin.userId;
+      data.invoiceId = uuidv4();
+      data.basisForPayment = returnMoney;
+      invoice = await invoiceModel.create(data);
+      return this.changePurse(invoice, invoice.requisites.src, data.basisForPayment, this.plus)
+        .then(SUCCESS => SUCCESS === this.SUCCESS && invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.SUCCESS}))
+    } catch (err) {
+      writeToLog.write({err, invoice}, 'create_invoiceForOnlyReturnMoney.err');
+      return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.FAIL});
+    }
+  }
+
   async createInvoiceForStalemateSituation (data) {
     try {
       data.authorId = superAdmin.userId;
