@@ -148,12 +148,13 @@ class InvoiceController {
 
 
   async createInvoiceForMakeRate (data) {
+    let invoice = null;
     try {
       data.invoiceId = uuidv4();
       data.basisForPayment = makeRate;
-      const invoice = await invoiceModel.create(data);
+      invoice = await invoiceModel.create(data);
       await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
-        .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
+        .then(SUCCESS => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
       return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.SUCCESS});
     } catch (err) {
       writeToLog.write({err, invoice}, 'create_invoiceForMakeRate.err');
@@ -162,13 +163,14 @@ class InvoiceController {
   }
 
   async createInvoiceForLeftovers (data) {
+    let invoice = null;
     try {
       data.authorId = superAdmin.userId;
       data.invoiceId = uuidv4();
       data.basisForPayment = leftovers;
-      const invoice = await invoiceModel.create(data);
+      invoice = await invoiceModel.create(data);
       await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
-        .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
+        .then(SUCCESS => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
       return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.SUCCESS});
     } catch (err) {
       writeToLog.write({err, invoice}, 'create_invoiceForLeftovers.err');
@@ -177,13 +179,14 @@ class InvoiceController {
   }
 
   async createInvoiceForWin (data) {
+    let invoice = null;
     try {
       data.authorId = superAdmin.userId;
       data.invoiceId = uuidv4();
       data.basisForPayment = win;
-      const invoice = await invoiceModel.create(data);
+      invoice = await invoiceModel.create(data);
       await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
-        .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
+        .then(SUCCESS => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
       return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.SUCCESS});
     } catch (err) {
       writeToLog.write({err, invoice}, 'create_invoiceForWin.err');
@@ -192,9 +195,10 @@ class InvoiceController {
   }
 
   async createInvoiceForWithdrawal (data) {
+    let invoice = null;
     try {
       data.invoiceId = uuidv4();
-      const invoice = await invoiceModel.create(data);
+      invoice = await invoiceModel.create(data);
       await this.changePurse(invoice, invoice.requisites.src, data.basisForPayment, this.minus);
       return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.SUCCESS});
     } catch (err) {
@@ -204,13 +208,14 @@ class InvoiceController {
   }
 
   async createInvoiceForReturnMoney (data) {
+    let invoice = null;
     try {
       data.authorId = superAdmin.userId;
       data.invoiceId = uuidv4();
       data.basisForPayment = returnMoney;
-      const invoice = await invoiceModel.create(data);
+      invoice = await invoiceModel.create(data);
       await this.changePurse(invoice, invoice.requisites.src, data.basisForPayment, this.minus)
-        .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus))
+        .then(SUCCESS => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, data.basisForPayment, this.plus))
       return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.SUCCESS});
     } catch (err) {
       writeToLog.write({err, invoice}, 'create_invoiceForReturnMoney.err');
@@ -234,13 +239,14 @@ class InvoiceController {
   }
 
   async createInvoiceForStalemateSituation (data) {
+    let invoice = null;
     try {
       data.authorId = superAdmin.userId;
       data.invoiceId = uuidv4();
       data.basisForPayment = stalemateSituation;
-      const invoice = await invoiceModel.create(data);
+      invoice = await invoiceModel.create(data);
       await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
-        .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
+        .then(SUCCESS => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
       return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.SUCCESS});
     } catch (err) {
       writeToLog.write({err, invoice}, 'create_invoiceForStalemateSituation.err');
@@ -249,13 +255,14 @@ class InvoiceController {
   }
 
   async createInvoiceForPercentage (data) {
+    let invoice = null;
     try {
       data.authorId = superAdmin.userId;
       data.basisForPayment = percentage;
       data.invoiceId = uuidv4();
-      const invoice = await invoiceModel.create(data);
+      invoice = await invoiceModel.create(data);
       await this.changePurse(invoice, invoice.requisites.src, invoice.basisForPayment, this.minus)
-        .then((SUCCESS) => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
+        .then(SUCCESS => SUCCESS === this.SUCCESS && this.changePurse(invoice, invoice.requisites.target, invoice.basisForPayment, this.plus));
       return invoiceModel.findByIdAndUpdate({_id: invoice._id}, {status: this.SUCCESS});
     } catch (err) {
       writeToLog.write({err, invoice}, 'create_invoiceForPercentage.err');
