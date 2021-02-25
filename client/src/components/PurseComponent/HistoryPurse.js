@@ -131,9 +131,18 @@ HistoryPurse.propTypes = {
   lang: PropTypes.strin,
 }
 
+function mapStateToProps(state) {
+  const {
+    auth,
+  } = state;
+  return {
+    auth,
+  };
+}
+
 
 export default connect(
-  () => {},
+  mapStateToProps,
   {
     getPurseHistory
   }
