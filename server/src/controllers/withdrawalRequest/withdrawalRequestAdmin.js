@@ -90,12 +90,12 @@ exports.patch = async (req, res) => {
       authorId: user.userId,
       basisForPayment: returnMoney,
       requisites: {
-        src: 'yoomoney',
+        src: beforeDataWR.purseId,
         target: beforeDataWR.purseId,
       }
     }
 
-    invoiceControllers.createInvoiceForReturnMoney(dataInvoice);
+    invoiceControllers.createInvoiceForOnlyReturnMoney(dataInvoice);
     withdrawalRequest.findByIdAndUpdate({_id: id }, dataWR)
     .then((newWithdrawalRequest) => {
       res.status(200).json(newWithdrawalRequest);
