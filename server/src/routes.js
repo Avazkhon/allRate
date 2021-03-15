@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs');
 const router = express.Router();
 
 const rateControllers = require('./controllers/rateControllers');
@@ -29,6 +30,12 @@ const searchRate = new SearchRate();
 module.exports = function (app) {
   app.get('/api/', (req, res) => {
     res.send('Hello! welcome to the "All rate"!');
+  })
+
+  app.get('/api/sitemap.xml', (req, res) => {
+
+    res.set('Content-Type', 'application/xml');
+    res.send(fs.readFileSync(__dirname + '/sitemap.xml', 'utf8'));
   })
 
   app.route('/api/auth')
