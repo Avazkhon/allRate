@@ -23,6 +23,7 @@ exports.superAdmin = {
 };
 
 exports.checkCardReg = {
+  mir: /^(?:2[0-9]{12}(?:[0-9]{3})?)$/,
   visaRegEx: /^(?:4[0-9]{12}(?:[0-9]{3})?)$/,
   mastercardRegEx: /^(?:5[1-5][0-9]{14})$/,
   amexpRegEx: /^(?:3[47][0-9]{13})$/,
