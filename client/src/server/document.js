@@ -12,6 +12,20 @@ import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
 import { ThemeProvider, ServerStyleSheets } from '@material-ui/core/styles';
 
 
+const injectGA = () => {
+  if (typeof window == 'undefined') {
+    return;
+  }
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    window.dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66498150-1');
+};
+
+
 const CustomDocumentHOC = (store) => {
   class CustomDocument extends React.Component {
     static async getInitialProps({ assets, data, renderPage }) {
@@ -76,6 +90,8 @@ const CustomDocumentHOC = (store) => {
               />
             )}
             <meta name="google-site-verification" content="aHSr_XmZNFRYAKnP5OE9XjAQtujXOLqPEd4r7jB1YQA" />
+            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66498150-1"></script>
+            <script>{injectGA()}</script>
           </head>
           <style id="server-side-styles">
           {css}

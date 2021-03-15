@@ -124,7 +124,7 @@ function Home({
   return (
     <Layout>
       <Container>
-        <Grid item xs="12" sm="8" md="9">
+        <Grid item xs={12} sm={8} md={9}>
             {
               posts.data && posts.data.docs && !!posts.data.docs.length &&
               <Carousel className={classes.carousel}>
@@ -176,7 +176,7 @@ function Home({
               </Carousel>
             }
           </Grid>
-          <Grid item xs="12" sm="8" md="9" className={classes.root}>
+          <Grid item xs={12} sm={8} md={9} className={classes.root}>
             <h1>
               Сервис ставок Face Betting
             </h1>
@@ -189,7 +189,7 @@ function Home({
               Как это работает? Вот 5 шагов к заработку в Face Betting
             </Typography>
           </Grid>
-          <Grid item xs="12" sm="8" md="9" className={classes.root}>
+          <Grid item xs={12} sm={8} md={9} className={classes.root}>
             <Stepper activeStep={activeStep} orientation="vertical">
               {steps.map((label, index) => (
                 <Step key={label}>
