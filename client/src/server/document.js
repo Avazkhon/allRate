@@ -75,6 +75,7 @@ const CustomDocumentHOC = (store) => {
                 }
               />
             )}
+            <meta name="google-site-verification" content="aHSr_XmZNFRYAKnP5OE9XjAQtujXOLqPEd4r7jB1YQA" />
           </head>
           <style id="server-side-styles">
           {css}
