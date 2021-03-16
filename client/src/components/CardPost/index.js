@@ -47,69 +47,71 @@ const CardComponent = ({
   isPage,
 }) => {
   return (
-    <Card>
-      <Card.Img variant="top" src={'/media/image/' + img.url} />
-      <Card.Body>
-        <Card.Title>{title}</Card.Title>
-        {
-          (isShow || isPage) &&
-          <Card.Text>{text}</Card.Text>
-        }
-        <Row>
-          <Col>
-            Создан: {moment(createDate).format(formatDateTime)}
-          </Col>
-        </Row>
-        <Row>
+    <article>
+      <Card>
+        <Card.Img variant="top" src={'/media/image/' + img.url} />
+        <Card.Body>
+          <Card.Title>{title}</Card.Title>
           {
-            user &&
-            <Col ms="4">
-              <Card.Img
-                src="https://html5css.ru/w3css/img_avatar3.png"
-                alt="Card image"
-                style={{ width: '2rem' }}
-              />
-                <Card.Link
-                  href={(auth && user._id === auth.userId)  ?`/me/` : `/profile/${user._id}`}
-                >
-                  {' '}{user.userName}
-                </Card.Link>
-            </Col>
+            (isShow || isPage) &&
+            <Card.Text>{text}</Card.Text>
           }
-          <Col>
-            <AiFillEye title={cardPostText.views[lang]}/> {views}
-          </Col>
-          {
-            !isPage &&
-            <Col ms="2">
+          <Row>
+            <Col>
+              Создан: {moment(createDate).format(formatDateTime)}
+            </Col>
+          </Row>
+          <Row>
+            {
+              user &&
+              <Col ms="4">
+                <Card.Img
+                  src="https://html5css.ru/w3css/img_avatar3.png"
+                  alt="Card image"
+                  style={{ width: '2rem' }}
+                />
+                  <Card.Link
+                    href={(auth && user._id === auth.userId)  ?`/me/` : `/profile/${user._id}`}
+                  >
+                    {' '}{user.userName}
+                  </Card.Link>
+              </Col>
+            }
+            <Col>
+              <AiFillEye title={cardPostText.views[lang]}/> {views}
+            </Col>
+            {
+              !isPage &&
+              <Col ms="2">
+                <Card.Link
+                  onClick={isShow ? handleHidden : handleShow}
+                  data-id={_id}
+                  data-actionname="post"
+                  className={classes.btn}
+                >
+                {isShow ? cardPostText.hidden[lang] : cardPostText.show[lang]}
+                </Card.Link>
+              </Col>
+            }
+            <Col>
               <Card.Link
-                onClick={isShow ? handleHidden : handleShow}
-                data-id={_id}
-                data-actionname="post"
-                className={classes.btn}
+                href={`/post/${_id}`}
               >
-              {isShow ? cardPostText.hidden[lang] : cardPostText.show[lang]}
+                {cardPostText.goTo[lang]}
               </Card.Link>
             </Col>
-          }
-          <Col>
-            <Card.Link
-              href={`/post/${_id}`}
-            >
-              {cardPostText.goTo[lang]}
-            </Card.Link>
-          </Col>
-          <Col>
-            <Rating
-              changeRating={changeRating}
-              rating={rating}
-              objectId={_id}
-              isShow={isShow || isPage}
-            />
-          </Col>
-        </Row>
-      </Card.Body>
-    </Card>
+            <Col>
+              <Rating
+                changeRating={changeRating}
+                rating={rating}
+                objectId={_id}
+                isShow={isShow || isPage}
+              />
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
+    </article>
   )
 }
 

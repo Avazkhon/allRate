@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import queryString from 'query-string';
 import injectSheet from 'react-jss';
 
-
 import {
   Form,
   Button,
@@ -97,7 +96,8 @@ class CardsPosts extends React.Component {
       classes,
     } = this.props;
     return (
-      <div className={classes['posts-list']}>
+      <section className={classes['posts-list']}>
+        <h1>Статьи</h1>
         {
           posts.data && posts.data.docs.map((itm) => {
             return (
@@ -118,7 +118,7 @@ class CardsPosts extends React.Component {
           posts.data && posts.data.hasNextPage &&
           <Button className="d-block mx-auto" onClick={this.handleGetPostsPage}>Загрузить</Button>
         }
-      </div>
+      </section>
     );
   }
 }
