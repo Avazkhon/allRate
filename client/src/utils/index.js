@@ -151,7 +151,6 @@ export function validateEmail(email) {
 
 
 export const injectGA = () => { // для google Аналитика
-  console.log('injectGA')
   if (typeof window == 'undefined') {
     return;
   }

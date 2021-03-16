@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 
 import {
   ListGroup,
@@ -12,49 +13,57 @@ import {
   getPurse,
 } from 'actions';
 
-class PurseWidget extends React.Component {
-  constructor(props) {
-    super(props);
-
+const useStyles = makeStyles((theme) => ({
+  label:{
+    width: '20%',
+  },
+  span: {
+    width: '80%',
+    verticalAlign: 'bottom',
+    textOverflow: 'ellipsis',
+    /* white-space: nowrap; */
+    overflow: 'hidden',
+    display: 'inline-block',
   }
+}));
 
-  componentDidUpdate(prevProps) {
-    const { getPurse, auth } = this.props;
+function PurseWidget ({
+  purse: {
+    purse,
+  },
+  getPurse,
+  auth,
+  idPurse,
+}) {
+  const classes = useStyles();
+
+  useEffect(() => {
     if (
-      auth.auth && !prevProps.purse.isFetching
-      && !prevProps.purse.error && !prevProps.purse.purse
+      auth.auth && !purse
     ) {
       getPurse();
     }
-  }
+  })
 
-  render() {
-    const {
-      purse: {
-        purse,
-      },
-      idPurse,
-    } = this.props;
-    return (
-      <ListGroup>
-        <ListGroup.Item>
-          <Link to="/purse">кошелек: </Link>
-          {
-            !purse &&
-            <Spinner animation="grow" size="sm" />
-          }
-          { purse && purse.amount } { purse && purse.currency === 'RUB' ? 'руб.' : ''}
-        </ListGroup.Item>
+  return (
+    <ListGroup>
+      <ListGroup.Item>
+        <Link to="/purse">кошелек: </Link>
         {
-          purse && idPurse &&
-          <ListGroup.Item>
-            <strong>id: </strong>
-            <span>{purse._id}</span>
-          </ListGroup.Item>
+          !purse &&
+          <Spinner animation="grow" size="sm" />
         }
-      </ListGroup>
-    );
-  }
+        { purse && purse.amount } { purse && purse.currency === 'RUB' ? 'руб.' : ''}
+      </ListGroup.Item>
+      {
+        purse && idPurse &&
+        <ListGroup.Item>
+          <strong className={classes.label}>id: </strong>
+          <span className={classes.span}>{purse._id}</span>
+        </ListGroup.Item>
+      }
+    </ListGroup>
+  )
 }
 
 PurseWidget.propTypes = {
