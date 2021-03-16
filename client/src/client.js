@@ -15,6 +15,7 @@ import routes from 'routes';
 import history from 'store/routerHistory';
 
 import theme from './theme';
+import { injectGA } from './utils';
 
 /* eslint-disable no-underscore-dangle */
 const preloadedState = window.__PRELOADED_STATE__ || {};
@@ -33,6 +34,8 @@ ensureReady(routes).then((data) => {
   if (jssStyles) {
     jssStyles.parentElement.removeChild(jssStyles);
   }
+
+  injectGA()
 
   return hydrate(
     <Provider store={store}>
