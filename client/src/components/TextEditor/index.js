@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import PropTypes from 'prop-types';
 import SunEditor from 'suneditor-react';
-import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
 
 const options = {
   "rtl": false,
