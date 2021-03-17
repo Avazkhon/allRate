@@ -13,18 +13,9 @@ import {
   putPostById,
 } from 'actions';
 
-import {
-  checkLength,
-} from 'utils';
-
 import Messages from 'components/Messages';
+import TextEditor from 'components/TextEditor';
 
-
-function isValid (props) {
-  if (props) {
-    return  {border: '1px solid red'};
-  }
-}
 
 class PostFrom extends React.Component {
   constructor(props) {
@@ -32,13 +23,6 @@ class PostFrom extends React.Component {
     this.state = {
       title: '',
       text: '',
-      file: null,
-
-      valid: {
-        title: '',
-        text: '',
-        file: '',
-      },
 
       warning: '',
       error: '',
@@ -61,30 +45,13 @@ class PostFrom extends React.Component {
     })
   }
 
-  checkValid() {
-    const { title, text, file } = this.state;
-    const isNotValidArray = [];
-    const newValid = {
-      title: checkLength(title, '', 3, 30, isNotValidArray),
-      text: checkLength(text, '', 10, 2000, isNotValidArray),
-      file: !file && 'Выберите изображения',
-    };
-
-    this.setState({valid: newValid});
-    return isNotValidArray.some(isValid => !!isValid ? false : true) || newValid.file;
-  }
-
-  handleSubmit = () => {
-    const { title, text, file } = this.state;
+  handleSubmit = (text) => {
+    const { title } = this.state;
     const { auth: { auth }, createPost, changeImg, putPostById } = this.props;
     const data = {
       title,
       text,
-      authorId: auth.userId,
-      createTime: new Date(),
     };
-
-    if(!!this.checkValid()) return;
 
     this.makeState();
 
@@ -92,30 +59,15 @@ class PostFrom extends React.Component {
     .then((action) => {
       if (action.status === 'SUCCESS') {
         this.setState({
-          warning: 'Пост успешно создан!',
+          warning: 'Статья успешна создана!',
           isFetching: false,
         })
-        changeImg([file])
-          .then((actionImg) => {
-            if(actionImg.status === 'SUCCESS') {
-              putPostById(
-                action.response._id,
-                { img: { url: actionImg.response[0].imageName } }
-              )
-            }
-          });
       } else {
         this.setState({
           error: action.error,
           isFetching: false,
         })
       }
-    })
-  }
-
-  selectFile = (e) => {
-    this.setState({
-      file: e.target.files[0],
     })
   }
 
@@ -126,7 +78,6 @@ class PostFrom extends React.Component {
       warning,
       error,
       isFetching,
-      valid,
     } = this.state;
 
     return (
@@ -139,40 +90,20 @@ class PostFrom extends React.Component {
             value={title}
             name="title"
             onChange={this.handleChange}
-            style={isValid(valid.title)}
-            title={valid.title}
           />
         </Form.Group>
 
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Пост</Form.Label>
-          <Form.Control
-            as="textarea"
-            placeholder="Enter text"
-            value={text}
-            name="text"
-            onChange={this.handleChange}
-            style={isValid(valid.text)}
-            title={valid.text}
-          />
-        </Form.Group>
-
-        <input
-          accept=".jpeg, .jpg"
-          type="file" name="post"
-          onChange={this.selectFile}
-          style={isValid(valid.file)}
-          title={valid.file}
+        <TextEditor
+          text={text}
+          handleSubmit={this.handleSubmit}
         />
-        <Button variant="primary" onClick={this.handleSubmit}>
-          Submit
-        </Button>
 
         <Messages
           warning={warning}
           error={error}
           isFetching={isFetching}
         />
+
       </Form>
     );
   }

@@ -26,6 +26,15 @@ const cardPostText = {
   views: { RU: 'Просмотры', EN: 'Views' }
 };
 
+
+function getContent(text) {
+  return <div className="content" dangerouslySetInnerHTML={{__html: text}}></div>
+}
+
+function isNewPost(date) {
+  return new Date(date) > new Date('2021-02-10T17:45:59.000Z')
+}
+
 const CardComponent = ({
   post: {
     title,
@@ -49,12 +58,21 @@ const CardComponent = ({
   return (
     <article>
       <Card>
-        <Card.Img variant="top" src={'/media/image/' + img.url} />
+        {
+          !isNewPost(createDate) &&
+          <Card.Img variant="top" src={'/media/image/' + img.url} />
+        }
         <Card.Body>
-          <Card.Title>{title}</Card.Title>
           {
-            (isShow || isPage) &&
-            <Card.Text>{text}</Card.Text>
+            (!isNewPost(createDate) || (!isShow || !isPage)) &&
+            <Card.Title>{title}</Card.Title>
+          }
+          {
+            isNewPost(createDate) ?
+              (isShow || isPage) &&
+              getContent(text)
+            :
+              <Card.Text>{text}</Card.Text>
           }
           <Row>
             <Col>
