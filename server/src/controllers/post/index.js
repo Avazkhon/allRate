@@ -8,7 +8,13 @@ const writeToLog = new WriteToLog();
 
 exports.create = async (req, res) => {
   try {
+    const { user } = req.session;
+    if (!user || (user && !user.userId )) {
+      return res.status(401).json('Пользователь не авторизован!');
+    }
+
     const { body } = req;
+    body.authorId = user.userId;
     const post = await postModels.create(body);
     res.status(201).json(post);
   } catch (error) {
