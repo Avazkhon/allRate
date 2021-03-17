@@ -39,11 +39,11 @@ function PurseWidget ({
 
   useEffect(() => {
     if (
-      auth.auth && !purse
+      auth.auth
     ) {
       getPurse();
     }
-  })
+  }, [auth])
 
   return (
     <ListGroup>
