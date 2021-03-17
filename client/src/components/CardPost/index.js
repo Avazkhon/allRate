@@ -31,7 +31,7 @@ function getContent(text) {
   return <div className="content" dangerouslySetInnerHTML={{__html: text}}></div>
 }
 
-function isNewPost(date) {
+function chekNewPost(date) {
   return new Date(date) > new Date('2021-02-10T17:45:59.000Z')
 }
 
@@ -55,20 +55,21 @@ const CardComponent = ({
   auth,
   isPage,
 }) => {
+  const isNewPost = chekNewPost(createDate);
   return (
     <article>
       <Card>
         {
-          (!isNewPost(createDate) || (!isShow || !isPage)) &&
+          (!isNewPost || (!isShow || !isPage)) &&
           <Card.Img variant="top" src={'/media/image/' + img.url} />
         }
         <Card.Body>
           {
-            (!isNewPost(createDate) || (!isShow || !isPage)) &&
+            (!isNewPost || (!isShow || !isPage)) &&
             <Card.Title>{title}</Card.Title>
           }
           {
-            isNewPost(createDate) ?
+            isNewPost ?
               (isShow || isPage) &&
               getContent(text)
             :
