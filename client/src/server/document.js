@@ -8,6 +8,7 @@ import {
 import theme from '../theme';
 
 import initStyle from './style.css';
+import textEditorStyle from 'suneditor/dist/css/suneditor.min.css';
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
 import { ThemeProvider, ServerStyleSheets } from '@material-ui/core/styles';
 
@@ -87,6 +88,7 @@ const CustomDocumentHOC = (store) => {
           </style>
           <style dangerouslySetInnerHTML={ { __html: initStyle} } />
           <style dangerouslySetInnerHTML={ { __html: bootstrap} } />
+          <style dangerouslySetInnerHTML={ { __html: textEditorStyle} } />
 
           <body {...bodyAttrs}>
             <AfterRoot />
