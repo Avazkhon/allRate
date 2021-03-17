@@ -31,7 +31,7 @@ function getContent(text) {
   return <div className="content" dangerouslySetInnerHTML={{__html: text}}></div>
 }
 
-function chekNewPost(date) {
+function checkPost(date) {
   return new Date(date) > new Date('2021-02-10T17:45:59.000Z')
 }
 
@@ -55,7 +55,7 @@ const CardComponent = ({
   auth,
   isPage,
 }) => {
-  const isNewPost = chekNewPost(createDate);
+  const isNewPost = checkPost(createDate);
   return (
     <article>
       <Card>
