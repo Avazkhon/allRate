@@ -59,7 +59,7 @@ const CardComponent = ({
     <article>
       <Card>
         {
-          !isNewPost(createDate) &&
+          (!isNewPost(createDate) || (!isShow || !isPage)) &&
           <Card.Img variant="top" src={'/media/image/' + img.url} />
         }
         <Card.Body>
