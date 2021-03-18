@@ -5,8 +5,8 @@ import SunEditor from 'suneditor-react';
 const options = {
   "rtl": false,
 	"katex": "window.katex",
-	"imageResizing": false,
-	"imageHeightShow": false,
+	// "imageResizing": false,
+	// "imageHeightShow": false,
 	"imageFileInput": false,
 	"videoFileInput": false,
 	"tabDisable": false,
