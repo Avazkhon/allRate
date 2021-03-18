@@ -60,7 +60,7 @@ const CardComponent = ({
     <article>
       <Card>
         {
-          (!isNewPost || (!isShow || !isPage)) &&
+          img && (!isNewPost || (!isShow || !isPage)) &&
           <Card.Img variant="top" src={'/media/image/' + img.url} />
         }
         <Card.Body>
