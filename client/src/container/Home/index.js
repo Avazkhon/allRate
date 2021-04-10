@@ -224,8 +224,10 @@ function Home({
             </Stepper>
             {activeStep === steps.length && (
               <Paper square elevation={0} className={classes.resetContainer}>
-                <Typography>Вот и все. Дополнительную информацию вы найдете в разделе Документация</Typography>
-                Обязательно <Link to="/auth">Регистрируйтесь</Link>
+                <Typography>
+                  Вот и все. Дополнительную информацию вы найдете в разделе Документация.
+                  Обязательно <Link to="/auth">Регистрируйтесь</Link>
+                </Typography>
                 <Button onClick={handleReset} className={classes.button}>
                   Вернутся в начало
                 </Button>
