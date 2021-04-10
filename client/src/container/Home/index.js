@@ -180,6 +180,9 @@ function Home({
             <h1>
               Сервис ставок Face Betting
             </h1>
+            <h4>
+              Пройти <Link to="/auth">Регистрацию</Link>
+            </h4>
             <Typography>
               Face Betting это сервис для пользовательских ставок.
               Вы создаете ставку в нашем сервисе получаете проценты от сделанных ставок вне зависимости
@@ -222,6 +225,7 @@ function Home({
             {activeStep === steps.length && (
               <Paper square elevation={0} className={classes.resetContainer}>
                 <Typography>Вот и все. Дополнительную информацию вы найдете в разделе Документация</Typography>
+                Обязательно <Link to="/auth">Регистрируйтесь</Link>
                 <Button onClick={handleReset} className={classes.button}>
                   Вернутся в начало
                 </Button>
