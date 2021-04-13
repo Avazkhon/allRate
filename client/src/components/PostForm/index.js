@@ -66,7 +66,7 @@ class PostFrom extends React.Component {
           .then((imageAction) => {
             console.log(imageAction)
             if(imageAction.status === 'SUCCESS') {
-              putPostById(action.response._id, { img: { url: imageAction.response.imageName } })
+              putPostById(action.response._id, { img: { url: imageAction.response[0].imageName } })
                 .then((action) => {
                   if (action.status === 'SUCCESS') {
                     this.setState({

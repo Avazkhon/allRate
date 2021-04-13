@@ -43,6 +43,7 @@ exports.putPostById = async (req, res) => {
         data[prop] = body[prop];
       }
     });
+    console.log(data)
     const post = await postModels.findByIdAndUpdate({ _id: postId }, { $set: data });
     res.status(200).json(post);
   } catch (error) {
