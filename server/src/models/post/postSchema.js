@@ -12,9 +12,9 @@ exports.postSchema = new Schema(
     title: { type: String, required: true, minlength: 3, maxlength: 100 },
     text: { type: String, required: true, minlength: 10, maxlength: 10000 },
     createDate: { type: Date, default: () => (moment().utc().format()) },
-    // img: {
-    //   url: { type: String, default: urlImages },
-    // },
+    img: {
+      url: { type: String, default: urlImages },
+    },
     views: { type: Number, required: true, min: 0, default: 0 },
     rating: {
       positively: [

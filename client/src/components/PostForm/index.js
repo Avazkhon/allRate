@@ -15,6 +15,8 @@ import {
 
 import Messages from 'components/Messages';
 import TextEditor from 'components/TextEditor';
+import UploadButtons from '../../widgets/UploadButtons';
+import { Grid } from '@material-ui/core';
 
 
 class PostFrom extends React.Component {
@@ -23,6 +25,7 @@ class PostFrom extends React.Component {
     this.state = {
       title: '',
       text: '',
+      file: null,
 
       warning: '',
       error: '',
@@ -58,10 +61,22 @@ class PostFrom extends React.Component {
     createPost(data)
     .then((action) => {
       if (action.status === 'SUCCESS') {
-        this.setState({
-          warning: 'Статья успешна создана!',
-          isFetching: false,
-        })
+
+        changeImg([this.state.file])
+          .then((imageAction) => {
+            console.log(imageAction)
+            if(imageAction.status === 'SUCCESS') {
+              putPostById(action.response._id, { img: { url: imageAction.response.imageName } })
+                .then((action) => {
+                  if (action.status === 'SUCCESS') {
+                    this.setState({
+                      warning: 'Статья успешна создана!',
+                      isFetching: false,
+                    })
+                  }
+                })
+            }
+          })
       } else {
         this.setState({
           error: action.error,
@@ -70,6 +85,8 @@ class PostFrom extends React.Component {
       }
     })
   }
+
+  uploadFile = (event) => this.setState({ file: event.target.files[0] })
 
   render() {
     const {
@@ -92,6 +109,17 @@ class PostFrom extends React.Component {
             onChange={this.handleChange}
           />
         </Form.Group>
+
+        <UploadButtons
+          id={1}
+          uploadFile={this.uploadFile}
+        />
+
+        {/*<input*/}
+        {/*  type="file"*/}
+        {/*  accept="image/*"*/}
+        {/*  onChange={}*/}
+        {/*/>*/}
 
         <TextEditor
           text={text}

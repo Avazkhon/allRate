@@ -181,7 +181,7 @@ function Home({
               Сервис ставок Face Betting
             </h1>
             <h4>
-              Пройти <Link to="/auth">Регистрацию</Link>
+              Пройти <Link to="/auth">регистрацию</Link>
             </h4>
             <Typography>
               Face Betting это сервис для пользовательских ставок.
@@ -226,7 +226,7 @@ function Home({
               <Paper square elevation={0} className={classes.resetContainer}>
                 <Typography>
                   Вот и все. Дополнительную информацию вы найдете в разделе Документация.
-                  Обязательно <Link to="/auth">Регистрируйтесь</Link>
+                  Обязательно <Link to="/auth">регистрируйтесь</Link>
                 </Typography>
                 <Button onClick={handleReset} className={classes.button}>
                   Вернутся в начало

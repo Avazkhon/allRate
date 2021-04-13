@@ -28,7 +28,7 @@ server
     pathRewrite: { '': '' },
   }))
   .use('/media', createProxyMiddleware({
-    target: 'http://localhost:8082',
+    target: 'http://localhost:7070',
     changeOrigin: true,
     pathRewrite: { '': '' },
   }))

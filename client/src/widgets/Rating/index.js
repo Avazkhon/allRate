@@ -85,7 +85,7 @@ Rating.propTypes = {
   rating: PropTypes.shape(),
   auth: PropTypes.shape(),
   objectId: PropTypes.string,
-  lang: PropTypes.string,
+  lang: PropTypes.shape(),
   isShow: PropTypes.bool,
 };
 
