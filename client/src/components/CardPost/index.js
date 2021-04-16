@@ -27,8 +27,8 @@ const cardPostText = {
 };
 
 
-function getContent(text) {
-  return <div className="content" dangerouslySetInnerHTML={{__html: text}}></div>
+function getContent(text, classes) {
+  return <div className={classes.content} dangerouslySetInnerHTML={{__html: text}}></div>
 }
 
 function checkPost(date) {
@@ -71,7 +71,7 @@ const CardComponent = ({
           {
             isNewPost ?
               (isShow || isPage) &&
-              getContent(text)
+              getContent(text, classes)
             :
               <Card.Text>{text}</Card.Text>
           }

@@ -4,5 +4,11 @@ export default {
       cursor: 'pointer',
       color: 'blue',
     }
+  },
+
+  content: {
+    '& img' : {
+      maxWidth: '100%',
+    }
   }
 }
