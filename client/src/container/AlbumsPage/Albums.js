@@ -78,7 +78,7 @@ function AlbumsComponent(props) {
       <div className={classes.albums__images}>
         {
           albums?.data?.albums?.map((({ _id, name, images }) => {
-            if (name === id) {
+            if ((!id && name === 'main' ) || (name === id)) {
               return (
                 <div key={_id}>
                   <ImageGridList
