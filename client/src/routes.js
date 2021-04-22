@@ -124,6 +124,14 @@ export default [
     }),
   },
   {
+    path: '/albums',
+    exact: true,
+    component: asyncComponent({
+      loader: () => import('./container/AlbumsPage'),
+      Placeholder: () => <div>...LOADING...</div>,
+    }),
+  },
+  {
     path: '/admin/withdrawal-request',
     exact: true,
     component: asyncComponent({

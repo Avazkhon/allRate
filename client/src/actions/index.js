@@ -1,4 +1,8 @@
 export {
+  getAlbums
+} from './albums';
+
+export {
   authRegistration,
   authoLogin,
   createNewUser,

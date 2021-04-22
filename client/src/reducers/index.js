@@ -15,8 +15,10 @@ import withdrawalRequestAdmin from './admin/withdrawalRequestAdmin';
 import userPage from './userPage';
 import blocks from './blocks';
 import categories from './categories';
+import albums from './albums';
 
 export default combineReducers({
+  albums,
   userPage,
   withdrawalRequestAdmin,
   auth,
