@@ -15,35 +15,24 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap'
   },
+  imageItem: {
+    margin: '8px',
+  },
+  imageOptions: {
+    display: 'none',
+  }
 }));
 
-/**
- * The example data is structured as follows:
- *
- * import image from 'path/to/image.jpg';
- * [etc...]
- *
- * const tileData = [
- *   {
- *     img: image,
- *     title: 'Image',
- *     author: 'author',
- *     cols: 2,
- *   },
- *   {
- *     [etc...]
- *   },
- * ];
- */
 export default function ImageGridList({ tileData }) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <div cellHeight={160} className={classes.imageList} cols={3}>
+      <div className={classes.imageList}>
         {tileData.map((tile) => (
-          <div key={tile._id} cols={tile.cols || 1}>
+          <div key={tile._id} className={classes.imageItem}>
             <img src={`/media/image/${tile.id}?resize=300`} alt={tile.name} />
+            <div className={classes.imageOptions}></div>
           </div>
         ))}
       </div>
