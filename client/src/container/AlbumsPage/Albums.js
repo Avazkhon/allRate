@@ -8,6 +8,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
   List,
   ListItem,
+  Fade,
+  MenuItem,
+  Menu,
+  Button
 } from '@material-ui/core';
 
 import {
@@ -19,12 +23,14 @@ import ImageGridList from 'widgets/ImageGridList'
 
 const useStyles = makeStyles((theme) => ({
   albums: {
-    display: 'flex',
     // backgroundColor: theme.palette.background.paper,
   },
   albums__menu: {
     flex: 1,
     paddingLeft: '24px'
+  },
+  albums__menuButton: {
+    margin: '16px',
   },
   albums__images: {
     flex: 2
@@ -63,6 +69,9 @@ function AlbumsComponent(props) {
 
   const classes = useStyles();
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
   useEffect(() => {
     if (auth.auth?.userId) {
     getAlbums({ userId: auth.auth.userId })
@@ -73,8 +82,52 @@ function AlbumsComponent(props) {
   }, [auth.auth])
 
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+
   return (
     <div className={classes.albums}>
+      <div className={classes.albums__menu}>
+        {id && (<h4>Текущий альбом: {id}</h4>)}
+        <Button
+          className={classes.albums__menuButton}
+          aria-controls="fade-menu"
+          aria-haspopup="true"
+          onClick={handleClick}
+        >
+          Выбрать альбом
+        </Button>
+        <Menu
+          id="fade-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={open}
+          onClose={handleClose}
+          TransitionComponent={Fade}
+        >
+          {
+            albums?.data?.albums?.map((({ _id, name }) => {
+              return (
+                <MenuItem
+                  onClick={handleClose}
+                  key={_id}
+                  className={classNames({[classes.albums_itemLinkActive]: !id || name === id})}
+                >
+                  <Link to={`${pathname}?id=${name}`} className={classes.albums_link}>
+                    {name}
+                  </Link>
+                </MenuItem>
+              )
+            }))
+          }
+        </Menu>
+      </div>
       <div className={classes.albums__images}>
         {
           albums?.data?.albums?.map((({ _id, name, images }) => {
@@ -90,25 +143,6 @@ function AlbumsComponent(props) {
             return null;
           }))
         }
-      </div>
-      <div className={classes.albums__menu}>
-        <h4>Выбор альбома</h4>
-        <List component="nav" className={classes.root} aria-label="contacts">
-          {
-            albums?.data?.albums?.map((({ _id, name }) => {
-              return (
-                <ListItem
-                  button key={_id}
-                  className={classNames({[classes.albums_itemLinkActive]: !id || name === id})}
-                >
-                  <Link to={`${pathname}?id=${name}`} className={classes.albums_link}>
-                    {name}
-                  </Link>
-                </ListItem>
-              )
-            }))
-          }
-        </List>
       </div>
     </div>
   )
