@@ -141,7 +141,7 @@ function Home({
                           />
 
                           <Carousel.Caption>
-                            <h3>{itm.title}</h3>
+                            <p>{itm.title}</p>
                           </Carousel.Caption>
                         </Link>
                       </Carousel.Item>
