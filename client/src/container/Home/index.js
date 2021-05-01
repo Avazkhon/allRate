@@ -45,6 +45,9 @@ const useStyles = makeStyles((theme) => ({
   },
   carousel: {
     marginTop: 20
+  },
+  carousel_title: {
+    fontSize: '14px'
   }
 }));
 
@@ -141,7 +144,7 @@ function Home({
                           />
 
                           <Carousel.Caption>
-                            <p>{itm.title}</p>
+                            <h2 className={classes.carousel_title}>{itm.title}</h2>
                           </Carousel.Caption>
                         </Link>
                       </Carousel.Item>
@@ -166,7 +169,7 @@ function Home({
                           />
 
                           <Carousel.Caption>
-                            <p>{itm.title}</p>
+                            <h2 className={classes.carousel_title}>{itm.title}</h2>
                           </Carousel.Caption>
                         </Link>
                       </Carousel.Item>
