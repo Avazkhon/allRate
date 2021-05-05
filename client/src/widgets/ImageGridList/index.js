@@ -1,6 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
+
+import { OptionImage } from './OptionImage';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -18,9 +21,6 @@ const useStyles = makeStyles((theme) => ({
   imageItem: {
     margin: '8px',
   },
-  imageOptions: {
-    display: 'none',
-  }
 }));
 
 export default function ImageGridList({ tileData }) {
@@ -31,8 +31,9 @@ export default function ImageGridList({ tileData }) {
       <div className={classes.imageList}>
         {tileData.map((tile) => (
           <div key={tile._id} className={classes.imageItem}>
-            <img src={`/media/image/${tile.id}?resize=300x200`} alt={tile.name} />
-            <div className={classes.imageOptions}></div>
+            <OptionImage tile={tile}>
+              <img src={`/media/image/${tile.id}?resize=300x200`} alt={tile} />
+            </OptionImage>
           </div>
         ))}
       </div>
