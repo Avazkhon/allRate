@@ -32,7 +32,7 @@ export default function ImageGridList({ tileData }) {
         {tileData.map((tile) => (
           <div key={tile._id} className={classes.imageItem}>
             <OptionImage tile={tile}>
-              <img src={`/media/image/${tile.id}?resize=300x200`} alt={tile} />
+              <img src={`/media/image/${tile.id}?resize=300x200`} alt={tile.name || tile} />
             </OptionImage>
           </div>
         ))}
