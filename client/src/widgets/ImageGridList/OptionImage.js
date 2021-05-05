@@ -42,7 +42,7 @@ export const OptionImage = (props) => {
             className={classes.icon}
             onClick={() => {
               navigator.clipboard.writeText(
-                `${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}${props.src}`
+                `${location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}${props.src}`
               )}
             }
             titleAccess="Кликните для копирования url"

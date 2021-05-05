@@ -39,7 +39,7 @@ export default function ImageGridList({ tileData }) {
                 </OptionImage>
               </div>
             )
-        })
+          })
         }
       </div>
     </div>
