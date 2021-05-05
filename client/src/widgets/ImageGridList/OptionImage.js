@@ -40,13 +40,17 @@ export const OptionImage = (props) => {
         <div className={classes.option}>
           <FileCopyOutlined
             className={classes.icon}
-            onClick={() => {navigator.clipboard.writeText(props.tile.id)}}
-            titleAccess="Кликните для копирования id"
+            onClick={() => {
+              navigator.clipboard.writeText(
+                `${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}${props.src}`
+              )}
+            }
+            titleAccess="Кликните для копирования url"
           />
           <FileCopyRounded
             className={classes.icon}
-            onClick={() => {navigator.clipboard.writeText(props.tile.name)}}
-            titleAccess="Кликните для копирования названия"
+            onClick={() => {navigator.clipboard.writeText(props.tile.id)}}
+            titleAccess="Кликните для копирования id"
           />
           <EditRounded className={classes.icon} />
           <DeleteOutlineOutlined className={classes.icon} />

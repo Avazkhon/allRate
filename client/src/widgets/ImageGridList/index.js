@@ -29,13 +29,18 @@ export default function ImageGridList({ tileData }) {
   return (
     <div className={classes.root}>
       <div className={classes.imageList}>
-        {tileData.map((tile) => (
-          <div key={tile._id} className={classes.imageItem}>
-            <OptionImage tile={tile}>
-              <img src={`/media/image/${tile.id}?resize=300x200`} alt={tile.name || tile} />
-            </OptionImage>
-          </div>
-        ))}
+        {
+          tileData.map((tile) => {
+            const src = `/media/image/${tile.id}?resize=300x200`;
+            return (
+              <div key={tile._id} className={classes.imageItem}>
+                <OptionImage tile={tile} src={src}>
+                  <img src={src} alt={tile.name || tile} />
+                </OptionImage>
+              </div>
+            )
+        })
+        }
       </div>
     </div>
   );
