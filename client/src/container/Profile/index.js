@@ -33,7 +33,7 @@ function MePage ({
     <Layout>
       <Container>
         <Row>
-          <Col xs="12" sm="8" md="9">
+          <Col xs="12" xs="12" xs="12">
             <ProfileUser
               profileId={userId}
             />
