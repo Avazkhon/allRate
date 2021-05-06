@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FiUsers } from 'react-icons/fi';
 import { RiUserVoiceLine } from 'react-icons/ri';
+import Avatar from '@material-ui/core/Avatar';
 
 import {
   Row,
   Col,
-  Button,
-  Image,
   Card,
   ListGroup,
 } from 'react-bootstrap';
@@ -21,11 +20,9 @@ import {
 } from 'actions';
 
 import Rating from 'widgets/Rating';
-import ImageUploded from 'widgets/ImageUploded';
+import ProfileAvatar from './ProfileAvatar';
 import PurseWidget from 'widgets/PurseWidget';
 import PersonData from './PersonData';
-
-const srcImage = 'https://img.favpng.com/8/0/5/computer-icons-user-profile-avatar-png-favpng-6jJk1WU2YkTBLjFs4ZwueE8Ub.jpg'
 
 
 const profileText = {
@@ -104,19 +101,12 @@ class ProfileUser extends React.Component {
       <Card>
         <Row>
           <Col xs="12" sm="6" md="2">
-            <Image
-              style={{ height: '190px',  width: '18rem' }}
-              src={userData && userData.avatar && ('/media/image/' + userData.avatar) || srcImage}
-              alt="Avatar"
-              thumbnail
-              />
-            {
-              isPageAuth &&
-              <ImageUploded
-                lang={lang}
-                changeImg={this.handleUploded}
-              />
-            }
+            <ProfileAvatar
+              avatar={userData?.avatar}
+              isPageAuth={isPageAuth}
+              lang={lang}
+              handleUploded={this.handleUploded}
+            />
           </Col>
           <Col xs="12" sm="6" md="5">
             <ListGroup>
