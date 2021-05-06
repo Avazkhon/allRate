@@ -130,9 +130,6 @@ function Menu({
             </ListItem>
           }
           <ListItem button>
-            <ListItemText primary={<Link className={classes.link} to='/docs'>Документация</Link>}/>
-          </ListItem>
-          <ListItem button>
             <ListItemText primary={<a className={classes.link} href='https://forms.gle/i8k5iWEYLQevgV1k8' target="blank">Пройти опрос</a>}/>
           </ListItem>
           <Divider />

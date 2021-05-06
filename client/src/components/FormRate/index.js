@@ -7,9 +7,6 @@ import { useHistory } from "react-router-dom";
 import {
   Button,
   TextField,
-  // FormControl,
-  // InputLabel,
-  // Select,
   List,
   ListItem,
   Grid,
@@ -18,7 +15,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions
-  // Icon,
 } from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';

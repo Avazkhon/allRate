@@ -27,12 +27,16 @@ import {
 import {
   getDataUserFromLocalStorag,
 } from 'utils';
+import { List, ListItem, ListItemText } from '@material-ui/core';
 
 const navBar = [
   { id: 1, name: { EN: 'Home', RU: 'Главная' }, url: '/'},
   { id: 3, name: { EN: 'Me page', RU: 'Моя страница' }, url: '/me'},
-  { id: 4, name: { EN: 'Help', RU: 'Помощь' }, url: '/help'},
+  { id: 4, name: { EN: 'Documentation', RU: 'Документация' }, url: '/docs'},
+  { id: 5, name: { EN: 'Help', RU: 'Помощь' }, url: '/help'},
 ];
+
+
 const loginText = {
   Logout: {
     EN: 'Logout',

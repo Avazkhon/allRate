@@ -4,22 +4,9 @@ import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
 import {
   Button,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  List,
-  ListItem,
-  Grid,
-  Icon,
 } from '@material-ui/core';
-
-import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
-import {
-  Form,
-} from 'react-bootstrap';
 
 import style from './style';
 

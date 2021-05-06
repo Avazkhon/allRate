@@ -21,7 +21,7 @@ function UploadButtons({ uploadFile, id, inputProps = {}}) {
   return (
     <div className={classes.root}>
       <input
-        accept=".jpg, .jpeg, .png"
+        accept="image/*"
         className={classes.input}
         id={id}
         onChange={uploadFile}

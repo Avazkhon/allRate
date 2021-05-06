@@ -62,7 +62,7 @@ function CreateRatePage ({
       <Container style={{marginTop: '40px'}}>
         <FormRate
           selectRate={isShowRate ? selectRate : {}}
-          paymentPercentage={blocks.data.paymentPercentage}
+          paymentPercentage={blocks.data?.paymentPercentage}
         />
         <FormBlocks
           rateId={rateId}
