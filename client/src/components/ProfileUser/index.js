@@ -105,6 +105,7 @@ class ProfileUser extends React.Component {
               avatar={userData?.avatar}
               isPageAuth={isPageAuth}
               lang={lang}
+              alt={userData?.userName}
               handleUploded={this.handleUploded}
             />
           </Col>

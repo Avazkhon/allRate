@@ -23,14 +23,15 @@ export default function ImageAvatars(props) {
     avatar,
     isPageAuth,
     lang,
-    handleUploded
+    handleUploded,
+    alt
   } = props;
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <Avatar
-        alt="Avatar"
+        alt={alt || 'Avatar'}
         src={(avatar && ('/media/image/' + avatar)) || srcImage}
         className={classes.large}
       />
