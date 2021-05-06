@@ -75,9 +75,6 @@ function AlbumsComponent(props) {
   useEffect(() => {
     if (auth.auth?.userId) {
     getAlbums({ userId: auth.auth.userId })
-      .then((action) => {
-        console.log(action);
-      })
     }
   }, [auth.auth])
 

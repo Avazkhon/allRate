@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
   },
   imageItem: {
     margin: '8px',
+    '& img': {
+      borderRadius: 4
+    }
   },
 }));
 
