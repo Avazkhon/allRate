@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function ImageGridList({ tileData }) {
+export default function ImageGridList({ tileData, onSelectImageFromAlbums }) {
   const classes = useStyles();
 
   function geSrc(id) {
@@ -51,7 +51,7 @@ export default function ImageGridList({ tileData }) {
             const url = getProtocolAndDomain();
             return (
               <div key={tile._id} className={classes.imageItem}>
-                <OptionImage tile={tile} src={url + src}>
+                <OptionImage tile={tile} src={url + src} onSelectImageFromAlbums={onSelectImageFromAlbums}>
                   <img src={fullSrc} alt={tile.name || tile} />
                 </OptionImage>
               </div>

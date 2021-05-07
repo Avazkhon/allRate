@@ -21,8 +21,11 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import PhotoAlbumIcon from '@material-ui/icons/PhotoAlbum';
 import SaveIcon from '@material-ui/icons/Save';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+
+import { Albums } from '../Albums';
 
 import AlertDialogSlide from 'widgets/AlertDialogSlide';
 import UploadButtons from 'widgets/UploadButtons';
@@ -93,7 +96,9 @@ function FormRate (
   const [party, setChangeParty] = useState(() => ([]))
   const [isFetching, setStatusFinish] = useState(false)
   const [isShowCategories, setShowCategories] = useState(false)
+  const [isShowModalAlbum, setShowModalAlbum] = useState(false)
   const [categoriesData, setCategoriesData] = useState({})
+  const [imageId, setImageId] = useState(null)
 
 
   useEffect(() => {
@@ -175,7 +180,8 @@ function FormRate (
       ...rate,
       dateStart: moment(rate.dateStart).utc().format(),
       dateFinish: moment(rate.dateFinish).utc().format(),
-      party
+      party,
+      img: imageId
     };
 
     setStatusFinish(true)
@@ -184,13 +190,16 @@ function FormRate (
       .then((action) => {
         setStatusFinish(false)
         if (action.status === 'SUCCESS') {
-          setChangeRate(
-            {
-              ...action.response,
-              dateStart: moment(action.response.dateStart).format('YYYY-MM-DDTHH:mm'),
-              dateFinish: moment(action.response.dateFinish).format('YYYY-MM-DDTHH:mm'),
-            }
-          )
+          if (!imageId) {
+            setChangeRate(
+              {
+                ...action.response,
+                dateStart: moment(action.response.dateStart).format('YYYY-MM-DDTHH:mm'),
+                dateFinish: moment(action.response.dateFinish).format('YYYY-MM-DDTHH:mm'),
+              }
+            )
+          }
+          setImageId(null)
           history.push({search: `rateId=${action.response._id}`})
         } else {
           setAlertDate({
@@ -208,7 +217,8 @@ function FormRate (
       ...rate,
       dateStart: moment(rate.dateStart).utc().format(),
       dateFinish: moment(rate.dateFinish).utc().format(),
-      party
+      party,
+      img: imageId
     };
     setStatusFinish(true)
     putRateByID(data)
@@ -299,6 +309,14 @@ function FormRate (
           })
       }
     })
+  }
+
+  function handleShowModalAlbums() {
+    setShowModalAlbum(!isShowModalAlbum)
+  }
+
+  function handleSelectImageFromAlbums(imageId) {
+    setImageId(imageId)
   }
 
   const isDisabledByLife =
@@ -406,12 +424,42 @@ function FormRate (
                  />
                 }
                 {
-                  !isDisabledByLife &&
-                  <UploadButtons
-                    id={1}
-                    uploadFile={uploadFile}
-                  />
+                  !isDisabledByLife && (
+                    <Button
+                      onClick={handleShowModalAlbums}
+                      variant="contained"
+                      color="primary"
+                      component="span"
+                    >
+                      <PhotoAlbumIcon />
+                    </Button>
+                  )
                 }
+                <Dialog
+                  open={isShowModalAlbum}
+                  onClose={handleShowModalAlbums}
+                >
+                  <DialogTitle>
+                    Выбор места в изображения
+                  </DialogTitle>
+                  <DialogContent>
+                    <UploadButtons
+                      id={1}
+                      uploadFile={uploadFile}
+                    />
+                    <Albums
+                      onSelectImageFromAlbums={handleSelectImageFromAlbums}
+                    />
+                  </DialogContent>
+                  <DialogActions>
+                    <Button autoFocus onClick={handleShowModalAlbums} color="primary">
+                      Назад
+                    </Button>
+                    <Button onClick={handleShowModalAlbums} color="primary">
+                      ОК
+                    </Button>
+                  </DialogActions>
+                </Dialog>
               </Grid>
             }
         </Grid>

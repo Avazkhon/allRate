@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 import queryString from 'query-string';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  List,
-  ListItem,
   Fade,
   MenuItem,
   Menu,
@@ -56,6 +54,7 @@ function AlbumsComponent(props) {
     auth,
     getAlbums,
     albums,
+    onSelectImageFromAlbums
   } = props;
 
   const {
@@ -133,6 +132,7 @@ function AlbumsComponent(props) {
                 <div key={_id}>
                   <ImageGridList
                     tileData={images}
+                    onSelectImageFromAlbums={onSelectImageFromAlbums}
                   />
                 </div>
               )
@@ -147,6 +147,7 @@ function AlbumsComponent(props) {
 
 AlbumsComponent.propTypes = {
   auth: PropTypes.shape({}),
+  onSelectImageFromAlbums: PropTypes.func,
 }
 
 function mapStateToProps(state) {

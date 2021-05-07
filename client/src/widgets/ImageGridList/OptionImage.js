@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import FileCopyOutlined from '@material-ui/icons/FileCopyOutlined';
 import FileCopyRounded from '@material-ui/icons/FileCopyRounded';
 import PageviewIcon from '@material-ui/icons/Pageview';
+import PhotoSizeSelectActualIcon from '@material-ui/icons/PhotoSizeSelectActual';
 
 import Snackbar from '@material-ui/core/Snackbar';
 
@@ -30,13 +31,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const OptionImage = (props) => {
+  const {
+    onSelectImageFromAlbums
+  } = props;
+
   const classes = useStyles();
   const [modal, setModal] = React.useState(false);
   const clickRef = React.useRef("");
   const [message, setMessage] = React.useState('');
 
   const handleClick = (event) => {
-    console.log(props)
     if (event.currentTarget.name === 'url') {
       navigator.clipboard.writeText(props.src)
        setMessage('url скопирован в буфер');
@@ -57,15 +61,29 @@ export const OptionImage = (props) => {
       <div onClick={() => setModal(true)}>{props.children}</div>
       {modal && (
         <div className={classes.option}>
+          {
+            onSelectImageFromAlbums && (
+              <span
+                onClick={() => onSelectImageFromAlbums(props.tile.id)}
+              >
+                <PhotoSizeSelectActualIcon
+                  className={classes.icon}
+                  titleAccess="Кликните для копирования url"
+                />
+              </span>
+            )
+          }
+
           <fieldset
             onClick={handleClick}
             name="url"
           >
-            <FileCopyOutlined
+            <FileCopyRounded
               className={classes.icon}
               titleAccess="Кликните для копирования url"
             />
           </fieldset>
+
           <fieldset
             onClick={handleClick}
             name="id"
