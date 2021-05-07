@@ -97,8 +97,14 @@ function FormRate (
   const [isFetching, setStatusFinish] = useState(false)
   const [isShowCategories, setShowCategories] = useState(false)
   const [isShowModalAlbum, setShowModalAlbum] = useState(false)
+  const [isShowModalAlbumParty, setShowModalAlbumParty] = useState(false)
   const [categoriesData, setCategoriesData] = useState({})
+
   const [imageId, setImageId] = useState(null)
+  const [uploadImgRate, setUploadImgRate] = useState(null)
+  const [uploadImgParty, setUploadImgParty] = useState(null)
+  const [uploadImgIdParty, setUploadImgIdParty] = useState(null)
+
 
 
   useEffect(() => {
@@ -190,16 +196,13 @@ function FormRate (
       .then((action) => {
         setStatusFinish(false)
         if (action.status === 'SUCCESS') {
-          if (!imageId) {
-            setChangeRate(
-              {
-                ...action.response,
-                dateStart: moment(action.response.dateStart).format('YYYY-MM-DDTHH:mm'),
-                dateFinish: moment(action.response.dateFinish).format('YYYY-MM-DDTHH:mm'),
-              }
-            )
-          }
-          setImageId(null)
+          setChangeRate(
+            {
+              ...action.response,
+              dateStart: moment(action.response.dateStart).format('YYYY-MM-DDTHH:mm'),
+              dateFinish: moment(action.response.dateFinish).format('YYYY-MM-DDTHH:mm'),
+            }
+          )
           history.push({search: `rateId=${action.response._id}`})
         } else {
           setAlertDate({
@@ -218,7 +221,6 @@ function FormRate (
       dateStart: moment(rate.dateStart).utc().format(),
       dateFinish: moment(rate.dateFinish).utc().format(),
       party,
-      img: imageId
     };
     setStatusFinish(true)
     putRateByID(data)
@@ -274,9 +276,7 @@ function FormRate (
       })
   }
 
-  function partUploadFile(e) {
-    const image = e.target.files[0];
-    const { id } = e.target.dataset;
+  function partUploadFile(image, id) {
     changeImg([image])
     .then((action) => {
       if(action.status === 'SUCCESS') {
@@ -296,8 +296,7 @@ function FormRate (
     })
   }
 
-  function uploadFile(e) {
-    const image = e.target.files[0];
+  function uploadFile(image) {
     changeImg([image])
     .then((action) => {
       if(action.status === 'SUCCESS') {
@@ -315,8 +314,63 @@ function FormRate (
     setShowModalAlbum(!isShowModalAlbum)
   }
 
-  function handleSelectImageFromAlbums(imageId) {
+  function handleShowModalAlbumsParty() {
+    setShowModalAlbumParty(!isShowModalAlbumParty)
+  }
+
+  function handleSelectImageIdFromAlbums(imageId) {
     setImageId(imageId)
+  }
+
+  function handleSelectImageIdFromAlbumsParty(imageId, id) {
+    setUploadImgIdParty({imageId, id})
+  }
+
+  function handleSelectImageFileFromAlbums(event) {
+    setUploadImgRate(event.target.files[0])
+  }
+
+  function handleSaveImageRateImg() {
+    setShowModalAlbum(false)
+    if (uploadImgRate) {
+      uploadFile(uploadImgRate)
+      setUploadImgRate(null);
+    }
+    if (imageId){
+      putRateByID({_id: rate._id, img: imageId })
+        .then((action) => {
+          if (action.status === 'SUCCESS') {
+            setChangeRate(action.response);
+            setImageId(null);
+          }
+        })
+    }
+  }
+
+  function handleSaveImagePartyImg() {
+    setShowModalAlbumParty(false)
+    if (uploadImgParty) {
+      partUploadFile(uploadImgParty.img, uploadImgParty.id)
+      setUploadImgParty(null)
+    }
+    if (uploadImgIdParty){
+      const updadetParty = party.map((part) => {
+        if (part.id == uploadImgIdParty.id) {
+          part.img = uploadImgIdParty.imageId;
+        }
+        return part
+      })
+      putRateByID({ ...rate, party: updadetParty })
+        .then((action) => {
+          if (action.status === 'SUCCESS') {
+            setChangeRate(action.response)
+          }
+        })
+    }
+  }
+
+  function handleSelectImagePartyImg(event, id) {
+    setUploadImgParty({img: event.target.files[0] , id})
   }
 
   const isDisabledByLife =
@@ -389,28 +443,6 @@ function FormRate (
 
                 Выбрать категорию
               </Button>
-              <Dialog
-                open={isShowCategories}
-                onClose={handleShowCategories}
-              >
-                <DialogTitle>
-                  Выбор места в меню
-                </DialogTitle>
-                <DialogContent>
-                  <RecursiveTreeView
-                    handleSelectCategories={setCategories}
-                    categoriesData={categoriesData}
-                  />
-                  </DialogContent>
-                <DialogActions>
-                  <Button autoFocus onClick={handleShowCategories} color="primary">
-                    Назад
-                  </Button>
-                  <Button onClick={handleShowCategories} color="primary">
-                    ОК
-                  </Button>
-                </DialogActions>
-              </Dialog>
             </Grid>
             {
               rate.statusLife &&
@@ -435,31 +467,6 @@ function FormRate (
                     </Button>
                   )
                 }
-                <Dialog
-                  open={isShowModalAlbum}
-                  onClose={handleShowModalAlbums}
-                >
-                  <DialogTitle>
-                    Выбор места в изображения
-                  </DialogTitle>
-                  <DialogContent>
-                    <UploadButtons
-                      id={1}
-                      uploadFile={uploadFile}
-                    />
-                    <Albums
-                      onSelectImageFromAlbums={handleSelectImageFromAlbums}
-                    />
-                  </DialogContent>
-                  <DialogActions>
-                    <Button autoFocus onClick={handleShowModalAlbums} color="primary">
-                      Назад
-                    </Button>
-                    <Button onClick={handleShowModalAlbums} color="primary">
-                      ОК
-                    </Button>
-                  </DialogActions>
-                </Dialog>
               </Grid>
             }
         </Grid>
@@ -520,13 +527,42 @@ function FormRate (
                     </Grid>
                     { isFetching || !isDisabledByLife &&
                       <Grid item xs={2} sm={6}>
-                        <UploadButtons
-                          uploadFile={partUploadFile}
-                          id={part.id}
-                          inputProps={{
-                            'data-id': part.id,
-                          }}
-                        />
+                        <Button
+                          onClick={handleShowModalAlbumsParty}
+                          variant="contained"
+                          color="primary"
+                          component="span"
+                        >
+                          <PhotoAlbumIcon />
+                        </Button>
+                        <Dialog
+                          open={isShowModalAlbumParty}
+                          onClose={handleShowModalAlbumsParty}
+                        >
+                          <DialogTitle>
+                            Выбор изображения
+                          </DialogTitle>
+                          <DialogContent>
+                            <UploadButtons
+                              uploadFile={(event) => handleSelectImagePartyImg(event, part.id)}
+                              id={part.id}
+                              inputProps={{
+                                'data-id': part.id,
+                              }}
+                            />
+                            <Albums
+                              onSelectImageFromAlbums={(imageId) => handleSelectImageIdFromAlbumsParty(imageId, part.id)}
+                            />
+                          </DialogContent>
+                          <DialogActions>
+                            <Button autoFocus onClick={handleShowModalAlbumsParty} color="primary">
+                              Назад
+                            </Button>
+                            <Button onClick={handleSaveImagePartyImg} color="primary">
+                              ОК
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
                       </Grid>
                     }
                   </Grid>
@@ -594,6 +630,55 @@ function FormRate (
               <SaveIcon /> Добавить в архив
             </Button>
         }
+
+        <Dialog
+          open={isShowModalAlbum}
+          onClose={handleShowModalAlbums}
+        >
+          <DialogTitle>
+            Выбор изображения
+          </DialogTitle>
+          <DialogContent>
+            <UploadButtons
+              id={1}
+              uploadFile={handleSelectImageFileFromAlbums}
+            />
+            <Albums
+              onSelectImageFromAlbums={handleSelectImageIdFromAlbums}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={handleShowModalAlbums} color="primary">
+              Назад
+            </Button>
+            <Button onClick={handleSaveImageRateImg} color="primary">
+              ОК
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog
+          open={isShowCategories}
+          onClose={handleShowCategories}
+        >
+          <DialogTitle>
+            Выбор места в меню
+          </DialogTitle>
+          <DialogContent>
+            <RecursiveTreeView
+              handleSelectCategories={setCategories}
+              categoriesData={categoriesData}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={handleShowCategories} color="primary">
+              Назад
+            </Button>
+            <Button onClick={handleShowCategories} color="primary">
+              ОК
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         <AlertDialogSlide
           {...alertDate}
