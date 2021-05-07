@@ -84,7 +84,7 @@ function RateCard (
           changeAuthor(action.response[0])
         }
       })
-  }, selectRate.data)
+  }, [selectRate.data])
 
 
   function handleChangeRatingRate(data, objectId, action) {
