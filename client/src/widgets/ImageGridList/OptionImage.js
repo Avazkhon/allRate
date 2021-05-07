@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import FileCopyOutlined from '@material-ui/icons/FileCopyOutlined';
 import FileCopyRounded from '@material-ui/icons/FileCopyRounded';
+import PageviewIcon from '@material-ui/icons/Pageview';
+
 import Snackbar from '@material-ui/core/Snackbar';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,10 +36,9 @@ export const OptionImage = (props) => {
   const [message, setMessage] = React.useState('');
 
   const handleClick = (event) => {
+    console.log(props)
     if (event.currentTarget.name === 'url') {
-      navigator.clipboard.writeText(
-        `${protocolAndDomain}${props.src}`
-      )
+      navigator.clipboard.writeText(props.src)
        setMessage('url скопирован в буфер');
     }
     if (event.currentTarget.name === 'id') {
@@ -50,7 +51,7 @@ export const OptionImage = (props) => {
   useClickAway(clickRef, () => {
     setModal(false);
   });
-  const protocolAndDomain = `${location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`
+
   return (
     <div ref={clickRef} className={classes.root}>
       <div onClick={() => setModal(true)}>{props.children}</div>
@@ -62,7 +63,6 @@ export const OptionImage = (props) => {
           >
             <FileCopyOutlined
               className={classes.icon}
-
               titleAccess="Кликните для копирования url"
             />
           </fieldset>
@@ -74,6 +74,18 @@ export const OptionImage = (props) => {
               className={classes.icon}
               titleAccess="Кликните для копирования id"
             />
+          </fieldset>
+
+          <fieldset>
+            <a
+              href={props.src}
+              target="_blank"
+            >
+              <PageviewIcon
+                className={classes.icon}
+                titleAccess="Кликните для просмотра"
+              />
+            </a>
           </fieldset>
           <Snackbar
             className={classes.snackbar}

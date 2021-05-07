@@ -26,19 +26,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 export default function ImageGridList({ tileData }) {
   const classes = useStyles();
+
+  function geSrc(id) {
+    const resize = '?resize=300x200';
+    const src = `/media/image/${id}`
+    return { fullSrc: src + resize, src }
+  }
+
+  function getProtocolAndDomain() {
+    if (typeof location !== 'undefined') {
+      return `${location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`
+    }
+  }
 
   return (
     <div className={classes.root}>
       <div className={classes.imageList}>
         {
           tileData.map((tile) => {
-            const src = `/media/image/${tile.id}?resize=300x200`;
+            const { fullSrc, src } = geSrc(tile.id);
+            const url = getProtocolAndDomain();
             return (
               <div key={tile._id} className={classes.imageItem}>
-                <OptionImage tile={tile} src={src}>
-                  <img src={src} alt={tile.name || tile} />
+                <OptionImage tile={tile} src={url + src}>
+                  <img src={fullSrc} alt={tile.name || tile} />
                 </OptionImage>
               </div>
             )

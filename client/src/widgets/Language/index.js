@@ -18,10 +18,6 @@ class Language extends React.Component {
 
   }
 
-  // componentDidUpdate(prevProps) {
-    // changeLang
-  // }
-
   handleChangeLang = (e) => {
     const { name } = e.currentTarget;
     const { changeLang } = this.props;

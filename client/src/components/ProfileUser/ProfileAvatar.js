@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
-import { Col } from 'react-bootstrap';
 import ImageUploded from '../../widgets/ImageUploded';
 
 const useStyles = makeStyles((theme) => ({
