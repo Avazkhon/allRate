@@ -25,7 +25,7 @@ import PhotoAlbumIcon from '@material-ui/icons/PhotoAlbum';
 import SaveIcon from '@material-ui/icons/Save';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 
-import { Albums } from '../Albums';
+import Albums from '../Albums';
 
 
 import AlertDialogSlide from 'widgets/AlertDialogSlide';

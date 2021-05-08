@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function AlbumsComponent(props) {
+function Albums(props) {
   const {
     auth,
     getAlbums,
@@ -161,8 +161,8 @@ function mapStateToProps(state) {
   };
 }
 
-export const Albums = connect(
+export default connect(
   mapStateToProps,
   {
-  getAlbums
-})(AlbumsComponent)
+    getAlbums
+  })(Albums);

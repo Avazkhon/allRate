@@ -5,20 +5,16 @@ import { connect } from 'react-redux';
 
 import {
   Container,
-  Row,
-  Col,
 } from 'react-bootstrap';
 
 import CardPost from 'components/CardPost';
 import Layout from '../Layout';
-import queryString from 'query-string';
 
 import {
   addCountViewsPost,
   changeRatingPost,
   getPostById,
   getUsersByIds,
-  // getPostsPage,
 } from 'actions';
 
 class CardPostPage extends React.Component {

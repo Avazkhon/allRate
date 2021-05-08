@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { Albums } from 'components/Albums';
+import Albums from 'components/Albums';
 
 import Layout from '../Layout';
 import { makeStyles } from '@material-ui/core/styles';
