@@ -145,7 +145,7 @@ function Albums(props) {
   )
 }
 
-AlbumsComponent.propTypes = {
+Albums.propTypes = {
   auth: PropTypes.shape({}),
   onSelectImageFromAlbums: PropTypes.func,
 }
