@@ -25,7 +25,8 @@ import PhotoAlbumIcon from '@material-ui/icons/PhotoAlbum';
 import SaveIcon from '@material-ui/icons/Save';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 
-// import { Albums } from '../Albums';
+import { Albums } from '../Albums';
+
 
 import AlertDialogSlide from 'widgets/AlertDialogSlide';
 import UploadButtons from 'widgets/UploadButtons';
@@ -550,9 +551,9 @@ function FormRate (
                                 'data-id': part.id,
                               }}
                             />
-                            {/*<Albums*/}
-                            {/*  onSelectImageFromAlbums={(imageId) => handleSelectImageIdFromAlbumsParty(imageId, part.id)}*/}
-                            {/*/>*/}
+                            <Albums
+                              onSelectImageFromAlbums={(imageId) => handleSelectImageIdFromAlbumsParty(imageId, part.id)}
+                            />
                           </DialogContent>
                           <DialogActions>
                             <Button autoFocus onClick={handleShowModalAlbumsParty} color="primary">
@@ -643,9 +644,9 @@ function FormRate (
               id={1}
               uploadFile={handleSelectImageFileFromAlbums}
             />
-            {/*<Albums*/}
-            {/*  onSelectImageFromAlbums={handleSelectImageIdFromAlbums}*/}
-            {/*/>*/}
+            <Albums
+              onSelectImageFromAlbums={handleSelectImageIdFromAlbums}
+            />
           </DialogContent>
           <DialogActions>
             <Button autoFocus onClick={handleShowModalAlbums} color="primary">
