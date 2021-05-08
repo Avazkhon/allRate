@@ -22,8 +22,11 @@ const useStyles = makeStyles((theme) => ({
     margin: '8px',
     '& img': {
       borderRadius: 4
-    }
+    },
   },
+  img: {
+    width: '100%'
+  }
 }));
 
 
@@ -52,7 +55,11 @@ export default function ImageGridList({ tileData, onSelectImageFromAlbums }) {
             return (
               <div key={tile._id} className={classes.imageItem}>
                 <OptionImage tile={tile} src={url + src} onSelectImageFromAlbums={onSelectImageFromAlbums}>
-                  <img src={fullSrc} alt={tile.name || tile} />
+                  <img
+                    src={fullSrc}
+                    alt={tile.name || tile}
+                    className={classes.img}
+                  />
                 </OptionImage>
               </div>
             )

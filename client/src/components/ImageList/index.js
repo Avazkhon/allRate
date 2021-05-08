@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function Albums(props) {
+function ImageList(props) {
   const {
     auth,
     getAlbums,
@@ -145,7 +145,7 @@ function Albums(props) {
   )
 }
 
-Albums.propTypes = {
+ImageList.propTypes = {
   auth: PropTypes.shape({}),
   onSelectImageFromAlbums: PropTypes.func,
 }
@@ -165,4 +165,4 @@ export default connect(
   mapStateToProps,
   {
     getAlbums
-  })(Albums);
+  })(ImageList);
