@@ -5,20 +5,9 @@ import { connect } from 'react-redux';
 import ImageList from 'components/ImageList';
 
 import Layout from '../Layout';
-import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
 
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: 'flex',
-    // backgroundColor: theme.palette.background.paper,
-  },
-
-}));
-
 function AlbumsPage ({ auth }) {
-  const classes = useStyles();
   return (
     <Layout>
       <Container>
