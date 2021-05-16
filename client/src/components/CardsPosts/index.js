@@ -5,7 +5,6 @@ import queryString from 'query-string';
 import injectSheet from 'react-jss';
 
 import {
-  Form,
   Button,
 } from 'react-bootstrap';
 
@@ -16,8 +15,7 @@ import {
   getPostsPage,
 } from 'actions';
 
-import Messages from 'components/Messages';
-import CardPost from 'components/CardPost';
+import { CardPost } from 'components/CardPost';
 
 import style from './style';
 
@@ -56,21 +54,6 @@ class CardsPosts extends React.Component {
     });
   }
 
-  handleShow = (e) => {
-    const { addCountViewsPost } = this.props;
-    const { id, actionname } = e.currentTarget.dataset;
-    this.setState({
-      idOpenItm: id
-    });
-    addCountViewsPost(id);
-  }
-
-  handleHidden = (e) => {
-    this.setState({
-      idOpenItm: null
-    });
-  }
-
   getAuthor = (users, itm) => users.find(user => user._id === itm.author || user._id === itm.authorId)
 
 
@@ -78,10 +61,11 @@ class CardsPosts extends React.Component {
     this.handleChangePagination(1);
   }
 
+  handleAddCountViewsPost = (postId) => {
+    this.props.addCountViewsPost(postId)
+  }
+
   render() {
-    const {
-      idOpenItm,
-    } = this.state;
     const {
       posts,
       lang: {
@@ -89,7 +73,6 @@ class CardsPosts extends React.Component {
       },
       changeRatingPost,
       users,
-      history,
       auth: {
         auth
       },
@@ -103,10 +86,8 @@ class CardsPosts extends React.Component {
             return (
               <CardPost key={itm._id}
                 changeRating={changeRatingPost}
+                onAddCountViewsPost={() => this.handleAddCountViewsPost(itm._id)}
                 post={itm}
-                handleShow={this.handleShow}
-                handleHidden={this.handleHidden}
-                isShow={idOpenItm === itm._id}
                 user={users.data && this.getAuthor(users.data, itm)}
                 lang={lang}
                 auth={auth}
@@ -157,4 +138,4 @@ export default injectSheet(style)
     getUsersByIds,
     getPostsPage,
   })(CardsPosts)
-)
+);

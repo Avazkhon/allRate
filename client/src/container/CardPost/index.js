@@ -7,7 +7,7 @@ import {
   Container,
 } from 'react-bootstrap';
 
-import CardPost from 'components/CardPost';
+import { CardPost } from 'components/CardPost';
 import Layout from '../Layout';
 
 import {
@@ -23,16 +23,22 @@ class CardPostPage extends React.Component {
 
   }
   componentDidMount() {
+    this.getPostById()
+    this.handleAddCountViewsPost()
+  }
+
+  handleAddCountViewsPost = () => {
     const {
       addCountViewsPost,
-      getUsersByIds,
       match: { params: { id: postId } }
     } = this.props;
-    this.getPostById(postId)
     addCountViewsPost(postId)
   }
 
-  getPostById = (postId) => {
+  getPostById = () => {
+    const {
+      match: { params: { id: postId } }
+    } = this.props;
     this.props.getPostById(postId)
     .then((action) => {
       if (action.status === 'SUCCESS') {
@@ -65,6 +71,7 @@ class CardPostPage extends React.Component {
         { postPage.data._id &&
           <CardPost
             changeRating={this.handleChangeRating}
+            onAddCountViewsPost={this.handleAddCountViewsPost}
             post={postPage.data}
             isPage
             user={users.data && this.getAuthor(users.data, postPage.data)}
