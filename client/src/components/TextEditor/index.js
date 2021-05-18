@@ -59,13 +59,6 @@ const MyComponent = ({
   text
 }) => {
     const editorRef = useRef();
-
-    useEffect(() => {
-        // Get underlining core object here
-        // Notice that useEffect is been used because you have to make sure the editor is rendered.
-        console.log(editorRef.current.editor.core);
-    }, []);
-
     options.callBackSave = handleSubmit
 
     return (

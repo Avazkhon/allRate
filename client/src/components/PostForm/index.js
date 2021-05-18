@@ -4,19 +4,22 @@ import { connect } from 'react-redux';
 
 import {
   Form,
-  Button,
 } from 'react-bootstrap';
 
 import {
   createPost,
   changeImg,
   putPostById,
+  setUploadImgIdParty,
 } from 'actions';
 
 import Messages from 'components/Messages';
 import TextEditor from 'components/TextEditor';
 import UploadButtons from '../../widgets/UploadButtons';
-import { Grid } from '@material-ui/core';
+
+import Albums from '../ImageList';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
+import RecursiveTreeView from '../../widgets/RecursiveTreeView';
 
 
 class PostFrom extends React.Component {
@@ -26,10 +29,12 @@ class PostFrom extends React.Component {
       title: '',
       text: '',
       file: null,
+      imageId: null,
 
       warning: '',
       error: '',
       isFetching: false,
+      showModalSelectImage: false,
     }
   }
 
@@ -49,7 +54,7 @@ class PostFrom extends React.Component {
   }
 
   handleSubmit = (text) => {
-    const { title } = this.state;
+    const { title, file, imageId } = this.state;
     const { auth: { auth }, createPost, changeImg, putPostById } = this.props;
     const data = {
       title,
@@ -61,22 +66,35 @@ class PostFrom extends React.Component {
     createPost(data)
     .then((action) => {
       if (action.status === 'SUCCESS') {
-
-        changeImg([this.state.file])
-          .then((imageAction) => {
-            console.log(imageAction)
-            if(imageAction.status === 'SUCCESS') {
-              putPostById(action.response._id, { img: { url: imageAction.response[0].imageName } })
-                .then((action) => {
-                  if (action.status === 'SUCCESS') {
-                    this.setState({
-                      warning: 'Статья успешна создана!',
-                      isFetching: false,
-                    })
-                  }
+        if (!this.state.imageId && file) {
+          changeImg([file])
+            .then((imageAction) => {
+              console.log(imageAction)
+              if(imageAction.status === 'SUCCESS') {
+                putPostById(action.response._id, { img: { url: imageAction.response[0].imageName } })
+                  .then((action) => {
+                    if (action.status === 'SUCCESS') {
+                      this.setState({
+                        warning: 'Статья успешна создана!',
+                        isFetching: false,
+                      })
+                    }
+                  })
+              }
+            })
+        }
+        if (!file && imageId) {
+          putPostById(action.response._id, { img: { url: imageId } })
+            .then((action) => {
+              if (action.status === 'SUCCESS') {
+                this.setState({
+                  warning: 'Статья успешна создана!',
+                  isFetching: false,
                 })
-            }
-          })
+              }
+            })
+        }
+
       } else {
         this.setState({
           error: action.error,
@@ -88,6 +106,16 @@ class PostFrom extends React.Component {
 
   uploadFile = (event) => this.setState({ file: event.target.files[0] })
 
+  handleSelectImageIdFromAlbums = (imageId, id) => {
+    this.setState({ imageId })
+  }
+
+  handleShowModalSelectImage = () => {
+    this.setState((prev) => ({
+      showModalSelectImage: !prev.showModalSelectImage
+  }))
+  }
+
   render() {
     const {
       title,
@@ -95,6 +123,7 @@ class PostFrom extends React.Component {
       warning,
       error,
       isFetching,
+      showModalSelectImage
     } = this.state;
 
     return (
@@ -110,16 +139,38 @@ class PostFrom extends React.Component {
           />
         </Form.Group>
 
-        <UploadButtons
-          id={1}
-          uploadFile={this.uploadFile}
-        />
+        <Button
+          color="primary"
+          onClick={this.handleShowModalSelectImage}
+        >
+          Выбрать фото
+        </Button>
 
-        {/*<input*/}
-        {/*  type="file"*/}
-        {/*  accept="image/*"*/}
-        {/*  onChange={}*/}
-        {/*/>*/}
+        <Dialog
+          open={showModalSelectImage}
+          onClose={this.handleShowModalSelectImage}
+        >
+          <DialogTitle>
+            Выбор места в меню
+          </DialogTitle>
+          <DialogContent>
+            <UploadButtons
+              id={1}
+              uploadFile={this.uploadFile}
+            />
+            <Albums
+              onSelectImageFromAlbums={(imageId) => this.handleSelectImageIdFromAlbums(imageId)}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={this.handleShowModalSelectImage} color="primary">
+              Назад
+            </Button>
+            <Button onClick={this.handleShowModalSelectImage} color="primary">
+              ОК
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         <TextEditor
           text={text}

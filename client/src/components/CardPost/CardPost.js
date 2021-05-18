@@ -79,6 +79,7 @@ export const CardPost = (props) => {
     isPage,
   } = props;
 
+
   moment.locale(lang);
 
   const classes = useStyles();
@@ -94,6 +95,8 @@ export const CardPost = (props) => {
   };
 
   const isNewPost = checkDateCreatePost(createDate);
+  console.log(props, isNewPost)
+  const mainImage = isNewPost ? `/media/image/${img.url}` : img.url;
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -121,15 +124,11 @@ export const CardPost = (props) => {
         title={user && user.userName}
         subheader={moment(createDate).fromNow()}
       />
-      {
-        img && (!isNewPost || (!isShow || !isPage)) && (
-          <CardMedia
-            className={classes.media}
-            image={img.url}
-            title={title}
-          />
-        )
-      }
+      <CardMedia
+        className={classes.media}
+        image={mainImage}
+        title={title}
+      />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           { title }
