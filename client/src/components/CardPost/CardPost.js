@@ -90,6 +90,7 @@ export const CardPost = (props) => {
   };
 
   const mainImage = `/media/image/${img.url}`;
+  const itAuthor = user && (auth && user._id === auth.userId)
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -104,18 +105,22 @@ export const CardPost = (props) => {
         }
         action={
           <IconButton aria-label="settings">
-            <Link
-              to={`/post-form/${_id}`}
-            >
-              { cardPostText.edit[lang] }
-            </Link>
+            {
+              itAuthor ? (
+                <Link
+                  to={`/post-form/${_id}`}
+                >
+                  { cardPostText.edit[lang] }
+                </Link>
+              ) : null
+            }
           </IconButton>
         }
         title={
           <Link
             to={(
               user && (
-                (auth && user._id === auth.userId) ?`/me/` : `/profile/${user._id}`)
+                itAuthor ?`/me/` : `/profile/${user._id}`)
             ) || '#'}
           >
             { user && user.userName }
