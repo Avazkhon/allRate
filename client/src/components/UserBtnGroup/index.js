@@ -12,7 +12,6 @@ import {
 import { RiFileSearchLine } from "react-icons/ri";
 
 import {
-  Nav,
   Modal,
   ListGroup,
   Row,

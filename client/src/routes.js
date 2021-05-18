@@ -52,6 +52,14 @@ export default [
     }),
   },
   {
+    path: '/post-form/:id',
+    exact: true,
+    component: asyncComponent({
+      loader: () => import('./container/PostFormEditor'),
+      Placeholder: () => <div>...LOADING...</div>,
+    }),
+  },
+  {
     path: '/me',
     exact: true,
     component: asyncComponent({

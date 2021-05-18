@@ -21,10 +21,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Rating from 'widgets/Rating';
 
 import {
-  checkDateCreatePost
-} from './cardPost.helper';
-
-import {
   CreateContentPost
 } from './CreateContentPost';
 
@@ -56,7 +52,7 @@ const cardPostText = {
   goTo: { RU: 'Перейти', EN: 'Go to' },
   hidden: { RU: 'Скрыть', EN: 'Hidden' },
   views: { RU: 'Просмотры', EN: 'Views' },
-  showAuthorProfile: { RU: 'Перейти к странице автора', EN: 'Show author profile' }
+  edit: { RU: 'Редактровать', EN: 'Edit' }
 };
 
 export const CardPost = (props) => {
@@ -72,7 +68,6 @@ export const CardPost = (props) => {
     },
     changeRating,
     onAddCountViewsPost,
-    isShow,
     lang,
     user,
     auth,
@@ -94,9 +89,7 @@ export const CardPost = (props) => {
     });
   };
 
-  const isNewPost = checkDateCreatePost(createDate);
-  console.log(props, isNewPost)
-  const mainImage = isNewPost ? `/media/image/${img.url}` : img.url;
+  const mainImage = `/media/image/${img.url}`;
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -112,16 +105,22 @@ export const CardPost = (props) => {
         action={
           <IconButton aria-label="settings">
             <Link
-              to={(
-                user && (
-                  (auth && user._id === auth.userId) ?`/me/` : `/profile/${user._id}`)
-              ) || '#'}
+              to={`/post-form/${_id}`}
             >
-              { cardPostText.showAuthorProfile[lang] }
+              { cardPostText.edit[lang] }
             </Link>
           </IconButton>
         }
-        title={user && user.userName}
+        title={
+          <Link
+            to={(
+              user && (
+                (auth && user._id === auth.userId) ?`/me/` : `/profile/${user._id}`)
+            ) || '#'}
+          >
+            { user && user.userName }
+          </Link>
+        }
         subheader={moment(createDate).fromNow()}
       />
       <CardMedia

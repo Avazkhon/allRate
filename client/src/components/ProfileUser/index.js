@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FiUsers } from 'react-icons/fi';
 import { RiUserVoiceLine } from 'react-icons/ri';
-import Avatar from '@material-ui/core/Avatar';
 
 import {
   Row,
@@ -87,8 +86,6 @@ class ProfileUser extends React.Component {
     const {
       userPage: { data: userData },
       lang: { lang },
-      classes,
-      profileId,
       isPageAuth,
     } = this.props;
 

@@ -10,7 +10,8 @@ import {
   createPost,
   changeImg,
   putPostById,
-  setUploadImgIdParty,
+  getUsersByIds,
+  getPostById
 } from 'actions';
 
 import Messages from 'components/Messages';
@@ -19,13 +20,13 @@ import UploadButtons from '../../widgets/UploadButtons';
 
 import Albums from '../ImageList';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
-import RecursiveTreeView from '../../widgets/RecursiveTreeView';
 
 
 class PostFrom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      postId: null,
       title: '',
       text: '',
       file: null,
@@ -36,6 +37,29 @@ class PostFrom extends React.Component {
       isFetching: false,
       showModalSelectImage: false,
     }
+  }
+
+  componentDidMount() {
+    this.getPostById()
+  }
+
+  getPostById = () => {
+    const {
+      postId
+    } = this.props;
+    this.props.getPostById(postId)
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          const { title, text, img, _id } = action.response;
+          this.setState({
+            postId: _id,
+            title,
+            text,
+            imageId: img.url,
+          })
+          getUsersByIds([action.response.author || action.response.authorId]);
+        }
+      });
   }
 
   makeState = () => {
@@ -54,22 +78,25 @@ class PostFrom extends React.Component {
   }
 
   handleSubmit = (text) => {
-    const { title, file, imageId } = this.state;
-    const { auth: { auth }, createPost, changeImg, putPostById } = this.props;
+    const { title, file, imageId, postId } = this.state;
+    const { createPost, changeImg, putPostById } = this.props;
     const data = {
       title,
       text,
     };
 
     this.makeState();
+    if (postId) {
+      return this.handleChangePost(text)
+    }
 
     createPost(data)
     .then((action) => {
       if (action.status === 'SUCCESS') {
+        this.setState({postId: action.response._id})
         if (!this.state.imageId && file) {
           changeImg([file])
             .then((imageAction) => {
-              console.log(imageAction)
               if(imageAction.status === 'SUCCESS') {
                 putPostById(action.response._id, { img: { url: imageAction.response[0].imageName } })
                   .then((action) => {
@@ -87,6 +114,7 @@ class PostFrom extends React.Component {
           putPostById(action.response._id, { img: { url: imageId } })
             .then((action) => {
               if (action.status === 'SUCCESS') {
+                this.setState({postId: action.response._id})
                 this.setState({
                   warning: 'Статья успешна создана!',
                   isFetching: false,
@@ -102,6 +130,26 @@ class PostFrom extends React.Component {
         })
       }
     })
+  }
+
+  handleChangePost = (text) => {
+    const {
+      postId,
+      imageId,
+      title
+    } = this.state;
+    const {
+      putPostById
+    } = this.props;
+    putPostById(postId, { text, title, img: { url: imageId } })
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          this.setState({
+            warning: 'Статья успешна обновлена!',
+            isFetching: false,
+          })
+        }
+      })
   }
 
   uploadFile = (event) => this.setState({ file: event.target.files[0] })
@@ -208,4 +256,5 @@ export default connect(mapStateToProps, {
   createPost,
   changeImg,
   putPostById,
+  getPostById
 })(PostFrom);
