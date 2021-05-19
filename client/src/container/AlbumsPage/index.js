@@ -5,15 +5,12 @@ import { connect } from 'react-redux';
 import ImageList from 'components/ImageList';
 
 import Layout from '../Layout';
-import { Container } from '@material-ui/core';
 
-function AlbumsPage ({ auth }) {
+function AlbumsPage () {
   return (
     <Layout>
-      <Container>
-        <h1>Альбомы</h1>
-        <ImageList />
-      </Container>
+      <h1>Альбомы</h1>
+      <ImageList />
     </Layout>
   );
 }

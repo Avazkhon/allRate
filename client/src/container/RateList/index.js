@@ -2,13 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
-import queryString from 'query-string';
-
-import {
-  Container,
-  Row,
-  Col,
-} from 'react-bootstrap';
 
 import Layout from '../Layout';
 
@@ -41,20 +34,17 @@ class RateList extends React.Component {
 
   render() {
     const {
-      // classes,
       rates,
       history,
     } = this.props;
 
     return (
       <Layout>
-        <Container className="justify-content-xs-center">
-          <SearchRateForm />
-          <CardsRates
-            rates={rates}
-            history={history}
-          />
-        </Container>
+        <SearchRateForm />
+        <CardsRates
+          rates={rates}
+          history={history}
+        />
       </Layout>
     );
   }

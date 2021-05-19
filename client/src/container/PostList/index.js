@@ -3,13 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 
-import {
-  Container,
-  Row,
-  Col,
-} from 'react-bootstrap';
-
-
 import CardsPosts from 'components/CardsPosts';
 import Layout from '../Layout';
 
@@ -21,21 +14,16 @@ class PostList extends React.Component {
 
   render() {
     const {
-      auth: {
-        userData,
-      },
       posts,
       history,
     } = this.props;
 
     return (
       <Layout>
-      <Container>
         <CardsPosts
           posts={posts}
           history={history}
         />
-      </Container>
       </Layout>
     );
   }

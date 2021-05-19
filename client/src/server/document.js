@@ -47,7 +47,6 @@ const CustomDocumentHOC = (store) => {
       } = this.props;
       const htmlAttrs = helmet.htmlAttributes.toComponent();
       const bodyAttrs = helmet.bodyAttributes.toComponent();
-
       return (
         <html {...htmlAttrs}>
           <head>
@@ -86,9 +85,9 @@ const CustomDocumentHOC = (store) => {
           <style id="jss-server-side">
             {cssMui}
           </style>
-          <style dangerouslySetInnerHTML={ { __html: initStyle} } />
           <style dangerouslySetInnerHTML={ { __html: bootstrap} } />
           <style dangerouslySetInnerHTML={ { __html: textEditorStyle} } />
+          <style dangerouslySetInnerHTML={ { __html: initStyle} } />
 
           <body {...bodyAttrs}>
             <AfterRoot />

@@ -5,7 +5,6 @@ import queryString from 'query-string';
 import injectSheet from 'react-jss';
 
 import {
-  Container,
   Row,
   Col,
   Spinner,
@@ -42,59 +41,57 @@ function MePage ({
   const isFetching = posts.isFetching || rates.isFetching;
   return (
     <Layout>
-      <Container>
-        <ProfileUser
-          profileId={userId}
-          isPageAuth
-        />
-        <UserBtnGroup isPageAuth />
-        {
-          ((content === 'my_posts' || !content) && <h3 className={classes['title-list']}>Мой посты</h3>)
-          || (content === 'subscribtion_posts' && <h3 className={classes['title-list']}>Подписки на посты</h3>)
-          || (content === 'subscribtion_rates' && <h3 className={classes['title-list']}>Подписки на ставки</h3>)
-          || (content === 'my_rates' && <h3 className={classes['title-list']}>Мой ставки</h3>)
-        }
+      <ProfileUser
+        profileId={userId}
+        isPageAuth
+      />
+      <UserBtnGroup isPageAuth />
+      {
+        ((content === 'my_posts' || !content) && <h3 className={classes['title-list']}>Мой посты</h3>)
+        || (content === 'subscribtion_posts' && <h3 className={classes['title-list']}>Подписки на посты</h3>)
+        || (content === 'subscribtion_rates' && <h3 className={classes['title-list']}>Подписки на ставки</h3>)
+        || (content === 'my_rates' && <h3 className={classes['title-list']}>Мой ставки</h3>)
+      }
 
-        { isFetching &&
-          <Row className="justify-content-md-center">
-            <Col xs={{ span: 6, offset: 5 }} sm={{ span: 8, offset: 5 }} md={{ span: 9, offset: 8 }}>
-              <Spinner animation="border" variant="primary" />
-            </Col>
-          </Row>
-        }
-        {
-          (content === 'my_posts' || !content) &&
-          <CardsPosts
-            userId={userId}
-            posts={posts}
-            history={history}
-          />
-        }
-        {
-          (content === 'subscribtion_posts') &&
-          <CardsPosts
-            userId={userId}
-            posts={posts}
-            history={history}
-          />
-        }
-        {
-          (content === 'subscribtion_rates') &&
-          <CardsRates
-            userId={userId}
-            rates={rates}
-            history={history}
-          />
-        }
-        {
-          (content === 'my_rates') &&
-          <CardsRates
-            userId={userId}
-            rates={rates}
-            history={history}
-          />
-        }
-      </Container>
+      { isFetching &&
+        <Row className="justify-content-md-center">
+          <Col xs={{ span: 6, offset: 5 }} sm={{ span: 8, offset: 5 }} md={{ span: 9, offset: 8 }}>
+            <Spinner animation="border" variant="primary" />
+          </Col>
+        </Row>
+      }
+      {
+        (content === 'my_posts' || !content) &&
+        <CardsPosts
+          userId={userId}
+          posts={posts}
+          history={history}
+        />
+      }
+      {
+        (content === 'subscribtion_posts') &&
+        <CardsPosts
+          userId={userId}
+          posts={posts}
+          history={history}
+        />
+      }
+      {
+        (content === 'subscribtion_rates') &&
+        <CardsRates
+          userId={userId}
+          rates={rates}
+          history={history}
+        />
+      }
+      {
+        (content === 'my_rates') &&
+        <CardsRates
+          userId={userId}
+          rates={rates}
+          history={history}
+        />
+      }
     </Layout>
   );
 }

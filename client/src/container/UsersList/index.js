@@ -2,13 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-
-import {
-  Container,
-  Row,
-  Col,
-} from 'react-bootstrap';
-
 import {
   getSubscriptions,
 } from 'actions';
@@ -43,11 +36,9 @@ class UsersList extends React.Component {
 
     return (
       <Layout>
-      <Container>
         <CardUsers
           history={history}
         />
-      </Container>
       </Layout>
     );
   }

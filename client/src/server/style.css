@@ -1,6 +1,7 @@
-html,
 body {
 	height: 100%;
+	background-color: #f6f6f6;
+	color: #555555;
 }
 a {
 	color: black;

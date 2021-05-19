@@ -59,17 +59,15 @@ function CreateRatePage ({
 
   return (
     <Layout>
-      <Container style={{marginTop: '40px'}}>
-        <FormRate
-          selectRate={isShowRate ? selectRate : {}}
-          paymentPercentage={blocks.data?.paymentPercentage}
-        />
-        <FormBlocks
-          rateId={rateId}
-          blockId={blockId}
-          statusLife={selectRate.data && selectRate.data.statusLife}
-        />
-      </Container>
+      <FormRate
+        selectRate={isShowRate ? selectRate : {}}
+        paymentPercentage={blocks.data?.paymentPercentage}
+      />
+      <FormBlocks
+        rateId={rateId}
+        blockId={blockId}
+        statusLife={selectRate.data && selectRate.data.statusLife}
+      />
     </Layout>
   );
 }

@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import {
-  Grid
-} from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 import Layout from '../Layout';
 import Support from './Support';
@@ -12,10 +10,8 @@ import Support from './Support';
 function Help({ auth }) {
   return (
     <Layout>
-      <Grid container>
-        <Grid item xs={12}>
-          <Support auth={auth} />
-        </Grid>
+      <Grid item xs={12}>
+        <Support auth={auth} />
       </Grid>
     </Layout>
   );

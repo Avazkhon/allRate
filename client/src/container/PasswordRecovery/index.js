@@ -6,7 +6,6 @@ import injectSheet from 'react-jss';
 import { Redirect } from 'react-router';
 
 import {
-  Container,
   Row,
   Col,
   Form,
@@ -120,7 +119,6 @@ class PasswordRecovery extends Component {
 
   render() {
     const {
-      email,
       warning,
       error,
       isFetching,
@@ -147,57 +145,55 @@ class PasswordRecovery extends Component {
           (password !== 'userPassword' && password !== 'pursePassword') &&
           <Redirect to="/404" />
         }
-        <Container>
-          <Row>
-            <div className={classes['page-recovery']}>
-              <Col xs="12" sm="8" md="9">
-                {
-                  !recoveryId &&
-                  <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Э-почта</Form.Label>
-                    <Form.Control
-                        onChange={this.handleChange}
-                        placeholder="Введите электронную почту"
-                        type="email"
-                        name="email"
-                        disabled={warning}
-                      />
-                  </Form.Group>
-                }
-                {
-                  recoveryId &&
-                  <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Новый пароль</Form.Label>
-                    <Form.Control
-                        onChange={this.handleChange}
-                        placeholder="Введите новый пароль"
-                        type="password"
-                        name="password"
-                        disabled={warning}
-                      />
-                  </Form.Group>
-                }
-              </Col>
-              <Col>
-                <Messages
-                  warning={warning}
-                  error={error}
-                  isFetching={isFetching}
-                />
-              </Col>
-              <Col>
+        <Row>
+          <div className={classes['page-recovery']}>
+            <Col xs="12" sm="8" md="9">
               {
                 !recoveryId &&
-                <Button disabled={!isValidEmail || warning} onClick={this.handleSubmitEmail} >Отправить</Button>
+                <Form.Group controlId="formBasicEmail">
+                  <Form.Label>Э-почта</Form.Label>
+                  <Form.Control
+                      onChange={this.handleChange}
+                      placeholder="Введите электронную почту"
+                      type="email"
+                      name="email"
+                      disabled={warning}
+                    />
+                </Form.Group>
               }
               {
                 recoveryId &&
-                <Button disabled={!isValidPassword || warning} onClick={this.handleSubmitPassword} >Отправить</Button>
+                <Form.Group controlId="formBasicEmail">
+                  <Form.Label>Новый пароль</Form.Label>
+                  <Form.Control
+                      onChange={this.handleChange}
+                      placeholder="Введите новый пароль"
+                      type="password"
+                      name="password"
+                      disabled={warning}
+                    />
+                </Form.Group>
               }
-              </Col>
-            </div>
-          </Row>
-        </Container>
+            </Col>
+            <Col>
+              <Messages
+                warning={warning}
+                error={error}
+                isFetching={isFetching}
+              />
+            </Col>
+            <Col>
+            {
+              !recoveryId &&
+              <Button disabled={!isValidEmail || warning} onClick={this.handleSubmitEmail} >Отправить</Button>
+            }
+            {
+              recoveryId &&
+              <Button disabled={!isValidPassword || warning} onClick={this.handleSubmitPassword} >Отправить</Button>
+            }
+            </Col>
+          </div>
+        </Row>
       </Layout>
     )
   }

@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import {
-  Grid
-} from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 import {
   getSupportList,
@@ -30,25 +28,18 @@ function SupportList({
 
   return (
     <Layout>
-      <Grid
-        container
-        direction="column"
-        justify="center"
-        alignItems="center"
-      >
-        <Grid item >
-          <h1>Список Обращении</h1>
-          {
-            supportList.docs && supportList.docs.map((support) => (
-              <CardSupport
-                key={support._id}
-                support={support}
-                isList
-              />
+      <Grid item >
+        <h1>Список Обращении</h1>
+        {
+          supportList.docs && supportList.docs.map((support) => (
+            <CardSupport
+              key={support._id}
+              support={support}
+              isList
+            />
 
-            ))
-          }
-        </Grid>
+          ))
+        }
       </Grid>
     </Layout>
   )

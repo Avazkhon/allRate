@@ -36,26 +36,24 @@ function Translation({
 
   return (
     <Layout>
-      <Container>
-        <Row>
-          <Col xs="12" sm="8" md="9">
-            {
-              status === 'successful' &&
-                <Messages
-                  warning={text.warning[lang]}
-                  isFetching={false}
-                />
-            }
-            {
-              status === 'fail' &&
-                <Messages
-                  error={text.error[lang]}
-                  isFetching={false}
-                />
-            }
-          </Col>
-        </Row>
-      </Container>
+      <Row>
+        <Col xs="12" sm="8" md="9">
+          {
+            status === 'successful' &&
+              <Messages
+                warning={text.warning[lang]}
+                isFetching={false}
+              />
+          }
+          {
+            status === 'fail' &&
+              <Messages
+                error={text.error[lang]}
+                isFetching={false}
+              />
+          }
+        </Col>
+      </Row>
     </Layout>
   )
 }

@@ -5,13 +5,10 @@ import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 
 
-import {
-  Carousel,
-} from 'react-bootstrap';
+import { Carousel } from 'react-bootstrap';
 
 import {
   Grid,
-  Container,
   Stepper,
   Step,
   StepContent,
@@ -126,127 +123,125 @@ function Home({
 
   return (
     <Layout>
-      <Container>
-        <Grid item xs={12} sm={8} md={9}>
-            {
-              posts.data && posts.data.docs && !!posts.data.docs.length &&
-              <Carousel className={classes.carousel}>
-                {
-                  posts.data.docs.map((itm) => {
-                    return (
-                      <Carousel.Item key={itm._id}>
-                        <Link to={`/post/${itm._id}`}>
-                          <img
-                            style={{filter: 'brightness(50%)'}}
-                            className="d-block w-100"
-                            src={'/media/image/' + itm.img.url + '?resize=600x400'}
-                            alt={itm.title}
-                          />
-
-                          <Carousel.Caption>
-                            <h2 className={classes.carousel_title}>{itm.title}</h2>
-                          </Carousel.Caption>
-                        </Link>
-                      </Carousel.Item>
-                    )
-                  })
-                }
-              </Carousel>
-            }
-            {
-              rate.data && rate.data.docs && !!rate.data.docs.length &&
-              <Carousel className={classes.carousel}>
-                {
-                  rate.data.docs.map((itm) => {
-                    return (
-                      <Carousel.Item key={itm._id}>
-                        <Link to={`/make-rate?rateId=${itm._id}`}>
-                          <img
-                            style={{filter: 'brightness(50%)'}}
-                            className="d-block w-100"
-                            src={'/media/image/' + itm.img + '?resize=600x400'}
-                            alt={itm.title}
-                          />
-
-                          <Carousel.Caption>
-                            <h2 className={classes.carousel_title}>{itm.title}</h2>
-                          </Carousel.Caption>
-                        </Link>
-                      </Carousel.Item>
-                    )
-                  })
-                }
-              </Carousel>
-            }
-          </Grid>
-          <Grid item xs={12} sm={8} md={9} className={classes.root}>
-            <h1>
-              Сервис ставок Face Betting
-            </h1>
-            <h4>
-              Пройти <Link to="/auth">регистрацию</Link>
-            </h4>
-            <Typography>
-              Face Betting это сервис для пользовательских ставок.
-              Вы создаете ставку в нашем сервисе получаете проценты от сделанных ставок вне зависимости
-              от результата
-            </Typography>
-            <Typography>
-              Как это работает? Вот 5 шагов к заработку в Face Betting
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={8} md={9} className={classes.root}>
-            <Stepper activeStep={activeStep} orientation="vertical">
-              {steps.map((label, index) => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                  <StepContent>
-                    <Typography>{getStepContent(index)}</Typography>
-                    <div className={classes.actionsContainer}>
-                      <div>
-                        <Button
-                          disabled={activeStep === 0}
-                          onClick={handleBack}
-                          className={classes.button}
-                        >
-                          Назад
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={handleNext}
-                          className={classes.button}
-                        >
-                          {activeStep === steps.length ? 'Назад' : 'Далее'}
-                        </Button>
-                      </div>
-                    </div>
-                  </StepContent>
-                </Step>
-              ))}
-            </Stepper>
-            {activeStep === steps.length && (
-              <Paper square elevation={0} className={classes.resetContainer}>
-                <Typography>
-                  Вот и все. Дополнительную информацию вы найдете в разделе Документация.
-                  Обязательно <Link to="/auth">регистрируйтесь</Link>
-                </Typography>
-                <Button onClick={handleReset} className={classes.button}>
-                  Вернутся в начало
-                </Button>
-              </Paper>
-            )}
-            <>
+      <Grid item xs={12} sm={8} md={9}>
+          {
+            posts.data && posts.data.docs && !!posts.data.docs.length &&
+            <Carousel className={classes.carousel}>
               {
-                [0, 1, 2, 3, 4, 5].map((index) => {
+                posts.data.docs.map((itm) => {
                   return (
-                    <meta key={index} content={getStepContent(index)} />
+                    <Carousel.Item key={itm._id}>
+                      <Link to={`/post/${itm._id}`}>
+                        <img
+                          style={{filter: 'brightness(50%)'}}
+                          className="d-block w-100"
+                          src={'/media/image/' + itm.img.url + '?resize=600x400'}
+                          alt={itm.title}
+                        />
+
+                        <Carousel.Caption>
+                          <h2 className={classes.carousel_title}>{itm.title}</h2>
+                        </Carousel.Caption>
+                      </Link>
+                    </Carousel.Item>
                   )
                 })
               }
-            </>
+            </Carousel>
+          }
+          {
+            rate.data && rate.data.docs && !!rate.data.docs.length &&
+            <Carousel className={classes.carousel}>
+              {
+                rate.data.docs.map((itm) => {
+                  return (
+                    <Carousel.Item key={itm._id}>
+                      <Link to={`/make-rate?rateId=${itm._id}`}>
+                        <img
+                          style={{filter: 'brightness(50%)'}}
+                          className="d-block w-100"
+                          src={'/media/image/' + itm.img + '?resize=600x400'}
+                          alt={itm.title}
+                        />
+
+                        <Carousel.Caption>
+                          <h2 className={classes.carousel_title}>{itm.title}</h2>
+                        </Carousel.Caption>
+                      </Link>
+                    </Carousel.Item>
+                  )
+                })
+              }
+            </Carousel>
+          }
         </Grid>
-      </Container>
+        <Grid item xs={12} sm={8} md={9} className={classes.root}>
+          <h1>
+            Сервис ставок Face Betting
+          </h1>
+          <h4>
+            Пройти <Link to="/auth">регистрацию</Link>
+          </h4>
+          <Typography>
+            Face Betting это сервис для пользовательских ставок.
+            Вы создаете ставку в нашем сервисе получаете проценты от сделанных ставок вне зависимости
+            от результата
+          </Typography>
+          <Typography>
+            Как это работает? Вот 5 шагов к заработку в Face Betting
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={8} md={9} className={classes.root}>
+          <Stepper activeStep={activeStep} orientation="vertical">
+            {steps.map((label, index) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+                <StepContent>
+                  <Typography>{getStepContent(index)}</Typography>
+                  <div className={classes.actionsContainer}>
+                    <div>
+                      <Button
+                        disabled={activeStep === 0}
+                        onClick={handleBack}
+                        className={classes.button}
+                      >
+                        Назад
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleNext}
+                        className={classes.button}
+                      >
+                        {activeStep === steps.length ? 'Назад' : 'Далее'}
+                      </Button>
+                    </div>
+                  </div>
+                </StepContent>
+              </Step>
+            ))}
+          </Stepper>
+          {activeStep === steps.length && (
+            <Paper square elevation={0} className={classes.resetContainer}>
+              <Typography>
+                Вот и все. Дополнительную информацию вы найдете в разделе Документация.
+                Обязательно <Link to="/auth">регистрируйтесь</Link>
+              </Typography>
+              <Button onClick={handleReset} className={classes.button}>
+                Вернутся в начало
+              </Button>
+            </Paper>
+          )}
+          <>
+            {
+              [0, 1, 2, 3, 4, 5].map((index) => {
+                return (
+                  <meta key={index} content={getStepContent(index)} />
+                )
+              })
+            }
+          </>
+      </Grid>
     </Layout>
   )
 }

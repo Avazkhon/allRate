@@ -2,12 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import {
-  Container,
-  Row,
-  Col,
-} from 'react-bootstrap';
-
 import PurseComponent from 'components/PurseComponent';
 
 import Layout from '../Layout';
@@ -21,9 +15,7 @@ class Purse extends Component {
   render() {
     return (
       <Layout>
-        <Container>
-          <PurseComponent />
-        </Container>
+        <PurseComponent />
       </Layout>
     );
   }

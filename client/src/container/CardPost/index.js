@@ -2,11 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-
-import {
-  Container,
-} from 'react-bootstrap';
-
 import { CardPost } from 'components/CardPost';
 import Layout from '../Layout';
 
@@ -72,7 +67,6 @@ class CardPostPage extends React.Component {
 
     return (
       <Layout>
-      <Container>
         { postPage.data?._id &&
           <CardPost
             changeRating={this.handleChangeRating}
@@ -84,7 +78,6 @@ class CardPostPage extends React.Component {
             auth={auth}
           />
         }
-      </Container>
       </Layout>
     );
   }

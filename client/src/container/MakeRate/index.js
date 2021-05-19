@@ -3,17 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 
-import {
-  Grid
-} from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 import {
   getRateByID,
   getBlockById,
-  // putBlockById,
-  // postInvoice,
-  // getPurse,
-  // changeRatingRate,
   addCountViewsRate,
 } from 'actions';
 
@@ -57,18 +51,16 @@ function MakeRate (
 
   return (
     <Layout>
-      <Grid container>
-        <Grid item xs={12}>
-          <RateCard
-            selectRate={selectRate}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <CardsBlocks
-            blocks={blocks}
-            statusLife={selectRate.data && selectRate.data.statusLife}
-          />
-        </Grid>
+      <Grid item xs={12}>
+        <RateCard
+          selectRate={selectRate}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <CardsBlocks
+          blocks={blocks}
+          statusLife={selectRate.data && selectRate.data.statusLife}
+        />
       </Grid>
     </Layout>
   )

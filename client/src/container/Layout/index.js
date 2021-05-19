@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Container from '@material-ui/core/Container';
 
 import Menu from 'components/Menu';
 
@@ -15,7 +16,9 @@ const Layout = (props) => {
       </div>
       <div style={{display: 'flex'}} className='content'>
         <Menu />
-        {props.children}
+        <Container>
+          {props.children}
+        </Container>
       </div>
       <div className="layout-footer">
         <Footer />
