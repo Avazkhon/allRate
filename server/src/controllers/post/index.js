@@ -1,7 +1,6 @@
 const postModels = require('../../models/post');
 const WriteToLog = require('../../utils/writeToLog');
 const { getAuthorIdOrAuthorIds, getParamsForSearchDB } = require('../../utils');
-const subscriptionModels = require('../../models/subscriptions');
 
 
 const writeToLog = new WriteToLog();
@@ -25,12 +24,17 @@ exports.create = async (req, res) => {
 
 exports.putPostById = async (req, res) => {
   try {
+    const { user } = req.session;
     const {
       body,
       query: {
         postId,
       },
     } = req;
+
+    if (!user || (user && !user.userId )) {
+      return res.status(401).json('Пользователь не авторизован!');
+    }
 
     const props = [
       'title',
@@ -43,7 +47,7 @@ exports.putPostById = async (req, res) => {
         data[prop] = body[prop];
       }
     });
-    console.log(data)
+
     const post = await postModels.findByIdAndUpdate({ _id: postId }, { $set: data });
     res.status(200).json(post);
   } catch (error) {

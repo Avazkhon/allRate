@@ -44,7 +44,7 @@ class CardPostPage extends React.Component {
     getPostById(postId)
       .then((action) => {
         if (action.status === 'SUCCESS') {
-          getUsersByIds([action.response.author || action.response.authorId]);
+          action.response && getUsersByIds([action.response?.author || action.response?.authorId]);
         }
       });
   }
@@ -73,7 +73,7 @@ class CardPostPage extends React.Component {
     return (
       <Layout>
       <Container>
-        { postPage.data._id &&
+        { postPage.data?._id &&
           <CardPost
             changeRating={this.handleChangeRating}
             onAddCountViewsPost={this.handleAddCountViewsPost}

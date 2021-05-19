@@ -96,7 +96,6 @@ export const CardPost = (props) => {
 
   const mainImage = `/media/image/${img.url}`;
   const itAuthor = (user && auth) && (user._id === auth.userId)
-  console.log(user, auth)
   return (
     <Card className={classes.root}>
       <CardHeader
