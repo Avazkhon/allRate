@@ -23,7 +23,7 @@ class CardPostPage extends React.Component {
 
   }
   componentDidMount() {
-    this.getPostById()
+    this.handleGetPostById()
     this.handleAddCountViewsPost()
   }
 
@@ -35,16 +35,18 @@ class CardPostPage extends React.Component {
     addCountViewsPost(postId)
   }
 
-  getPostById = () => {
+  handleGetPostById = () => {
     const {
-      match: { params: { id: postId } }
+      match: { params: { id: postId } },
+      getPostById,
+      getUsersByIds
     } = this.props;
-    this.props.getPostById(postId)
-    .then((action) => {
-      if (action.status === 'SUCCESS') {
-        getUsersByIds([action.response.author || action.response.authorId]);
-      }
-    });
+    getPostById(postId)
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          getUsersByIds([action.response.author || action.response.authorId]);
+        }
+      });
   }
 
   getAuthor = (users, itm) => users.find(user => user._id === itm.author || user._id === itm.authorId)
@@ -53,7 +55,7 @@ class CardPostPage extends React.Component {
     const { changeRatingPost } = this.props;
     return changeRatingPost(data, postId, action)
       .then((action) => {
-        this.getPostById(postId)
+        this.handleGetPostById(postId)
         return action;
       })
   }
@@ -63,6 +65,9 @@ class CardPostPage extends React.Component {
       postPage,
       lang,
       users,
+      auth: {
+        auth
+      }
     } = this.props;
 
     return (
@@ -76,6 +81,7 @@ class CardPostPage extends React.Component {
             isPage
             user={users.data && this.getAuthor(users.data, postPage.data)}
             lang={lang.lang}
+            auth={auth}
           />
         }
       </Container>

@@ -45,6 +45,11 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
+  link: {
+    '&:hover': {
+      textDecoration: 'none'
+    }
+  }
 }));
 
 const cardPostText = {
@@ -90,7 +95,8 @@ export const CardPost = (props) => {
   };
 
   const mainImage = `/media/image/${img.url}`;
-  const itAuthor = user && (auth && user._id === auth.userId)
+  const itAuthor = (user && auth) && (user._id === auth.userId)
+  console.log(user, auth)
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -109,8 +115,11 @@ export const CardPost = (props) => {
               itAuthor ? (
                 <Link
                   to={`/post-form/${_id}`}
+                  className={classes.link}
                 >
+                  <Typography variant="body2" color="textSecondary" component="p">
                   { cardPostText.edit[lang] }
+                  </Typography>
                 </Link>
               ) : null
             }
@@ -122,6 +131,7 @@ export const CardPost = (props) => {
               user && (
                 itAuthor ?`/me/` : `/profile/${user._id}`)
             ) || '#'}
+            className={classes.link}
           >
             { user && user.userName }
           </Link>
@@ -144,8 +154,11 @@ export const CardPost = (props) => {
             <IconButton aria-label="Got ot page post">
               <Link
                 to={`/post/${_id}`}
+                className={classes.link}
               >
-                {cardPostText.goTo[lang]}
+                <Typography variant="body2" color="primary" component="p">
+                  {cardPostText.goTo[lang]}
+                </Typography>
               </Link>
             </IconButton>
           )
