@@ -74,7 +74,7 @@ function RecursiveTreeView({
         onNodeToggle={onNodeToggle}
         defaultExpandIcon={<ChevronRightIcon />}
       >
-        {categoriesData.code && renderTree(categoriesData)}
+        {categoriesData?.code && renderTree(categoriesData)}
       </TreeView>
   );
 }
