@@ -1,12 +1,9 @@
 import React,{ useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
-
-// import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import CheckIcon from '@material-ui/icons/Check';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
 
@@ -56,9 +53,6 @@ function RecursiveTreeView({
         nodeId={nodes.code}
         label={(nodes.code !== 'bets' && isMenu) ? <Link className={classes.link} to={url}><span>{nodes.name}</span></Link> : nodes.name}
         onClick={click}
-        // className={clsx('', {
-        //   [classes.selected]: selectel === nodes.idCheckIcon
-        // })}
       >
         {end ? null : nodes.children && nodes.children.map((node) => renderTree(node, url, Object.assign({}, categories)))}
       </TreeItem>
@@ -70,7 +64,6 @@ function RecursiveTreeView({
         className={classes.root}
         defaultCollapseIcon={<ExpandMoreIcon />}
         expanded={expanded}
-        // onNodeSelect={onNodeSelect}
         onNodeToggle={onNodeToggle}
         defaultExpandIcon={<ChevronRightIcon />}
       >
