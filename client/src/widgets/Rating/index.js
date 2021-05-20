@@ -65,7 +65,7 @@ function Rating({
         disabled={isMakeNegative || !auth || isFetching || !isRightsMakeAction}
         title={ratingText.negative[lang]}
       >
-        <ThumbDownIcon className={clsx('', {[classes.isLike]: isMakeNegative})} /> {rating.negative.length}
+        <ThumbDownIcon fontSize="small" className={clsx('', {[classes.isLike]: isMakeNegative})} /> {rating.negative.length}
       </IconButton>
       <IconButton
         aria-label="Thumb up"
@@ -74,7 +74,7 @@ function Rating({
         disabled={isMakePositively || !auth || isFetching || !isRightsMakeAction}
         title={ratingText.positively[lang]}
       >
-        <ThumbUpIcon className={clsx('', {[classes.isLike]: isMakePositively})} /> {rating.positively.length}
+        <ThumbUpIcon fontSize="small" className={clsx('', {[classes.isLike]: isMakePositively})} /> {rating.positively.length}
       </IconButton>
     </>
   );

@@ -17,6 +17,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import EditIcon from '@material-ui/icons/Edit';
 
 import Rating from 'widgets/Rating';
 
@@ -49,6 +50,14 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       textDecoration: 'none'
     }
+  },
+  content: {
+    '& img': {
+      width: '100%'
+    }
+  },
+  sibCardActions: {
+    height: 22
   }
 }));
 
@@ -117,7 +126,10 @@ export const CardPost = (props) => {
                   className={classes.link}
                 >
                   <Typography variant="body2" color="textSecondary" component="p">
-                  { cardPostText.edit[lang] }
+                    <EditIcon
+                      fontSize="small"
+                      titleAccess={ cardPostText.edit[lang] }
+                    />
                   </Typography>
                 </Link>
               ) : null
@@ -163,15 +175,7 @@ export const CardPost = (props) => {
           )
         }
         <IconButton aria-label="Count views">
-          <VisibilityIcon title={cardPostText.views[lang]}/> {views}
-        </IconButton>
-        <IconButton aria-label="Make reiting">
-          <Rating
-            changeRating={changeRating}
-            rating={rating}
-            objectId={_id}
-            isShow={expanded || isPage}
-          />
+          <VisibilityIcon fontSize="small" title={cardPostText.views[lang]}/> {views}
         </IconButton>
         <IconButton
           className={clsx(classes.expand, {
@@ -183,6 +187,20 @@ export const CardPost = (props) => {
         >
           <ExpandMoreIcon />
         </IconButton>
+      </CardActions>
+      <CardActions className={classes.sibCardActions} disableSpacing>
+        {
+          expanded && (
+            <IconButton aria-label="Make reiting">
+              <Rating
+                changeRating={changeRating}
+                rating={rating}
+                objectId={_id}
+                isShow={expanded || isPage}
+              />
+            </IconButton>
+          )
+        }
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
