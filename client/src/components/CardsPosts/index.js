@@ -84,14 +84,16 @@ class CardsPosts extends React.Component {
         {
           posts.data && posts.data.docs.map((itm) => {
             return (
-              <CardPost key={itm._id}
-                changeRating={changeRatingPost}
-                onAddCountViewsPost={() => this.handleAddCountViewsPost(itm._id)}
-                post={itm}
-                user={users.data && this.getAuthor(users.data, itm)}
-                lang={lang}
-                auth={auth}
-              />
+              <div className={classes.post}>
+                <CardPost key={itm._id}
+                  changeRating={changeRatingPost}
+                  onAddCountViewsPost={() => this.handleAddCountViewsPost(itm._id)}
+                  post={itm}
+                  user={users.data && this.getAuthor(users.data, itm)}
+                  lang={lang}
+                  auth={auth}
+                />
+              </div>
             )
           })
         }

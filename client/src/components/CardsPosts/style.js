@@ -4,8 +4,8 @@ export default {
     'display': 'flex',
     'flex-direction': 'column',
 
-    '& > div': {
-      'margin-top': '20px',
-    }
+  },
+  post: {
+    marginTop: 20
   }
 }

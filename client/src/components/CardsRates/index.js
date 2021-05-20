@@ -20,9 +20,7 @@ import {
   getRatesPage,
 } from 'actions';
 
-import Messages from 'components/Messages';
 import CardRate from 'components/CardRate';
-import NexLoadPage from 'widgets/NexLoadPage';
 
 import style from './style';
 
