@@ -45,6 +45,12 @@ const useStyles = makeStyles((theme) => ({
   },
   carousel_title: {
     fontSize: '14px'
+  },
+  link: {
+    color: '#fff',
+    '&:hover': {
+      color: '#fff'
+    }
   }
 }));
 
@@ -131,7 +137,7 @@ function Home({
                 posts.data.docs.map((itm) => {
                   return (
                     <Carousel.Item key={itm._id}>
-                      <Link to={`/post/${itm._id}`}>
+                      <Link to={`/post/${itm._id}`} className={classes.link}>
                         <img
                           style={{filter: 'brightness(50%)'}}
                           className="d-block w-100"
@@ -180,7 +186,7 @@ function Home({
             Сервис ставок Face Betting
           </h1>
           <h4>
-            Пройти <Link to="/auth">регистрацию</Link>
+            Пройти <Link className={classes.link} to="/auth">регистрацию</Link>
           </h4>
           <Typography>
             Face Betting это сервис для пользовательских ставок.
