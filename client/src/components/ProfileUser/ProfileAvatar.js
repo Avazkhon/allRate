@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import ImageUploded from '../../widgets/ImageUploded';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
+import UploadButtons from '../../widgets/UploadButtons';
+import Albums from '../ImageList';
+import { Form } from 'react-bootstrap';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,11 +25,42 @@ export default function ImageAvatars(props) {
   const {
     avatar,
     isPageAuth,
-    lang,
     handleUploded,
-    alt
+    handleChangeAvatar,
+    alt,
   } = props;
   const classes = useStyles();
+  const [showModalSelectImage, setShowModalSelectImage] = useState(false);
+  const [image, setImage] = useState(null);
+  const [imageId, setImageId] = useState(null);
+
+  function handleShowModalSelectImage() {
+    setShowModalSelectImage(!showModalSelectImage)
+  }
+
+  function handleCancelShowModalSelectImage() {
+    setShowModalSelectImage(false)
+  }
+
+  function handleChangeAvatarWrapper(imageId) {
+    setImageId(imageId)
+  }
+
+  function handleSelectImage(event) {
+    event.persist()
+    setImage(event.target.files[0])
+  }
+
+  function handleUploadedWrapper() {
+    if (imageId) {
+      handleCancelShowModalSelectImage()
+      return handleChangeAvatar (imageId)
+    }
+    if (image) {
+      handleCancelShowModalSelectImage()
+      return  handleUploded([image])
+    }
+  }
 
   return (
     <div className={classes.root}>
@@ -36,11 +71,39 @@ export default function ImageAvatars(props) {
       />
       {
         isPageAuth &&
-        <ImageUploded
-          lang={lang}
-          changeImg={handleUploded}
-        />
+        <Button
+          color="primary"
+          onClick={handleShowModalSelectImage}
+          >
+          Выбрать фото
+        </Button>
       }
+
+      <Dialog
+        open={showModalSelectImage}
+        onClose={handleCancelShowModalSelectImage}
+      >
+        <DialogTitle>
+          Выбор изображения
+        </DialogTitle>
+        <DialogContent>
+          <UploadButtons
+            id={1}
+            uploadFile={handleSelectImage}
+          />
+          <Albums
+            onSelectImageFromAlbums={handleChangeAvatarWrapper}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleCancelShowModalSelectImage} color="primary">
+            Назад
+          </Button>
+          <Button onClick={handleUploadedWrapper} color="primary">
+            ОК
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

@@ -199,7 +199,7 @@ class PostFrom extends React.Component {
           onClose={this.handleShowModalSelectImage}
         >
           <DialogTitle>
-            Выбор места в меню
+            Выбор изображения
           </DialogTitle>
           <DialogContent>
             <UploadButtons

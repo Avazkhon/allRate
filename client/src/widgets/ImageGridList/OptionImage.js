@@ -2,7 +2,6 @@ import React from 'react';
 import { useClickAway } from "use-click-away";
 import { makeStyles } from '@material-ui/core/styles';
 
-import FileCopyOutlined from '@material-ui/icons/FileCopyOutlined';
 import FileCopyRounded from '@material-ui/icons/FileCopyRounded';
 import PageviewIcon from '@material-ui/icons/Pageview';
 import PhotoSizeSelectActualIcon from '@material-ui/icons/PhotoSizeSelectActual';
@@ -49,7 +48,11 @@ export const OptionImage = (props) => {
       navigator.clipboard.writeText(props.tile.id)
        setMessage('id скопирован в буфер');
     }
-    setTimeout(() => setMessage(''), 2000);
+    if(event.currentTarget.name === 'select') {
+      onSelectImageFromAlbums(props.tile.id)
+      setMessage('Изображения выбрано');
+    }
+    setTimeout(() => setMessage(''), 3000);
   };
 
   useClickAway(clickRef, () => {
@@ -63,14 +66,15 @@ export const OptionImage = (props) => {
         <div className={classes.option}>
           {
             onSelectImageFromAlbums && (
-              <span
-                onClick={() => onSelectImageFromAlbums(props.tile.id)}
+              <fieldset
+                onClick={handleClick}
+                name="select"
               >
                 <PhotoSizeSelectActualIcon
                   className={classes.icon}
-                  titleAccess="Кликните для копирования url"
+                  titleAccess="Кликните для выбора изображения"
                 />
-              </span>
+              </fieldset>
             )
           }
 

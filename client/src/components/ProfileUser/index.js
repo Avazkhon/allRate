@@ -57,17 +57,27 @@ class ProfileUser extends React.Component {
     })
   }
 
+  handleChangeAvatar = (imageId) => {
+    const {
+      getUserForPageById,
+      profileId,
+      updateUserAuth
+    } = this.props;
+    updateUserAuth({ avatar: imageId });
+    getUserForPageById(profileId);
+  }
+
   getUserProps = (userData, profileText, lang) => {
     const {
       email,
       userName,
       phone,
     } = userData;
-    const titlForUserProps = profileText.titleHiddenOrShow[lang];
+    const titleForUserProps = profileText.titleHiddenOrShow[lang];
     return [
-      { name: userName, type: 'userName', label: profileText.userName[lang], title: titlForUserProps, hidden: false },
-      { name: email, type: 'email', label: profileText.email[lang], title: titlForUserProps, hidden: true },
-      { name: phone, type: 'phone', label: profileText.phone[lang], title: titlForUserProps, hidden: true },
+      { name: userName, type: 'userName', label: profileText.userName[lang], title: titleForUserProps, hidden: false },
+      { name: email, type: 'email', label: profileText.email[lang], title: titleForUserProps, hidden: true },
+      { name: phone, type: 'phone', label: profileText.phone[lang], title: titleForUserProps, hidden: true },
     ]
   }
 
@@ -104,6 +114,7 @@ class ProfileUser extends React.Component {
               lang={lang}
               alt={userData?.userName}
               handleUploded={this.handleUploded}
+              handleChangeAvatar={this.handleChangeAvatar}
             />
           </Col>
           <Col xs="12" sm="6" md="5">
