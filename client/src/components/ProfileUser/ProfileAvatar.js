@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
-import ImageUploded from '../../widgets/ImageUploded';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 import UploadButtons from '../../widgets/UploadButtons';
 import Albums from '../ImageList';
-import { Form } from 'react-bootstrap';
 
 const useStyles = makeStyles((theme) => ({
   root: {

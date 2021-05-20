@@ -107,7 +107,7 @@ class ProfileUser extends React.Component {
     return (
       <Card>
         <Row>
-          <Col xs="12" sm="6" md="2">
+          <Col xs="12" sm="6" md="4">
             <ProfileAvatar
               avatar={userData?.avatar}
               isPageAuth={isPageAuth}
@@ -117,7 +117,7 @@ class ProfileUser extends React.Component {
               handleChangeAvatar={this.handleChangeAvatar}
             />
           </Col>
-          <Col xs="12" sm="6" md="5">
+          <Col xs="12" sm="6" md="4">
             <ListGroup>
               { isPageAuth && <PurseWidget /> }
               <ListGroup.Item>
@@ -140,7 +140,7 @@ class ProfileUser extends React.Component {
               }
             </ListGroup>
           </Col>
-          <Col xs="12" sm="12" md="5">
+          <Col xs="12" sm="12" md="4">
             <PersonData
               userProps={userProps}
             />
