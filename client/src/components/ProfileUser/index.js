@@ -67,17 +67,18 @@ class ProfileUser extends React.Component {
     getUserForPageById(profileId);
   }
 
-  getUserProps = (userData, profileText, lang) => {
+  getUserProps = (userData, profileText, lang, auth) => {
     const {
       email,
       userName,
       phone,
     } = userData;
     const titleForUserProps = profileText.titleHiddenOrShow[lang];
+    const isAuth = auth?.userData?._id;
     return [
       { name: userName, type: 'userName', label: profileText.userName[lang], title: titleForUserProps, hidden: false },
-      { name: email, type: 'email', label: profileText.email[lang], title: titleForUserProps, hidden: true },
-      { name: phone, type: 'phone', label: profileText.phone[lang], title: titleForUserProps, hidden: true },
+      { name: email, type: 'email', label: profileText.email[lang], title: titleForUserProps, hidden: true, disabled: !isAuth },
+      { name: phone, type: 'phone', label: profileText.phone[lang], title: titleForUserProps, hidden: true, disabled: !isAuth },
     ]
   }
 
@@ -94,6 +95,7 @@ class ProfileUser extends React.Component {
 
   render() {
     const {
+      auth,
       userPage: { data: userData },
       lang: { lang },
       isPageAuth,
@@ -101,7 +103,7 @@ class ProfileUser extends React.Component {
 
     let userProps = [];
     if (userData && userData._id) {
-      userProps = this.getUserProps(userData, profileText, lang);
+      userProps = this.getUserProps(userData, profileText, lang, auth);
     }
 
     return (

@@ -15,7 +15,10 @@ class PersonData extends React.Component {
   }
 
   handleShow = (e) => {
-    const { name } = e.currentTarget.dataset;
+    const { name, disabled } = e.currentTarget.dataset;
+    if (disabled === 'true') {
+      return;
+    }
     this.setState((prevState) => {
       return {
         isShows: {
@@ -53,6 +56,7 @@ class PersonData extends React.Component {
                     style={{cursor: 'pointer'}}
                     title={itm.title}
                     data-name={itm.type}
+                    data-disabled={itm.disabled}
                     onClick={this.handleShow}
                   >
                     {icon}

@@ -40,8 +40,8 @@ exports.craeteUser = async (req, res) => {
     });
     transporter.sendMail({
       to: user.email,
-      subject: "my app", // Subject line
-      text: "mail confirmation", // plain text body
+      subject: "Email confirmation", // Subject line
+      text: "Face Betting", // plain text body
       html: `
         <div>
           <h3>Hello, ${user.userName}</h3>
