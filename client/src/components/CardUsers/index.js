@@ -257,13 +257,15 @@ class CardUser extends React.Component {
                     </Button>
                   </Col>
                 }
-                <Col>
-                  <Rating
-                    changeRating={changeRatingUser}
-                    rating={user.rating}
-                    objectId={user._id}
-                  />
-                </Col>
+                  {
+                    // <Col>
+                    //   <Rating
+                    //     changeRating={changeRatingUser}
+                    //     rating={user.rating}
+                    //     objectId={user._id}
+                    //   />
+                    // </Col>
+                  }
                 <Col>
                   <Card.Link href={urlForUserPage}>
                     {userCardText.follow[lang]}
