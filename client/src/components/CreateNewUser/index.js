@@ -133,7 +133,7 @@ class CreateNewUser extends Component {
   checkLength = (string, length, warning) => (string.length < length && warning);
 
   checkValidPhone = (phone) => {
-    const re = /\+7\d{10}/;
+    const re = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/;
     return re.test(String(phone).toLowerCase());
   }
 
