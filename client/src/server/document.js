@@ -52,6 +52,7 @@ const CustomDocumentHOC = (store) => {
           <head>
             <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
             <meta charSet="utf-8" />
+            <meta name="yandex-verification" content="5f3875621a0f30ed" />
             <title>Face Betting</title>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             {helmet.title.toComponent()}
