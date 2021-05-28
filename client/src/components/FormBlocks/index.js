@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import injectSheet from 'react-jss';
 import {
   Button,
+  Typography
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
@@ -28,6 +29,7 @@ import {
   deleteBlock,
   deleteBet,
 } from 'actions';
+import { forEach } from 'react-bootstrap/cjs/ElementChildren';
 
 const textLang = {
   title: {
@@ -365,8 +367,18 @@ class FormBlocks extends React.Component {
       || (statusLife === rateStatusLive.archive)
       || (statusLife === rateStatusLive.in_progress)
 
+    let amountAllBlocks = 0
+    block?.blocks.forEach((item) => {
+      if (Number(item.amountAll)) {
+        amountAllBlocks += item.amountAll;
+      }
+    });
+
     return (
       <div className={classes['card-block']} noValidate autoComplete="off">
+        <Typography variant="body1">
+          Общая собранная сумма: {amountAllBlocks}
+        </Typography>
         {
           block.blocks.map((block) => {
             return (
