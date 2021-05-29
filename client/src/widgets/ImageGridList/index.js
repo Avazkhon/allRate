@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 
@@ -45,11 +45,18 @@ export default function ImageGridList({ tileData, onSelectImageFromAlbums }) {
     }
   }
 
+  const newTileData = useMemo(() => {
+    return tileData.reduceRight((accumulator, value) => {
+      accumulator.push(value); // почемуто не работает обычный revesw
+      return accumulator;
+    }, []);
+  }, [tileData])
+
   return (
     <div className={classes.root}>
       <div className={classes.imageList}>
         {
-          tileData.map((tile) => {
+          newTileData.map((tile) => {
             const { fullSrc, src } = geSrc(tile.id);
             const url = getProtocolAndDomain();
             return (
