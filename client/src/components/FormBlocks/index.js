@@ -376,9 +376,13 @@ class FormBlocks extends React.Component {
 
     return (
       <div className={classes['card-block']} noValidate autoComplete="off">
-        <Typography variant="body1">
-          Общая собранная сумма: {amountAllBlocks}
-        </Typography>
+        {
+          !!amountAllBlocks && (
+            <Typography variant="body1">
+              Общая собранная сумма: {amountAllBlocks}
+            </Typography>
+          )
+        }
         {
           block.blocks.map((block) => {
             return (
