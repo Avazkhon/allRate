@@ -1,6 +1,8 @@
 const moment = require('moment-timezone');
 const rateModels = require('../models/rate');
+const userModels = require('../models/user');
 const WriteToLog = require('../utils/writeToLog');
+const transporter = require('../utils/transporter');
 
 const writeToLog = new WriteToLog();
 class InnerTask {
@@ -14,18 +16,43 @@ class InnerTask {
     };
     this.paramsForIsActive = { // в этот параметр будет добавлены новые ключи
       _id: true,
-      statusLife: true
+      statusLife: true,
+      authorId: true
     }
 
   }
 
+  async sendInfoRateIsFinish(rate) {
+    const user = await userModels.findOne({ _id: rate.authorId });
+    transporter.sendMail({
+      to: user.email,
+      subject: "Ваша ставка завершена", // Subject line
+      text: "Face Betting", // plain text body
+      html: `
+        <div>
+          <h3>Привет, ${user.userName}!</h3>
+          <p>
+            Ваша ставка завершена. Вам нужно определить исход события и сделать выплаты.
+          </p>
+          <p>
+            Ссылка на вашу ставку: ${process.env.MAIN_URL}/create-rate/?rateId=${rate._id}
+          </p>
+          <p>
+            Сервис пользовательских ставок <a href=${process.env.MAIN_URL}>FaceBetting</a>
+          </p>
+        <div/>
+      `,
+    })
+  }
+
   async update(arr, status) {
     for (var rate of arr) {
-      rateModels.findByIdAndUpdate({ _id: rate._id }, { statusLife: status }, (err, result) => {
+      await rateModels.findByIdAndUpdate({ _id: rate._id }, { statusLife: status }, (err, result) => {
         if (err) {
           writeToLog.write(err, 'inner_task_update.err')
         }
       });
+      this.sendInfoRateIsFinish(rate) ;
     }
   }
 
