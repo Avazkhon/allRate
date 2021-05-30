@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
@@ -21,7 +22,10 @@ import {
 import {
   getPostsPage,
   getRatesPage,
+  getPostPostsByDate,
 } from 'actions';
+
+import CardsPosts from 'components/CardsPosts';
 
 import Layout from '../Layout';
 
@@ -104,12 +108,25 @@ function Home({
   rate,
   getPostsPage,
   getRatesPage,
+  getPostPostsByDate,
+  history
 }) {
   const classes = useStyles();
+
+  const [ bestPostByDate, setBestPostByDate ] = useState({ data: null });
 
   useEffect(() => {
     getPostsPage({ page: 1, limit: 6 });
     getRatesPage({ page: 1, limit: 6, statusLife: ['active', 'new'] });
+    getPostPostsByDate({
+      page: 1,
+      limit: 6,
+      createDataStart: moment().subtract(1, 'months').format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+      createDateEnd: moment().format("YYYY-MM-DDTHH:mm:ss.SSS[Z]") }
+    )
+      .then((action) => {
+        setBestPostByDate({ data: action.response })
+      })
   }, [])
 
   const [activeStep, setActiveStep] = useState(0);
@@ -127,6 +144,7 @@ function Home({
     setActiveStep(0);
   };
 
+  console.log('bestPostByDate', bestPostByDate);
   return (
     <Layout>
       <Grid item xs={12} sm={8} md={9}>
@@ -248,6 +266,17 @@ function Home({
             }
           </>
       </Grid>
+      {
+        bestPostByDate.data && (
+          <Grid item xs={12} sm={8} md={9} className={classes.root}>
+            <CardsPosts
+              title="Лучшие статьи за месц"
+              posts={bestPostByDate}
+              history={history}
+            />
+          </Grid>
+        )
+      }
     </Layout>
   )
 }
@@ -256,6 +285,7 @@ function Home({
 Home.propTypes = {
   getRatesPage: PropTypes.func,
   getPostsPage: PropTypes.func,
+  getPostPostsByDate: PropTypes.func,
   auth: PropTypes.shape(),
   posts: PropTypes.shape(),
   rate: PropTypes.shape(),
@@ -278,4 +308,5 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   getPostsPage,
   getRatesPage,
+  getPostPostsByDate
 })(Home)

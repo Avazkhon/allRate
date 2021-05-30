@@ -39,6 +39,7 @@ export const CREATE_POST = 'CREATE_POST';
 export const ADD_COUNT_VIEWS_POST = 'ADD_COUNT_VIEWS_POST';
 export const CHANGE_RATING_POST = 'CHANGE_RATING_POST';
 export const GET_POSTS_PAGE = 'GET_POSTS_PAGE';
+export const GET_BEST_POSTS_BY_DATE = 'GET_BEST_POSTS_BY_DATE';
 export const GET_POST_BY_ID = 'GET_POST_BY_ID';
 export const PUT_POST_BY_ID = 'PUT_POST_BY_ID';
 

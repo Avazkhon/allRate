@@ -77,10 +77,11 @@ class CardsPosts extends React.Component {
         auth
       },
       classes,
+      title
     } = this.props;
     return (
       <section className={classes['posts-list']}>
-        <h1>Статьи</h1>
+        <h1>{title ? title : 'Статьи'}</h1>
         {
           posts.data && posts.data.docs.map((itm) => {
             return (
@@ -115,6 +116,7 @@ CardsPosts.propTypes = {
   changeRatingPost: PropTypes.func,
   getPostsPage: PropTypes.func,
   userId: PropTypes.string,
+  title: PropTypes.string,
 }
 
 function mapStateToProps(state) {

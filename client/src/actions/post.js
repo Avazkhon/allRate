@@ -6,6 +6,7 @@ import {
   GET_POSTS_PAGE,
   GET_POST_BY_ID,
   PUT_POST_BY_ID,
+  GET_BEST_POSTS_BY_DATE
 } from '../constants';
 
 export function createPost (data) {
@@ -46,6 +47,16 @@ export function getPostsPage ({ page, limit, authorId, subscriptionsId }) {
     meta: {
       method: 'GET',
       endpoint:`post/?page=${page}&limit=${limit}${authorId ? '&authorId=' + authorId : '' }${subscriptionsId ? '&subscriptionsId=' + subscriptionsId : '' }`,
+    }
+  });
+}
+
+export function getPostPostsByDate ({ page, limit, createDataStart, createDateEnd }) {
+  return dispatch => dispatch({
+    type: GET_BEST_POSTS_BY_DATE,
+    meta: {
+      method: 'GET',
+      endpoint:`post/?page=${page}&limit=${limit}${createDataStart ? '&createDataStart=' + createDataStart : ''}${createDateEnd ? '&createDateEnd=' + createDateEnd : ''}`,
     }
   });
 }

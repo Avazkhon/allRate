@@ -1,3 +1,5 @@
+import { getPostPostsByDate } from './post';
+
 export {
   getAlbums
 } from './albums';
@@ -64,6 +66,7 @@ export {
   getPostsPage,
   getPostById,
   putPostById,
+  getPostPostsByDate,
 } from './post';
 
 export {

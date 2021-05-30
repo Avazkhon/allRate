@@ -1,6 +1,6 @@
 const postModels = require('../../models/post');
 const WriteToLog = require('../../utils/writeToLog');
-const { getAuthorIdOrAuthorIds, getParamsForSearchDB } = require('../../utils');
+const { getAuthorIdOrAuthorIds, getParamsForSearchDB, getParamsBestPostByDate} = require('../../utils');
 
 
 const writeToLog = new WriteToLog();
@@ -66,17 +66,23 @@ exports.get = async (req, res) => {
         page,
         authorId,
         subscriptionsId,
+        createDataStart,
+        createDateEnd
       },
     } = req;
     let post = null;
+    let sort = { createDate: -1 };
     if (postId) {
       post = await postModels.findOne({ _id: postId });
     } else {
       let query = await getAuthorIdOrAuthorIds({ authorId, subscriptionsId });
-      query = { ...getParamsForSearchDB(params, ['page', 'limit', 'subscriptionsId' ]), ...query };
+      query = { ...getParamsForSearchDB(params, ['page', 'limit', 'subscriptionsId', 'createDataStart', 'createDateEnd' ]), ...query };
+      const paramsBestPostByDate = getParamsBestPostByDate(query, sort, createDataStart, createDateEnd);
+      sort = paramsBestPostByDate.sort;
+      query = paramsBestPostByDate.query;
 
       const options = {
-        sort: { createDate: -1 },
+        sort,
         limit,
         page,
       }

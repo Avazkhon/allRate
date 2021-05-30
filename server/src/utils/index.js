@@ -35,6 +35,20 @@ exports.getParamsForSearchDB = (params, deleteParams) => {
   return _params;
 }
 
+exports.getParamsBestPostByDate = (query, sort, createDataStart, createDateEnd) => {
+  if (createDataStart || createDateEnd) {
+    query.createDate = {};
+    sort = { views: -1 }
+    if (createDataStart) {
+      query.createDate.$gte = createDataStart;
+    }
+    if (createDataStart) {
+      query.createDate.$lt = createDateEnd;
+    }
+  }
+  return { sort, query }
+}
+
 exports.yndexAmountDue = (amount) => {
   // вычесляет какой будет процент изходя из суммы снятия
   return Number(amount) + Number(amount) * 0.03 + 45;
