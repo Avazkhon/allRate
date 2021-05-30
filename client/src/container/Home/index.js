@@ -270,7 +270,7 @@ function Home({
         bestPostByDate.data && (
           <Grid item xs={12} sm={8} md={9} className={classes.root}>
             <CardsPosts
-              title="Лучшие статьи за месц"
+              title={<Typography paragraph="h2">Лучшие статьи за месяц</Typography>}
               posts={bestPostByDate}
               history={history}
             />
