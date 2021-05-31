@@ -162,3 +162,6 @@ export const injectGA = () => { // для google Аналитика
 
   gtag('config', 'UA-66498150-1');
 };
+
+
+export const getAuthor = (users, itm) => users.find(user => user._id === itm.author || user._id === itm.authorId)

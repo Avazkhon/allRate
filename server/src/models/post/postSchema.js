@@ -16,6 +16,18 @@ exports.postSchema = new Schema(
       url: { type: String, default: urlImages },
     },
     views: { type: Number, required: true, min: 0, default: 0 },
+    positivelyCount: {
+      type: Number,
+      default: function () {
+        return this.rating.positively.length
+      }
+    },
+    negativeCount: {
+      type: Number,
+      default: function () {
+        return this.rating.negative.length
+      }
+    },
     rating: {
       positively: [
         {

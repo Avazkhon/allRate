@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
+import moment from 'moment';
 
 
 import { Carousel } from 'react-bootstrap';
@@ -20,9 +21,19 @@ import {
 
 import {
   getPostsPage,
-  getRatesPage
+  getRatesPage,
+  addCountViewsPost,
+  changeRatingPost,
+  getPostPostsByDate,
+  getUsersByIds
 } from 'actions';
+
+import {
+  BestPostList
+} from './BestPostList';
+
 import Layout from '../Layout';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,6 +61,12 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       color: '#fff'
     }
+  },
+  bestPost: {
+    margin: '24px 0 16px 0'
+  },
+  postItem: {
+    marginTop: 16
   }
 }));
 
@@ -98,21 +115,64 @@ function getStepContent(step) {
 }
 
 
-function Home({
-  posts,
-  rate,
-  getPostsPage,
-  getRatesPage,
-}) {
+function Home(props) {
+  const {
+    rate,
+    getRatesPage,
+    changeRatingPost,
+    users,
+    lang,
+    auth,
+    getPostPostsByDate,
+    getUsersByIds
+  } = props;
   const classes = useStyles();
+  const [activeStep, setActiveStep] = useState(0);
+  const [postsForSlader, setPostsForSlader] = useState({});
+  const [postsBest, setPostsBest] = useState({});
+  const steps = getSteps();
 
   useEffect(() => {
-    getPostsPage({ page: 1, limit: 6 });
+    getPostPostsByDate({ page: 1, limit: 6 })
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          setPostsForSlader(action.response)
+        }
+      });
     getRatesPage({ page: 1, limit: 6, statusLife: ['active', 'new'] });
-  }, [])
+    handleGetPostPostsByDate()
+  }, []);
 
-  const [activeStep, setActiveStep] = useState(0);
-  const steps = getSteps();
+  function handleGetPostPostsByDate() {
+    return getPostPostsByDate({
+      page: 1,
+      limit: 24,
+      createDateStart: moment().subtract(1, 'months').format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+      createDateEnd: moment().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+    })
+      .then((action) => {
+        if (action.status === 'SUCCESS') {
+          let unique = action.response.docs.reduce((acc, post)=>acc.add(post.authorId), new Set());
+          getUsersByIds(Array.from(unique))
+          setPostsBest(action.response);
+        }
+      })
+  }
+
+  function handleChangeRatingPost(...rest) {
+    return changeRatingPost(...rest)
+      .then(() => {
+        handleGetPostPostsByDate();
+      })
+  }
+
+  const handleAddCountViewsPost = (postId) => {
+    props.addCountViewsPost(postId)
+      .then(() => {
+        handleGetPostPostsByDate();
+      })
+  }
+
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -126,14 +186,15 @@ function Home({
     setActiveStep(0);
   };
 
+
   return (
     <Layout>
       <Grid item xs={12} sm={8} md={9}>
           {
-            posts.data && posts.data.docs && !!posts.data.docs.length &&
+             postsForSlader.docs && !!postsForSlader.docs.length &&
             <Carousel className={classes.carousel}>
               {
-                posts.data.docs.map((itm) => {
+                postsForSlader.docs.map((itm) => {
                   return (
                     <Carousel.Item key={itm._id}>
                       <Link to={`/post/${itm._id}`} className={classes.link}>
@@ -247,6 +308,20 @@ function Home({
             }
           </>
       </Grid>
+
+      {
+        postsBest.docs && (
+          <BestPostList
+            postsBest={postsBest}
+            classes={classes}
+            handleChangeRatingPost={handleChangeRatingPost}
+            handleAddCountViewsPost={handleAddCountViewsPost}
+            users={users}
+            lang={lang}
+            auth={auth.auth}
+          />
+        )
+      }
     </Layout>
   )
 }
@@ -255,6 +330,10 @@ function Home({
 Home.propTypes = {
   getRatesPage: PropTypes.func,
   getPostsPage: PropTypes.func,
+  addCountViewsPost: PropTypes.func,
+  changeRatingPost: PropTypes.func,
+  getPostPostsByDate: PropTypes.func,
+  getUsersByIds: PropTypes.func,
   auth: PropTypes.shape(),
   posts: PropTypes.shape(),
   rate: PropTypes.shape(),
@@ -265,11 +344,15 @@ function mapStateToProps(state) {
     auth,
     posts,
     rate,
+    users,
+    lang,
   } = state;
   return {
     auth,
     posts,
     rate,
+    users,
+    lang: lang.lang,
   };
 }
 
@@ -277,4 +360,8 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   getPostsPage,
   getRatesPage,
+  addCountViewsPost,
+  changeRatingPost,
+  getPostPostsByDate,
+  getUsersByIds
 })(Home)

@@ -35,14 +35,14 @@ exports.getParamsForSearchDB = (params, deleteParams) => {
   return _params;
 }
 
-exports.getParamsBestPostByDate = (query, sort, createDataStart, createDateEnd) => {
-  if (createDataStart || createDateEnd) {
+exports.getParamsBestPostByDate = (query, sort, createDateStart, createDateEnd) => {
+  if (createDateStart || createDateEnd) {
     query.createDate = {};
-    sort = { views: -1 }
-    if (createDataStart) {
-      query.createDate.$gte = createDataStart;
+    sort = { positivelyCount: -1 }
+    if (createDateStart) {
+      query.createDate.$gte = createDateStart;
     }
-    if (createDataStart) {
+    if (createDateStart) {
       query.createDate.$lt = createDateEnd;
     }
   }

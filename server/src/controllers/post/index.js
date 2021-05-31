@@ -66,7 +66,7 @@ exports.get = async (req, res) => {
         page,
         authorId,
         subscriptionsId,
-        createDataStart,
+        createDateStart,
         createDateEnd
       },
     } = req;
@@ -76,8 +76,8 @@ exports.get = async (req, res) => {
       post = await postModels.findOne({ _id: postId });
     } else {
       let query = await getAuthorIdOrAuthorIds({ authorId, subscriptionsId });
-      query = { ...getParamsForSearchDB(params, ['page', 'limit', 'subscriptionsId', 'createDataStart', 'createDateEnd' ]), ...query };
-      const paramsBestPostByDate = getParamsBestPostByDate(query, sort, createDataStart, createDateEnd);
+      query = { ...getParamsForSearchDB(params, ['page', 'limit', 'subscriptionsId', 'createDateStart', 'createDateEnd' ]), ...query };
+      const paramsBestPostByDate = getParamsBestPostByDate(query, sort, createDateStart, createDateEnd);
       sort = paramsBestPostByDate.sort;
       query = paramsBestPostByDate.query;
 
@@ -86,7 +86,6 @@ exports.get = async (req, res) => {
         limit,
         page,
       }
-
       post = await postModels.paginate(query, options);
     }
     res.status(200).json(post);

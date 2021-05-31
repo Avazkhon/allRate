@@ -51,12 +51,13 @@ export function getPostsPage ({ page, limit, authorId, subscriptionsId }) {
   });
 }
 
-export function getPostPostsByDate ({ page, limit, createDataStart, createDateEnd }) {
+export function getPostPostsByDate (queryParams) {
   return dispatch => dispatch({
     type: GET_BEST_POSTS_BY_DATE,
     meta: {
       method: 'GET',
-      endpoint:`post/?page=${page}&limit=${limit}${createDataStart ? '&createDataStart=' + createDataStart : ''}${createDateEnd ? '&createDateEnd=' + createDateEnd : ''}`,
+      endpoint:`post`,
+      queryParams
     }
   });
 }
