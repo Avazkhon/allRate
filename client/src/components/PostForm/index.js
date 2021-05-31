@@ -55,7 +55,6 @@ class PostFrom extends React.Component {
             postId: _id,
             title,
             text,
-            imageId: img.url,
           })
           getUsersByIds([action.response.author || action.response.authorId]);
         }
@@ -78,8 +77,8 @@ class PostFrom extends React.Component {
   }
 
   handleSubmit = (text) => {
-    const { title, file, imageId, postId } = this.state;
-    const { createPost, changeImg, putPostById } = this.props;
+    const { title, postId } = this.state;
+    const { createPost } = this.props;
     const data = {
       title,
       text,
@@ -91,65 +90,68 @@ class PostFrom extends React.Component {
     }
 
     createPost(data)
-    .then((action) => {
-      if (action.status === 'SUCCESS') {
-        this.setState({postId: action.response._id})
-        if (!this.state.imageId && file) {
-          changeImg([file])
-            .then((imageAction) => {
-              if(imageAction.status === 'SUCCESS') {
-                putPostById(action.response._id, { img: { url: imageAction.response[0].imageName } })
-                  .then((action) => {
-                    if (action.status === 'SUCCESS') {
-                      this.setState({
-                        warning: 'Статья успешна создана!',
-                        isFetching: false,
-                      })
-                    }
-                  })
-              }
-            })
-        }
-        if (!file && imageId) {
-          putPostById(action.response._id, { img: { url: imageId } })
-            .then((action) => {
-              if (action.status === 'SUCCESS') {
-                this.setState({postId: action.response._id})
-                this.setState({
-                  warning: 'Статья успешна создана!',
-                  isFetching: false,
-                })
-              }
-            })
-        }
+      .then((action) => this.this.handleChangeImagePost(action, { textSuccess: 'Статья успешна создана!' }))
+  }
 
+  handleChangeImagePost = (action, { textSuccess } ) => {
+    const { file, imageId } = this.state;
+    const { changeImg, putPostById } = this.props;
+
+    if (action.status === 'SUCCESS') {
+      this.setState({postId: action.response._id})
+      if (!imageId && file) {
+        changeImg([file])
+          .then((imageAction) => {
+            if(imageAction.status === 'SUCCESS') {
+              putPostById(action.response._id, { img: { url: imageAction.response[0].imageName } })
+                .then((action) => {
+                  if (action.status === 'SUCCESS') {
+                    this.setState({
+                      warning: textSuccess,
+                      isFetching: false,
+                    })
+                  }
+                })
+            }
+          })
+      } else if (!file && imageId) {
+        putPostById(action.response._id, { img: { url: imageId } })
+          .then((action) => {
+            if (action.status === 'SUCCESS') {
+              this.setState({postId: action.response._id})
+              this.setState({
+                warning: textSuccess,
+                isFetching: false,
+              })
+            }
+          })
       } else {
+        this.setState({postId: action.response._id})
         this.setState({
-          error: action.error,
+          warning: textSuccess,
           isFetching: false,
         })
       }
-    })
+
+    } else {
+      this.setState({
+        error: action.error,
+        isFetching: false,
+      })
+    }
+
   }
 
   handleChangePost = (text) => {
     const {
       postId,
-      imageId,
       title
     } = this.state;
     const {
       putPostById
     } = this.props;
-    putPostById(postId, { text, title, img: { url: imageId } })
-      .then((action) => {
-        if (action.status === 'SUCCESS') {
-          this.setState({
-            warning: 'Статья успешна обновлена!',
-            isFetching: false,
-          })
-        }
-      })
+    putPostById(postId, { text, title })
+      .then((action) => this.handleChangeImagePost(action, { textSuccess: 'Статья успешна обновлена!' }))
   }
 
   uploadFile = (event) => this.setState({ file: event.target.files[0] })
