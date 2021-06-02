@@ -19,13 +19,13 @@ exports.postSchema = new Schema(
     positivelyCount: {
       type: Number,
       default: function () {
-        return this.rating.positively.length
+        return this.rating.positively?.length || 0
       }
     },
     negativeCount: {
       type: Number,
       default: function () {
-        return this.rating.negative.length
+        return this.rating.negative?.length || 0
       }
     },
     rating: {
