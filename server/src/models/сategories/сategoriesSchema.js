@@ -8,6 +8,7 @@ const getTemmplate = (count = 0) => {
     name: { type: String },
     code: { type: String },
     type: { type: String },
+    description: { type: String, minlength: 50, maxlength: 500 },
     children: []
   }
   if(count === 4) {
