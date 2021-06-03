@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
-
+import { Helmet } from "react-helmet";
 
 import { Carousel } from 'react-bootstrap';
 
@@ -114,6 +114,15 @@ function getStepContent(step) {
   }
 }
 
+const description = `
+Face Betting это сервис для пользовательских ставок. 
+Вы создаете ставку в нашем сервисе получаете проценты от сделанных ставок вне зависимости от результата.
+На Face Betting вы можете заработать деньги создовая ставки на сервисе.
+На сервисе ставок Face Betting можно делать ставки выбирая из любимых каперов и блогеров или выбрать на одни и теже события разнын пари. 
+На Face Betting можно писать статьи, подписываться и собирать свою аудиторию (комьюнити).
+Лучшие коэффициент на ставки которые образуютьтя динамически в зависимости от сделаныз ставок.
+`;
+
 
 function Home(props) {
   const {
@@ -189,6 +198,9 @@ function Home(props) {
 
   return (
     <Layout>
+      <Helmet>
+        <meta name="description" content={description} />
+      </Helmet>
       <Grid item xs={12} sm={8} md={9}>
           {
              postsForSlader.docs && !!postsForSlader.docs.length &&

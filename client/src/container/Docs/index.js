@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@material-ui/core/styles';
+import { Helmet } from "react-helmet";
 
 
 import {
@@ -66,6 +67,10 @@ function Docs() {
 
   return (
     <Layout>
+      <Helmet>
+        <title>Документация по созданияю ставок на Face Betting</title>
+        <meta name="description" content="На этой странице описана документация по созданию и управлению ставок на FaceBetting. Эта страница поможет начать пользоваться сервисом Face Betting и заработать деньги в интернете"/>
+      </Helmet>
       <Grid item xs={12}>
         <AppBar position="static" color="default">
           <Tabs

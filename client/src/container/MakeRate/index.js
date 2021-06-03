@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
+import { Helmet } from "react-helmet";
 
 import { Grid } from '@material-ui/core';
 
@@ -51,6 +52,14 @@ function MakeRate (
 
   return (
     <Layout>
+      {
+        selectRate.data && (
+          <Helmet>
+            <title>{selectRate.data.title}</title>
+            <meta name="description" content={selectRate.data.description}/>
+          </Helmet>
+        )
+      }
       <Grid item xs={12}>
         <RateCard
           selectRate={selectRate}
