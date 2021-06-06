@@ -11,7 +11,7 @@ let transporter = nodemailer.createTransport(
     },
   },
   {
-    from: `"All Rate" <${emailAccount.user}>`, // sender address
+    from: `"FaceBetting" <${emailAccount.user}>`, // sender address
   }
 );
 
