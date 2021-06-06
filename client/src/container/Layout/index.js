@@ -73,8 +73,19 @@ const Layout = (props) => {
         <Menu />
         <Container maxWidth="sm" className={classes.container}>
           {
-            metaTags && metaTags.name && (
-              <h1>Ставки на - {metaTags.name}</h1>
+            metaTags && (
+              <>
+              {
+                metaTags.name && (
+                  <h1>Ставки на - {metaTags.name}</h1>
+                )
+              }
+                {
+                  metaTags.description && (
+                    <p>{metaTags.description}</p>
+                  )
+                }
+              </>
             )
           }
           {props.children}
