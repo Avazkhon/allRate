@@ -4,6 +4,7 @@ const purseModel = require('../../models/purse');
 const rateModel = require('../../models/rate');
 const userModel = require('../../models/user');
 const WriteToLog = require('../../utils/writeToLog');
+const emailTemplate = require('../../emailTemplate');
 const Yandex = require('../yndex');
 const {
   basisForPayment: {
@@ -107,6 +108,7 @@ class InvoiceController {
     body.invoiceId = uuidv4();
 
     const invoice = await invoiceModel.create(body);
+    const userData = await userModel.findOne({_id: user.userId});
 
     if (basisForPayment === accountReplenishment) {
       return this.makeInvoicYandex({amount_due: invoice.amount, invoiceRequisites: invoice.requisites.src})
@@ -128,8 +130,13 @@ class InvoiceController {
             .then((result) => {
               if (result.status === 'success') {
                 this.changePurse(invoice, invoice.requisites.src, basisForPayment, this.plus);
+                invoiceModel.findByIdAndUpdate({_id: invoice.id}, {status: result.status});
+                emailTemplate.sendEmailAccountReplenishment({
+                  to: userData.email,
+                  userName: userData.userName,
+                  amount: invoice.amount
+                })
               }
-              invoiceModel.findByIdAndUpdate({_id: invoice.id}, {status: result.status})
             })
         })
         .catch((err)=> {
