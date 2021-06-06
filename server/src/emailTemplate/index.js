@@ -15,7 +15,7 @@ exports.sendEmailAccountReplenishment = ({ to, userName, amount, dateTime}) => {
           >
           <h3>Добрый день, ${userName}!</h3>
           <p>
-            Ваш счет пополнен на ${amount} рублей.
+            Ваш кошелек пополнен на ${amount} рублей.
           </p>
           <p>Дата: ${moment().utc().format()}</p>
           <p>
