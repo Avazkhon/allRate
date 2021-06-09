@@ -1,118 +1,165 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import { useLocation } from 'react-router-dom';
+import { parse } from 'querystring';
+import { Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
-import injectSheet from 'react-jss';
 import {
   AiOutlineFileProtect,
   AiOutlineFileSearch,
-  AiOutlineForm,
   AiOutlineFile,
 } from "react-icons/ai";
-import { RiFileSearchLine } from "react-icons/ri";
 
-import {
-  Modal,
-  ListGroup,
-  Row,
-  Col,
-} from 'react-bootstrap';
+import { RiFileSearchLine } from "react-icons/ri";
 
 import PostForm from 'components/PostForm';
 
-import style from './style';
-
-class UserBtnGroup extends Component {
-  constructor(props) {
-    super(props);
-    this.size = 17;
-    this.state = {
-      isCreatePost: false,
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  button: {
+    marginBottom: 0,
+  },
+  link: {
+    '&:hover': {
+      textDecoration: 'none'
     }
   }
+}));
 
-  handleCreatePost = () => {
-    this.setState((prevState) => ({
-      isCreatePost: !prevState.isCreatePost
-    }))
+function UserBtnGroup(props) {
+  const {
+    isPageAuth,
+  } = props;
+  const classes = useStyles();
+  const location = useLocation();
+  const [isCreatePost, setCreatePost] = useState(false);
+
+  const content = parse(location.hash);
+
+  function handleCreatePost() {
+    setCreatePost(!isCreatePost)
   }
 
-  renderLink = () => {
-    const {
-      classes,
-      isPageAuth,
-    } = this.props;
-    return (
-      <ListGroup horizontal>
-        { isPageAuth &&
-          <ListGroup.Item
-            className={classes.btn}
-            onClick={this.handleCreatePost}
-          >
-            <AiOutlineForm size={this.size} title="Создать пост" />
-          </ListGroup.Item>
-        }
-        <ListGroup.Item>
-          <Link
-            className={classes.btn}
-            to='?page=1&limit=24#content=my_posts'
-          >
-            <AiOutlineFileProtect size={this.size} title="мои посты" />
-          </Link>
-        </ListGroup.Item>
-        <ListGroup.Item>
-          <Link
-            className={classes.btn}
-            to='?page=1&limit=24#content=subscribtion_posts'
-          >
-            <AiOutlineFileSearch size={this.size} title="мои новости" />
-          </Link>
-        </ListGroup.Item>
-        <ListGroup.Item>
-          <Link
-            className={classes.btn}
-            to='?page=1&limit=24#content=my_rates'
-          >
-            <AiOutlineFile size={this.size} title="мой ставки"/>
-          </Link>
-        </ListGroup.Item>
-        <ListGroup.Item>
-          <Link
-            className={classes.btn}
-            to='?page=1&limit=24#content=subscribtion_rates'
-          >
-            <RiFileSearchLine size={this.size} title="подписка на ставки" />
-          </Link>
-        </ListGroup.Item>
-      </ListGroup>
-    )
-  }
-
-  render() {
-    const {
-      isCreatePost,
-    } = this.state;
-
-    return (
-      <>
-        <Row>
-          <Col lg={{ offset: 4 }} md={{ offset: 3 }} sm={{ offset: 1 }} >
-            {
-              this.renderLink()
-            }
-          </Col>
-        </Row>
-        <Modal show={isCreatePost} onHide={this.handleCreatePost}>
-          <Modal.Header closeButton>
-            <Modal.Title>Создание поста</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <PostForm />
-          </Modal.Body>
-        </Modal>
-      </>
-    )
-  }
+  return (
+    <div className={classes.root}>
+      {
+        isPageAuth && (
+          <ButtonGroup size="small" aria-label="small outlined button group">
+            <Button
+              onClick={handleCreatePost}
+            >
+              <Typography className={classes.button} variant="caption" display="block" gutterBottom color="textSecondary">
+                Создать пост
+              </Typography>
+            </Button>
+            <Button
+              className={classes.link}
+            >
+              <Link
+                className={classes.link}
+                to="/create-rate"
+              >
+                <Typography className={classes.button} variant="caption" display="block" gutterBottom color="textSecondary">
+                  Создать ставку
+                </Typography>
+              </Link>
+            </Button>
+            <Button
+              className={classes.link}
+            >
+              <Link className={classes.link} to='/albums'>
+                <Typography className={classes.button} variant="caption" display="block" gutterBottom color="textSecondary">
+                  Альбом
+                </Typography>
+              </Link>
+            </Button>
+          </ButtonGroup>
+        )
+      }
+      <ButtonGroup size="small" aria-label="small outlined button group">
+        <Button
+          disabled={content['#content'] === 'my_posts' || !content['#content']}
+        >
+          {
+            <Link
+              className={classes.link}
+              to="?page=1&limit=24#content=my_posts"
+            >
+              <AiOutlineFileProtect title="Мои посты" />
+              <Typography className={classes.button} variant="caption" display="block" gutterBottom color="textSecondary">
+                Мой посты
+              </Typography>
+            </Link>
+          }
+        </Button>
+        <Button
+          disabled={content['#content'] === 'subscribtion_posts'}
+        >
+          {
+            <Link
+              className={classes.link}
+              to="?page=1&limit=24#content=subscribtion_posts"
+            >
+              <AiOutlineFileSearch title="Мои новости" />
+              <Typography className={classes.button} variant="caption" display="block" gutterBottom color="textSecondary">
+                Мои новости
+              </Typography>
+            </Link>
+          }
+        </Button>
+        <Button
+          disabled={content['#content'] === 'my_rates'}
+        >
+          {
+            <Link
+              className={classes.link}
+              to="?page=1&limit=24#content=my_rates"
+            >
+              <AiOutlineFile title="Мой ставки"/>
+              <Typography className={classes.button} variant="caption" display="block" gutterBottom color="textSecondary">
+                Мой ставки
+              </Typography>
+            </Link>
+          }
+        </Button>
+        <Button
+          disabled={content['#content'] === 'subscribtion_rates'}
+        >
+          {
+            <Link
+              className={classes.link}
+              to="?page=1&limit=24#content=subscribtion_rates"
+            >
+              <RiFileSearchLine title="Подписка на ставки" />
+              <Typography className={classes.button} variant="caption" display="block" gutterBottom color="textSecondary">
+                Подписка на ставки
+              </Typography>
+            </Link>
+          }
+        </Button>
+      </ButtonGroup>
+      <Modal show={isCreatePost} onHide={handleCreatePost}>
+        <Modal.Header closeButton>
+          <Modal.Title>Создание поста</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <PostForm />
+        </Modal.Body>
+      </Modal>
+    </div>
+  );
 }
 
 UserBtnGroup.propTypes = {
@@ -129,6 +176,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default injectSheet(style)(
-  connect(mapStateToProps, {})(UserBtnGroup)
-);
+export default connect(mapStateToProps, {})(UserBtnGroup);

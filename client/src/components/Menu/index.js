@@ -109,16 +109,16 @@ function Menu({
             </ListItem>
           }
           {
-            userData && userData._id &&
-            <ListItem button>
-              <ListItemText primary={<Link className={classes.link} to='/create-rate'>Создать ставку</Link>}/>
-            </ListItem>
+            // userData && userData._id &&
+            // <ListItem button>
+            //   <ListItemText primary={<Link className={classes.link} to='/create-rate'>Создать ставку</Link>}/>
+            // </ListItem>
           }
           {
-            userData && userData._id &&
-            <ListItem button>
-              <ListItemText primary={<Link className={classes.link} to='/albums'>Альбом</Link>}/>
-            </ListItem>
+            // userData && userData._id &&
+            // <ListItem button>
+            //   <ListItemText primary={<Link className={classes.link} to='/albums'>Альбом</Link>}/>
+            // </ListItem>
           }
           <ListItem button>
             <ListItemText primary={<Link className={classes.link} to='/posts/'>Посты</Link>}/>
