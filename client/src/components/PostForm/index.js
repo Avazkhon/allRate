@@ -90,7 +90,7 @@ class PostFrom extends React.Component {
     }
 
     createPost(data)
-      .then((action) => this.this.handleChangeImagePost(action, { textSuccess: 'Статья успешна создана!' }))
+      .then((action) => this.handleChangeImagePost(action, { textSuccess: 'Статья успешна создана!' }))
   }
 
   handleChangeImagePost = (action, { textSuccess } ) => {
