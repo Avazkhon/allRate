@@ -39,7 +39,11 @@ class PaymentAfterRate {
         blockModel.findOne({ _id: blocksId}),
         rateModel.findOne({ blockId: blocksId}),
         userModel.findOne({ _id: userSession.userId }),
-      ])
+      ]);
+
+      if (rate.authorId !== userSession.userId  ) {
+        return res.status(403);
+      }
 
       this.rate = await rateModel.findByIdAndUpdate({ _id: rate._id }, { statusLife: rateStatusLive.in_progress });
       this.user = user;
@@ -48,7 +52,7 @@ class PaymentAfterRate {
       let blocksAfterPaymentMade = await this.makePaymentBlocks(blocks)
       blocksAfterPaymentMade = await this.paymentPercentageAndLeftovers(blocksAfterPaymentMade);
 
-      const blocksAfterUpdate = await blockModel.findByIdAndUpdate(
+      await blockModel.findByIdAndUpdate(
         { _id: blocksId },
         blocksAfterPaymentMade,
         { 'blocks.bets.participants': false }

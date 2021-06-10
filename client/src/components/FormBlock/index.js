@@ -408,7 +408,6 @@ FormBlock.propTypes = {
   // auth: PropTypes.shape(),
   classes: PropTypes.shape(),
   block: PropTypes.shape(),
-  lang: PropTypes.shape(),
   addBets: PropTypes.func,
   handleChangeTextBlock: PropTypes.func,
   handleChangeTextBets: PropTypes.func,
@@ -420,6 +419,7 @@ FormBlock.propTypes = {
   selectWinBet: PropTypes.func,
   isDisabledByLife: PropTypes.bool,
   statusLife: PropTypes.string,
+  lang: PropTypes.string
 }
 
 export default injectSheet(style)(FormBlock)

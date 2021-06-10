@@ -26,7 +26,7 @@ function AlertDialogSlide (
 
   useEffect(() => {
     setOpen(isOpen)
-  }, isOpen)
+  }, [isOpen])
 
   const handleClose = () => {
     setOpen(false)

@@ -45,19 +45,30 @@ exports.postAddOne = async (req, res) => {
 
 exports.findByIdAndUpdate = (req, res) => {
   const { id } = req.query;
-  const { body } = req;
+  const {
+    body,
+    session: {
+      user
+    }
+  } = req;
   try {
-    rateModels.findByIdAndUpdate({ _id: id }, { $set: body })
+    rateModels.findByIdAndUpdate(
+      {
+        _id: id,
+        authorId: user.userId // это проверка то что не владелец не может изменять блоки
+      },
+      {$set: body }
+    )
     .then((result) => {
       res.status(200).json(result);
     })
     .catch((err) => {
       writeToLog.write(err, 'update_rate.err');
-      return res.status(500).json({ message: 'Все плохо!', err});
+      return res.status(500).json({ message: 'Все плохо!', err: err.toString()});
     })
   }
   catch(err) {
-    return res.status(500).json({ message: 'Все плохо!', err});
+    return res.status(500).json({ message: 'Все плохо!', err: err.toString()});
   }
 }
 

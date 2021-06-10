@@ -20,12 +20,14 @@ import FormBlocks from 'components/FormBlocks';
 
 import Layout from '../Layout';
 
-function CreateRatePage ({
-  history,
-  selectRate,
-  blocks,
-  getRateByID
-}) {
+function CreateRatePage (props) {
+  const {
+    history,
+    selectRate,
+    blocks,
+    getRateByID,
+    auth
+  } = props;
   const { rateId } = queryString.parse(history.location.search);
 
   const [{
@@ -39,8 +41,13 @@ function CreateRatePage ({
 })
 
   useEffect(() => {
-    updateRateEndBlocks()
-  }, [])
+    if (!blocks.data?._id && (auth.auth && selectRate.data) && auth.auth.userId === selectRate.data.authorId) {
+      updateRateEndBlocks();
+    }
+    if ((!auth.auth && !selectRate.data) || auth.auth?.userId != selectRate?.data.authorId) {
+      history.goBack();
+    }
+  }, [auth, selectRate, blocks]);
 
 
   function updateRateEndBlocks () {
@@ -59,15 +66,17 @@ function CreateRatePage ({
 
   return (
     <Layout>
-      <FormRate
-        selectRate={isShowRate ? selectRate : {}}
-        paymentPercentage={blocks.data?.paymentPercentage}
-      />
-      <FormBlocks
-        rateId={rateId}
-        blockId={blockId}
-        statusLife={selectRate.data && selectRate.data.statusLife}
-      />
+      <>
+        <FormRate
+          selectRate={isShowRate ? selectRate : {}}
+          paymentPercentage={blocks.data?.paymentPercentage}
+        />
+        <FormBlocks
+          rateId={rateId}
+          blockId={blockId}
+          statusLife={selectRate.data && selectRate.data.statusLife}
+        />
+      </>
     </Layout>
   );
 }

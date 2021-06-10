@@ -698,10 +698,10 @@ FormRate.propTypes = {
   putPaymentRateByBlock: PropTypes.func,
   getRateByID: PropTypes.func,
   getBlockById: PropTypes.func,
-  paymentPercentage: PropTypes.func,
   getCategories: PropTypes.func,
   selectRate: PropTypes.shape(),
   auth: PropTypes.shape(),
+  paymentPercentage: PropTypes.bool
 }
 
 function mapStateToProps(state) {
