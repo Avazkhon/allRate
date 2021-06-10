@@ -30,21 +30,16 @@ function CreateRatePage (props) {
   } = props;
   const { rateId } = queryString.parse(history.location.search);
 
-  const [{
-    isShowRate,
-    blockId,
-  },
-  changeData,
-] = useState({
-    isShowRate: false,
-    blockId: null,
-})
+  const [{ isShowRate, blockId }, changeData ] = useState({
+      isShowRate: false,
+      blockId: null,
+    })
 
   useEffect(() => {
     if (!blocks.data?._id && (auth.auth && selectRate.data) && auth.auth.userId === selectRate.data.authorId) {
       updateRateEndBlocks();
     }
-    if ((!auth.auth && !selectRate.data) || auth.auth?.userId != selectRate?.data.authorId) {
+    if ((!blocks.data._id && !auth.auth && !selectRate.data) || auth.auth?.userId != selectRate?.data.authorId) {
       history.goBack();
     }
   }, [auth, selectRate, blocks]);
