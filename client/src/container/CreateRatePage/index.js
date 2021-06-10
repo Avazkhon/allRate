@@ -40,9 +40,8 @@ function CreateRatePage (props) {
   }, []);
 
   useEffect(() => {
-    console.log(auth.auth, selectRate.data)
     if ((auth.auth && selectRate.data && auth.auth.userId != selectRate.data.authorId) || (selectRate.data && !auth.auth)) {
-      history.goBack();
+      history.push('/');
     }
   }, [auth.auth, selectRate.data]);
 
