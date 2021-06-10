@@ -36,13 +36,15 @@ function CreateRatePage (props) {
     })
 
   useEffect(() => {
-    if (!blocks.data?._id && (auth.auth && selectRate.data) && auth.auth.userId === selectRate.data.authorId) {
-      updateRateEndBlocks();
-    }
-    if ((!blocks.data._id && !auth.auth && !selectRate.data) || auth.auth?.userId != selectRate?.data.authorId) {
+    updateRateEndBlocks();
+  }, []);
+
+  useEffect(() => {
+    console.log(auth.auth, selectRate.data)
+    if ((auth.auth && selectRate.data && auth.auth.userId != selectRate.data.authorId) || (selectRate.data && !auth.auth)) {
       history.goBack();
     }
-  }, [auth, selectRate, blocks]);
+  }, [auth.auth, selectRate.data]);
 
 
   function updateRateEndBlocks () {
