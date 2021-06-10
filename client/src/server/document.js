@@ -52,7 +52,6 @@ const CustomDocumentHOC = (store) => {
           <head>
             <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
             <meta charSet="utf-8" />
-            <meta name="yandex-verification" content="5f3875621a0f30ed" />
             <title>Face Betting</title>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             {helmet.title.toComponent()}
@@ -63,8 +62,15 @@ const CustomDocumentHOC = (store) => {
               //   <link rel="stylesheet" href={assets.client.css} />
               // )
             }
-            <meta name="google-site-verification" content="aHSr_XmZNFRYAKnP5OE9XjAQtujXOLqPEd4r7jB1YQA" />
-            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66498150-1"></script>
+            {
+              process.env.NODE_ENV === 'production' && (
+                <>
+                  <meta name="yandex-verification" content="5f3875621a0f30ed" />
+                  <meta name="google-site-verification" content="aHSr_XmZNFRYAKnP5OE9XjAQtujXOLqPEd4r7jB1YQA" />
+                  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66498150-1"></script>
+                </>
+              )
+            }
 
             {process.env.NODE_ENV === 'production' ? (
               <span
