@@ -41,10 +41,6 @@ class PaymentAfterRate {
         userModel.findOne({ _id: userSession.userId }),
       ]);
 
-      if (rate.authorId !== userSession.userId  ) {
-        return res.status(403);
-      }
-
       this.rate = await rateModel.findByIdAndUpdate({ _id: rate._id }, { statusLife: rateStatusLive.in_progress });
       this.user = user;
       res.status(200).json(blocks)

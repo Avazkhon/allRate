@@ -55,7 +55,6 @@ exports.findByIdAndUpdate = (req, res) => {
     rateModels.findByIdAndUpdate(
       {
         _id: id,
-        authorId: user.userId // это проверка то что не владелец не может изменять блоки
       },
       {$set: body }
     )
