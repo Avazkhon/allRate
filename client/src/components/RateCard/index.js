@@ -58,6 +58,9 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
+  title: {
+    textAlign: 'center',
+  }
 }));
 
 function RateCard (
@@ -90,7 +93,6 @@ function RateCard (
   function handleChangeRatingRate(data, objectId, action) {
     return changeRatingRate(data, objectId, action)
   }
-
   return (
     <Card>
       <CardHeader
@@ -109,6 +111,9 @@ function RateCard (
         title={author.userName}
         subheader={selectRate.data && moment(selectRate.data.createDate).format(formatDateTime)}
       />
+      <Typography  className={classes.title} variant="h5" component="h1">
+        {selectRate.data?.title}
+      </Typography>
       <CardMedia
        className={classes.media}
        image={selectRate.data && '/media/image/' + selectRate.data.img}

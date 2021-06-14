@@ -55,8 +55,16 @@ function MakeRate (
       {
         selectRate.data && (
           <Helmet>
-            <title>{selectRate.data.title}</title>
-            <meta name="description" content={selectRate.data.description}/>
+            {
+              selectRate.data.title && (
+                <title>{selectRate.data.title}</title>
+              )
+            }
+            {
+              selectRate.data.description && (
+              <meta name="description" content={selectRate.data.description}/>
+              )
+            }
           </Helmet>
         )
       }
