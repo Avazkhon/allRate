@@ -3,6 +3,7 @@ import auth from './auth';
 import rate from './rate';
 import selectRate from './selectRate';
 import commonRate from './commonRate';
+import comments from './comments';
 import purse from './purse';
 import lang from './lang';
 import users from './users';
@@ -26,6 +27,7 @@ export default combineReducers({
   blocks,
   selectRate,
   commonRate,
+  comments,
   purse,
   lang,
   users,

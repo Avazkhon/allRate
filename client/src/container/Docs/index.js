@@ -68,7 +68,7 @@ function Docs() {
   return (
     <Layout>
       <Helmet>
-        <title>Документация по созданияю ставок на Face Betting</title>
+        <title>Документация по созданию ставок на Face Betting</title>
         <meta name="description" content="На этой странице описана документация по созданию и управлению ставок на FaceBetting. Эта страница поможет начать пользоваться сервисом Face Betting и заработать деньги в интернете"/>
       </Helmet>
       <Grid item xs={12}>

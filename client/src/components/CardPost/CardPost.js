@@ -26,6 +26,8 @@ import {
   CreateContentPost
 } from './CreateContentPost';
 
+import Comments from '../Comments'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     // maxWidth: 345,
@@ -79,7 +81,8 @@ export const CardPost = (props) => {
       img,
       views,
       rating,
-      createDate
+      createDate,
+      commentsId
     },
     changeRating,
     onAddCountViewsPost,
@@ -222,6 +225,13 @@ export const CardPost = (props) => {
               classes={classes}
             />
           </CardContent>
+          {
+            isPage && (
+              <Comments
+                commentsId={commentsId}
+              />
+            )
+          }
         </Collapse>
       </Card>
     </>

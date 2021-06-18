@@ -1,23 +1,12 @@
 const mongoose = require('mongoose');
 const ObjectID = require('mongodb').ObjectID;
 const moment = require('moment-timezone');
-const CommentsController = require('../../controllers/comments');
 
 
 const Schema = mongoose.Schema;
-const urlImages = 'https://www.sportsdaily.ru/s/image/116934.jpg';
 
-exports.postSchema = new Schema(
+const rating = new Schema(
   {
-    authorId: { type: ObjectID, required: true },
-    title: { type: String, required: true, minlength: 3, maxlength: 100 },
-    text: { type: String, required: true, minlength: 10, maxlength: 100000 },
-    createDate: { type: Date, default: () => (moment().utc().format()) },
-    commentsId: { type: ObjectID },
-    img: {
-      url: { type: String, default: urlImages },
-    },
-    views: { type: Number, required: true, min: 0, default: 0 },
     positivelyCount: {
       type: Number,
       default: function () {
@@ -44,6 +33,24 @@ exports.postSchema = new Schema(
         }
       ],
     }
+  }
+);
+
+exports.commentSchema = new Schema(
+  {
+    entityBinding: {
+      name: { type: String, required: true },
+      entityId: { type: ObjectID, required: true }
+    },
+    createDate: { type: Date, default: () => (moment().utc().format()) },
+    comments: [
+      {
+        authorId: { type: ObjectID, required: true },
+        text: { type: String, required: true, minlength: 1, maxlength: 1000 },
+        createDate: { type: Date, default: () => (moment().utc().format()) },
+        rating
+      }
+    ]
   },
-  { collection: 'Post' }
+  { collection: 'Comments' }
 );

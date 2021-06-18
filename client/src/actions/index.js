@@ -1,4 +1,10 @@
 import { getPostPostsByDate } from './post';
+import { saveComments } from './comments';
+
+export {
+  getComments,
+  saveComments
+} from './comments';
 
 export {
   getAlbums

@@ -1,5 +1,6 @@
 const postModels = require('../../models/post');
 const WriteToLog = require('../../utils/writeToLog');
+const { CommentsController } = require('../../controllers/comments');
 const { getAuthorIdOrAuthorIds, getParamsForSearchDB, getParamsBestPostByDate} = require('../../utils');
 
 
@@ -14,7 +15,12 @@ exports.create = async (req, res) => {
 
     const { body } = req;
     body.authorId = user.userId;
-    const post = await postModels.create(body);
+    let post = await postModels.create(body);
+    const commentsController = new CommentsController();
+    post = await commentsController.createComments({ name: 'Post', entityId: post._id })
+      .then((comment) => {
+        return postModels.findByIdAndUpdate({ _id: comment.entityBinding.entityId }, { $set: { commentsId:  comment._id }} )
+      })
     res.status(201).json(post);
   } catch (error) {
     writeToLog.write(error, 'create_post.error');
@@ -89,6 +95,16 @@ exports.get = async (req, res) => {
       post = await postModels.paginate(query, options);
     }
     res.status(200).json(post);
+    const posts = await postModels.getByProps();
+    posts.forEach((post) => {
+      if(!post.commentsId) {
+        const commentsController = new CommentsController();
+        commentsController.createComments({ name: 'Post', entityId: post._id })
+          .then((comment) => {
+            return postModels.findByIdAndUpdate({ _id: comment.entityBinding.entityId }, { $set: { commentsId:  comment._id }} )
+          })
+      }
+    })
   } catch (error) {
     writeToLog.write(error, 'get_post.error');
     res.status(500).json(error.toString());
@@ -113,3 +129,4 @@ exports.deleteOne = async (req, res) => {
     res.status(500).json(error);
   };
 };
+

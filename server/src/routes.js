@@ -22,6 +22,7 @@ const betControllers = require('./controllers/block/bet');
 const Categories = require('./controllers/category');
 const MakeBet = require('./controllers/block/makeBet');
 const support = require('./controllers/support');
+const { CommentsController } = require('./controllers/comments');
 
 const paymentAfterRate = new PaymentAfterRate();
 const categories = new Categories();
@@ -139,6 +140,15 @@ module.exports = function (app) {
     .get(support.getSupport)
     .put(support.putSupport)
 
+  app.route('/api/comments/:commentsId')
+    .get((req, res) => {
+      const commentsController = new CommentsController();
+      commentsController.getComments(req, res);
+    })
+    .post((req, res) => {
+      const commentsController = new CommentsController();
+      commentsController.saveComments(req, res);
+    })
 
   app.route('/api/make-bet')
     .post((...rest) => {
