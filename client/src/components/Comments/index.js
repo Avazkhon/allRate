@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+
 import {
   TextField,
   Button,
-  makeStyles
+  makeStyles,
+  Snackbar
 } from '@material-ui/core';
 
 import {
@@ -42,8 +44,10 @@ const Comments = (props) => {
     getComments,
     saveComments,
     commentsId,
-    comments
+    comments,
+    auth
   } = props;
+  const [isShowAlert, setShowAlert] = React.useState(false);
   useEffect(() => {
     getComments({ commentsId: commentsId })
   }, []);
@@ -52,12 +56,20 @@ const Comments = (props) => {
   const [value, setValue] = useState('');
 
   function handleSaveComment() {
-    saveComments({ commentsId, text: value })
-      .then((action) => {
-        if (action.status === 'SUCCESS') {
-          setValue('')
-        }
-      })
+    if(auth.auth?.userId) {
+      saveComments({ commentsId, text: value })
+        .then((action) => {
+          if (action.status === 'SUCCESS') {
+            setValue('')
+          } else {
+            setShowAlert(true)
+            setTimeout(() => setShowAlert(false), 3000)
+          }
+        })
+    } else {
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
+    }
   }
 
   return (
@@ -94,10 +106,22 @@ const Comments = (props) => {
       <div>
         {
           comments.data?.comments.map((comment) => (
-            <Comment key={comment._id} comment={comment}/>
+            <Comment key={comment._id} comment={comment} auth={auth.auth}/>
           ))
         }
       </div>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        severity="warning"
+        open={isShowAlert}
+        message="Внимания"
+        action={
+          <span>Вы не авторизованы</span>
+        }
+      />
     </div>
   )
 }

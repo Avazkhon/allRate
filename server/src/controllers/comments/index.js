@@ -1,4 +1,5 @@
 const commentsModel = require('../../models/comments');
+const userModel = require('../../models/user');
 const WriteToLog = require('../../utils/writeToLog');
 
 const writeToLog = new WriteToLog();
@@ -25,7 +26,8 @@ class CommentsController {
       const {
         commentsId
       } = req.params;
-      const comments = await commentsModel.findOne({ _id: commentsId })
+      let comments = await commentsModel.findOne({ _id: commentsId });
+      comments = await this.addUserData(comments)
       res.status(200).json(comments)
     } catch (error) {
       writeToLog.write(error, 'create_comments.error');
@@ -51,12 +53,23 @@ class CommentsController {
           }
         },
       )
-
+      comments = await this.addUserData(comments)
       res.status(201).json(comments);
     } catch (error) {
       writeToLog.write(error, 'add_comments.error');
       res.status(500).json({ error: error.toString()});
     }
+  }
+
+  addUserData = async (comments) => {
+    comments = JSON.stringify(comments);
+    comments = JSON.parse(comments);
+    const users = await userModel.getByProps({ _id: comments.comments.map((comment) => comment.authorId) })
+    comments.comments = comments.comments.map((comment) => {
+      const user = users.find((user) => `${user._id}` == `${comment.authorId}`); // Без литералов строки одинаковые id не ===
+      return {...comment, avatar: user.avatar, userName: user.userName }
+    });
+    return comments
   }
 }
 

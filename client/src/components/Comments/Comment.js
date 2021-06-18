@@ -1,19 +1,15 @@
 import React from 'react';
+import moment from 'moment';
+import 'moment/locale/ru';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const useStyles = makeStyles((theme) => ({
@@ -38,11 +34,20 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
+  cardContent: {
+    padding: '0 24px 8px 24px'
+  },
+  link: {
+    '&:hover': {
+      textDecoration: 'none'
+    }
+  },
 }));
 
 export const Comment = (props) => {
   const {
-    comment
+    comment,
+    auth
   } = props
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -55,8 +60,13 @@ export const Comment = (props) => {
     <Card className={classes.root}>
       <CardHeader
         avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            R
+          <Avatar
+            aria-label="recipe"
+            className={classes.avatar}
+            alt={comment.avatar}
+            src={'/media/image/' + comment.avatar}
+          >
+            {comment.userName[0]}
           </Avatar>
         }
         action={
@@ -64,10 +74,17 @@ export const Comment = (props) => {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={
+          <Link
+            to={(auth?.userId === comment.authorId ?`/me/` : `/profile/${comment.authorId}`)}
+            className={classes.link}
+          >
+            { comment.userName }
+          </Link>
+        }
+        subheader={moment(comment.createDate).fromNow()}
       />
-      <CardContent>
+      <CardContent className={classes.cardContent}>
         <Typography variant="body2" color="textSecondary" component="p">
           { comment.text }
         </Typography>
