@@ -49,8 +49,8 @@ const Comments = (props) => {
   } = props;
   const [isShowAlert, setShowAlert] = React.useState(false);
   useEffect(() => {
-    getComments({ commentsId: commentsId })
-  }, []);
+    getComments({ commentsId })
+  }, [commentsId]);
 
   const classes = useStyles();
   const [value, setValue] = useState('');
