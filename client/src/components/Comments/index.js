@@ -47,13 +47,14 @@ const Comments = (props) => {
     comments,
     auth
   } = props;
-  const [isShowAlert, setShowAlert] = React.useState(false);
+  const [isShowAlert, setShowAlert] = React.useState('');
+  const classes = useStyles();
+  const [value, setValue] = useState('');
+
+
   useEffect(() => {
     getComments({ commentsId })
   }, [commentsId]);
-
-  const classes = useStyles();
-  const [value, setValue] = useState('');
 
   function handleSaveComment() {
     if(auth.auth?.userId) {
@@ -62,13 +63,13 @@ const Comments = (props) => {
           if (action.status === 'SUCCESS') {
             setValue('')
           } else {
-            setShowAlert(true)
-            setTimeout(() => setShowAlert(false), 3000)
+            setShowAlert('Ошибка при сохранении комментария')
+            setTimeout(() => setShowAlert(''), 3000)
           }
         })
     } else {
-      setShowAlert(true);
-      setTimeout(() => setShowAlert(false), 3000);
+      setShowAlert('Вы не авторизованы');
+      setTimeout(() => setShowAlert(''), 3000);
     }
   }
 
@@ -105,7 +106,7 @@ const Comments = (props) => {
       </div>
       <div>
         {
-          comments.data?.comments.map((comment) => (
+          comments.data?.comments?.map((comment) => (
             <Comment key={comment._id} comment={comment} auth={auth.auth}/>
           ))
         }
@@ -116,10 +117,10 @@ const Comments = (props) => {
           horizontal: 'left',
         }}
         severity="warning"
-        open={isShowAlert}
+        open={!!isShowAlert}
         message="Внимания"
         action={
-          <span>Вы не авторизованы</span>
+          <span>{isShowAlert}</span>
         }
       />
     </div>

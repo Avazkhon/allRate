@@ -3,14 +3,28 @@ const rateModels = require('../../models/rate');
 const WriteToLog = require('../../utils/writeToLog');
 const purseControllers = require('../purse');
 
+const { CommentsController } = require('../comments');
+
 const writeToLog = new WriteToLog();
 
-exports.getRate = (req, res) => {
+exports.getRate = async (req, res) => {
   const { id, userId, all, page } = req.query;
   const params = (id && {id}) || (userId && {userId}) ||
     (all === 'true' && {all}) || ( page && { ...req.query });
 
   try {
+    const rates = await rateModels.getByProps();
+
+    rates.forEach((rate) => {
+      if(!rate.commentsId) {
+        const commentsController = new CommentsController();
+        commentsController.createComments({ name: 'Rate', entityId: rate._id })
+          .then((comment) => {
+            return rateModels.findByIdAndUpdate({ _id: comment.entityBinding.entityId }, { $set: { commentsId:  comment._id }} )
+          })
+      }
+    })
+
     return getRate(params, res);
   }
   catch (err) {
@@ -29,12 +43,17 @@ exports.postAddOne = async (req, res) => {
 
     if (body) {
       body = { ...body, authorId: user.userId, };
+      const commentsController = new CommentsController();
 
       const rate = await rateModels.create(body);
-      const purse = await purseControllers.createPurseForMainBet({
+      purseControllers.createPurseForMainBet({
         userId: rate.authorId,
         mainBetId: rate._id,
       });
+      commentsController.createComments({ name: 'Rate', entityId: rate._id })
+        .then((comment) => {
+          return rateModels.findByIdAndUpdate({ _id: comment.entityBinding.entityId }, { $set: { commentsId:  comment._id }} )
+        })
       res.status(201).json(rate);
     }
   } catch(err) {

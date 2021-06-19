@@ -58,6 +58,7 @@ const rateSchema = new Schema(
     views: { type: Number, required: true, min: 0, default: 0 },
     paymentMade: { type: Boolean, required: false },
     blockId: { type: mongoose.ObjectId },
+    commentsId: { type: mongoose.ObjectId },
     party: [ party ],
     rating,
     categories,

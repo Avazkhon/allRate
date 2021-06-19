@@ -16,6 +16,7 @@ import Layout from '../Layout';
 
 import RateCard from 'components/RateCard';
 import CardsBlocks from 'components/CardsBlocks';
+import Comments from '../../components/Comments';
 
 function MakeRate (
   {
@@ -77,6 +78,11 @@ function MakeRate (
         <CardsBlocks
           blocks={blocks}
           statusLife={selectRate.data && selectRate.data.statusLife}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Comments
+          commentsId={selectRate.data?.commentsId}
         />
       </Grid>
     </Layout>
