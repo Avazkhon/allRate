@@ -1,4 +1,6 @@
 const subscriptionModels = require('../models/subscriptions');
+const commentsModels = require('../models/comments');
+
 exports.getAuthorIdOrAuthorIds = async function ({ authorId, subscriptionsId }) {
   const query = {};
   if (authorId) {
@@ -52,4 +54,15 @@ exports.getParamsBestPostByDate = (query, sort, createDateStart, createDateEnd) 
 exports.yndexAmountDue = (amount) => {
   // вычесляет какой будет процент изходя из суммы снятия
   return Number(amount) + Number(amount) * 0.03 + 45;
+}
+
+exports.addCommentsCount = async (documents) => {
+  documents = JSON.stringify(documents);
+  documents = JSON.parse(documents);
+  const comments = await commentsModels.getByProps({ _id: documents.docs.map((item) => item.commentsId) });
+  documents.docs = documents.docs.map((doc) => {
+    const comment = comments.find((comment) => `${comment._id}` == `${doc.commentsId}`);
+    return { ...doc, commentsCount: comment.commentsCount }
+  });
+  return documents;
 }

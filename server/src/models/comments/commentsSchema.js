@@ -43,6 +43,12 @@ exports.commentSchema = new Schema(
       entityId: { type: ObjectID, required: true }
     },
     createDate: { type: Date, default: () => (moment().utc().format()) },
+    commentsCount: {
+      type: Number,
+      default: function() {
+        return (this.comments && this.comments.length) || 0
+      }
+    },
     comments: [
       {
         authorId: { type: ObjectID, required: true },

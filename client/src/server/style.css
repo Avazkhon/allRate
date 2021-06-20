@@ -3,11 +3,6 @@ body {
 	background-color: #05386B;
 	color: black;
 }
-a {
-	color: black;
-	cursor: pointer;
-  text-decoration: none;
-}
 #root {
 	position: relative;
 	min-height: 100%;

@@ -1,5 +1,6 @@
 const postModels = require('../../models/post');
 const WriteToLog = require('../../utils/writeToLog');
+const { addCommentsCount } = require('../../utils');
 const { CommentsController } = require('../../controllers/comments');
 const { getAuthorIdOrAuthorIds, getParamsForSearchDB, getParamsBestPostByDate} = require('../../utils');
 
@@ -93,6 +94,7 @@ exports.get = async (req, res) => {
         page,
       }
       post = await postModels.paginate(query, options);
+      post = await addCommentsCount(post);
     }
     res.status(200).json(post);
   } catch (error) {
@@ -119,4 +121,3 @@ exports.deleteOne = async (req, res) => {
     res.status(500).json(error);
   };
 };
-

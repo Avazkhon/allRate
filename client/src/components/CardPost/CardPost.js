@@ -18,6 +18,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import CommentIcon from '@material-ui/icons/Comment';
 import EditIcon from '@material-ui/icons/Edit';
 
 import Rating from 'widgets/Rating';
@@ -82,7 +83,8 @@ export const CardPost = (props) => {
       views,
       rating,
       createDate,
-      commentsId
+      commentsId,
+      commentsCount
     },
     changeRating,
     onAddCountViewsPost,
@@ -192,6 +194,9 @@ export const CardPost = (props) => {
           }
           <IconButton aria-label="Count views">
             <VisibilityIcon fontSize="small" title={cardPostText.views[lang]}/> {views}
+          </IconButton>
+          <IconButton aria-label="Count comments">
+            <CommentIcon fontSize="small" /> {commentsCount}
           </IconButton>
           <IconButton
             className={clsx(classes.expand, {
