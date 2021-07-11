@@ -369,8 +369,19 @@ class FormBlocks extends React.Component {
 
     let amountAllBlocks = 0
     block?.blocks.forEach((item) => {
+      console.log('item', item)
       if (Number(item.amountAll)) {
         amountAllBlocks += item.amountAll;
+      }
+      if (item.type === 'boolean') {
+        item.bets.forEach((item) => {
+          if (Number(item.amountNo)) {
+            amountAllBlocks += item.amountNo;
+          }
+          if (Number(item.amountYes)) {
+            amountAllBlocks += item.amountYes;
+          }
+        })
       }
     });
 
