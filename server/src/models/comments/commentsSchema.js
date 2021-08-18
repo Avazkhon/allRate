@@ -45,7 +45,7 @@ exports.commentSchema = new Schema(
     createDate: { type: Date, default: () => (moment().utc().format()) },
     commentsCount: {
       type: Number,
-      default: function() {
+      default: () => {
         return (this.comments && this.comments.length) || 0
       }
     },
