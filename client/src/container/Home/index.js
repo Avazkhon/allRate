@@ -149,7 +149,7 @@ function Home(props) {
   function handleGetPostPostsByDate() {
     return getPostPostsByDate({
       page: 1,
-      limit: 24,
+      limit: 40,
       createDateStart: moment()
         .subtract(12, 'months')
         .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
