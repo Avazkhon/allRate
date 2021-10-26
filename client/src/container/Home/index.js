@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes, { node } from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
-import { Helmet } from "react-helmet";
+import { Helmet } from 'react-helmet';
 
 import { Carousel } from 'react-bootstrap';
 
@@ -16,7 +16,7 @@ import {
   Button,
   Paper,
   Typography,
-  StepLabel
+  StepLabel,
 } from '@material-ui/core';
 
 import {
@@ -25,20 +25,17 @@ import {
   addCountViewsPost,
   changeRatingPost,
   getPostPostsByDate,
-  getUsersByIds
+  getUsersByIds,
 } from 'actions';
 
-import {
-  BestPostList
-} from './BestPostList';
+import { BestPostList } from './BestPostList';
 
 import Layout from '../Layout';
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    marginTop: 20
+    marginTop: 20,
   },
   button: {
     marginTop: theme.spacing(1),
@@ -51,25 +48,25 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
   carousel: {
-    marginTop: 20
+    marginTop: 20,
   },
   carousel_title: {
-    fontSize: '14px'
+    fontSize: '14px',
   },
   link: {
     '&:hover': {
-      textDecoration: 'none'
-    }
+      textDecoration: 'none',
+    },
   },
   bestPost: {
-    margin: '24px 0 16px 0'
+    margin: '24px 0 16px 0',
   },
   postItem: {
-    marginTop: 16
+    marginTop: 16,
   },
   textBlog: {
-    marginTop: 24
-  }
+    marginTop: 24,
+  },
 }));
 
 function getSteps() {
@@ -78,7 +75,7 @@ function getSteps() {
     'Описания пари',
     'Привлечь игроков',
     'Завершения события',
-    'Получаете прибыль'
+    'Получаете прибыль',
   ];
 }
 
@@ -122,7 +119,6 @@ const description = `
 Найти прогнозы на спорт и киберспорт.
 `;
 
-
 function Home(props) {
   const {
     rate,
@@ -132,7 +128,7 @@ function Home(props) {
     lang,
     auth,
     getPostPostsByDate,
-    getUsersByIds
+    getUsersByIds,
   } = props;
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
@@ -141,46 +137,46 @@ function Home(props) {
   const steps = getSteps();
 
   useEffect(() => {
-    getPostPostsByDate({ page: 1, limit: 6 })
-      .then((action) => {
-        if (action.status === 'SUCCESS') {
-          setPostsForSlader(action.response)
-        }
-      });
+    getPostPostsByDate({ page: 1, limit: 6 }).then((action) => {
+      if (action.status === 'SUCCESS') {
+        setPostsForSlader(action.response);
+      }
+    });
     getRatesPage({ page: 1, limit: 6, statusLife: ['active', 'new'] });
-    handleGetPostPostsByDate()
+    handleGetPostPostsByDate();
   }, []);
 
   function handleGetPostPostsByDate() {
     return getPostPostsByDate({
       page: 1,
       limit: 24,
-      createDateStart: moment().subtract(1, 'months').format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
-      createDateEnd: moment().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
-    })
-      .then((action) => {
-        if (action.status === 'SUCCESS') {
-          let unique = action.response.docs.reduce((acc, post)=>acc.add(post.authorId), new Set());
-          getUsersByIds(Array.from(unique))
-          setPostsBest(action.response);
-        }
-      })
+      createDateStart: moment()
+        .subtract(12, 'months')
+        .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+      createDateEnd: moment().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+    }).then((action) => {
+      if (action.status === 'SUCCESS') {
+        let unique = action.response.docs.reduce(
+          (acc, post) => acc.add(post.authorId),
+          new Set(),
+        );
+        getUsersByIds(Array.from(unique));
+        setPostsBest(action.response);
+      }
+    });
   }
 
   function handleChangeRatingPost(...rest) {
-    return changeRatingPost(...rest)
-      .then(() => {
-        handleGetPostPostsByDate();
-      })
+    return changeRatingPost(...rest).then(() => {
+      handleGetPostPostsByDate();
+    });
   }
 
   const handleAddCountViewsPost = (postId) => {
-    props.addCountViewsPost(postId)
-      .then(() => {
-        handleGetPostPostsByDate();
-      })
-  }
-
+    props.addCountViewsPost(postId).then(() => {
+      handleGetPostPostsByDate();
+    });
+  };
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -194,87 +190,88 @@ function Home(props) {
     setActiveStep(0);
   };
 
-
   return (
     <Layout>
       <Helmet>
         <meta name="description" content={description} />
       </Helmet>
-      {
-        postsForSlader.docs && !!postsForSlader.docs.length &&
+      {postsForSlader.docs && !!postsForSlader.docs.length && (
         <Carousel className={classes.carousel}>
-          {
-            postsForSlader.docs.map((itm) => {
-              return (
-                <Carousel.Item key={itm._id}>
-                  <Link to={`/post/${itm._id}`} className={classes.link}>
-                    <img
-                      style={{filter: 'brightness(50%)'}}
-                      className="d-block w-100"
-                      src={'/media/image/' + itm.img.url + '?resize=600x400'}
-                      alt={itm.title}
-                    />
+          {postsForSlader.docs.map((itm) => {
+            return (
+              <Carousel.Item key={itm._id}>
+                <Link to={`/post/${itm._id}`} className={classes.link}>
+                  <img
+                    style={{ filter: 'brightness(50%)' }}
+                    className="d-block w-100"
+                    src={'/media/image/' + itm.img.url + '?resize=600x400'}
+                    alt={itm.title}
+                  />
 
-                    <Carousel.Caption>
-                      <h2 className={classes.carousel_title}>{itm.title}</h2>
-                    </Carousel.Caption>
-                  </Link>
-                </Carousel.Item>
-              )
-            })
-          }
+                  <Carousel.Caption>
+                    <h2 className={classes.carousel_title}>{itm.title}</h2>
+                  </Carousel.Caption>
+                </Link>
+              </Carousel.Item>
+            );
+          })}
         </Carousel>
-      }
-      {
-        rate.data && rate.data.docs && !!rate.data.docs.length &&
+      )}
+      {rate.data && rate.data.docs && !!rate.data.docs.length && (
         <Carousel className={classes.carousel}>
-          {
-            rate.data.docs.map((itm) => {
-              return (
-                <Carousel.Item key={itm._id}>
-                  <Link to={`/make-rate?rateId=${itm._id}`}>
-                    <img
-                      style={{filter: 'brightness(50%)'}}
-                      className="d-block w-100"
-                      src={'/media/image/' + itm.img + '?resize=600x400'}
-                      alt={itm.title}
-                    />
+          {rate.data.docs.map((itm) => {
+            return (
+              <Carousel.Item key={itm._id}>
+                <Link to={`/make-rate?rateId=${itm._id}`}>
+                  <img
+                    style={{ filter: 'brightness(50%)' }}
+                    className="d-block w-100"
+                    src={'/media/image/' + itm.img + '?resize=600x400'}
+                    alt={itm.title}
+                  />
 
-                    <Carousel.Caption>
-                      <h2 className={classes.carousel_title}>{itm.title}</h2>
-                    </Carousel.Caption>
-                  </Link>
-                </Carousel.Item>
-              )
-            })
-          }
+                  <Carousel.Caption>
+                    <h2 className={classes.carousel_title}>{itm.title}</h2>
+                  </Carousel.Caption>
+                </Link>
+              </Carousel.Item>
+            );
+          })}
         </Carousel>
-      }
+      )}
       <Grid>
-        <h1>
-          Сервис ставок Face Betting
-        </h1>
+        <h1>Сервис ставок Face Betting</h1>
         <h4>
-          Пройти <Link className={classes.link} to="/auth">регистрацию</Link>
+          Пройти{' '}
+          <Link className={classes.link} to="/auth">
+            регистрацию
+          </Link>
         </h4>
         <div>
           <Typography>
-            Face Betting это сервис для пользовательских ставок, новое слово и осмысления ставок на спорт и не только.
+            Face Betting это сервис для пользовательских ставок, новое слово и
+            осмысления ставок на спорт и не только.
           </Typography>
           <Typography>
-            Что мы делаем - мы делаем платформу на котором каждый человек может создать свою ставку на любое событие и заработать на этом деньги.
-          </Typography>
-        </div>
-        <div className={classes.textBlog}>
-          <Typography>
-            В отличие от букмекерской конторы тут люди создают ставки на самые разные события, а не менеджеры или автоматизированная программа.
-            В Face Betting вы можете выбирать и учавствовать в тех ставках которые не встретить в БК, на любимых каналах и блогеров которым вы доверяете.
-            Заключать пари выбирая выгодные коэффициенты в рамках одной платформы или участвовать в нескольких заключая пари на разные исходы.
+            Что мы делаем - мы делаем платформу на котором каждый человек может
+            создать свою ставку на любое событие и заработать на этом деньги.
           </Typography>
         </div>
         <div className={classes.textBlog}>
           <Typography>
-            Писать стать и продвигать свой канал собирая свое комьюнити или следить за новостями и публикациями.
+            В отличие от букмекерской конторы тут люди создают ставки на самые
+            разные события, а не менеджеры или автоматизированная программа. В
+            Face Betting вы можете выбирать и учавствовать в тех ставках которые
+            не встретить в БК, на любимых каналах и блогеров которым вы
+            доверяете. Заключать пари выбирая выгодные коэффициенты в рамках
+            одной платформы или участвовать в нескольких заключая пари на разные
+            исходы.
+          </Typography>
+        </div>
+        <div className={classes.textBlog}>
+          <Typography>
+            Писать стать и продвигать свой канал собирая свое комьюнити или
+            следить за новостями и публикациями.
           </Typography>
         </div>
         <div className={classes.textBlog}>
@@ -316,8 +313,8 @@ function Home(props) {
         {activeStep === steps.length && (
           <Paper square elevation={0} className={classes.resetContainer}>
             <Typography>
-              Вот и все. Дополнительную информацию вы найдете в разделе Документация.
-              Обязательно <Link to="/auth">регистрируйтесь</Link>
+              Вот и все. Дополнительную информацию вы найдете в разделе
+              Документация. Обязательно <Link to="/auth">регистрируйтесь</Link>
             </Typography>
             <Button onClick={handleReset} className={classes.button}>
               Вернутся в начало
@@ -325,33 +322,26 @@ function Home(props) {
           </Paper>
         )}
         <>
-          {
-            [0, 1, 2, 3, 4, 5].map((index) => {
-              return (
-                <meta key={index} content={getStepContent(index)} />
-              )
-            })
-          }
+          {[0, 1, 2, 3, 4, 5].map((index) => {
+            return <meta key={index} content={getStepContent(index)} />;
+          })}
         </>
       </Grid>
 
-      {
-        postsBest.docs && (
-          <BestPostList
-            postsBest={postsBest}
-            classes={classes}
-            handleChangeRatingPost={handleChangeRatingPost}
-            handleAddCountViewsPost={handleAddCountViewsPost}
-            users={users}
-            lang={lang}
-            auth={auth.auth}
-          />
-        )
-      }
+      {postsBest.docs && (
+        <BestPostList
+          postsBest={postsBest}
+          classes={classes}
+          handleChangeRatingPost={handleChangeRatingPost}
+          handleAddCountViewsPost={handleAddCountViewsPost}
+          users={users}
+          lang={lang}
+          auth={auth.auth}
+        />
+      )}
     </Layout>
-  )
+  );
 }
-
 
 Home.propTypes = {
   getRatesPage: PropTypes.func,
@@ -363,16 +353,10 @@ Home.propTypes = {
   auth: PropTypes.shape(),
   posts: PropTypes.shape(),
   rate: PropTypes.shape(),
-}
+};
 
 function mapStateToProps(state) {
-  const {
-    auth,
-    posts,
-    rate,
-    users,
-    lang,
-  } = state;
+  const { auth, posts, rate, users, lang } = state;
   return {
     auth,
     posts,
@@ -382,12 +366,11 @@ function mapStateToProps(state) {
   };
 }
 
-
 export default connect(mapStateToProps, {
   getPostsPage,
   getRatesPage,
   addCountViewsPost,
   changeRatingPost,
   getPostPostsByDate,
-  getUsersByIds
-})(Home)
+  getUsersByIds,
+})(Home);
