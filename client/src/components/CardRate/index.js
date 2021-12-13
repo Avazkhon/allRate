@@ -48,9 +48,9 @@ const CardComponent = ({
     <Card>
       <CardMedia
         component="img"
-        // height="300"
-        // width="300"
-        image={`/media/image/${img}?resize=300x300`}
+        height="300"
+        width="300"
+        image={`/media/image/${img}`}
         alt={title}
       />
       <Card.Body>
