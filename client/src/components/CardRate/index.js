@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { AiFillEye } from "react-icons/ai";
+import { AiFillEye } from 'react-icons/ai';
 import moment from 'moment';
-
+import CardMedia from '@material-ui/core/CardMedia';
 
 import {
   Card,
@@ -16,10 +16,7 @@ import {
 
 import Rating from 'widgets/Rating';
 import PartyList from './PartyList';
-import {
-  formatDateTime,
-  rateStatusLive,
-} from '../../constants';
+import { formatDateTime, rateStatusLive } from '../../constants';
 
 const CardComponent = ({
   rate: {
@@ -35,45 +32,46 @@ const CardComponent = ({
     authorId,
     statusLife,
   },
-  auth: {
-    auth
-  },
+  auth: { auth },
   changeRating,
   isShow,
   handleHidden,
   handleShow,
   user,
 }) => {
-
-  const isDisabled = (
-    (statusLife === rateStatusLive.in_progress)
-    || (statusLife === rateStatusLive.finish)
-    || (statusLife === rateStatusLive.archive)
-  )
+  const isDisabled =
+    statusLife === rateStatusLive.in_progress ||
+    statusLife === rateStatusLive.finish ||
+    statusLife === rateStatusLive.archive;
 
   return (
     <Card>
-      <Card.Img variant="top" src={'/media/image/' + img} />
+      <CardMedia
+        component="img"
+        height="300"
+        width="300"
+        image={`/media/image${img}?resize=300x300`}
+        alt={title}
+      />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
-        {
-          isShow &&
-          <Card.Text>{description}</Card.Text>
-        }
+        {isShow && <Card.Text>{description}</Card.Text>}
       </Card.Body>
-      { isShow &&
+      {isShow && (
         <Card.Body>
-        <PartyList
-          party={party}
-        />
+          <PartyList party={party} />
         </Card.Body>
-      }
+      )}
       <ListGroup className="list-group-flush">
-        {
-          !isDisabled &&
-          <ListGroupItem>Начало: {moment(dateStart).format(formatDateTime)}</ListGroupItem>
-        }
-        <ListGroupItem>{isDisabled ? 'Завершен' : 'Завершения'}: {moment(dateFinish).format(formatDateTime)}</ListGroupItem>
+        {!isDisabled && (
+          <ListGroupItem>
+            Начало: {moment(dateStart).format(formatDateTime)}
+          </ListGroupItem>
+        )}
+        <ListGroupItem>
+          {isDisabled ? 'Завершен' : 'Завершения'}:{' '}
+          {moment(dateFinish).format(formatDateTime)}
+        </ListGroupItem>
       </ListGroup>
       <Card.Body as={Row}>
         <Col ms="4">
@@ -82,29 +80,21 @@ const CardComponent = ({
             alt="Card image"
             style={{ width: '2rem' }}
           />
-          <Card.Link
-            href={`/profile/${user && user._id}`}
-          >
-            {' '}{user && user.userName}
+          <Card.Link href={`/profile/${user && user._id}`}>
+            {' '}
+            {user && user.userName}
           </Card.Link>
         </Col>
         <Col ms="2">
-          <AiFillEye title="Просмотры"/> {views}
+          <AiFillEye title="Просмотры" /> {views}
         </Col>
         <Col>
-          <Card.Link
-            href={`/make-rate?rateId=${_id}`}
-          >
-            Перейти
-          </Card.Link>
-          {
-            auth && auth.userId === authorId &&
-            <Card.Link
-              href={`/create-rate/?rateId=${_id}`}
-            >
+          <Card.Link href={`/make-rate?rateId=${_id}`}>Перейти</Card.Link>
+          {auth && auth.userId === authorId && (
+            <Card.Link href={`/create-rate/?rateId=${_id}`}>
               Редактировать
             </Card.Link>
-          }
+          )}
         </Col>
         <Col>
           <Card.Link
@@ -125,8 +115,8 @@ const CardComponent = ({
         </Col>
       </Card.Body>
     </Card>
-  )
-}
+  );
+};
 
 CardComponent.propTypes = {
   rate: PropTypes.shape({
@@ -148,7 +138,7 @@ CardComponent.propTypes = {
   changeRating: PropTypes.func,
   handleShow: PropTypes.func,
   handleHidden: PropTypes.func,
-}
+};
 
 const CardRate = ({
   rate,
@@ -169,7 +159,7 @@ const CardRate = ({
         changeRating={changeRating}
         auth={auth}
       />
-    )
+    );
   } else {
     return (
       <Modal show={isShow} onHide={handleHidden}>
@@ -188,9 +178,9 @@ const CardRate = ({
           />
         </Modal.Body>
       </Modal>
-    )
+    );
   }
-}
+};
 
 CardRate.propTypes = {
   rate: PropTypes.shape({
@@ -207,15 +197,13 @@ CardRate.propTypes = {
   changeRating: PropTypes.func,
   handleShow: PropTypes.func,
   handleHidden: PropTypes.func,
-}
+};
 
 function mapStateToProps(state) {
-  const {
-    auth,
-  } = state;
+  const { auth } = state;
   return {
     auth,
-  }
+  };
 }
 
-export default connect(mapStateToProps, {})(CardRate)
+export default connect(mapStateToProps, {})(CardRate);
