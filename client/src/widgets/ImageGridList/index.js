@@ -75,7 +75,7 @@ export default function ImageGridList({ tileData, onSelectImageFromAlbums }) {
                   component="img"
                   height="300"
                   width="300"
-                  image={`/media/image/${fullSrc}`}
+                  image={fullSrc}
                   // className={classes.img}
                   alt={tile.name || tile}
                 />
