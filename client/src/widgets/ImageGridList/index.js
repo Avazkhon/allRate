@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { CardMedia } from '@material-ui/core';
 
 import { OptionImage } from './OptionImage';
 
@@ -24,18 +23,18 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: 4,
     },
   },
-  // img: {
-  //   width: '100%',
-  // },
+  img: {
+    width: '100%',
+  },
 }));
 
 export default function ImageGridList({ tileData, onSelectImageFromAlbums }) {
   const classes = useStyles();
 
   function geSrc(id) {
-    // const resize = '?resize=300x200';
+    const resize = '?resize=300x200';
     const src = `/media/image/${id}`;
-    return { fullSrc: src, src };
+    return { fullSrc: src + resize, src };
   }
 
   function getProtocolAndDomain() {
@@ -66,18 +65,10 @@ export default function ImageGridList({ tileData, onSelectImageFromAlbums }) {
                 src={url + src}
                 onSelectImageFromAlbums={onSelectImageFromAlbums}
               >
-                {/* <img
+                <img
                   src={fullSrc}
                   alt={tile.name || tile}
                   className={classes.img}
-                /> */}
-                <CardMedia
-                  component="img"
-                  height="300"
-                  width="300"
-                  image={fullSrc}
-                  // className={classes.img}
-                  alt={tile.name || tile}
                 />
               </OptionImage>
             </div>

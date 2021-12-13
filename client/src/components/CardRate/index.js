@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { AiFillEye } from 'react-icons/ai';
 import moment from 'moment';
-import CardMedia from '@material-ui/core/CardMedia';
 
 import {
   Card,
@@ -46,13 +45,7 @@ const CardComponent = ({
 
   return (
     <Card>
-      <CardMedia
-        component="img"
-        height="300"
-        width="300"
-        image={`/media/image/${img}`}
-        alt={title}
-      />
+      <Card.Img variant="top" src={'/media/image/' + img} />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         {isShow && <Card.Text>{description}</Card.Text>}
